@@ -400,14 +400,76 @@ The quality criterion used throughout this paper is that construction. We
 do not present it as a contribution, and in Section~\ref{sec:res_threshold}
 we report the correspondence quantitatively.
 
-% TODO(text): 以下の survey 段落
-%   - 次元削減: PCA / Isomap / LLE を背景として（R1-6）
-%   - ID 推定: TwoNN, MLE, DANCo, graph-based (Costa & Hero)。
-%     指定 DOI の MST 論文は異常検知が主題のため次元削減法として紹介しない
-%   - 次元選択: FONDUE (Alg.1), FONDUE-VAR (Alg.3, Appendix G)
-%   - 剪定: GECO + L0, ARD-VAE, MaskAAE
-%   - 事後崩壊と active units の系譜
-%   - 先行会議論文 NOLTA2025 との 3 列差分（会議版 / 既存 / 本改訂）
+\subsection{Dimensionality Reduction and Intrinsic Dimension}\label{sec:rel_dr}
+
+Reducing dimension by finding coordinates that preserve structure is an old
+problem. Principal component analysis gives a linear answer; Isomap and
+locally linear embedding give nonlinear ones by preserving geodesic or
+neighbourhood structure. These methods produce an embedding, not a
+criterion for how many coordinates a separately trained generative model
+should have, which is the question here.
+
+Estimating the intrinsic dimension of a sample is a related but distinct
+task. We use the two-nearest-neighbour estimator as the primary estimator
+and a maximum-likelihood estimator as a cross-check; other families exist,
+including concentration-based estimators and graph-based estimators built
+from minimal spanning trees or geodesic entropic graphs. We did not
+implement a graph-based estimator: the measurements in
+Section~\ref{sec:res_id} show that the disagreement we care about is
+already visible between the two estimators we do use, and adding a third
+would not resolve it. Deep representations have been reported to have
+lower intrinsic dimension than their inputs, which is part of the
+motivation for reading a latent dimension off such an estimate.
+
+\subsection{Choosing the Latent Dimension}\label{sec:rel_select}
+
+Two published algorithms select the dimension from an intrinsic-dimension
+estimate of the representations. The first compares the estimated
+dimension of the sampled and the mean representation of a briefly trained
+model and returns the largest capacity at which they have not yet
+diverged. The second, given in the appendix of the same work, starts from
+twice the data estimate, doubles capacity until latent variables of the
+unused type appear, and returns the count of the remaining ones. As noted
+above, the second is the construction this line of work set out to study
+independently.
+
+\subsection{Pruning During Training}\label{sec:rel_prune}
+
+A different strategy trains one large model and removes capacity while
+training. One approach places a binary gate on each latent coordinate,
+penalises the number of open gates, and holds reconstruction error below a
+stated bound by a Lagrange multiplier updated from the constraint
+violation; the number of gates left open is the answer. Because the bound
+is stated in data space rather than in the latent space, its authors argue
+it is easier to set than a regularisation weight --- an argument our
+measurements support, and which is why we adopt the same construction as
+our common quality target. Another approach replaces the fixed prior with
+a hierarchical one whose per-axis variance is fitted to the encoded data,
+and reads relevance from that variance; it introduces no threshold of the
+kind the other methods rely on, and Section~\ref{sec:res_threshold} shows
+what that buys.
+
+\subsection{Active Units and Posterior Collapse}\label{sec:rel_au}
+
+Counting the latent coordinates whose posterior means retain variance is a
+standard diagnostic for posterior collapse, and the classification of
+latent variables into active, mixed and passive types is a refinement of
+it. Both are read from a trained model rather than used to choose its
+capacity; the step from diagnostic to selection criterion is the one this
+paper evaluates.
+
+\subsection{Relation to Our Earlier Conference Paper}\label{sec:rel_nolta}
+
+A conference paper by the same authors reported that the intrinsic
+dimension of the data is informative for bottleneck design and that latent
+estimates fall below input estimates, using fully connected models on a
+single dataset. It did not consider active units, did not compare against
+other selection methods, and did not vary the regularisation weight. The
+present paper shares the starting observation and differs in what it
+concludes: the comparison it adds does not support using that observation
+to place a search window.
+
+% TODO(text): NOLTA2025 との 3 列差分表（会議版 / MAKE47 既存 / 本改訂）を挿入
 
 \section{Evaluation Framework}\label{sec:framework}
 
@@ -521,8 +583,53 @@ one checkpoint five times is not five seeds.
 
 \subsection{Models, Grids and Comparison Methods}\label{sec:setup_methods}
 
-% TODO(text): アーキテクチャ、候補グリッド、比較法 B1-B9 と提案法・昇順走査の定義表、
-%             B7/B8 の原著からの逸脱（hard concrete / Gaussian 近似）を明記
+Fully connected encoders and decoders are used for the two
+grayscale digit-style datasets and convolutional ones for the other two,
+with a candidate grid of twelve capacities for the first three datasets
+and ten for the largest. Table~\ref{tab:methods_def} defines the
+comparison methods.
+
+\begin{table}[H]
+\caption{Comparison methods. Every method is charged for a final training
+at the capacity it selects, so that a short search phase is reflected in
+the cost rather than removed from it.}
+\label{tab:methods_def}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Method} & \textbf{Selection rule} \\
+\midrule
+Grid search & Train every capacity on the grid; keep the best validation
+reconstruction. Variants use the evidence lower bound or a linear probe. \\
+Coarse search & Four log-spaced capacities from the same grid. \\
+Fixed dimension & A single capacity fixed before the experiments. \\
+FONDUE & Exponential-then-binary search for the largest capacity at which
+the estimated dimensions of the sampled and the mean representation differ
+by no more than a fifth of the data estimate; threshold computed once and
+held. Epoch budget per dataset follows the source, determined for the
+datasets it does not cover by the procedure the source describes. \\
+FONDUE-VAR & Double capacity from twice the data estimate until unused
+variable types appear; return the count of the remaining ones. Run with
+both declared settings. \\
+GECO + $L_0$ & Gated latent coordinates, penalised by the expected number
+of open gates, under a reconstruction bound enforced by a Lagrange
+multiplier. \emph{Deviation:} the source uses an augment-reinforce-merge
+gradient estimator; we use the hard-concrete relaxation of the same
+$L_0$ objective. \\
+ARD-VAE & Hierarchical prior with per-axis variance fitted to the encoded
+data; relevant axes are those accounting for 99\% of a
+sensitivity-weighted variance score. \emph{Deviation:} the source uses the
+marginalised Student's~$t$ target; we use a Gaussian with the same
+conjugate variance estimate. \\
+ID-guided + target & Reference models, estimation, reliability checks,
+then every capacity in the window at or below twice the estimate, with a
+declared expansion rule; returns the smallest evaluated capacity meeting
+the quality target. \\
+Ascending scan + target & The same objective without estimation or
+reference models: scan the grid upwards and stop at the first capacity
+meeting the target. \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 \subsection{Provenance}\label{sec:setup_prov}
 
