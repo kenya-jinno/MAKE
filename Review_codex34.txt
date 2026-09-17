@@ -1,0 +1,89 @@
+Review of "Diagnostic Interpretation of Effective Latent Dimensionality in Autoencoders and Variational Autoencoders"
+
+Target journal: Machine Learning and Knowledge Extraction (MDPI MAKE)
+Reviewer: Codex
+Date: 2026-07-08
+
+Overall recommendation: Major revision
+
+Summary
+-------
+This manuscript proposes a diagnostic framework for interpreting the effective latent dimensionality used by AEs and VAEs. The paper explicitly distinguishes several quantities that are often conflated: active units (AU), intrinsic-dimension estimates such as TwoNN/MLE, reconstruction-error elbows, PCA-based linear baselines, and an AU slowdown point mknee. The main empirical message is that AU values and TwoNN estimates can be stable under specific conditions, whereas mknee is highly sensitive to grid design and random seed unless a dense, TwoNN-guided local refinement is used. The manuscript also derives a linear-Gaussian rate-distortion surrogate condition for latent-direction activation, lambda_j > beta tau^2, and uses synthetic, MNIST/Fashion-MNIST, convolutional, and natural-image experiments to map the applicability boundaries of the proposed diagnostics.
+
+The paper is careful in scope control and repeatedly states that mknee is exploratory, not an independent intrinsic-dimension estimator. This honesty is a strength. However, the current manuscript is long, highly self-qualifying, and its central contribution is primarily an organization and empirical audit of known indicators rather than a substantially new estimator or theory. The work may be suitable for MAKE after major revision, but it needs sharper positioning, stronger independent validation of the diagnostic pipeline, clearer theoretical rigor, and improved reproducibility before publication.
+
+Major comments
+--------------
+1. Novelty and contribution should be sharpened.
+
+The manuscript states that the novelty is not a new dimension estimator but an operational taxonomy of AU, TwoNN/MLE, MSE elbow, PCA, and mknee. This is a reasonable contribution, but in the current form the claimed novelty is diluted by repeated caveats and by reliance on established ingredients. The authors should make clearer what a reader can do after this paper that they could not do before. For example, provide a concise diagnostic protocol with decision rules, failure modes, and minimal reporting requirements, and distinguish which parts are genuinely new empirical findings versus synthesis of known practice.
+
+2. The key mknee result is not independently validated.
+
+The most favorable mknee result, 10.3 +/- 0.9 on MNIST FC-VAE, is obtained after placing a dense grid around the TwoNN-derived estimate. The manuscript correctly acknowledges that this is not independent validation. Still, because mknee is one of the named framework outputs, the lack of nested or held-out validation is a central weakness. Before publication, the authors should add an experiment where the dense search window is selected using one set of seeds or data subset and mknee is evaluated on disjoint seeds or data. Without this, the result should be presented more modestly as a TwoNN-assisted local curve summary rather than as a diagnostic quantity with its own evidential force.
+
+3. Theoretical claims need tighter framing and possibly correction checks.
+
+The linear-Gaussian rate-distortion derivation is useful as an interpretive surrogate, but the manuscript sometimes gives it more conceptual weight than the assumptions justify. The equivalence between VAE KL and mutual information is only approximate because the expected KL also contains aggregated-posterior mismatch. This caveat appears in Appendix B, but it should be moved or summarized in the main theorem statement. The authors should also state explicitly whether tau^2 is observation noise, decoder variance, or an effective fitted quantity, because in the MNIST bridge tau_eff^2 is back-calculated to match the observed result. As written, the theory risks becoming post hoc explanatory rather than predictive.
+
+4. TwoNN stability is not the same as validity, and the current evidence is insufficient to quantify bias.
+
+The paper makes the important distinction between numerical stability and unbiasedness. However, the proposed pipeline still uses a reference AE latent representation as the main real-data source of d_ID, while acknowledging severe non-isometry in some cases. The claim that m >> d_ID is more important than isometry for TwoNN stability is supported empirically, but the manuscript does not adequately quantify how far the stable value can be from the true or input-space intrinsic dimension. The authors should add at least one additional ID estimator with different assumptions, such as DANCo or ESS, and report bootstrap confidence intervals. If computationally expensive, this can be done on MNIST/Fashion-MNIST and synthetic data only.
+
+5. Many experiments are single-seed or exploratory, but the paper remains too broad.
+
+The paper commendably labels many experiments as preliminary, supplementary, or boundary-setting. Nevertheless, the manuscript contains many single-seed results: Fashion-MNIST, Exp-Mnist-Dyn, Exp-Mnist-Ent, Exp-ConvV-HiBeta, Exp-NatImg-AU, Exp-Syn-Top, and others. Because the main theme is stability and reproducibility, the presence of many single-seed observations weakens the overall evidential tone. The authors should either reduce these sections substantially or replicate the most important ones with multiple seeds. In particular, the beta sensitivity and high-beta Conv-VAE results influence interpretation of boundary conditions and should not remain single-seed if they are used to support practical recommendations.
+
+6. The experimental protocol needs more task-relevant baselines.
+
+The paper compares AU, TwoNN/MLE, MSE elbow, and PCA, but it does not sufficiently compare against practical model-selection procedures that a representation-learning practitioner might actually use, such as validation reconstruction loss, ELBO components, downstream classification accuracy, disentanglement metrics where applicable, or information-based criteria. Since the proposed framework is positioned as a diagnostic aid for choosing or interpreting latent dimensionality, the paper should show whether its recommendations agree or disagree with conventional model-selection criteria and explain what is gained.
+
+7. The manuscript is too long and repetitive for its central message.
+
+The current draft is 45 pages and contains repeated statements that mknee is exploratory, TwoNN is stable but not unbiased, and the framework has limited scope. These statements are important, but the repetition makes the paper difficult to read. Consider moving detailed caveats and experiment taxonomy to appendices, reducing the number of tables in the main text, and presenting one compact "how to use this framework" table early in the paper. A shorter, sharper paper would likely be more persuasive.
+
+8. Reproducibility materials should be available at review/publication time.
+
+The manuscript says code, logs, and regeneration scripts are attached for review and that a public repository/DOI will be finalized upon acceptance. For a paper whose claims depend heavily on grid sweeps, random seeds, and thresholding rules, the public repository should be available before final acceptance. The authors should provide scripts that regenerate the main tables and figures, not only trained logs. The exact implementation of AU, TwoNN/MLE, mknee, second-difference/curvature detection, and grid construction should be documented.
+
+Minor comments
+--------------
+1. Define "effective latent dimensionality" more operationally in the abstract or introduction. The manuscript later decomposes the term well, but the initial question still sounds broader than the actual validated claims.
+
+2. The term "robust indicator" should be replaced or consistently qualified as "low inter-seed variance under tested conditions." The paper already makes this point, but the shorter term may mislead readers into thinking robustness includes unbiasedness or cross-architecture validity.
+
+3. The use of "theorem" for the linear-Gaussian surrogate may invite overinterpretation. Consider title wording such as "Surrogate activation condition" or place the theorem in a clearly boxed idealized setting.
+
+4. The mknee threshold tau_knee = 0.25 remains somewhat ad hoc. The sensitivity analysis helps, but the main text should avoid suggesting that 0.25 is generally meaningful. The Fashion-MNIST boundary sensitivity should be mentioned earlier.
+
+5. The MSE elbow is described as qualitative only. If it is included in the framework, the authors should specify how reviewers/readers should reproduce the elbow judgment or state that it is purely visual and not a formal component.
+
+6. Table 21 is helpful and should be moved earlier or mirrored in the introduction, because it gives the clearest summary of where the framework works and fails.
+
+7. The paper should report whether train/test differences affect AU and TwoNN estimates. AU is usually computed over data samples; clarify whether it is computed on training, test, or combined data in every experiment.
+
+8. Some claims about topology, e.g., AUsat matching embedding dimension on Torus/Mobius, are interesting but remain incidental and condition-dependent. They should not be rhetorically tied too strongly to the main framework unless more systematic evidence is added.
+
+9. For natural images, the statement that TwoNN agrees with Pope et al. at m approximately 2 d_ID but then diverges at larger m is important. This should be highlighted as a practical warning in the framework section, not only in the experiments/discussion.
+
+10. Ensure consistent notation for d_ID, d_hat_ID, d_latent_ID, d_data_ID, d*, m_sat, and m_knee. The current notation is mostly careful but cognitively heavy.
+
+11. Several tables include many conditions but only a few are necessary for the main argument. The paper would benefit from moving detailed per-seed curves and exhaustive sweeps to supplementary material.
+
+12. The manuscript should include a short limitations paragraph in the abstract or end of introduction, because the final scope is narrower than the title may suggest.
+
+Assessment by criteria
+----------------------
+Originality: Moderate. The paper's novelty lies in synthesis, taxonomy, and empirical boundary mapping rather than in a new estimator or fundamentally new theory.
+
+Technical quality: Moderate to good, but dependent on several approximations and on experiments whose independence and multi-seed coverage are uneven.
+
+Empirical support: Mixed. MNIST FC-VAE evidence is reasonably strong for AU and TwoNN stability. mknee is only conditionally stabilized. Conv-VAE and natural-image sections are valuable as boundary analysis, but many supporting experiments remain single-seed or exploratory.
+
+Clarity: Moderate. The manuscript is careful but too long and repetitive. The main message is understandable, but the paper needs condensation and clearer separation between core claims and exploratory observations.
+
+Reproducibility: Potentially good, but incomplete until the public code/log repository and regeneration scripts are available.
+
+Final recommendation
+--------------------
+I recommend major revision. The manuscript contains useful empirical observations and a responsible diagnostic framing, but publication should require (i) sharper contribution framing, (ii) at least one independent or nested validation of mknee if it remains a named diagnostic output, (iii) stronger treatment of TwoNN bias using additional estimators or confidence intervals, (iv) reduction or replication of single-seed claims, and (v) public reproducibility materials.

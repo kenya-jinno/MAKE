@@ -1,0 +1,87 @@
+Subject: Request for an extension of the revision deadline — Manuscript ID: [MAKE-XXXXXXX]
+
+Dear Editors of Machine Learning and Knowledge Extraction,
+
+We are writing to request an extension of the revision deadline for our
+manuscript
+
+  "Choosing the Bottleneck Dimension of Autoencoders and Variational
+   Autoencoders from the Intrinsic Dimension of the Data: An ID-Guided
+   Protocol with Active-Unit Verification"
+  (Manuscript ID: [MAKE-XXXXXXX])
+
+by Chika Obata, Mizuki Dai, and Kenya Jin'no. The current deadline is
+[DATE]. We respectfully ask for an additional four weeks, to [DATE + 28
+days]. We set out below what prompted this request, what we have already
+completed, and what remains.
+
+1. What prompted the request
+
+The reviewers raised substantive concerns about the rigour of our
+validation, about the absence of a comparison with existing dimension-
+selection methods, and about the heuristic character of our thresholds. In
+responding, we carried out a complete audit of our implementation rather
+than only editing the text. That audit found a defect in our
+variational-autoencoder objective: the Kullback-Leibler term was averaged
+over the latent dimensions as well as over the batch, while the
+reconstruction term was summed over the input dimensions. The effective
+regularisation weight was therefore beta/m rather than beta, where m is
+the very quantity our study varies. The same convention was present in all
+twelve of our VAE experiment scripts.
+
+This defect is consequential. Under the corrected objective, the number of
+active units no longer depends on m; we were able to reproduce our
+previously reported curve to within +/-1.7 units simply by re-reading it as
+a function of beta/m. Every VAE experiment in the manuscript therefore had
+to be re-run.
+
+2. What we have already completed
+
+We have re-run all experiments under the corrected objective, with a
+protocol fixed in advance (quality criterion, budget, termination states
+and decision rules) and with every subsequent change recorded in a change
+log. Across four datasets and five independent seeds per condition, we
+have completed: a like-for-like comparison against FONDUE (Algorithm 1)
+and FONDUE-VAR (Algorithm 3), reimplemented from the published
+pseudocode; full grid search under reconstruction, ELBO and downstream
+criteria; coarse search and fixed-dimension baselines; and controls that
+isolate the contribution of each component of our procedure.
+
+3. Why the extension is needed
+
+These results do not support several of the central claims of the
+submitted manuscript. In particular, intrinsic-dimension guidance conferred
+no measurable advantage: a plain ascending scan under the same quality
+criterion reached the same or a better outcome at lower cost on every
+dataset, and the guidance step declined to apply on two of the three image
+datasets. We consider it our responsibility to report this rather than to
+retain the original claims, and we are therefore reframing the
+contribution from a proposed selection method to an empirical study of
+which diagnostics survive scrutiny and which do not. Rewriting the
+manuscript on that basis, and removing every statement that the new
+evidence no longer supports, is not something we can complete responsibly
+within the remaining week.
+
+The extension would also allow us to address Reviewer 2's comparison
+concern properly. We estimate that implementing and evaluating the two
+remaining comparison methods (a GECO/L0-style pruning method and ARD-VAE)
+requires approximately thirteen hours of GPU time on our hardware, plus
+implementation, and we would prefer to include them rather than to declare
+them as a gap.
+
+We wish to be explicit that we will not present unfinished experiments as
+completed, and we will not defer the unresolved points to future work
+without saying so. If the requested period is not available, we will
+submit within the current deadline with the reduced scope stated plainly
+in the response letter.
+
+We are grateful to the reviewers, whose comments led directly to the audit
+that uncovered the defect described above. We would be glad to provide any
+further detail that would help you assess this request.
+
+Yours sincerely,
+
+Kenya Jin'no
+on behalf of Chika Obata, Mizuki Dai, and Kenya Jin'no
+Tokyo City University
+kjinno@tcu.ac.jp

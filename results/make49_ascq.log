@@ -1,0 +1,11 @@
+MNIST     s=42     m=6 val=0.02267 runs=4 170s SUCCESS
+MNIST     s=123    m=6 val=0.02241 runs=4 155s SUCCESS
+MNIST     s=777    m=6 val=0.02244 runs=4 189s SUCCESS
+MNIST     s=2024   m=6 val=0.02245 runs=4 190s SUCCESS
+MNIST     s=31337  m=6 val=0.02224 runs=4 207s SUCCESS
+dSprites  s=42     m=24 val=0.00127 runs=10 2107s SUCCESS
+dSprites  s=123    m=20 val=0.00118 runs=9 1872s SUCCESS
+dSprites  s=777    m=16 val=0.00130 runs=8 1487s SUCCESS
+dSprites  s=2024   m=16 val=0.00128 runs=8 1558s SUCCESS
+dSprites  s=31337  m=24 val=0.00124 runs=10 1963s SUCCESS
+done

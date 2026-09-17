@@ -1,0 +1,157 @@
+E7a / E2 代表試行  beta=1.0  300 epochs  early stopping なし
+snapshots=[1, 2, 5, 50, 300]  主要比較=[5, 300]  seeds=[42, 123, 777, 2024, 31337]
+
+=== MNIST (尤度 gaussian, d̂_ID=13.84) ===
+  small    m= 12 seed=42
+      ep  100  val_ELBO=    -26.984  val_MSE=0.02273    38.3s
+      ep  200  val_ELBO=    -26.942  val_MSE=0.02235    70.2s
+      ep  300  val_ELBO=    -26.782  val_MSE=0.02205   103.5s
+    -> 300ep: A(act+mix)=6/12 (a=4,mx=2,p=6)  B(AU)=6/12  C(gap)=+5.752  MSE=0.02205  104s
+  small    m= 12 seed=123
+      ep  100  val_ELBO=    -26.949  val_MSE=0.02232    37.9s
+      ep  200  val_ELBO=    -26.874  val_MSE=0.02197    69.7s
+      ep  300  val_ELBO=    -26.896  val_MSE=0.02191   102.4s
+    -> 300ep: A(act+mix)=6/12 (a=4,mx=2,p=6)  B(AU)=6/12  C(gap)=+5.811  MSE=0.02191  102s
+  small    m= 12 seed=777
+      ep  100  val_ELBO=    -26.026  val_MSE=0.02114    37.3s
+      ep  200  val_ELBO=    -26.097  val_MSE=0.02053    68.9s
+      ep  300  val_ELBO=    -25.939  val_MSE=0.02023   102.4s
+    -> 300ep: A(act+mix)=7/12 (a=5,mx=2,p=5)  B(AU)=7/12  C(gap)=+5.017  MSE=0.02023  102s
+  small    m= 12 seed=2024
+      ep  100  val_ELBO=    -26.256  val_MSE=0.02114    37.7s
+      ep  200  val_ELBO=    -25.950  val_MSE=0.02061    69.6s
+      ep  300  val_ELBO=    -26.205  val_MSE=0.02047   102.5s
+    -> 300ep: A(act+mix)=7/12 (a=4,mx=3,p=5)  B(AU)=7/12  C(gap)=+5.301  MSE=0.02047  103s
+  small    m= 12 seed=31337
+      ep  100  val_ELBO=    -26.911  val_MSE=0.02237    37.1s
+      ep  200  val_ELBO=    -26.699  val_MSE=0.02211    68.8s
+      ep  300  val_ELBO=    -26.731  val_MSE=0.02178   101.1s
+    -> 300ep: A(act+mix)=6/12 (a=4,mx=2,p=6)  B(AU)=6/12  C(gap)=+5.678  MSE=0.02178  101s
+  initial  m= 32 seed=42
+      ep  100  val_ELBO=    -27.694  val_MSE=0.02386    32.7s
+      ep  200  val_ELBO=    -27.284  val_MSE=0.02336    64.4s
+      ep  300  val_ELBO=    -27.536  val_MSE=0.02331    95.8s
+    -> 300ep: A(act+mix)=6/32 (a=4,mx=2,p=26)  B(AU)=6/32  C(gap)=+20.141  MSE=0.02331  96s
+  initial  m= 32 seed=123
+      ep  100  val_ELBO=    -27.461  val_MSE=0.02385    33.3s
+      ep  200  val_ELBO=    -27.259  val_MSE=0.02326    64.8s
+      ep  300  val_ELBO=    -27.153  val_MSE=0.02303    96.7s
+    -> 300ep: A(act+mix)=6/32 (a=4,mx=2,p=26)  B(AU)=6/32  C(gap)=+20.451  MSE=0.02303  97s
+  initial  m= 32 seed=777
+      ep  100  val_ELBO=    -27.457  val_MSE=0.02360    33.2s
+      ep  200  val_ELBO=    -27.201  val_MSE=0.02303    65.1s
+      ep  300  val_ELBO=    -27.032  val_MSE=0.02280    97.6s
+    -> 300ep: A(act+mix)=6/32 (a=3,mx=3,p=26)  B(AU)=6/32  C(gap)=+19.990  MSE=0.02280  98s
+  initial  m= 32 seed=2024
+      ep  100  val_ELBO=    -27.489  val_MSE=0.02358    33.2s
+      ep  200  val_ELBO=    -27.252  val_MSE=0.02303    64.5s
+      ep  300  val_ELBO=    -27.318  val_MSE=0.02294    96.4s
+    -> 300ep: A(act+mix)=6/32 (a=4,mx=2,p=26)  B(AU)=6/32  C(gap)=+19.870  MSE=0.02294  96s
+  initial  m= 32 seed=31337
+      ep  100  val_ELBO=    -27.265  val_MSE=0.02355    32.5s
+      ep  200  val_ELBO=    -27.247  val_MSE=0.02296    64.4s
+      ep  300  val_ELBO=    -27.260  val_MSE=0.02318    96.1s
+    -> 300ep: A(act+mix)=6/32 (a=4,mx=2,p=26)  B(AU)=6/32  C(gap)=+19.585  MSE=0.02318  96s
+  ample    m= 64 seed=42
+      ep  100  val_ELBO=    -27.914  val_MSE=0.02449    33.9s
+      ep  200  val_ELBO=    -27.524  val_MSE=0.02369    65.8s
+      ep  300  val_ELBO=    -27.602  val_MSE=0.02365    98.2s
+    -> 300ep: A(act+mix)=6/64 (a=3,mx=3,p=58)  B(AU)=6/64  C(gap)=+35.649  MSE=0.02365  98s
+  ample    m= 64 seed=123
+      ep  100  val_ELBO=    -27.895  val_MSE=0.02432    33.3s
+      ep  200  val_ELBO=    -27.505  val_MSE=0.02366    65.4s
+      ep  300  val_ELBO=    -27.459  val_MSE=0.02350    98.4s
+    -> 300ep: A(act+mix)=6/64 (a=4,mx=2,p=58)  B(AU)=6/64  C(gap)=+35.271  MSE=0.02350  98s
+  ample    m= 64 seed=777
+      ep  100  val_ELBO=    -27.475  val_MSE=0.02358    33.1s
+      ep  200  val_ELBO=    -27.147  val_MSE=0.02283    64.7s
+      ep  300  val_ELBO=    -26.963  val_MSE=0.02260    97.1s
+    -> 300ep: A(act+mix)=7/64 (a=3,mx=4,p=57)  B(AU)=7/64  C(gap)=+36.005  MSE=0.02260  97s
+  ample    m= 64 seed=2024
+      ep  100  val_ELBO=    -27.975  val_MSE=0.02419    32.9s
+      ep  200  val_ELBO=    -27.701  val_MSE=0.02361    64.1s
+      ep  300  val_ELBO=    -27.419  val_MSE=0.02309    95.9s
+    -> 300ep: A(act+mix)=7/64 (a=4,mx=3,p=57)  B(AU)=7/64  C(gap)=+34.905  MSE=0.02309  96s
+  ample    m= 64 seed=31337
+      ep  100  val_ELBO=    -28.012  val_MSE=0.02454    32.9s
+      ep  200  val_ELBO=    -27.747  val_MSE=0.02389    63.5s
+      ep  300  val_ELBO=    -27.569  val_MSE=0.02353    95.9s
+    -> 300ep: A(act+mix)=6/64 (a=4,mx=2,p=58)  B(AU)=6/64  C(gap)=+36.417  MSE=0.02353  96s
+=== dSprites (尤度 bernoulli, d̂_ID=7.61) ===
+  small    m=  6 seed=42
+      ep  100  val_ELBO=    -64.136  val_MSE=0.00319   115.2s
+      ep  200  val_ELBO=    -65.841  val_MSE=0.00309   229.4s
+      ep  300  val_ELBO=    -67.721  val_MSE=0.00302   343.9s
+    -> 300ep: A(act+mix)=6/6 (a=6,mx=0,p=0)  B(AU)=6/6  C(gap)=+0.159  MSE=0.00302  344s
+  small    m=  6 seed=123
+      ep  100  val_ELBO=    -60.834  val_MSE=0.00292   115.6s
+      ep  200  val_ELBO=    -60.921  val_MSE=0.00273   230.1s
+      ep  300  val_ELBO=    -64.183  val_MSE=0.00271   344.9s
+    -> 300ep: A(act+mix)=6/6 (a=6,mx=0,p=0)  B(AU)=6/6  C(gap)=+0.185  MSE=0.00271  345s
+  small    m=  6 seed=777
+      ep  100  val_ELBO=    -63.787  val_MSE=0.00314   115.6s
+      ep  200  val_ELBO=    -61.653  val_MSE=0.00279   230.2s
+      ep  300  val_ELBO=    -63.170  val_MSE=0.00274   345.1s
+    -> 300ep: A(act+mix)=6/6 (a=6,mx=0,p=0)  B(AU)=6/6  C(gap)=+0.226  MSE=0.00274  345s
+  small    m=  6 seed=2024
+      ep  100  val_ELBO=    -62.148  val_MSE=0.00304   115.6s
+      ep  200  val_ELBO=    -62.101  val_MSE=0.00278   230.2s
+      ep  300  val_ELBO=    -66.104  val_MSE=0.00285   345.2s
+    -> 300ep: A(act+mix)=6/6 (a=6,mx=0,p=0)  B(AU)=6/6  C(gap)=+0.092  MSE=0.00285  345s
+  small    m=  6 seed=31337
+      ep  100  val_ELBO=    -64.105  val_MSE=0.00319   115.6s
+      ep  200  val_ELBO=    -68.343  val_MSE=0.00317   230.3s
+      ep  300  val_ELBO=    -71.959  val_MSE=0.00315   345.2s
+    -> 300ep: A(act+mix)=6/6 (a=6,mx=0,p=0)  B(AU)=6/6  C(gap)=+0.135  MSE=0.00315  345s
+  initial  m= 16 seed=42
+      ep  100  val_ELBO=    -50.802  val_MSE=0.00157   116.1s
+      ep  200  val_ELBO=    -48.816  val_MSE=0.00140   231.0s
+      ep  300  val_ELBO=    -49.493  val_MSE=0.00142   346.3s
+    -> 300ep: A(act+mix)=15/16 (a=8,mx=7,p=1)  B(AU)=13/16  C(gap)=+5.185  MSE=0.00142  346s
+  initial  m= 16 seed=123
+      ep  100  val_ELBO=    -51.196  val_MSE=0.00160   116.1s
+      ep  200  val_ELBO=    -50.386  val_MSE=0.00153   231.0s
+      ep  300  val_ELBO=    -49.135  val_MSE=0.00143   346.2s
+    -> 300ep: A(act+mix)=14/16 (a=8,mx=6,p=2)  B(AU)=13/16  C(gap)=+7.380  MSE=0.00143  346s
+  initial  m= 16 seed=777
+      ep  100  val_ELBO=    -50.192  val_MSE=0.00151   116.1s
+      ep  200  val_ELBO=    -47.495  val_MSE=0.00129   231.0s
+      ep  300  val_ELBO=    -47.733  val_MSE=0.00135   346.3s
+    -> 300ep: A(act+mix)=14/16 (a=8,mx=6,p=2)  B(AU)=13/16  C(gap)=+6.326  MSE=0.00135  346s
+  initial  m= 16 seed=2024
+      ep  100  val_ELBO=    -51.072  val_MSE=0.00155   116.1s
+      ep  200  val_ELBO=    -48.320  val_MSE=0.00133   231.1s
+      ep  300  val_ELBO=    -48.310  val_MSE=0.00134   346.3s
+    -> 300ep: A(act+mix)=14/16 (a=8,mx=6,p=2)  B(AU)=14/16  C(gap)=+6.076  MSE=0.00134  346s
+  initial  m= 16 seed=31337
+      ep  100  val_ELBO=    -51.244  val_MSE=0.00156   116.1s
+      ep  200  val_ELBO=    -49.707  val_MSE=0.00146   231.0s
+      ep  300  val_ELBO=    -48.814  val_MSE=0.00139   346.2s
+    -> 300ep: A(act+mix)=14/16 (a=8,mx=6,p=2)  B(AU)=14/16  C(gap)=+5.253  MSE=0.00139  346s
+  ample    m= 32 seed=42
+      ep  100  val_ELBO=    -50.428  val_MSE=0.00151   116.8s
+      ep  200  val_ELBO=    -47.950  val_MSE=0.00137   232.3s
+      ep  300  val_ELBO=    -46.122  val_MSE=0.00125   348.1s
+    -> 300ep: A(act+mix)=16/32 (a=6,mx=10,p=16)  B(AU)=16/32  C(gap)=+16.916  MSE=0.00125  348s
+  ample    m= 32 seed=123
+      ep  100  val_ELBO=    -49.413  val_MSE=0.00153   116.8s
+      ep  200  val_ELBO=    -46.112  val_MSE=0.00130   232.3s
+      ep  300  val_ELBO=    -45.957  val_MSE=0.00122   348.1s
+    -> 300ep: A(act+mix)=14/32 (a=9,mx=5,p=18)  B(AU)=14/32  C(gap)=+17.908  MSE=0.00122  348s
+  ample    m= 32 seed=777
+      ep  100  val_ELBO=    -48.941  val_MSE=0.00142   116.8s
+      ep  200  val_ELBO=    -45.343  val_MSE=0.00118   232.4s
+      ep  300  val_ELBO=    -46.759  val_MSE=0.00128   348.2s
+    -> 300ep: A(act+mix)=14/32 (a=9,mx=5,p=18)  B(AU)=14/32  C(gap)=+18.945  MSE=0.00128  348s
+  ample    m= 32 seed=2024
+      ep  100  val_ELBO=    -50.491  val_MSE=0.00148   116.8s
+      ep  200  val_ELBO=    -46.476  val_MSE=0.00124   232.3s
+      ep  300  val_ELBO=    -46.759  val_MSE=0.00128   348.2s
+    -> 300ep: A(act+mix)=14/32 (a=9,mx=5,p=18)  B(AU)=15/32  C(gap)=+17.583  MSE=0.00128  348s
+  ample    m= 32 seed=31337
+      ep  100  val_ELBO=    -50.854  val_MSE=0.00157   116.8s
+      ep  200  val_ELBO=    -48.022  val_MSE=0.00133   232.3s
+      ep  300  val_ELBO=    -48.051  val_MSE=0.00133   348.0s
+    -> 300ep: A(act+mix)=13/32 (a=8,mx=5,p=19)  B(AU)=13/32  C(gap)=+19.173  MSE=0.00133  348s
+
+完了: 30 ラン -> results/make49/stage3_e7a_e2.json

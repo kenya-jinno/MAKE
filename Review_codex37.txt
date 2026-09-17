@@ -1,0 +1,190 @@
+Review of main_paper_MAKE37.pdf
+Target journal: MDPI Machine Learning and Knowledge Extraction (MAKE)
+Reviewer: Codex
+Date: 2026-07-09
+
+Overall recommendation: minor revision
+
+Summary
+-------
+Revision 37 substantially addresses the remaining issues from the previous
+round. The manuscript now presents the method as a conditional diagnostic
+workflow rather than a general bottleneck-selection solution. The torus
+active-unit inconsistency is explicitly investigated, the V1/V2 rule is
+properly described as a reporting convention rather than a statistical test,
+the AE range is renamed a default search window, and the theory section now
+states the compactness, surrogate, and AU-bridging assumptions more clearly.
+
+The paper is now suitable in substance for publication after minor cleanup.
+The remaining issues are not fundamental, but they affect reproducibility and
+precision: the exact definition of the verification point still depends on
+which Step-1 estimate is used, the torus margin is described inconsistently
+as m >= 5 in the body and m >= 2 d_emb in the abstract/conclusion, and a few
+global statements about multi-seed evidence overstate what is actually
+multi-seed.
+
+Assessment of previous review responses
+---------------------------------------
+The previous major comment 1 on the torus AU inconsistency has been
+addressed well. Section 4.2 now states that AU = 2 at m = 3,4 is genuine
+over-pruning, not a reporting error, and explains that the MSE cross-check
+detects the topological obstruction. Table 4 and the surrounding text no
+longer claim sharp torus saturation at m = 4.
+
+The previous major comment 2 on V1/V2 thresholds has been mostly addressed.
+Section 3.2.3 now pre-specifies m_ver as the smallest tested grid point
+above 2 d_hat_ID, states that V1/V2 is not a validated statistical test, and
+reports threshold-invariance and per-seed verdict information. One remaining
+ambiguity is whether the threshold-invariance range is evaluated on
+multi-seed means only or on per-seed verdicts.
+
+The previous major comment 3 on over-presenting [d_hat_ID, 2 d_hat_ID] has
+been addressed. Section 3.2.2 now calls it a default search window and
+states that topology, noise, mixtures, and fidelity requirements may require
+larger margins.
+
+The previous major comment 4 on the water-filling proposition has been
+addressed. Proposition 2 and Remark 2 now clearly distinguish positive rate
+in the surrogate from empirical posterior-mean-variance AU and state that
+nonlinear AU counts are not predicted quantitatively.
+
+The previous major comment 5 on Step-1 validity has been addressed. Section
+4.3.2 and Section 5.2 now distinguish stability from unbiasedness, explain
+the raw-space DANCo degeneration, and describe the reference-AE route as
+pragmatic rather than uniquely validated.
+
+The previous major comment 6 on empirical scope has been addressed in tone.
+The abstract, Table 3, Section 4.7, and Section 5.4 now clearly label
+Fashion-MNIST Step 3, high-beta Conv-VAE recovery, and natural-image plateau
+evidence as exploratory or unresolved. Some global wording still needs
+tightening, as noted below.
+
+The previous major comment 7 on the topological lower-bound proposition has
+been addressed. Proposition 1 now assumes compactness, continuity, and exact
+identity reconstruction, and the following paragraph correctly limits the
+result to an idealized necessary condition.
+
+Most previous minor comments were also addressed: the abstract is less
+overstated, the torus row is marked as over-pruned, the verification point is
+defined, search-cost accounting now includes symmetric Step-1 accounting,
+DANCo = 784 is explained, PCA is treated as illustrative, kappa is handled
+with caution, and supplementary-material expectations are stated.
+
+Major comments
+--------------
+1. No remaining major methodological objection.
+
+The central scientific issues from the previous review have been resolved or
+appropriately reframed. The remaining points below are minor revisions needed
+for precision, consistency, and final presentation rather than major
+conceptual changes.
+
+Minor comments
+--------------
+1. The verification point m_ver is still ambiguous when TwoNN and MLE give a
+range for d_hat_ID.
+
+Section 3.2.3 defines m_ver as the smallest tested grid point satisfying
+m_ver >= 2 d_hat_ID. In Section 4.3.1, however, MNIST is summarized as
+d_hat_ID approximately 10-12, with TwoNN near 10 and MLE near 11.3-11.9.
+Section 4.3.4 then uses m_ver = 20 as the smallest tested point above
+2 d_hat_ID. This is true if d_hat_ID = 10, but not if the Step-1 reference is
+12, in which case 2 d_hat_ID is 24 and the smallest grid point in Table 6
+above it is 32. The verdict is not affected, because m = 32 also passes, but
+the protocol should specify whether m_ver is based on TwoNN, MLE, their
+average, a conservative upper estimate, or a pre-registered primary
+estimator.
+
+2. The torus margin is described inconsistently.
+
+Section 4.2 reports that the torus activates the third coordinate at m = 5
+and remains at AU = 3 for m >= 5. The abstract and conclusion instead state
+the cleaner but different condition "m >= 2 d_emb", i.e. m >= 6, and describe
+boundary over-pruning below 2 d_emb. This is conservative, but it makes m = 5
+fall into the "below 2 d_emb" region even though it succeeds. Please align
+the wording, for example by saying "m >= 5 in the fine-grid experiment; in
+the coarser reported grid, m = 6 = 2 d_emb is the first verified safe
+point."
+
+3. The statement that all main-text results are multi-seed is too broad.
+
+Section 4.1 says that all main-text results use at least 3 seeds except
+where stated. Several important main-text quantities are indeed explicitly
+single-seed: Table 5 Step-1 AE sweep, Table 8 AE downstream results, and the
+single-seed reference-AE latents re-analyzed in Table 6. Because these are
+not hidden, this is not a serious flaw, but the global sentence should be
+softened to "most main-text training sweeps" or "all main-text VAE
+verification results, except exploratory cases."
+
+4. The V1 threshold-sensitivity statement needs one clarification.
+
+Section 3.2.3 states that verdicts are invariant for V1 thresholds in
+(0.67, 0.94) and that per-seed verdicts are unanimous in every multi-seed
+setting. For MNIST at m = 20, the mean activation ratio is 13.3/20 = 0.665,
+very close to the lower edge. If one seed has AU = 14, its ratio is 0.70 and
+would not pass at a threshold of 0.67. Please clarify whether the sensitivity
+range applies only to the multi-seed mean verdict, while the per-seed
+unanimity statement applies only to the default V1 = 0.9 threshold.
+
+5. The Fashion-MNIST Step-1 value should be made numerically consistent.
+
+Section 4.3.6 says Fashion-MNIST gives d_hat_ID approximately 9, then says
+TwoNN converges to 9.9-10.1 for m_ref = 5 d_hat_ID to 10 d_hat_ID. If the
+stable estimate is about 10, the text should not summarize it as
+approximately 9 unless that value comes from a different estimator or an
+earlier reference point. This matters because the protocol's windows depend
+directly on the numerical estimate.
+
+6. The search-cost comparison is now appropriately scoped, but the VAE path
+depends on the same unresolved d_hat_ID convention.
+
+Section 4.4 counts the VAE path as Step 1 plus only m = 20. If the
+pre-specified d_hat_ID were taken as 12 rather than 10, the VAE verification
+point would be m = 32, increasing the cost if both m = 20 and m = 32 are
+trained or changing the selected point if only one is trained. This should be
+made consistent with the primary-estimator rule requested in comment 1.
+
+7. The claim that "all experiments follow these reporting requirements" is
+slightly stronger than the evidence shown.
+
+Section 3.2.3 requires reporting the number of seeds and inter-seed variance
+of d_hat_ID and AU, m-grid and m_ref values, beta, delta, preprocessing, and
+both TwoNN and MLE. The main text does not always show MLE or inter-seed
+variance for every experiment, especially the boundary and exploratory
+experiments. If the supplementary material contains these, the sentence
+should say so explicitly; otherwise, soften the claim to "the main
+experiments report these quantities where applicable, with full details in
+the supplement."
+
+8. Proposition 3 remains a sketch and should not be leaned on too strongly.
+
+The statement in Proposition 3 is appropriately labeled a sketch, but the
+connection between trustworthiness, neighbor-rank preservation, and a bound
+on the TwoNN ratio distribution is still informal. The manuscript mostly
+uses it as intuition, which is acceptable. Avoid presenting it as a rigorous
+stability theorem in the abstract, conclusion, or future responses.
+
+Typographical and presentation issues
+-------------------------------------
+1. MDPI production placeholders remain: empty received/revised/accepted
+dates, article number 0, no final repository URL/DOI, and commented ORCID
+placeholders. These should be resolved before final submission.
+
+2. In Table 3, "Conv-VAE on MNIST" says beta strengthening restores V1 only,
+while the abstract says "beta-strengthening restores it." To avoid ambiguity,
+state "restores V1 but not V2" wherever this result is summarized.
+
+3. In Table 8, "Bold m values lie in the ID-guided candidate range [10, 24],
+which contains the best accuracy over the full grid" is true for AE and VAE
+accuracy, but the VAE text also treats m = 20 as the verification point.
+Consider separating "candidate range" from "verification point" in the
+caption.
+
+4. The phrase "3x MSE improvement" for the torus in Section 4.2 is
+numerically correct using 0.220 to 0.073, but the immediately preceding
+sequence also includes 0.138 at m = 5. A short parenthetical such as
+"from m = 4 to m = 6" would make the comparison unambiguous.
+
+5. The title and abstract remain dense. This is acceptable for a technical
+methods paper, but the abstract could still be shortened by moving some
+boundary-case detail to the introduction.

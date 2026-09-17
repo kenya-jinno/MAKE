@@ -1,0 +1,39 @@
+{
+  "dataset": "SwissRoll",
+  "latent_dim": 2,
+  "epochs": 200,
+  "results": [
+    {
+      "model": "AE",
+      "mse": 0.028207290917634964,
+      "condition_number": 1.4748685399691264,
+      "nsr": 0.5517183988805179,
+      "trustworthiness": 0.9998465143526655,
+      "active_units": 2
+    },
+    {
+      "model": "CAE",
+      "mse": 0.02963307686150074,
+      "condition_number": 1.5305384874343873,
+      "nsr": 0.05929718069191872,
+      "trustworthiness": 0.9998465143526655,
+      "active_units": 2
+    },
+    {
+      "model": "IsometricAE",
+      "mse": 0.029036859050393105,
+      "condition_number": 1.039789068698883,
+      "nsr": 0.752908052254422,
+      "trustworthiness": 0.9998488576449912,
+      "active_units": 2
+    },
+    {
+      "model": "DAE",
+      "mse": 0.030357955023646355,
+      "condition_number": 1.1791143536567688,
+      "nsr": 0.6090026106352927,
+      "trustworthiness": 0.9998055067369654,
+      "active_units": 2
+    }
+  ]
+}

@@ -1,0 +1,369 @@
+# CLAUDE.md — AE 多様体抽出プロジェクト（学術論文執筆版）
+
+このファイルは **Claude Code** がこの `manifold/` ディレクトリで作業する際の
+プロジェクト規約・論文執筆指針・実験実行手順を定める。
+
+---
+
+## ▶ 最優先タスク：学術論文の完成
+
+**ターゲット**: NOLTA, IEICE（Nonlinear Theory and Its Applications）日本語論文
+**テンプレート**: `NOLTA_temp_v5_1 (6).pdf`（既存テンプレートを参照）
+**主論文ファイル**: `main_paper.tex`（日本語 LaTeX）
+**実験結果ソース**: `analysis_report.pdf`（全実験 E1〜EC の結果）
+**理論根拠ファイル**: `theoretical_analysis.tex`（定理1〜7）
+
+---
+
+## プロジェクト概要
+
+**研究テーマ**: 内在次元推定に基づくオートエンコーダのボトルネック次元設計指針
+
+**中心的主張**:
+高次元データの内在次元（ID）は，オートエンコーダ（AE）・変分オートエンコーダ（VAE）の
+ボトルネック次元の設計上界・下界を与える原理的指針となる．TwoNN・MLE による ID 推定と，
+活性ユニット数（AU）・CKA による最適潜在次元同定を組み合わせた実証的評価パイプラインを
+提案し，合成多様体および MNIST で $\hat{d}_z^* \approx \hat{d}_\mathrm{ID}$ を実証する．
+
+**論文品質の4条件**:
+1. **新規性**: (a) 位相的最小埋め込み次元と VAE AU 飽和の一致，(b) IsometricAE によるプルバック等長性の達成，(c) 大域・局所構造形成の時間的分離（E6_mnist）
+2. **有用性**: ID 推定を利用した試行錯誤ゼロのボトルネック設計ガイドライン
+3. **信頼性**: 合成多様体（Swiss Roll，Torus，Möbius Band 等）と MNIST での定量検証，複数モデル・複数指標による三角測量
+4. **了解性**: 各節の主張を表・図で裏付け，定理と実験を対応させた構成
+
+---
+
+## ディレクトリ構成
+
+```
+manifold/
+├── CLAUDE.md                    # ← このファイル（Claude Code 用プロジェクト指示書）
+├── SKILL.md                     # Claude Code 用スキル定義（論文執筆フロー）
+├── main_paper.tex               # 主論文（日本語 LaTeX, NOLTA 形式）★作成対象
+├── main_paper.bib               # 参考文献データベース（BibTeX）★作成対象
+├── theoretical_analysis.tex     # 理論解析（定理1〜7）
+├── numerical_experiment_plan.md # 数値実験プラン
+├── analysis_report.pdf          # 全実験結果（E1〜EC, 28ページ）★主要情報源
+├── NOLTA_temp_v5_1 (6).pdf      # NOLTA 論文テンプレート（英語版）★形式の参考
+├── src/
+│   ├── models/                  # AE/VAE/CAE/DAE/IsometricAE 実装
+│   ├── data/                    # 合成多様体・MNIST ローダー
+│   ├── metrics/                 # TwoNN, MLE, AU, CKA, TSA, Trustworthiness
+│   └── experiments/             # E1〜EC 実験スクリプト
+├── results/
+│   ├── figures/                 # 生成図（PNG/PDF）★論文に直接使用
+│   └── tables/                  # 結果表（CSV/JSON）★論文表の数値ソース
+└── notebooks/
+    └── analysis.ipynb
+```
+
+---
+
+## 論文執筆規約
+
+### LaTeX 環境
+```latex
+% 使用するドキュメントクラス（NOLTA IEICE 日本語論文）
+\documentclass[paper,japanese]{nolta}
+% nolta.sty が入手できない場合は jsarticle で代替：
+% \documentclass[12pt,a4paper]{jsarticle}
+```
+
+### 文体・表記規則
+- 常体（「である」調）を使用する
+- 数式は `equation` 環境，インライン数式は `$...$` を使用する
+- 図表には必ずキャプションと本文中での参照（`\ref{}`）を付ける
+- 英語専門用語は初出時に英語・日本語訳を併記する
+  （例：変分オートエンコーダ (Variational Autoencoder; VAE)）
+- 実験の数値は有効数字3桁，または `analysis_report.pdf` の記載に従う
+
+### 図表管理
+```latex
+% 図の挿入（results/figures/ を参照）
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.9\linewidth]{results/figures/E1_mse_vs_m.pdf}
+  \caption{...}
+  \label{fig:e1_mse}
+\end{figure}
+```
+論文に使用する図は必ず `results/figures/` から参照すること．
+新規に図が必要な場合は Python スクリプトで生成し同ディレクトリに保存する．
+
+### 参考文献
+- `main_paper.bib` に BibTeX 形式で管理する
+- 参照形式: `\cite{facco2017twonn}` 等
+- 本文中では `[著者, 年]` 形式（NOLTA スタイルに従う）
+- 必須参考文献リスト（`main_paper.bib` に記載済み）:
+
+| キー | 著者 | タイトル | 会議/誌 | 年 |
+|------|------|----------|---------|-----|
+| `facco2017twonn` | Facco et al. | Estimating the intrinsic dimension... | Sci. Rep. | 2017 |
+| `levina2005mle` | Levina & Bickel | Maximum likelihood estimation of intrinsic dimension | NIPS | 2005 |
+| `kingma2014vae` | Kingma & Welling | Auto-Encoding Variational Bayes | ICLR | 2014 |
+| `higgins2017betavae` | Higgins et al. | β-VAE | ICLR | 2017 |
+| `burda2016iwae` | Burda et al. | Importance Weighted Autoencoders | ICLR | 2016 |
+| `lucas2019elbo` | Lucas et al. | Don't Blame the ELBO | NeurIPS | 2019 |
+| `kornblith2019cka` | Kornblith et al. | Similarity of Neural Network Representations Revisited | ICML | 2019 |
+| `alain2014dae` | Alain & Bengio | What Regularized Auto-Encoders Learn... | JMLR | 2014 |
+| `rifai2011cae` | Rifai et al. | Contractive Auto-Encoders | ICML | 2011 |
+| `tishby2000ib` | Tishby et al. | The Information Bottleneck Method | Allerton | 2000 |
+| `nazari2023geometric` | Nazari et al. | Geometric Autoencoders | ICML | 2023 |
+| `fefferman2016manifold` | Fefferman et al. | Testing the Manifold Hypothesis | JAMS | 2016 |
+| `kato2020rdae` | Kato et al. | Rate-Distortion Optimization Guided AE | ICML | 2020 |
+| `ceruti2014danco` | Ceruti et al. | DANCo | Pattern Recogn. | 2014 |
+| `pope2021intrinsic` | Pope et al. | The Intrinsic Dimension of Images... | ICLR | 2021 |
+
+---
+
+## 論文構成（NOLTA 形式，日本語，6〜8ページ）
+
+### 章立て
+
+```
+1. まえがき          ← 研究背景，問題設定，本論文の貢献（新規性1〜4）
+2. 関連研究          ← ID推定，AEのボトルネック設計，表現品質評価
+3. 提案フレームワーク ← 2段階パイプライン，ID推定器選択，最適次元同定
+4. 理論的背景        ← 定理1〜7（theoretical_analysis.tex から要約）
+5. 実験              ← 合成多様体 (E1,E2,E3,EA,EB,EC) + MNIST (E4_ext,E6)
+6. 考察              ← 主要新知見，限界，今後の課題
+7. むすび            ← 結論
+参考文献
+```
+
+### 各章の執筆指針
+
+#### 1. まえがき（約0.5ページ）
+- 多様体仮説の重要性と実用的問題（ボトルネック次元の試行錯誤）
+- 提案アプローチの要約（ID推定 → ボトルネック設計指針）
+- 本論文の貢献リスト（番号付き，新規性を明示）
+
+#### 2. 関連研究（約0.7ページ）
+- **ID推定**: TwoNN[1]，MLE[2]，DANCo[13]，ESS の比較概観
+- **AEのボトルネック設計**: β-VAE[4]，Lucas et al.[5]（posterior collapse），Nazari[10]（幾何的AE）
+- **表現品質評価**: AU[5]，CKA[6]，Trustworthiness[Pope2021]
+- **本研究との差異**: 既存研究は単一指標評価が多く，ID推定とボトルネック最適化を系統的に結びつけた研究が少ない
+
+#### 3. 提案フレームワーク（約0.8ページ）
+- **Stage 1**: ID推定器の評価・選択（合成多様体でのベンチマーク → TwoNN, MLE を採用）
+- **Stage 2**: ID と最適ボトルネック次元の関係分析（AU + CKA による $\hat{d}_z^*$ の同定）
+- パイプライン図（必須）
+
+**数式**:
+$$\hat{d}_z^* = \operatorname{arg}\min_{d_z} \mathcal{L}(d_z) \quad \text{s.t.} \quad \mathrm{AU}(d_z) \text{ が飽和}$$
+$$\mathrm{AU} = \sum_{k=1}^{d_z} \mathbf{1}\bigl[\mathrm{Var}_{x}[\mathbb{E}_{q_\phi}[z_k|x]] > \delta\bigr], \quad \delta = 10^{-2}$$
+$$\mathrm{CKA}(K, L) = \frac{\|X^\top \hat{X}\|_F^2}{\|XX^\top\|_F \|\hat{X}\hat{X}^\top\|_F}$$
+
+#### 4. 理論的背景（約0.5ページ）
+- 定理1（ボトルネック下界 $m \geq d$）の陳述と意義
+- 定理3（プルバック計量・等長性）と IsometricAE の動機
+- 定理4（スコアマッチング・ノイズ方向選択性）と DAE の解釈
+- 定理6（AU 飽和には KL 正則化が必要）の陳述
+- 各定理と実験の対応表（Table 1 として掲載）
+
+#### 5. 実験（約2.5ページ）
+
+**5.1 実験設定**（ハイパーパラメータを必ず明記）
+
+モデル共通設定:
+| パラメータ | 値 |
+|----------|----|
+| オプティマイザ | Adam (lr=1e-3) |
+| バッチサイズ | 128 |
+| 活性化関数 | ReLU（出力層 Sigmoid） |
+| 乱数シード | 42（固定） |
+| フレームワーク | PyTorch 2.0 |
+| ハードウェア | CPU（合成多様体），GPU 推奨（MNIST） |
+
+合成多様体 AE/VAE:
+| パラメータ | 値 |
+|----------|----|
+| 隠れ層次元 | [64, 32] |
+| 学習エポック | 200〜300 |
+| VAE β | 4.0 |
+| IsometricAE λ_iso | 0.01 |
+| サンプル数 | 5,000（学習 4,000 + テスト 1,000） |
+
+MNIST AE/VAE:
+| パラメータ | 値 |
+|----------|----|
+| 入力次元 | 784（28×28 フラット化） |
+| 隠れ層次元 | [512, 256] |
+| 学習エポック | 300 |
+| VAE β | 4.0 |
+| ボトルネック次元 m | 1, 4, 8, 12, 16, 20, 32, 64, 128, 256 |
+| バッチサイズ | 128 |
+
+**5.2 合成多様体実験（E1〜EC）**
+
+以下を含む:
+- E1: MSE の肘点確認 → Table（表2/3），Figure（図1）
+- E2: デコーダヤコビアン解析 → Table（表4），Figure（図2）
+- E3: NSR（ノイズ方向選択性）→ Table（表5），Figure（図3）
+- EA: AU 飽和（AE vs VAE）→ Table（表7/8），Figure（図5）
+- EB: 位相的 AU 実験 → Table（表16），Figure（図11）
+- EC: IsometricAE の等長性 → Table（表19），Figure（図13）
+
+**5.3 MNIST 実験（E4_extended, E6_mnist）**
+
+以下を含む:
+- E4_extended: 300 エポック，m=1〜256 スイープ → Table（表13/14），Figure（図9）
+- E6_mnist: 学習ダイナミクス（大域 → 局所の時間的分離）→ Table（表15），Figure（図10）
+
+#### 6. 考察（約0.7ページ）
+
+**主要新知見**（番号付きで論点を明確に）:
+1. 位相的最小埋め込み次元と VAE AU 飽和の一致（Torus, Möbius Band）
+2. IsometricAE（デコーダヤコビアン正則化）が κ≈1 の等長性を達成
+3. KL 正則化が AU 飽和の必要条件（Vanilla AE は AU 飽和しない）
+4. MNIST での大域・局所構造形成の時間的分離（定理7の動的検証）
+5. MNIST の実効 ID ≈ 10〜12（300 エポック時点，TwoNN 推定）
+
+**限界と今後の課題**:
+- CIFAR-10 等への一般化（Conv-AE が必要）
+- Klein Bottle 等の高位相多様体での検証
+- IsometricAE の λ_iso 感度分析
+
+#### 7. むすび（約0.3ページ）
+
+---
+
+## 実験結果のキーナンバー（論文中の数値の出典）
+
+### E1: Swiss Roll（$d_\mathrm{true} = 2$）
+| m | MSE | AU | TwoNN ID |
+|---|-----|----|----------|
+| 1 | 2.971 | 1 | 1.00 |
+| **2** | **0.032** | **2** | 1.35 |
+| 3 | 0.0008 | 3 | 2.01 |
+| 4 | 0.041 | 4 | 2.03 |
+
+### E1: Torus（$d_\mathrm{true} = 2$, 実質的肘点 $m = 3$）
+| m | MSE | AU | TwoNN ID |
+|---|-----|----|----------|
+| 2 | 0.085 | 2 | 1.83 |
+| **3** | **0.0005** | **3** | 1.99 |
+
+### E2: ヤコビアン解析
+- Swiss Roll $m=2$: 有意特異値数 = 2.00，条件数 κ = 1.51，TSA 誤差 = 44.3°
+- Torus $m=4$: 有意特異値数 = 3.00（$m$ でなく $d_\mathrm{true}$ に対応）
+
+### E3: NSR（Swiss Roll, σ=0.1）
+- $m=2$: NSR 中央値 = 0.562，接方向誤差 = 0.079，法線方向誤差 = 0.126
+
+### EA: VAE AU 飽和（Swiss Roll）
+- VAE (β=4): $m \geq 3$ で AU = 2（= $d_\mathrm{true}$）に完全飽和
+- Vanilla AE: AU = m（飽和なし）
+
+### EB: 位相的 AU 実験
+| 多様体 | $d_\mathrm{true}$ | $\pi_1$ | 位相的最小埋め込み次元 | VAE AU 飽和値 |
+|--------|--------|---------|---------------------|-------------|
+| Torus $T^2$ | 2 | $\mathbb{Z}^2$ | 3 | 3 ✓ |
+| Möbius Band | 2 | $\mathbb{Z}$ | 3 | 3 ✓ |
+| Swiss Roll | 2 | $\{1\}$ | 2 | 3 × |
+| Circle $S^1$ | 1 | $\mathbb{Z}$ | 2 | 2（$m \geq 6$）△ |
+
+### EC: IsometricAE（Swiss Roll）
+| モデル | MSE | 条件数 κ | NSR |
+|--------|-----|---------|-----|
+| AE | 0.0282 | 1.475 | 0.552 |
+| CAE | 0.0296 | 1.531 | 0.059 |
+| **IsometricAE** | **0.0290** | **1.040** | 0.753 |
+| DAE | 0.0304 | 1.179 | 0.609 |
+
+### ED: 4モデル比較（Swiss Roll）
+| モデル | MSE | κ | NSR | Trustworthiness |
+|--------|-----|---|-----|----------------|
+| AE | 0.0302 | 1.251 | 0.979 | 0.9991 |
+| CAE | 0.0363 | 1.438 | 0.659 | 0.9991 |
+| DAE | 0.0319 | **1.242** | 0.977 | 0.9991 |
+| VAE | 0.0551 | 1.854 | **1.133** | 0.9991 |
+
+### E4_extended: MNIST 長期学習（300 エポック）
+- AE: $m=256$ で TwoNN ID = 10.02，MLE = 11.85 → MNIST $d_\mathrm{ID} \approx 10$〜12
+- VAE (β=4): $m=12$ で AU = 8（飽和開始），$m=256$ で AU = 36
+- MSE 肘点: $m \approx 16$〜20
+
+### E6_mnist: MNIST 学習ダイナミクス（m=16, 200エポック）
+- Epoch 1: Trustworthiness = 0.9263（大域構造が急速に形成）
+- Epoch 5: Trustworthiness = 0.9882（CKA ピーク 0.872）
+- Epoch 200: MSE = 0.0141（継続的改善），Trustworthiness = 0.9929
+
+---
+
+## 再現性規約
+
+```python
+# 全実験で固定するハイパーパラメータ
+SEED = 42
+torch.manual_seed(SEED)
+np.random.seed(SEED)
+random.seed(SEED)
+torch.backends.cudnn.deterministic = True
+
+# ID 推定パラメータ
+TWONN_K = 2       # TwoNN の定義により固定
+MLE_K = 10        # k 近傍数（k=5,10,20 の安定性も確認済み）
+AU_THRESHOLD = 0.01  # 活性ユニット判定閾値（文献値 δ = 10^{-2}）
+CKA_SUBSAMPLE = 1000  # CKA 計算用サブサンプル数
+```
+
+---
+
+## コンパイル方法
+
+```bash
+# 日本語 LaTeX のコンパイル（upLaTeX 推奨）
+cd /path/to/manifold
+uplatex main_paper.tex
+bibtex main_paper
+uplatex main_paper.tex
+uplatex main_paper.tex
+dvipdfmx main_paper.dvi
+
+# または pdflatex（jsarticle の場合）
+platex main_paper.tex
+bibtex main_paper
+platex main_paper.tex
+platex main_paper.tex
+dvipdfmx main_paper.dvi
+
+# 確認：theoretical_analysis.tex は既にコンパイル済み
+# latex コマンドが使える環境では：
+lualatex main_paper.tex  # LuaLaTeX も可
+```
+
+---
+
+## 論文完成チェックリスト
+
+| 項目 | 担当 | 完了条件 |
+|------|------|---------|
+| `main_paper.tex` の作成 | Claude Code | コンパイルエラーなし，全章完備 |
+| `main_paper.bib` の作成 | Claude Code | 15件以上の参考文献，BibTeX 形式 |
+| 図の再生成（論文用高解像度） | Claude Code | DPI≥300，PDF+PNG 両形式 |
+| 追加実験（必要な場合） | Claude Code | 実験スクリプト実行，結果保存 |
+| ハイパーパラメータ表の確認 | Claude Code | `analysis_report.pdf` と一致 |
+| 定理-実験対応表（Table 1） | Claude Code | 7定理×実験を網羅 |
+| 文献の本文中引用 | Claude Code | 全参考文献が本文中で参照される |
+| 数値の一致確認 | Claude Code | 論文の数値 == analysis_report.pdf の数値 |
+
+---
+
+## コンテキスト：主要記号
+
+| 記号 | 意味 |
+|------|------|
+| $d_\mathrm{ID}$, $\hat{d}_\mathrm{ID}$ | 内在次元（推定値） |
+| $d_z$, $m$ | AE ボトルネック次元 |
+| $\hat{d}_z^*$ | 最適（実用上の）ボトルネック次元 |
+| $f: \mathbb{R}^N \to \mathbb{R}^m$ | エンコーダ |
+| $g: \mathbb{R}^m \to \mathbb{R}^N$ | デコーダ |
+| $J_g(z)$ | デコーダのヤコビ行列 |
+| $G(z) = J_g^\top J_g$ | プルバック計量テンソル |
+| $\kappa$ | 条件数（等長性の指標） |
+| AU | Active Units（活性ユニット数） |
+| CKA | Centered Kernel Alignment |
+| NSR | Noise Selectivity Ratio（ノイズ選択性比） |
+| TSA | Tangent Space Approximation Error（接空間近似誤差） |
+| RTD | Representation Topology Divergence |

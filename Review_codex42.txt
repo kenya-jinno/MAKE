@@ -1,0 +1,147 @@
+Review of main_paper_MAKE42.pdf
+Target journal: MDPI Machine Learning and Knowledge Extraction (MAKE)
+Reviewer: Codex
+Date: 2026-07-13
+
+Overall recommendation: accept
+
+Summary
+-------
+Revision 42 adequately addresses the substantive points raised in
+Peer_Review_Report41.md. The manuscript now gives a more explicit and
+appropriately qualified account of the natural-image limitations, upgrades
+the two previously weak single-seed claims to 3-seed evidence, and expands
+the linear-surrogate discussion to include the aggregated-posterior mismatch
+KL(q_phi(z)||p(z)) via the ELBO-surgery decomposition. The new text is
+internally consistent with the supplied multi-seed experiment logs.
+
+The revised manuscript remains cautious about scope. MNIST is presented as
+the clean fully connected validation case; Fashion-MNIST is not overstated
+as a full pass, but is correctly treated as a diagnostic lower-V2-bound
+boundary case; the high-beta Conv-VAE experiment is presented as V1
+recovery without V2 order consistency; and natural-image Step 3 remains an
+open problem. This is an appropriate posture for publication.
+
+Assessment of previous review responses
+---------------------------------------
+Major point 1, on natural-image generalization hypotheses in Sections 5.6.2
+and 6.4, has been addressed. The natural-image subsection now gives concrete
+hypotheses for why CIFAR-10/SVHN behave differently from MNIST: manifold
+entanglement, texture-driven shrinkage of the effective decoder noise
+variance, and the mismatch between flat isotropic latents and hierarchical
+image factors. The discussion section carries these hypotheses forward into
+specific future-work directions, including hierarchical VAEs and
+class-/region-wise estimation. The added Sonderby et al. reference is used
+for the hierarchical-VAE direction.
+
+Major point 2, on multi-seed upgrades of Fashion-MNIST Step 3 and
+Exp-ConvV-HiBeta, has been addressed. The Fashion-MNIST section now reports
+Exp-Fashion-MS as a 3-seed, 300-epoch FC-VAE verification. The supplied log
+results support the table: at m=20 all three seeds have AU=7, so the
+multi-seed mean is AU(20)=7.0 with zero standard deviation; V1 passes
+because 7/20=0.35, while the lower V2 bound is violated relative to
+hat d_ID=10. The text correctly treats this as an over-pruning/boundary
+diagnosis rather than as a protocol success.
+
+The high-beta Conv-VAE upgrade is also adequately handled. The supplied
+Exp_ConvV_HiBeta_MS.json log supports the main claims: at beta_max=10 and
+m=256 the seed AUs are 93, 103, and 91, giving approximately 95.7 +/- 5.2;
+at beta_max=20 and m=256 they are 66, 67, and 71, giving approximately
+68.0 +/- 2.2. These values justify the statement that increased beta
+restores truncation/V1, but not V2 order consistency with 3*hat d_ID=30.
+
+Major point 3, on the gap between the linear-Gaussian surrogate and
+nonlinear VAE behavior, has been addressed. Proposition 2 and the following
+remarks now state the rate-distortion approximation more explicitly, and
+Appendix A.1 adds the ELBO-surgery identity
+E_x KL(q_phi(z|x)||p(z)) = I(x;z) + KL(q_phi(z)||p(z)). The text also
+explains the sign of the dropped mismatch term and why it would tend to
+amplify the effective KL penalty rather than explain Conv-VAE no-truncation
+failures. This is a useful and appropriately bounded clarification; it does
+not overclaim a nonlinear theorem.
+
+Minor point 1, on abstract density, has been addressed. The abstract is
+still information-dense, but it now foregrounds the closed-loop
+estimate-set-verify protocol and removes excessive detail about the MNIST
+slowdown region. It also clearly states the conditional nature of the
+claim.
+
+Minor point 2, on Figure 2 and Figure 5 legibility, appears addressed at
+the source level. The revision history states that the figures were
+regenerated with larger fonts and black-and-white-safe line styles, and the
+captions remain clear. I found no source-level inconsistency in the figure
+references or numbering: the relevant figures are still referred to as the
+MNIST multi-seed AU figure and the Exp-ConvV-HiBeta figure.
+
+Minor point 3, on clarifying the 2*hat d_ID buffer in Step 2, has been
+addressed. Section 3.2.2 now explicitly states that the multiplier 2 is a
+buffer against the unknown gap d_emb - d_ID, not an estimate of d_emb, and
+that the window is a starting point rather than a guaranteed upper bound.
+This directly addresses the possible confusion between d_ID and d_emb.
+
+Internal consistency checks
+---------------------------
+The new Fashion-MNIST content is internally consistent. The text, table,
+and log agree that AU(20)=7.0 across all three seeds, V1 passes, and the
+lower V2 bound fails. The new third row in the failure-mode table covers
+"AU saturates below hat d_ID" and points readers to the Fashion-MNIST
+diagnosis, which is exactly how the main text uses the result.
+
+The threshold-invariance ranges are stated consistently with the decision
+rule. The manuscript reports V1-threshold invariance on the multi-seed mean
+for (0.67, 0.94), V2-factor invariance for (2.3, 6.8), per-seed invariance
+for V1 in (0.70, 0.93) and V2 factor in (2.3, 6.6), and lower-V2-bound
+coefficient invariance in (0.70, 1.0]. These statements are coherent with
+the MNIST AU/m boundary at 13.3/20 approximately 0.67 and the
+Fashion-MNIST lower-bound ratio 7/10=0.70.
+
+The Conv-VAE high-beta numbers are consistent between the main text,
+appendix table, and the supplied JSON log. The paper correctly distinguishes
+the beta_max=4 reference failure, the beta_max=10/20 V1 recovery, and the
+remaining V2 violation.
+
+The reference list contains 30 entries, including the new Sonderby et al.
+and Hoffman & Johnson entries. The new citations are placed where they are
+needed: hierarchical latent structure for natural images and ELBO surgery
+for the KL(q(z)||p(z)) decomposition. I did not identify an uncited or
+obviously misplaced new reference.
+
+MDPI MAKE submission readiness
+------------------------------
+The manuscript has the expected MDPI sections and back matter: abstract,
+keywords, author contributions, funding, data availability, conflicts of
+interest, abbreviations, appendices, and bibliography. The appendix
+structure is appropriate: proofs/derivations, change-point sensitivity,
+exploratory and boundary experiments, and sensitivity/experiment overview.
+
+The Data Availability statement remains acceptable for review/submission:
+the code, configuration, seeds, logs, and numerical results are said to be
+provided as supplementary material for peer review, with GitHub/Zenodo URL
+and DOI to be added upon acceptance. This should be completed before final
+production.
+
+The remaining MDPI production placeholders are not scientific defects:
+\articlenumber{0}, blank received/revised/accepted/published dates,
+commented ORCID placeholders, and the commented external-editor placeholder.
+These should be handled during final editorial production or source cleanup.
+
+New issues found
+----------------
+Major issues: none.
+
+Minor issues: none requiring scientific revision.
+
+Typographical and presentation issues:
+1. The revision-history comments at the top of the LaTeX source are useful
+   for review but should preferably be removed from the final production
+   source.
+2. The repository URL/DOI and MDPI metadata placeholders should be completed
+   before publication.
+
+Conclusion
+----------
+Revision 42 is submission-ready from a scientific and review-response
+standpoint. The manuscript now directly addresses the external reviewer's
+major and minor points, the new multi-seed evidence is used with appropriate
+qualification, and the remaining issues are production/editorial matters
+rather than grounds for another technical revision. I recommend acceptance.

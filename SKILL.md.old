@@ -1,0 +1,437 @@
+# SKILL.md — 学術論文執筆スキル定義
+
+このファイルは Claude Code が `main_paper.tex`（NOLTA 日本語論文）を
+完成させるための**段階的タスクリスト**である．
+**作業前に必ず `CLAUDE.md` を全体精読すること．**
+
+---
+
+## スキル名：`nolta-paper-writing`
+
+**目的**: `analysis_report.pdf` の実験結果と `theoretical_analysis.tex` の理論を統合し，
+NOLTA IEICE 形式の日本語学術論文 `main_paper.tex` を完成させる．
+
+**入力ファイル**:
+- `analysis_report.pdf` — 全実験結果（数値，図，表，考察）
+- `NOLTA_temp_v5_1 (6).pdf` — 論文フォーマット・スタイルの参考
+- `theoretical_analysis.tex` — 定理1〜7の証明
+- `CLAUDE.md` — 実験数値，ハイパーパラメータ，参考文献リスト
+
+**出力ファイル**:
+- `main_paper.tex` — 日本語 LaTeX 論文本体
+- `main_paper.bib` — BibTeX 参考文献データベース
+
+---
+
+## フェーズ 0：準備確認
+
+### タスク 0-1：既存ファイルの確認
+
+```bash
+ls manifold/results/figures/   # 使用可能な図ファイルを確認
+ls manifold/results/tables/    # 使用可能な表データを確認
+ls manifold/src/               # 実装済みスクリプトを確認
+```
+
+### タスク 0-2：追加実験の必要性確認
+
+以下の実験結果が `results/` にない場合は実験を追加実行する：
+
+| 必須結果 | ファイル | 代替 |
+|---------|---------|------|
+| E1 MSE 肘点グラフ | `E1_mse_vs_m.pdf` | `analysis_report.pdf` p.4 の図から再生成 |
+| EA AU 飽和グラフ | `EA_au_saturation.pdf` | `analysis_report.pdf` p.11 の図から再生成 |
+| EB 位相的 AU グラフ | `EB_topological_au.pdf` | `analysis_report.pdf` p.22 の図から再生成 |
+| E4_extended スイープグラフ | `E4ext_bottleneck_sweep.pdf` | `analysis_report.pdf` p.19 の図から再生成 |
+| E6_mnist 学習ダイナミクス | `E6_mnist_dynamics.pdf` | `analysis_report.pdf` p.21 の図から再生成 |
+| EC モデル比較グラフ | `EC_isometric_comparison.pdf` | `analysis_report.pdf` p.25 の図から再生成 |
+
+---
+
+## フェーズ 1：BibTeX ファイルの作成
+
+### タスク 1-1：`main_paper.bib` を作成する
+
+以下の内容で `main_paper.bib` を作成する：
+
+```bibtex
+@article{facco2017twonn,
+  author  = {Facco, Elena and d'Errico, Maria and Rodriguez, Alex and Laio, Alessandro},
+  title   = {Estimating the intrinsic dimension of datasets by a minimal neighborhood information},
+  journal = {Scientific Reports},
+  volume  = {7},
+  pages   = {12140},
+  year    = {2017},
+  doi     = {10.1038/s41598-017-11873-y}
+}
+
+@inproceedings{levina2005mle,
+  author    = {Levina, Elizaveta and Bickel, Peter J.},
+  title     = {Maximum Likelihood Estimation of Intrinsic Dimension},
+  booktitle = {Advances in Neural Information Processing Systems (NIPS)},
+  volume    = {17},
+  year      = {2005}
+}
+
+@inproceedings{kingma2014vae,
+  author    = {Kingma, Diederik P. and Welling, Max},
+  title     = {Auto-Encoding Variational {Bayes}},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2014},
+  eprint    = {1312.6114}
+}
+
+@inproceedings{higgins2017betavae,
+  author    = {Higgins, Irina and Matthey, Lo{\"i}c and Pal, Arka and Burgess, Christopher
+               and Glorot, Xavier and Botvinick, Matthew and Mohamed, Shakir and Lerchner, Alexander},
+  title     = {$\beta$-{VAE}: Learning Basic Visual Concepts with a Constrained Variational Framework},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2017}
+}
+
+@inproceedings{burda2016iwae,
+  author    = {Burda, Yuri and Grosse, Roger B. and Salakhutdinov, Ruslan},
+  title     = {Importance Weighted Autoencoders},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2016},
+  eprint    = {1509.00519}
+}
+
+@inproceedings{lucas2019elbo,
+  author    = {Lucas, James and Tucker, George and Grosse, Roger B. and Norouzi, Mohammad},
+  title     = {Don't Blame the {ELBO}! {A} Linear {VAE} Perspective on Posterior Collapse},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {32},
+  year      = {2019},
+  eprint    = {1911.02469}
+}
+
+@inproceedings{kornblith2019cka,
+  author    = {Kornblith, Simon and Norouzi, Mohammad and Lee, Honglak and Hinton, Geoffrey},
+  title     = {Similarity of Neural Network Representations Revisited},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {97},
+  pages     = {3519--3529},
+  year      = {2019},
+  eprint    = {1905.00414}
+}
+
+@article{alain2014dae,
+  author  = {Alain, Guillaume and Bengio, Yoshua},
+  title   = {What Regularized Auto-Encoders Learn from the Data-Generating Distribution},
+  journal = {Journal of Machine Learning Research (JMLR)},
+  volume  = {15},
+  pages   = {3743--3773},
+  year    = {2014}
+}
+
+@inproceedings{rifai2011cae,
+  author    = {Rifai, Salah and Vincent, Pascal and Muller, Xavier and Glorot, Xavier and Bengio, Yoshua},
+  title     = {Contractive Auto-Encoders: Explicit Invariance During Feature Extraction},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  pages     = {833--840},
+  year      = {2011}
+}
+
+@inproceedings{tishby2000ib,
+  author    = {Tishby, Naftali and Pereira, Fernando C. and Bialek, William},
+  title     = {The Information Bottleneck Method},
+  booktitle = {37th Annual Allerton Conference on Communication, Control, and Computing},
+  pages     = {368--377},
+  year      = {2000},
+  eprint    = {physics/0004057}
+}
+
+@inproceedings{nazari2023geometric,
+  author    = {Nazari, Philipp and Damrich, Sebastian and Hamprecht, Fred A.},
+  title     = {Geometric Autoencoders -- What You See is What You Decode},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {202},
+  year      = {2023},
+  eprint    = {2306.17638}
+}
+
+@article{fefferman2016manifold,
+  author  = {Fefferman, Charles and Mitter, Sanjoy and Narayanan, Hariharan},
+  title   = {Testing the Manifold Hypothesis},
+  journal = {Journal of the American Mathematical Society},
+  volume  = {29},
+  number  = {4},
+  pages   = {983--1049},
+  year    = {2016},
+  doi     = {10.1090/jams/852}
+}
+
+@inproceedings{kato2020rdae,
+  author    = {Kato, Keisuke and Zhou, Jianfeng and Sasaki, Tomo and Nakagawa, Akira},
+  title     = {Rate-Distortion Optimization Guided Autoencoder for Isometric Embedding in {Euclidean} Latent Space},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {119},
+  year      = {2020},
+  eprint    = {1910.04329}
+}
+
+@article{ceruti2014danco,
+  author  = {Ceruti, Claudio and Bassis, Simone and Rozza, Alessandro and Lombardi, Giuliano
+             and Casiraghi, Elena and Campadelli, Paola},
+  title   = {{DANCo}: An Intrinsic Dimensionality Estimator Exploiting Angle and Norm Concentration},
+  journal = {Pattern Recognition},
+  volume  = {47},
+  number  = {8},
+  pages   = {2569--2581},
+  year    = {2014},
+  doi     = {10.1016/j.patcog.2014.02.013}
+}
+
+@inproceedings{pope2021intrinsic,
+  author    = {Pope, Phillip and Zhu, Chen and Abdelkader, Ahmed and Goldblum, Micah and Goldstein, Tom},
+  title     = {The Intrinsic Dimension of Images and Its Impact on Learning},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2021},
+  eprint    = {2104.08894}
+}
+
+@inproceedings{vander2009visualization,
+  author    = {van der Maaten, Laurens and Hinton, Geoffrey},
+  title     = {Visualizing Data using {t-SNE}},
+  journal   = {Journal of Machine Learning Research (JMLR)},
+  volume    = {9},
+  pages     = {2579--2605},
+  year      = {2008}
+}
+
+@article{bengio2013representation,
+  author  = {Bengio, Yoshua and Courville, Aaron and Vincent, Pascal},
+  title   = {Representation Learning: A Review and New Perspectives},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume  = {35},
+  number  = {8},
+  pages   = {1798--1828},
+  year    = {2013},
+  doi     = {10.1109/TPAMI.2013.50}
+}
+```
+
+---
+
+## フェーズ 2：論文 LaTeX ファイルの作成
+
+### タスク 2-1：`main_paper.tex` を作成する
+
+以下の構造で `main_paper.tex` を作成する．
+
+**重要ルール**:
+1. `CLAUDE.md` に記載された全数値（表の数値）を正確に転記する
+2. `analysis_report.pdf` の分析・考察を独自の論述として書き直す
+3. 図は `results/figures/` から参照する（ファイルが存在しない場合は後述の Python で生成）
+4. `\cite{}` で文献を必ず参照する
+5. 定理番号は `theoretical_analysis.tex` と一致させる
+
+**各セクションの執筆チェックリスト**:
+
+#### 1. まえがき
+- [ ] 多様体仮説の重要性を $\leq 3$ 文で説明
+- [ ] VAE ボトルネック設計の実用的問題を明示
+- [ ] 提案アプローチ（ID → ボトルネック）を1段落で説明
+- [ ] **貢献リスト**（番号付き，4項目以上）:
+  1. ID 推定器の系統的比較と TwoNN/MLE の選択根拠の提示
+  2. 位相的最小埋め込み次元と VAE AU 飽和値の一致（EB 実験）
+  3. IsometricAE（デコーダヤコビアン正則化）による等長性改善（EC 実験）
+  4. MNIST での大域・局所構造形成の時間的分離の定量化（E6_mnist）
+
+#### 2. 関連研究
+- [ ] ID 推定器の概説（TwoNN, MLE, PCA の違いと選択基準）
+- [ ] AE/VAE のボトルネック設計に関する既存研究
+- [ ] 本研究との違いを明示するパラグラフ
+
+#### 3. 提案フレームワーク
+- [ ] 2段階パイプラインの説明
+- [ ] TwoNN の計算式を記述（$d = 1/\mathbb{E}[\log \mu_i]$, $\mu_i = r_2/r_1$）
+- [ ] CKA の計算式を記述
+- [ ] AU の定義式を記述
+- [ ] パイプラインの概念図（Figure 1 として）
+
+#### 4. 理論的背景
+- [ ] 定理1（$m \geq d$ 下界）を陳述
+- [ ] 定理3（プルバック計量・等長性）を陳述
+- [ ] 定理4（スコアマッチング）を陳述
+- [ ] 定理6（AU 飽和には KL 正則化が必要）を陳述
+- [ ] 定理-実験対応表（Table 1）を作成
+
+#### 5.1 実験設定
+- [ ] 全ハイパーパラメータを表にまとめる（`CLAUDE.md` の表を参照）
+- [ ] 使用ライブラリのバージョンを明記
+
+#### 5.2 合成多様体実験
+- [ ] Table: E1 MSE・AU・TwoNN ID（Swiss Roll, Torus）
+- [ ] Figure: E1 MSE vs m の肘点グラフ
+- [ ] Table: E2 ヤコビアン解析結果
+- [ ] Table: E3 NSR 結果
+- [ ] Table: EA AU 飽和（AE vs VAE）
+- [ ] Table: EB 位相的 AU 実験
+- [ ] Table: EC IsometricAE 比較
+
+#### 5.3 MNIST 実験
+- [ ] Table: E4_extended AE/VAE 結果（m=1〜256）
+- [ ] Figure: E4_extended MSE vs m, AU vs m, ID vs m
+- [ ] Table: E6_mnist 学習ダイナミクス
+- [ ] Figure: E6_mnist Trustworthiness, CKA の推移
+
+#### 6. 考察
+- [ ] 主要新知見を番号付きリストで明示
+- [ ] KL 正則化の必要性の議論（EA 実験の含意）
+- [ ] 位相的障害と最適ボトルネック次元の関係（EB 実験の含意）
+- [ ] 限界と今後の課題
+
+#### 7. むすび
+- [ ] 研究の要点を3〜5文でまとめる
+
+---
+
+## フェーズ 3：図の生成（不足分）
+
+`results/figures/` に以下の図がない場合，Python スクリプトで再生成する．
+
+### タスク 3-1：パイプライン概念図の生成
+
+```python
+# src/utils/generate_pipeline_figure.py
+# 2段階パイプラインのフローチャートを生成
+# matplotlib を使用，PDF + PNG で保存
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+# ... (実装は src/utils/ に保存)
+```
+
+### タスク 3-2：定理-実験対応表の生成
+
+`CLAUDE.md` に記載の定理-実験対応表を LaTeX の `table` 環境として `main_paper.tex` に直接記述する．
+
+### タスク 3-3：MSE 肘点グラフの確認・再生成
+
+```bash
+# 既存グラフの確認
+ls results/figures/E1_mse_vs_m.pdf
+# なければ E1 実験を再実行
+python src/experiments/E1_synthetic.py
+```
+
+---
+
+## フェーズ 4：追加実験（必要な場合）
+
+以下の実験は `analysis_report.pdf` に含まれているが，
+対応する `results/` ファイルがない可能性がある場合は再実行する：
+
+### 追加実験 A1：Fashion-MNIST ボトルネックスイープ
+**目的**: MNIST 結果の一般化確認（CLAUDE.md §6 の「限界」に対応）
+```bash
+python src/experiments/E4_bottleneck_sweep.py --dataset fashion_mnist --epochs 300
+```
+
+### 追加実験 A2：IsometricAE の λ_iso 感度分析
+**目的**: EC 実験の λ_iso = 0.01 の選択根拠を定量化
+```bash
+python src/experiments/EC_isometric.py --lambda_iso 0.001 0.01 0.1 1.0
+```
+結果は `results/tables/EC_lambda_sensitivity.json` に保存，
+`results/figures/EC_lambda_sensitivity.pdf` に可視化する．
+
+---
+
+## フェーズ 5：LaTeX コンパイルと品質確認
+
+### タスク 5-1：コンパイル実行
+
+```bash
+cd manifold
+platex main_paper.tex
+bibtex main_paper
+platex main_paper.tex
+platex main_paper.tex
+dvipdfmx main_paper.dvi
+```
+
+エラーが出た場合の対処：
+- `\usepackage` エラー → 使用するパッケージの確認
+- BibTeX エラー → `main_paper.bib` のフォーマット確認
+- 図ファイルエラー → `results/figures/` のファイル存在確認
+
+### タスク 5-2：品質チェック
+
+**数値整合性チェック**（全て `analysis_report.pdf` と一致しているか確認）:
+```
+□ Table 2 (E1 Swiss Roll): MSE, AU, TwoNN ID
+□ Table 3 (E1 Torus): MSE, AU, TwoNN ID
+□ Table 4 (E2 Jacobian): 有意特異値数, 条件数 κ, TSA 誤差
+□ Table 5 (E3 NSR): NSR 平均・中央値，接方向・法線方向誤差
+□ Table 7 (EA): AE, AE+L2, VAE の AU 比較
+□ Table 16 (EB): 各多様体の位相的性質と AU 飽和値
+□ Table 19 (EC): IsometricAE vs 既存モデルの比較
+□ Table 13 (E4_ext AE): m=1〜256 の AE 結果
+□ Table 14 (E4_ext VAE): m=1〜256 の VAE 結果
+□ Table 15 (E6_mnist): MNIST 学習ダイナミクス
+```
+
+**新規性チェック**:
+```
+□ 各新知見に "本研究の新規な発見" であることが明示されているか
+□ 既存研究との差異が明確に述べられているか
+□ 定理と実験の対応が本文中で明示されているか
+```
+
+---
+
+## 完了条件
+
+以下をすべて満たしたとき，スキルが完了したと見なす：
+
+```
+□ main_paper.tex がコンパイルエラーなく PDF に変換できる
+□ main_paper.pdf が 6〜8 ページ（NOLTA 基準）
+□ 全章（1〜7）が完備されている
+□ 15件以上の参考文献が適切に引用されている
+□ 全表の数値が analysis_report.pdf と一致している
+□ 全図が results/figures/ から参照されている
+□ ハイパーパラメータ表が実験設定セクションに含まれている
+□ 定理-実験対応表（Table 1）が含まれている
+□ 新規性（1〜4）が1節で明示されている
+□ 考察で主要新知見が番号付きリストで述べられている
+```
+
+---
+
+## トラブルシューティング
+
+### `nolta.cls` が見つからない場合
+```latex
+% nolta.cls の代替として jsarticle を使用
+\documentclass[12pt,a4paper,twocolumn]{jsarticle}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{url}
+% NOLTA フォーマットに合わせるため以下を調整
+\setlength{\columnsep}{0.8cm}
+```
+
+### 図ファイルが見つからない場合
+```python
+# analysis_report.pdf からデータを読み取り，matplotlib で再生成
+# results/figures/ ディレクトリが存在しない場合：
+import os
+os.makedirs('results/figures', exist_ok=True)
+os.makedirs('results/tables', exist_ok=True)
+```
+
+### BibTeX が機能しない場合
+```latex
+% BibTeX の代替としてthebibliography 環境を使用
+\begin{thebibliography}{99}
+\bibitem{facco2017twonn} E. Facco et al., ...
+...
+\end{thebibliography}
+```

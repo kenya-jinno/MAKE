@@ -1,0 +1,214 @@
+Review of main_paper_MAKE35.pdf
+Target journal: MDPI Machine Learning and Knowledge Extraction (MAKE)
+Reviewer: Codex
+Date: 2026-07-08
+
+Overall recommendation: Major revision
+
+Summary
+-------
+This manuscript proposes an ID-guided protocol for selecting the bottleneck
+dimension of AEs/VAEs: estimate intrinsic dimension (ID), set the bottleneck
+dimension with a topological margin, and verify the trained VAE using active
+units (AU). The paper combines a topological lower-bound argument, a
+linear-Gaussian water-filling surrogate for AU activation, and empirical
+validation on synthetic manifolds, MNIST/Fashion-MNIST, Conv-VAEs, and natural
+images.
+
+The topic is relevant to MAKE and the manuscript is substantially improved by
+its explicit protocol, multi-seed reporting in the main experiments, and honest
+discussion of applicability limits. However, the current version still relies
+on several qualitative bridges between estimated ID, bottleneck selection, and
+AU slowdown. The paper is promising, but the central claims should be tightened
+and several experimental and presentation issues should be addressed before
+submission.
+
+Major comments
+--------------
+1. The status of the central claim should be weakened or formalized more
+   carefully.
+
+   The manuscript asks whether the bottleneck dimension can be chosen from the
+   intrinsic dimension and answers affirmatively. Yet the actual validated
+   protocol is more conditional: it gives a useful reference range on MNIST and
+   synthetic manifolds, while Conv-VAEs and natural images require substantially
+   stronger beta, decoder-capacity control, or remain future work. The abstract
+   and conclusion should avoid sounding like a general solution. A more accurate
+   framing is: "ID estimates can guide a candidate range, and AU can diagnose
+   whether the VAE actually truncates surplus dimensions under suitable beta and
+   architecture."
+
+2. AU slowdown is used as a verification signal, but the decision rule remains
+   under-specified.
+
+   The paper wisely removes automatic knee detection as a named output, because
+   the detected knee is grid-dependent. However, Step 3 then relies on a
+   qualitative judgment: "saturates/clearly slows down near d_ID." For a protocol
+   paper, readers need a reproducible rule for deciding pass/fail, even if it is
+   deliberately conservative. For example, the authors could report AU/m,
+   finite-difference slopes, and a predefined tolerance window such as
+   AU-growth slope below a stated threshold over a fixed log-spaced grid. If the
+   authors do not want an algorithmic rule, the protocol should be presented as
+   a diagnostic workflow rather than a selection algorithm.
+
+3. The empirical validation of the full protocol is narrower than the
+   contribution statement suggests.
+
+   The full three-step protocol with multi-seed AU verification is convincingly
+   demonstrated mainly for synthetic manifolds and MNIST FC-VAEs. Fashion-MNIST
+   has multi-seed Step-1 evidence but only single-seed VAE-side verification;
+   high-beta Conv-VAE recovery is single-seed exploratory; natural-image Step 3
+   is not achieved in the main setting. These limitations are stated in the
+   paper, but the contributions and abstract should mirror them more directly.
+   Otherwise reviewers may view the work as overclaiming relative to the
+   evidence.
+
+4. The link between topological embedding dimension and VAE AU needs sharper
+   interpretation.
+
+   Proposition 1 concerns exact continuous reconstruction without
+   self-intersection and gives a necessary condition involving d_emb. The VAE AU
+   results on the torus suggest AUsat = d_emb, but the manuscript also notes that
+   this is conditional and not theoretically necessary. The main text should be
+   careful not to imply that AU estimates d_emb. A useful addition would be a
+   short paragraph explicitly distinguishing:
+   - d_ID estimated by TwoNN/MLE,
+   - d_emb required for exact embedding,
+   - AU as a beta- and architecture-dependent usage count.
+   This distinction is present in parts of the text, but it should be reiterated
+   where the synthetic results are interpreted.
+
+5. The TwoNN-through-reference-AE procedure needs stronger validation against
+   estimator bias.
+
+   The manuscript acknowledges that stable estimates are not necessarily
+   unbiased. This is important, because the protocol depends on d_hat_ID as the
+   center of the candidate range. The paper would be strengthened by adding
+   bootstrap confidence intervals, estimator subsampling sensitivity, or at least
+   a table comparing direct input-space estimates, reference-AE estimates, MLE,
+   and one additional estimator where feasible. DANCo is mentioned as future
+   work, but even a limited cross-check would reduce the risk that the protocol
+   is tuned to TwoNN behavior.
+
+6. The baseline comparison should be expanded.
+
+   The paper contrasts the protocol with reconstruction-error sweeps and PCA,
+   but it does not quantify whether the proposed range reduces search cost or
+   preserves downstream utility. For MAKE readers, it would help to include a
+   compact comparison such as:
+   - full m-grid search vs. ID-guided candidate range,
+   - reconstruction MSE / ELBO at selected m,
+   - simple downstream classification accuracy from latent representations,
+   - number of training runs saved.
+   This would clarify the practical value beyond interpretability.
+
+7. The water-filling result is useful but should be explicitly labeled as a
+   rationale, not an empirical predictor.
+
+   Proposition 2 is correctly limited to a linear-Gaussian approximation, and
+   the manuscript states that nonlinear use is interpretive. Still, phrases such
+   as "guarantees" or "self-repairs" may be too strong when discussing nonlinear
+   VAEs. Replace stronger wording with "predicts in the surrogate model" or
+   "motivates the diagnostic expectation." The heuristic tau_eff discussion
+   should also remain clearly separated from the proposition.
+
+8. The Conv-VAE and natural-image results are valuable but currently read as a
+   mixture of boundary analysis and incomplete application.
+
+   This section is one of the manuscript's strengths because it documents
+   failure modes. To avoid confusing the reader, add a short "verdict" after
+   each subsection:
+   - Step 1 usable / not usable under stated m_ref range,
+   - Step 2 candidate range obtained / not obtained,
+   - Step 3 AU verification passed / failed / unresolved.
+   This would make the boundary analysis fit the protocol structure more
+   cleanly.
+
+Minor comments and presentation issues
+--------------------------------------
+1. The abstract is very dense. Consider shortening the theoretical details and
+   moving some caveats into the final sentence. The current abstract may be hard
+   for non-specialist MAKE readers to parse.
+
+2. The term "correct dimension" should be avoided for real data. Use "reference
+   estimate," "consistent dimension range," or "ground-truth dimension" only for
+   synthetic manifolds.
+
+3. The phrase "m comfortably above d_hat_ID" should be operationalized. The
+   protocol later says AE: [d_hat_ID, 2d_hat_ID], VAE: m >= 2d_hat_ID. Use this
+   more concrete wording consistently.
+
+4. Table 6 mixes a single-seed sweep with a 3-seed value in the caption. This is
+   acceptable if unavoidable, but the table should visually separate single-seed
+   and multi-seed entries to prevent misreading.
+
+5. In Section 5.3.3, the statement that AE-side MSE slows at m approximately
+   16-20 appears to reference Table 6, but Table 6 is a reference-AE sweep rather
+   than a direct AE model-selection table. Consider adding the relevant AE MSE
+   table or clarifying the connection.
+
+6. Figure 3 reports per-seed mknee values despite the paper saying knee
+   detection is not a named output. This is fine as exploratory context, but the
+   figure label may unintentionally re-elevate mknee. Consider moving mknee
+   labels to Appendix B or labeling them explicitly as exploratory.
+
+7. The manuscript mentions supplementary material for review and future
+   GitHub/Zenodo deposition. For submission, include a clear supplementary-file
+   inventory and ensure that scripts reproduce the exact tables.
+
+8. The related-work section is concise but could mention model-selection and
+   latent-dimensionality selection literature beyond ID estimation, including
+   Bayesian nonparametric latent variable models or automatic relevance
+   determination, if relevant.
+
+9. Check MDPI formatting requirements before submission: line numbers, reference
+   style, data-availability wording, and whether "Submitted to Mach. Learn.
+   Knowl. Extr." and placeholder DOI are acceptable in the generated template.
+
+10. Some figures are visually dense in the PDF text extraction, especially
+    Figures 2-5. Before submission, verify that axis labels, legends, and
+    annotations remain readable at journal column width.
+
+Strengths
+---------
+1. The manuscript addresses a practical and under-specified design problem:
+   choosing the bottleneck dimension of AEs/VAEs.
+
+2. The proposed three-step protocol is easy to understand and potentially useful
+   for practitioners.
+
+3. The distinction among d_ID, d_emb, d_hat_ID, AU, and AUsat is conceptually
+   valuable and helps avoid a common conflation between intrinsic dimension and
+   latent usage.
+
+4. The paper is unusually explicit about limitations, including grid sensitivity
+   of knee detection, estimator stability versus validity, and Conv-VAE beta
+   dependence.
+
+5. The synthetic-manifold experiments are well chosen for illustrating why a
+   topological margin may be needed.
+
+Recommended revision priorities
+-------------------------------
+1. Reframe the main claim as a conditional, diagnostic protocol rather than a
+   generally solved selection rule.
+
+2. Add a reproducible AU-verification criterion or explicitly state that Step 3
+   is a qualitative diagnostic with required plots/statistics.
+
+3. Strengthen or better qualify the empirical evidence for Fashion-MNIST,
+   Conv-VAEs, and natural images.
+
+4. Add practical baseline comparisons showing search-cost reduction and
+   retained reconstruction/downstream performance.
+
+5. Clarify all single-seed versus multi-seed evidence in captions and claims.
+
+Conclusion
+----------
+The paper is suitable in topic and style for MAKE, and it contains a useful
+protocol with honest boundary analysis. I would not recommend submission in its
+current form without revision, mainly because the central claims are broader
+than the fully validated evidence and because the AU-verification rule is not
+yet sufficiently operational. With the above revisions, the manuscript could
+become a strong applied-methods contribution.

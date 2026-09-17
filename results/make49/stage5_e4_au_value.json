@@ -1,0 +1,159 @@
+{
+ "_spec": {
+  "bootstrap": 2000,
+  "C": 10.0,
+  "dev": [
+   "MNIST"
+  ],
+  "held_out": [
+   "dSprites",
+   "FashionMNIST",
+   "CIFAR10"
+  ],
+  "base_features": [
+   "D_val",
+   "KL_val",
+   "ELBO_val",
+   "m",
+   "m_over_d",
+   "slope20"
+  ],
+  "au_features": [
+   "AU",
+   "AU_over_m",
+   "AU_over_d"
+  ],
+  "rule": "AU has value only if the lower bound of the CI exceeds 0"
+ },
+ "per_dataset": {
+  "dSprites": {
+   "base": {
+    "auroc": 0.5,
+    "balanced_acc": 0.5,
+    "n_test": 55,
+    "pos_rate_test": 0.2909090909090909
+   },
+   "au": {
+    "auroc": 0.5889423076923077,
+    "balanced_acc": 0.5328525641025641,
+    "n_test": 55,
+    "pos_rate_test": 0.2909090909090909
+   },
+   "delta_auroc": 0.08894230769230771
+  },
+  "FashionMNIST": {
+   "base": {
+    "auroc": 0.984,
+    "balanced_acc": 0.67,
+    "n_test": 55,
+    "pos_rate_test": 0.9090909090909091
+   },
+   "au": {
+    "auroc": 1.0,
+    "balanced_acc": 0.86,
+    "n_test": 55,
+    "pos_rate_test": 0.9090909090909091
+   },
+   "delta_auroc": 0.016000000000000014
+  },
+  "CIFAR10": {
+   "base": {
+    "auroc": 0.5833333333333333,
+    "balanced_acc": 0.5,
+    "n_test": 45,
+    "pos_rate_test": 0.7333333333333333
+   },
+   "au": {
+    "auroc": 0.7916666666666666,
+    "balanced_acc": 0.5833333333333334,
+    "n_test": 45,
+    "pos_rate_test": 0.7333333333333333
+   },
+   "delta_auroc": 0.20833333333333337
+  }
+ },
+ "per_seed_delta": [
+  {
+   "dataset": "dSprites",
+   "seed": 42,
+   "delta": 0.125
+  },
+  {
+   "dataset": "dSprites",
+   "seed": 123,
+   "delta": -0.08333333333333337
+  },
+  {
+   "dataset": "dSprites",
+   "seed": 777,
+   "delta": 0.1428571428571428
+  },
+  {
+   "dataset": "dSprites",
+   "seed": 2024,
+   "delta": 0.1428571428571428
+  },
+  {
+   "dataset": "dSprites",
+   "seed": 31337,
+   "delta": 0.11111111111111116
+  },
+  {
+   "dataset": "FashionMNIST",
+   "seed": 42,
+   "delta": 0.0
+  },
+  {
+   "dataset": "FashionMNIST",
+   "seed": 123,
+   "delta": 0.0
+  },
+  {
+   "dataset": "FashionMNIST",
+   "seed": 777,
+   "delta": 0.09999999999999998
+  },
+  {
+   "dataset": "FashionMNIST",
+   "seed": 2024,
+   "delta": 0.0
+  },
+  {
+   "dataset": "FashionMNIST",
+   "seed": 31337,
+   "delta": 0.0
+  },
+  {
+   "dataset": "CIFAR10",
+   "seed": 42,
+   "delta": 0.16666666666666663
+  },
+  {
+   "dataset": "CIFAR10",
+   "seed": 123,
+   "delta": 0.25
+  },
+  {
+   "dataset": "CIFAR10",
+   "seed": 777,
+   "delta": 0.25
+  },
+  {
+   "dataset": "CIFAR10",
+   "seed": 2024,
+   "delta": 0.25
+  },
+  {
+   "dataset": "CIFAR10",
+   "seed": 31337,
+   "delta": 0.16666666666666663
+  }
+ ],
+ "mean_delta_auroc": 0.10812169312169309,
+ "ci": {
+  "lo": 0.05850661375661374,
+  "median": 0.10994708994708993,
+  "hi": 0.15694642857142846
+ },
+ "verdict": "AU に増分価値あり"
+}

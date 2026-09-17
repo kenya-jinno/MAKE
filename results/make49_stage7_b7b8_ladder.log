@@ -1,0 +1,194 @@
+
+=== MNIST  beta 文脈=0.25  尤度=gaussian  初期容量=64 ===
+  B7_geco_l0   s=42     m=   12 (格子上 12) val_MSE=0.01610   152.8s SUCCESS
+  B8_ard_vae   s=42     m=    6 (格子上 6) val_MSE=0.02163   121.5s SUCCESS
+  B7_geco_l0   s=123    m=   13 (格子上 12) val_MSE=0.01590   154.3s SUCCESS
+  B8_ard_vae   s=123    m=    6 (格子上 6) val_MSE=0.02134   121.3s SUCCESS
+  B7_geco_l0   s=777    m=   13 (格子上 12) val_MSE=0.01494   158.5s SUCCESS
+  B8_ard_vae   s=777    m=    6 (格子上 6) val_MSE=0.02246   109.8s SUCCESS
+  B7_geco_l0   s=2024   m=   10 (格子上 10) val_MSE=0.01618   153.5s SUCCESS
+  B8_ard_vae   s=2024   m=    6 (格子上 6) val_MSE=0.02172   120.3s SUCCESS
+  B7_geco_l0   s=31337  m=   11 (格子上 10) val_MSE=0.01583   169.8s SUCCESS
+  B8_ard_vae   s=31337  m=    6 (格子上 6) val_MSE=0.02169   115.7s SUCCESS
+
+=== MNIST  beta 文脈=0.5  尤度=gaussian  初期容量=64 ===
+  B7_geco_l0   s=42     m=   10 (格子上 10) val_MSE=0.01840   170.9s SUCCESS
+  B8_ard_vae   s=42     m=    6 (格子上 6) val_MSE=0.02171   118.0s SUCCESS
+  B7_geco_l0   s=123    m=   10 (格子上 10) val_MSE=0.01766   152.1s SUCCESS
+  B8_ard_vae   s=123    m=    6 (格子上 6) val_MSE=0.02165   124.4s SUCCESS
+  B7_geco_l0   s=777    m=    9 (格子上 8) val_MSE=0.01842   162.0s SUCCESS
+  B8_ard_vae   s=777    m=    6 (格子上 6) val_MSE=0.02171   126.5s SUCCESS
+  B7_geco_l0   s=2024   m=    9 (格子上 8) val_MSE=0.01909   152.8s SUCCESS
+  B8_ard_vae   s=2024   m=    6 (格子上 6) val_MSE=0.02190   121.8s SUCCESS
+  B7_geco_l0   s=31337  m=    9 (格子上 8) val_MSE=0.02011   155.1s SUCCESS
+  B8_ard_vae   s=31337  m=    6 (格子上 6) val_MSE=0.02157   117.4s SUCCESS
+
+=== MNIST  beta 文脈=2.0  尤度=gaussian  初期容量=64 ===
+  B7_geco_l0   s=42     m=    6 (格子上 6) val_MSE=0.02579   203.6s SUCCESS
+  B8_ard_vae   s=42     m=    6 (格子上 6) val_MSE=0.02579   166.6s SUCCESS
+  B7_geco_l0   s=123    m=    5 (格子上 4) val_MSE=0.02926   159.2s SUCCESS
+  B8_ard_vae   s=123    m=    6 (格子上 6) val_MSE=0.02656   171.9s SUCCESS
+  B7_geco_l0   s=777    m=    6 (格子上 6) val_MSE=0.02680   186.4s SUCCESS
+  B8_ard_vae   s=777    m=    6 (格子上 6) val_MSE=0.02680   150.4s SUCCESS
+  B7_geco_l0   s=2024   m=    5 (格子上 4) val_MSE=0.02842   188.8s SUCCESS
+  B8_ard_vae   s=2024   m=    6 (格子上 6) val_MSE=0.02632   170.2s SUCCESS
+  B7_geco_l0   s=31337  m=    6 (格子上 6) val_MSE=0.02632   183.7s SUCCESS
+  B8_ard_vae   s=31337  m=    6 (格子上 6) val_MSE=0.02632   143.3s SUCCESS
+
+=== MNIST  beta 文脈=4.0  尤度=gaussian  初期容量=64 ===
+  B7_geco_l0   s=42     m=    3 (格子上 2) val_MSE=0.04668   216.2s SUCCESS
+  B8_ard_vae   s=42     m=    6 (格子上 6) val_MSE=0.03838   150.0s SUCCESS
+  B7_geco_l0   s=123    m=    3 (格子上 2) val_MSE=0.04675   220.0s SUCCESS
+  B8_ard_vae   s=123    m=    6 (格子上 6) val_MSE=0.03799   142.4s SUCCESS
+  B7_geco_l0   s=777    m=    3 (格子上 2) val_MSE=0.05088   219.2s SUCCESS
+  B8_ard_vae   s=777    m=    6 (格子上 6) val_MSE=0.03545   179.8s SUCCESS
+  B7_geco_l0   s=2024   m=    3 (格子上 2) val_MSE=0.04072   215.1s SUCCESS
+  B8_ard_vae   s=2024   m=    6 (格子上 6) val_MSE=0.03777   180.0s SUCCESS
+  B7_geco_l0   s=31337  m=    3 (格子上 2) val_MSE=0.05086   218.5s SUCCESS
+  B8_ard_vae   s=31337  m=    6 (格子上 6) val_MSE=0.03868   159.7s SUCCESS
+
+=== FashionMNIST  beta 文脈=0.25  尤度=gaussian  初期容量=64 ===
+  B7_geco_l0   s=42     m=    5 (格子上 4) val_MSE=0.01910   150.9s SUCCESS
+  B8_ard_vae   s=42     m=    4 (格子上 4) val_MSE=0.01910   112.5s SUCCESS
+  B7_geco_l0   s=123    m=    6 (格子上 6) val_MSE=0.01652   150.8s SUCCESS
+  B8_ard_vae   s=123    m=    4 (格子上 4) val_MSE=0.01996   101.9s SUCCESS
+  B7_geco_l0   s=777    m=    6 (格子上 6) val_MSE=0.01599   155.7s SUCCESS
+  B8_ard_vae   s=777    m=    3 (格子上 2) val_MSE=0.02600   114.7s SUCCESS
+  B7_geco_l0   s=2024   m=    6 (格子上 6) val_MSE=0.01644   145.6s SUCCESS
+  B8_ard_vae   s=2024   m=    4 (格子上 4) val_MSE=0.01903   109.9s SUCCESS
+  B7_geco_l0   s=31337  m=    6 (格子上 6) val_MSE=0.01624   148.8s SUCCESS
+  B8_ard_vae   s=31337  m=    4 (格子上 4) val_MSE=0.01874   125.9s SUCCESS
+
+=== FashionMNIST  beta 文脈=0.5  尤度=gaussian  初期容量=64 ===
+  B7_geco_l0   s=42     m=    5 (格子上 4) val_MSE=0.01889   152.2s SUCCESS
+  B8_ard_vae   s=42     m=    4 (格子上 4) val_MSE=0.01889   117.5s SUCCESS
+  B7_geco_l0   s=123    m=    6 (格子上 6) val_MSE=0.01896   156.0s SUCCESS
+  B8_ard_vae   s=123    m=    4 (格子上 4) val_MSE=0.01898   120.8s SUCCESS
+  B7_geco_l0   s=777    m=    5 (格子上 4) val_MSE=0.01944   146.6s SUCCESS
+  B8_ard_vae   s=777    m=    3 (格子上 2) val_MSE=0.02505   145.0s SUCCESS
+  B7_geco_l0   s=2024   m=    5 (格子上 4) val_MSE=0.01952   141.0s SUCCESS
+  B8_ard_vae   s=2024   m=    4 (格子上 4) val_MSE=0.01952   107.2s SUCCESS
+  B7_geco_l0   s=31337  m=    5 (格子上 4) val_MSE=0.01875   160.8s SUCCESS
+  B8_ard_vae   s=31337  m=    4 (格子上 4) val_MSE=0.01875   124.3s SUCCESS
+
+=== FashionMNIST  beta 文脈=2.0  尤度=gaussian  初期容量=64 ===
+  B7_geco_l0   s=42     m=    5 (格子上 4) val_MSE=0.02200   169.6s SUCCESS
+  B8_ard_vae   s=42     m=    4 (格子上 4) val_MSE=0.02200   131.4s SUCCESS
+  B7_geco_l0   s=123    m=    4 (格子上 4) val_MSE=0.02246   165.9s SUCCESS
+  B8_ard_vae   s=123    m=    4 (格子上 4) val_MSE=0.02246   126.2s SUCCESS
+  B7_geco_l0   s=777    m=    3 (格子上 2) val_MSE=0.02628   181.5s SUCCESS
+  B8_ard_vae   s=777    m=    3 (格子上 2) val_MSE=0.02628   143.3s SUCCESS
+  B7_geco_l0   s=2024   m=    4 (格子上 4) val_MSE=0.02165   180.1s SUCCESS
+  B8_ard_vae   s=2024   m=    4 (格子上 4) val_MSE=0.02165   143.3s SUCCESS
+  B7_geco_l0   s=31337  m=    4 (格子上 4) val_MSE=0.02236   165.4s SUCCESS
+  B8_ard_vae   s=31337  m=    4 (格子上 4) val_MSE=0.02236   132.5s SUCCESS
+
+=== FashionMNIST  beta 文脈=4.0  尤度=gaussian  初期容量=64 ===
+  B7_geco_l0   s=42     m=    5 (格子上 4) val_MSE=0.02524   180.8s SUCCESS
+  B8_ard_vae   s=42     m=    4 (格子上 4) val_MSE=0.02524   140.6s SUCCESS
+  B7_geco_l0   s=123    m=    4 (格子上 4) val_MSE=0.02559   175.4s SUCCESS
+  B8_ard_vae   s=123    m=    4 (格子上 4) val_MSE=0.02559   137.6s SUCCESS
+  B7_geco_l0   s=777    m=    3 (格子上 2) val_MSE=0.02800   189.2s SUCCESS
+  B8_ard_vae   s=777    m=    3 (格子上 2) val_MSE=0.02800   152.4s SUCCESS
+  B7_geco_l0   s=2024   m=    4 (格子上 4) val_MSE=0.02500   174.6s SUCCESS
+  B8_ard_vae   s=2024   m=    4 (格子上 4) val_MSE=0.02500   137.6s SUCCESS
+  B7_geco_l0   s=31337  m=    3 (格子上 2) val_MSE=0.02809   175.5s SUCCESS
+  B8_ard_vae   s=31337  m=    4 (格子上 4) val_MSE=0.02516   128.1s SUCCESS
+
+=== dSprites  beta 文脈=0.25  尤度=bernoulli  初期容量=64 ===
+  B7_geco_l0   s=42     m=   64 (格子上 64) val_MSE=0.00103   621.9s SUCCESS
+  B8_ard_vae   s=42     m=    9 (格子上 8) val_MSE=0.00179   674.3s SUCCESS
+  B7_geco_l0   s=123    m=   64 (格子上 64) val_MSE=0.00102   583.6s SUCCESS
+  B8_ard_vae   s=123    m=   10 (格子上 10) val_MSE=0.00150   617.0s SUCCESS
+  B7_geco_l0   s=777    m=   64 (格子上 64) val_MSE=0.00103   571.2s SUCCESS
+  B8_ard_vae   s=777    m=    7 (格子上 6) val_MSE=0.00273   509.8s SUCCESS
+  B7_geco_l0   s=2024   m=   64 (格子上 64) val_MSE=0.00104   523.4s SUCCESS
+  B8_ard_vae   s=2024   m=   11 (格子上 10) val_MSE=0.00149   597.4s SUCCESS
+  B7_geco_l0   s=31337  m=   64 (格子上 64) val_MSE=0.00096   598.6s SUCCESS
+  B8_ard_vae   s=31337  m=    9 (格子上 8) val_MSE=0.00178   592.1s SUCCESS
+
+=== dSprites  beta 文脈=0.5  尤度=bernoulli  初期容量=64 ===
+  B7_geco_l0   s=42     m=   64 (格子上 64) val_MSE=0.00102   586.3s SUCCESS
+  B8_ard_vae   s=42     m=    9 (格子上 8) val_MSE=0.00190   443.8s SUCCESS
+  B7_geco_l0   s=123    m=   64 (格子上 64) val_MSE=0.00102   609.4s SUCCESS
+  B8_ard_vae   s=123    m=   10 (格子上 10) val_MSE=0.00134   468.1s SUCCESS
+  B7_geco_l0   s=777    m=   64 (格子上 64) val_MSE=0.00105   579.5s SUCCESS
+  B8_ard_vae   s=777    m=    7 (格子上 6) val_MSE=0.00294   478.9s SUCCESS
+  B7_geco_l0   s=2024   m=   64 (格子上 64) val_MSE=0.00109   595.0s SUCCESS
+  B8_ard_vae   s=2024   m=   11 (格子上 10) val_MSE=0.00157   450.5s SUCCESS
+  B7_geco_l0   s=31337  m=   64 (格子上 64) val_MSE=0.00102   563.4s SUCCESS
+  B8_ard_vae   s=31337  m=    9 (格子上 8) val_MSE=0.00173   452.6s SUCCESS
+
+=== dSprites  beta 文脈=2.0  尤度=bernoulli  初期容量=64 ===
+  B7_geco_l0   s=42     m=   64 (格子上 64) val_MSE=0.00144   685.0s SUCCESS
+  B8_ard_vae   s=42     m=    9 (格子上 8) val_MSE=0.00200   565.4s SUCCESS
+  B7_geco_l0   s=123    m=   64 (格子上 64) val_MSE=0.00150   648.8s SUCCESS
+  B8_ard_vae   s=123    m=   10 (格子上 10) val_MSE=0.00163   524.2s SUCCESS
+  B7_geco_l0   s=777    m=   64 (格子上 64) val_MSE=0.00147   625.3s SUCCESS
+  B8_ard_vae   s=777    m=    7 (格子上 6) val_MSE=0.00281   534.7s SUCCESS
+  B7_geco_l0   s=2024   m=   64 (格子上 64) val_MSE=0.00146   684.9s SUCCESS
+  B8_ard_vae   s=2024   m=   11 (格子上 10) val_MSE=0.00164   603.6s SUCCESS
+  B7_geco_l0   s=31337  m=   64 (格子上 64) val_MSE=0.00140   684.1s SUCCESS
+  B8_ard_vae   s=31337  m=    9 (格子上 8) val_MSE=0.00181   610.8s SUCCESS
+
+=== dSprites  beta 文脈=4.0  尤度=bernoulli  初期容量=64 ===
+  B7_geco_l0   s=42     m=   64 (格子上 64) val_MSE=0.00207   684.4s SUCCESS
+  B8_ard_vae   s=42     m=    9 (格子上 8) val_MSE=0.00251   619.2s SUCCESS
+  B7_geco_l0   s=123    m=   64 (格子上 64) val_MSE=0.00215   684.5s SUCCESS
+  B8_ard_vae   s=123    m=   10 (格子上 10) val_MSE=0.00217   619.7s SUCCESS
+  B7_geco_l0   s=777    m=   64 (格子上 64) val_MSE=0.00209   685.3s SUCCESS
+  B8_ard_vae   s=777    m=    7 (格子上 6) val_MSE=0.00290   619.9s SUCCESS
+  B7_geco_l0   s=2024   m=   64 (格子上 64) val_MSE=0.00220   685.0s SUCCESS
+  B8_ard_vae   s=2024   m=   11 (格子上 10) val_MSE=0.00223   620.1s SUCCESS
+  B7_geco_l0   s=31337  m=   64 (格子上 64) val_MSE=0.00221   683.9s SUCCESS
+  B8_ard_vae   s=31337  m=    9 (格子上 8) val_MSE=0.00205   619.5s SUCCESS
+
+=== CIFAR10  beta 文脈=0.25  尤度=gaussian  初期容量=256 ===
+  B7_geco_l0   s=42     m=   35 (格子上 32) val_MSE=0.01195   226.9s SUCCESS
+  B8_ard_vae   s=42     m=   14 (格子上 16) val_MSE=0.01662   177.5s SUCCESS
+  B7_geco_l0   s=123    m=   45 (格子上 48) val_MSE=0.00997   242.0s SUCCESS
+  B8_ard_vae   s=123    m=   14 (格子上 16) val_MSE=0.01656   172.3s SUCCESS
+  B7_geco_l0   s=777    m=   42 (格子上 48) val_MSE=0.00986   253.4s SUCCESS
+  B8_ard_vae   s=777    m=   15 (格子上 16) val_MSE=0.01657   173.5s SUCCESS
+  B7_geco_l0   s=2024   m=   49 (格子上 48) val_MSE=0.01066   217.0s SUCCESS
+  B8_ard_vae   s=2024   m=   14 (格子上 16) val_MSE=0.01653   174.1s SUCCESS
+  B7_geco_l0   s=31337  m=   42 (格子上 48) val_MSE=0.01013   219.1s SUCCESS
+  B8_ard_vae   s=31337  m=   14 (格子上 16) val_MSE=0.01662   171.6s SUCCESS
+
+=== CIFAR10  beta 文脈=0.5  尤度=gaussian  初期容量=256 ===
+  B7_geco_l0   s=42     m=   31 (格子上 32) val_MSE=0.01243   224.7s SUCCESS
+  B8_ard_vae   s=42     m=   14 (格子上 16) val_MSE=0.01670   177.6s SUCCESS
+  B7_geco_l0   s=123    m=   30 (格子上 32) val_MSE=0.01275   219.6s SUCCESS
+  B8_ard_vae   s=123    m=   14 (格子上 16) val_MSE=0.01675   171.8s SUCCESS
+  B7_geco_l0   s=777    m=   30 (格子上 32) val_MSE=0.01275   220.0s SUCCESS
+  B8_ard_vae   s=777    m=   15 (格子上 16) val_MSE=0.01673   170.4s SUCCESS
+  B7_geco_l0   s=2024   m=   31 (格子上 32) val_MSE=0.01242   231.2s SUCCESS
+  B8_ard_vae   s=2024   m=   14 (格子上 16) val_MSE=0.01673   168.9s SUCCESS
+  B7_geco_l0   s=31337  m=   32 (格子上 32) val_MSE=0.01247   236.0s SUCCESS
+  B8_ard_vae   s=31337  m=   14 (格子上 16) val_MSE=0.01684   169.6s SUCCESS
+
+=== CIFAR10  beta 文脈=2.0  尤度=gaussian  初期容量=256 ===
+  B7_geco_l0   s=42     m=   13 (格子上 16) val_MSE=0.01824   237.9s SUCCESS
+  B8_ard_vae   s=42     m=   14 (格子上 16) val_MSE=0.01824   189.3s SUCCESS
+  B7_geco_l0   s=123    m=   14 (格子上 16) val_MSE=0.01837   232.0s SUCCESS
+  B8_ard_vae   s=123    m=   14 (格子上 16) val_MSE=0.01837   181.6s SUCCESS
+  B7_geco_l0   s=777    m=   13 (格子上 16) val_MSE=0.01845   221.1s SUCCESS
+  B8_ard_vae   s=777    m=   15 (格子上 16) val_MSE=0.01845   171.5s SUCCESS
+  B7_geco_l0   s=2024   m=   14 (格子上 16) val_MSE=0.01830   234.5s SUCCESS
+  B8_ard_vae   s=2024   m=   14 (格子上 16) val_MSE=0.01830   184.6s SUCCESS
+  B7_geco_l0   s=31337  m=   13 (格子上 16) val_MSE=0.01826   230.9s SUCCESS
+  B8_ard_vae   s=31337  m=   14 (格子上 16) val_MSE=0.01826   180.6s SUCCESS
+
+=== CIFAR10  beta 文脈=4.0  尤度=gaussian  初期容量=256 ===
+  B7_geco_l0   s=42     m=    8 (格子上 8) val_MSE=0.02365   232.4s SUCCESS
+  B8_ard_vae   s=42     m=   14 (格子上 16) val_MSE=0.02202   204.9s SUCCESS
+  B7_geco_l0   s=123    m=    8 (格子上 8) val_MSE=0.02386   246.6s SUCCESS
+  B8_ard_vae   s=123    m=   14 (格子上 16) val_MSE=0.02211   186.1s SUCCESS
+  B7_geco_l0   s=777    m=    9 (格子上 8) val_MSE=0.02365   230.3s SUCCESS
+  B8_ard_vae   s=777    m=   15 (格子上 16) val_MSE=0.02216   178.1s SUCCESS
+  B7_geco_l0   s=2024   m=    8 (格子上 8) val_MSE=0.02355   256.4s SUCCESS
+  B8_ard_vae   s=2024   m=   14 (格子上 16) val_MSE=0.02205   191.0s SUCCESS
+  B7_geco_l0   s=31337  m=    9 (格子上 8) val_MSE=0.02374   239.6s SUCCESS
+  B8_ard_vae   s=31337  m=   14 (格子上 16) val_MSE=0.02193   198.8s SUCCESS
+
+完了: 200 件 -> results/make49/stage7_b7b8.json

@@ -1,0 +1,44 @@
+================================================================
+main_paper_MAKE32.pdf 内部査読レポート（2026-07-07）
+査読者: Claude Code（自動精読査読，全47ページ）
+対象: main_paper_MAKE32.tex / main_paper_MAKE32.pdf
+（main_paper_NN32 の 1:1 英訳；MDPI MAKE 形式，Definitions/mdpi.cls）
+================================================================
+
+■ 総評
+NN32 の内容・構成を忠実に反映した英語版であることを全ページ照合で確認。
+NN32 で行った全修正（表4 の 3シード値更新，表1 記号表の自己参照削除，
+密グリッド間隔 1–16，式 λ→γ 改名，二階差分の参照修正，κ ≈ 10²–10⁷，
+表30 明示参照，§5.2.4 実験間非比較注記，実験名の内容説明付与ほか）が
+対応箇所に正しく移植されている。MDPI 必須の後付（Author Contributions /
+Funding / Data Availability / Conflicts of Interest / Abbreviations）と
+付録 A–G，参考文献 27 件（MDPI 書式）も整っている。文字化け図6枚は
+共通の図ファイル再生成により英語版でも解消済み。
+
+■ 本査読ラウンドでの指摘と対応（全て修正・確認済み）
+M-1. 表2（p.6）の脚注が表右側に流れ込み「† TwoNN ID is」が分断表示
+     される組版不良。
+     → 対処: 列幅を 3.2/3.0/3.8/3.8cm に縮小し，tabular 直後に \par を
+       挿入。再コンパイル後，脚注が表下に正しく配置されることを確認。
+M-2. 図2キャプション「Detailed tables in Appendix D.」の付録参照誤り
+     （TwoNN 詳細表は Appendix E）。ハードコードされた文字が原因。
+     → 対処: Appendix~\ref{app:twonn_detail} に変更（NN32 側の同一
+       バグも \ref{app:twonn_detail}＝「付録E」に修正）。
+M-3. 定理1 第2項の数式行はみ出し（13.1pt）および序文の 5pt はみ出し。
+     → 対処: 文構造の並べ替えで解消（13.1pt→0）。残存する overfull は
+       全て 5pt（約1.8mm）以下で視認不可レベル（4箇所）。
+
+■ 確認済みで問題なしと判断した点（記録）
+- 全表（Table 1–25, A1–A7）の数値が NN32 と一致
+- 全式番号・定理/命題番号・相互参照・引用番号の解決（未解決参照 0）
+- 図1–14・Figure A1 の文字化けなし（再生成図を含む）
+- Appendix 参照が mdpi.cls の英語形式（Appendix~\ref）で統一
+- Abstract / Keywords / 後付 / thebibliography の MDPI 書式
+- 用語の対訳一貫性（effective latent dimensionality, AU slowdown
+  point m^knee, auxiliary reference estimator, rate–distortion
+  surrogate 等）
+- pdflatex ×3 でエラー0，47ページ生成
+
+■ 結論
+指摘事項は全て修正済みであり，現時点で修正すべき点は残っていない。
+================================================================

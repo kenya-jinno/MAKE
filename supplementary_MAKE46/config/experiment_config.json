@@ -1,0 +1,36 @@
+{
+  "_comment": "Fixed configuration shared by all experiments (see paper Section 5.1). Per-experiment overrides are stated in the corresponding script under code/src/experiments/.",
+  "seeds": {
+    "single_seed_sweeps": 42,
+    "multi_seed_verification": [42, 123, 777],
+    "synthetic_manifolds": "3-5 seeds as stated per experiment (42, 123, 777, +2 where applicable)"
+  },
+  "data_subset_indices": {
+    "_comment": "Fixed-order subsets: the first n samples of the official torchvision splits.",
+    "mnist": {"train": "range(0, 20000)", "test": "range(0, 3000)"},
+    "fashion_mnist": {"train": "range(0, 20000)", "test": "range(0, 3000)"},
+    "synthetic": {"n_total": 5000, "train": "range(0, 4000)", "test": "range(4000, 5000)"}
+  },
+  "optimizer": {"name": "Adam", "lr": 0.001, "beta1": 0.9, "beta2": 0.999, "weight_decay": 0.0},
+  "batch_size": 128,
+  "activations": {"hidden": "ReLU", "output": "Sigmoid"},
+  "preprocessing": {
+    "images": "[0,1] pixel normalization only",
+    "synthetic": "zero-mean, unit-variance standardization"
+  },
+  "architectures": {
+    "synthetic_ae_vae": {"hidden_layers": [64, 32], "epochs": "200-300", "beta": 4.0},
+    "mnist_fashion_fc": {"input_dim": 784, "hidden_layers": [512, 256], "epochs": 300, "beta": 4.0,
+      "m_grid": [1, 2, 4, 8, 12, 16, 20, 32, 64, 128, 256]},
+    "conv_vae": {"layers": "2 Conv + 2 ConvTranspose (3 Conv for CIFAR-10/SVHN)", "epochs": 150,
+      "kl_annealing": "cyclical, 3 cycles; beta rises linearly 0->beta_max over first half of each cycle, held at beta_max over second half",
+      "beta_max": [4, 10, 20]}
+  },
+  "id_estimation": {
+    "twonn_k": 2,
+    "mle_k": 10,
+    "mle_k_stability_checked": [5, 10, 20],
+    "au_threshold_delta": 0.01,
+    "cka_subsample": 1000
+  }
+}

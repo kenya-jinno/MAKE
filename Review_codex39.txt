@@ -1,0 +1,104 @@
+Review of main_paper_MAKE39.pdf
+Target journal: MDPI Machine Learning and Knowledge Extraction (MAKE)
+Reviewer: Codex
+Date: 2026-07-09
+
+Overall recommendation: accept with minor corrections
+
+Summary
+-------
+Revision 39 adequately addresses the four minor comments and four
+typographical/presentation items from Review_codex38.txt. The remaining
+scientific claims are now consistently qualified: MNIST is the fully
+validated real-data case, Fashion-MNIST Step 3 is explicitly preliminary,
+single-seed exploratory observations are labeled as such, the MNIST
+TwoNN/MLE convention is stated, and the natural-image and threshold
+statements have been narrowed.
+
+I find no new major methodological problem. The manuscript is suitable for
+publication after minor editorial corrections, mainly MDPI production
+placeholders and one residual local wording issue about Fashion-MNIST in
+the experiment overview.
+
+Assessment of previous review responses
+---------------------------------------
+Minor comment 1 from Review_codex38, on the contradictory Fashion-MNIST
+sentence, has been addressed. Section 4.3.6 now states: "Step 1 is thus
+multi-seed for Fashion-MNIST; the VAE-side AU verification (Step 3), by
+contrast, remains a single-seed preliminary observation..." This removes
+the previous contradiction.
+
+Minor comment 2, on the global multi-seed sentence in Section 4.1, has
+been addressed. Section 4 now says: "All main-text VAE verification results
+used for the principal verdicts are multi-seed experiments..." and then
+separately identifies the strengthened-beta Conv-VAE runs and
+Fashion-MNIST Step 3 as single-seed exploratory observations.
+
+Minor comment 3, on the MNIST search-window convention, has been addressed.
+Section 4.3.3 now distinguishes the AE search window from the VAE
+verification rule: "AE window shown as the TwoNN--MLE envelope; VAE
+m_ver follows the primary TwoNN rule." Section 4.3.4 then applies
+m_ver = 20 from the primary TwoNN estimate and also verifies the
+MLE-shifted point m = 32.
+
+Minor comment 4, on the MNIST "full protocol" contribution statement, has
+been addressed. Section 1.2 no longer implies that the Step-1 reference-AE
+sweep itself is multi-seed. It says MNIST AU verification is multi-seed,
+while Step-1 stability is supported by subsampling confidence intervals,
+estimator cross-checks, and the 3-seed reference-model comparison.
+
+Typographical/presentation item 1, on MDPI production placeholders, remains
+as a final production matter. The source still contains article number 0,
+empty received/revised/accepted/published fields, commented ORCID
+placeholders, and a pending repository URL/DOI. This is acceptable at
+review stage but must be completed before publication.
+
+Typographical/presentation item 2, on the V2 threshold-invariance range,
+has been addressed. Section 3.2.3 now states that the displayed V2 ranges
+are rounded conservatively and gives the computed mean-verdict lower edge
+as 2.24, consistent with Exp_AU_Rule.json.
+
+Typographical/presentation item 3, on the natural-image table caption, has
+been addressed. The Table 11 caption now says: "For CIFAR-10, Step 1
+agrees with Pope et al. only near m approximately 2 d_hat_ID..." and
+separately notes the larger SVHN discrepancy.
+
+Typographical/presentation item 4, on shortening the abstract, has been
+sufficiently addressed. The abstract remains dense, but it is more focused
+and no longer overstates the boundary-case evidence.
+
+Major comments
+--------------
+1. No remaining major methodological objection.
+
+The manuscript now consistently frames the protocol as conditional and
+diagnostic, and the evidence hierarchy is clear.
+
+Minor comments
+--------------
+1. Slightly refine the experiment-overview wording for Fashion-MNIST.
+
+Section 4 says the real-data validation asks whether "the full protocol
+work[s] on MNIST and Fashion-MNIST." The detailed text later correctly
+states that Fashion-MNIST has multi-seed Step 1 only and single-seed
+preliminary Step 3. To avoid a last possible over-reading, change this
+overview phrase to "does the protocol work on MNIST, and what evidence is
+available for Fashion-MNIST..."
+
+2. Keep the production-data statement aligned with the final repository.
+
+The Data Availability section says the repository URL and DOI will be added
+"upon acceptance." This is acceptable now, but the final version should
+contain the actual GitHub/Zenodo link and DOI.
+
+Typographical and presentation issues
+-------------------------------------
+1. MDPI production placeholders remain: `\articlenumber{0}`, blank
+`\datereceived`, `\daterevised`, `\dateaccepted`, and `\datepublished`
+fields, and commented ORCID placeholders. These should be completed before
+final publication.
+
+2. No broken or misleading cross-reference was found in the checked source
+locations. I did not recompile the manuscript because the review environment
+is read-only; the supplied PDF reports 27 pages and appears to correspond
+to the revision-39 source.

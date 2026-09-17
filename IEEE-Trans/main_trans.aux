@@ -1,0 +1,203 @@
+\relax 
+\citation{fefferman2016manifold,bengio2013representation}
+\citation{facco2017twonn}
+\citation{levina2005mle}
+\citation{hatcher2002algebraic}
+\citation{hatcher2002algebraic,guillemin1974differential}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{}\protected@file@percent }
+\newlabel{sec:intro}{{I}{1}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-A}}Research Aim}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-B}}Two Notions of Dimension}{1}{}\protected@file@percent }
+\newlabel{sec:intro_dim}{{\mbox  {I-B}}{1}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-C}}Research Questions}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-D}}Contributions}{1}{}\protected@file@percent }
+\citation{facco2017twonn}
+\citation{levina2005mle}
+\citation{ceruti2014danco}
+\citation{pope2021intrinsic}
+\citation{ansuini2019intrinsic}
+\citation{birdal2021intrinsic}
+\citation{valeriani2023geometry}
+\citation{facco2017twonn}
+\citation{hatcher2002algebraic}
+\citation{hatcher2002algebraic,guillemin1974differential}
+\citation{higgins2017betavae}
+\citation{lucas2019elbo}
+\citation{nazari2023geometric}
+\citation{kato2020rdae}
+\citation{rifai2011cae}
+\citation{alain2014dae}
+\@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{2}{}\protected@file@percent }
+\newlabel{sec:related}{{II}{2}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Intrinsic Dimension Estimation}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}VAE Gaussian Prior and Topological Embedding}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}AE Bottleneck Dimension and Representation Quality}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}Proposed Framework}{2}{}\protected@file@percent }
+\newlabel{sec:framework}{{III}{2}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Notation Summary}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Two-Stage Pipeline}{2}{}\protected@file@percent }
+\newlabel{rem:grid_resolution}{{1}{2}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Optimal Bottleneck Dimension}{2}{}\protected@file@percent }
+\newlabel{eq:au_rate}{{1}{2}{}{}{}}
+\newlabel{eq:dzopt}{{2}{2}{}{}{}}
+\citation{facco2017twonn}
+\citation{levina2005mle}
+\citation{lucas2019elbo}
+\citation{kornblith2019cka}
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Key Notation}}{3}{}\protected@file@percent }
+\newlabel{tab:notation}{{I}{3}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Proposed two-stage pipeline for bottleneck dimension design. Stage~1 trains a reference AE to estimate $\hat  {d}_\mathrm  {ID}$ via TwoNN/MLE. Stage~2 sweeps a VAE over a grid, classifies the AU pattern as saturation-type or gradual-type, and selects $m^*$ using CKA and MSE as auxiliary criteria.}}{3}{}\protected@file@percent }
+\newlabel{fig:framework_flow}{{1}{3}{}{}{}}
+\newlabel{eq:dzopt_sat}{{3}{3}{}{}{}}
+\newlabel{eq:dzopt_knee}{{4}{3}{}{}{}}
+\newlabel{eq:dzopt_cka}{{5}{3}{}{}{}}
+\newlabel{eq:dzopt_cka_knee}{{6}{3}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Evaluation Metrics}{3}{}\protected@file@percent }
+\newlabel{eq:au}{{9}{3}{}{}{}}
+\newlabel{eq:cka}{{10}{3}{}{}{}}
+\citation{alain2014dae}
+\citation{lucas2019elbo}
+\newlabel{eq:elbow}{{11}{4}{}{}{}}
+\newlabel{eq:elbow_def}{{12}{4}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Theoretical Background}{4}{}\protected@file@percent }
+\newlabel{sec:theory}{{IV}{4}{}{}{}}
+\newlabel{thm:lower_bound}{{1}{4}{}{}{}}
+\newlabel{thm:rank}{{1}{4}{}{}{}}
+\newlabel{thm:pullback}{{2}{4}{}{}{}}
+\newlabel{thm:nsr}{{2}{4}{}{}{}}
+\newlabel{thm:au}{{3}{4}{}{}{}}
+\newlabel{thm:trust}{{4}{4}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Experiments}{4}{}\protected@file@percent }
+\newlabel{sec:exp}{{V}{4}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Experimental Setup}{4}{}\protected@file@percent }
+\newlabel{sec:exp_setup}{{\mbox  {V-A}}{4}{}{}{}}
+\citation{facco2017twonn}
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Theorem--Experiment Correspondence}}{5}{}\protected@file@percent }
+\newlabel{tab:theorem_exp}{{II}{5}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Common Hyperparameters}}{5}{}\protected@file@percent }
+\newlabel{tab:common_hp}{{III}{5}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Synthetic Manifold AE/VAE Hyperparameters}}{5}{}\protected@file@percent }
+\newlabel{tab:synthetic_hp}{{IV}{5}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces MNIST AE/VAE Hyperparameters}}{5}{}\protected@file@percent }
+\newlabel{tab:mnist_hp}{{V}{5}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}ID Estimation and Optimal Bottleneck on Synthetic Manifolds (RQ1)}{5}{}\protected@file@percent }
+\newlabel{sec:exp_synthetic}{{\mbox  {V-B}}{5}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces E1: MSE vs.\ $m$ (3-seed mean$\pm $std, log scale). Swiss Roll (solid, $\bullet $): sharp drop at $m=2=d_{\mathrm  {true}}$. Torus (dashed, $\blacktriangle $): effective elbow at $m=3$.}}{5}{}\protected@file@percent }
+\newlabel{fig:e1_mse}{{2}{5}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}1}Reconstruction Error Elbow Analysis (Experiment E1)}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}2}Decoder Jacobian Analysis (Experiment E2)}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}3}Noise Selectivity (Experiment E3)}{5}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces Research Questions and Experiment Mapping}}{6}{}\protected@file@percent }
+\newlabel{tab:rq_exp_map}{{VI}{6}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VII}{\ignorespaces AU Threshold Sensitivity (VAE $\beta =4$): AU values are completely robust to threshold choice}}{6}{}\protected@file@percent }
+\newlabel{tab:delta_sensitivity}{{VII}{6}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces E1: Swiss Roll ($d_{\mathrm  {true}}= 2$), 3-seed mean $\pm $ std}}{6}{}\protected@file@percent }
+\newlabel{tab:e1_swissroll}{{VIII}{6}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {IX}{\ignorespaces E1: Torus ($d_{\mathrm  {true}}= 2$), 3-seed mean $\pm $ std. Bold row ($m=3$) is the effective elbow.}}{6}{}\protected@file@percent }
+\newlabel{tab:e1_torus}{{IX}{6}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {X}{\ignorespaces E2: Decoder Jacobian Analysis}}{6}{}\protected@file@percent }
+\newlabel{tab:e2}{{X}{6}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XI}{\ignorespaces E3: NSR Analysis (Swiss Roll, $\sigma =0.1$)}}{6}{}\protected@file@percent }
+\newlabel{tab:e3}{{XI}{6}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XII}{\ignorespaces E5: Trustworthiness vs.\ $m$ (3-seed mean$\pm $std, $k=10$)}}{6}{}\protected@file@percent }
+\newlabel{tab:e5}{{XII}{6}{}{}{}}
+\newlabel{sec:exp_e5}{{\mbox  {V-B}4}{6}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}4}Trustworthiness vs.\ Bottleneck Dimension (Experiment E5)}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Information Bottleneck and Topological Embedding (RQ2, RQ3)}{6}{}\protected@file@percent }
+\newlabel{sec:exp_topology}{{\mbox  {V-C}}{6}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces E5: Trustworthiness vs.\ $m$ (3-seed mean$\pm $std). Swiss Roll (left): sharp improvement at $m=2$. Torus (right): sharp improvement at $m=3=d_{\mathrm  {emb}}$.}}{7}{}\protected@file@percent }
+\newlabel{fig:e5}{{3}{7}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XIII}{\ignorespaces EA: Swiss Roll VAE AU vs.\ $m$ (3-seed mean$\pm $std, $\beta =4$)}}{7}{}\protected@file@percent }
+\newlabel{tab:ea}{{XIII}{7}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XIV}{\ignorespaces EA: Torus VAE AU vs.\ $m$ (3-seed mean$\pm $std, $\beta =4$)}}{7}{}\protected@file@percent }
+\newlabel{tab:ea_torus}{{XIV}{7}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XV}{\ignorespaces EB: Topological AU Experiment (VAE $\beta =4$, standardized inputs). \text  {$\mathsurround \z@ \mathchar "458$}: $\mathrm  {AU}_{\mathrm  {sat}}=$ topological embedding dim. (main result). $\times $: exception (preprocessing-dependent). $\triangle $: conditional.}}{7}{}\protected@file@percent }
+\newlabel{tab:eb}{{XV}{7}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-C}1}AU Saturation via Information Bottleneck (Experiment EA)}{7}{}\protected@file@percent }
+\newlabel{sec:exp_eb}{{\mbox  {V-C}2}{7}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-C}2}Topological Constraints and AU Saturation (Experiment EB)}{7}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces EA: AU vs.\ $m$ for Swiss Roll (AE vs.\ VAE). Only VAE exhibits AU saturation at $d_{\mathrm  {true}}=2$.}}{7}{}\protected@file@percent }
+\newlabel{fig:ea}{{4}{7}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces EB: VAE AU saturation for four manifolds (standardized inputs). Torus and M\"{o}bius Band (\text  {$\mathsurround \z@ \mathchar "458$}) are the main results. Swiss Roll ($\times $) and Circle $S^1$ ($\triangle $) are conditional exceptions.}}{7}{}\protected@file@percent }
+\newlabel{fig:eb}{{5}{7}{}{}{}}
+\newlabel{sec:exp_ec}{{\mbox  {V-C}3}{7}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-C}3}Isometric Embedding via Decoder Regularization (Experiment EC)}{7}{}\protected@file@percent }
+\citation{carlsson2009topology}
+\@writefile{lot}{\contentsline {table}{\numberline {XVI}{\ignorespaces EC: IsometricAE Comparison (Swiss Roll, $m=2$, 3-seed mean$\pm $std)}}{8}{}\protected@file@percent }
+\newlabel{tab:ec}{{XVI}{8}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces EC: Condition number $\kappa $ comparison. IsometricAE achieves the lowest $\kappa \approx 1$.}}{8}{}\protected@file@percent }
+\newlabel{fig:ec}{{6}{8}{}{}{}}
+\newlabel{eq:iso_loss}{{13}{8}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}Application to MNIST (RQ1 + Novel Finding)}{8}{}\protected@file@percent }
+\newlabel{sec:exp_mnist}{{\mbox  {V-D}}{8}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XVII}{\ignorespaces E4: MNIST AE Results (300 epochs). TwoNN ID and MLE ID converge for $m \geq 64$, indicating effective ID $\approx 10$--12.}}{8}{}\protected@file@percent }
+\newlabel{tab:e4_ae}{{XVII}{8}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XVIII}{\ignorespaces E4: MNIST VAE ($\beta =4$) Results (300 epochs). At $m=12$, AU growth rate drops sharply ($m^\mathrm  {knee}=12$, AU$=8$). MNIST is gradual-type, so $m^\mathrm  {knee} \neq  \mathrm  {AU}_{\mathrm  {sat}}$.}}{8}{}\protected@file@percent }
+\newlabel{tab:e4_vae}{{XVIII}{8}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XIX}{\ignorespaces E6: MNIST Training Dynamics ($m=16$)}}{8}{}\protected@file@percent }
+\newlabel{tab:e6}{{XIX}{8}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-D}1}MNIST Bottleneck Sweep (Experiment E4)}{8}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-D}2}MNIST Training Dynamics (Experiment E6)}{8}{}\protected@file@percent }
+\citation{facco2017twonn}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces E4: MNIST metric sweeps (300 epochs, 20{,}000 training samples). Arrow marks $m^\mathrm  {knee}=12$ where VAE AU growth rate drops sharply. MSE shows smooth (no clear elbow) decrease---the smooth elbow problem.}}{9}{}\protected@file@percent }
+\newlabel{fig:e4}{{7}{9}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces E6: MNIST training dynamics ($m=16$). Trustworthiness (global) forms rapidly by Epoch~5; TwoNN ID (local) increases gradually throughout training.}}{9}{}\protected@file@percent }
+\newlabel{fig:e6}{{8}{9}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XX}{\ignorespaces EX: MNIST AE Multi-Seed Stability (3-seed mean$\pm $std, 150 epochs)}}{9}{}\protected@file@percent }
+\newlabel{tab:ex_mnist_ae}{{XX}{9}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-D}3}Multi-Seed Statistical Reliability (Experiment EX)}{9}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {XXI}{\ignorespaces EX: MNIST VAE Multi-Seed Stability (3-seed mean$\pm $std, 150 epochs)}}{9}{}\protected@file@percent }
+\newlabel{tab:ex_mnist_vae}{{XXI}{9}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XXII}{\ignorespaces EY: Class-Restricted MNIST --- $\mathrm  {AU}_{\mathrm  {sat}}$ and TwoNN ID vs. Class Count (VAE, $\beta =4$, 75 epochs, values at $m=64$)}}{9}{}\protected@file@percent }
+\newlabel{tab:ey_summary}{{XXII}{9}{}{}{}}
+\newlabel{sec:exp_ey}{{\mbox  {V-D}4}{9}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-D}4}Quantitative Verification of Manifold Entanglement: Class-Restricted MNIST (Experiment EY)}{9}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Discussion}{9}{}\protected@file@percent }
+\newlabel{sec:discussion}{{VI}{9}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}Answer to RQ1: Alignment of $m^*$ with $\hat  {d_{\mathrm  {ID}}}$}{9}{}\protected@file@percent }
+\newlabel{sec:disc_rq1}{{\mbox  {VI-A}}{9}{}{}{}}
+\citation{fefferman2016manifold,hatcher2002algebraic}
+\@writefile{lot}{\contentsline {table}{\numberline {XXIII}{\ignorespaces RQ2 Summary: $\mathrm  {AU}_{\mathrm  {sat}}$ vs.\ Topological Embedding Dimension}}{10}{}\protected@file@percent }
+\newlabel{tab:rq2_summary}{{XXIII}{10}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}Answer to RQ2: $\mathrm  {AU}_{\mathrm  {sat}}$ and Topological Embedding Dimension}{10}{}\protected@file@percent }
+\newlabel{sec:discussion_topology}{{\mbox  {VI-B}}{10}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Answer to RQ3: Isometry and Comparison with CAE}{10}{}\protected@file@percent }
+\newlabel{sec:disc_rq3}{{\mbox  {VI-C}}{10}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-D}}Practical Design Guidelines}{10}{}\protected@file@percent }
+\newlabel{sec:disc_guideline}{{\mbox  {VI-D}}{10}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-E}}Limitations and Future Work}{10}{}\protected@file@percent }
+\newlabel{sec:disc_limitation}{{\mbox  {VI-E}}{10}{}{}{}}
+\citation{carlsson2009topology}
+\citation{ansuini2019intrinsic,valeriani2023geometry}
+\citation{birdal2021intrinsic,carlsson2009topology}
+\bibcite{fefferman2016manifold}{1}
+\bibcite{bengio2013representation}{2}
+\bibcite{facco2017twonn}{3}
+\bibcite{levina2005mle}{4}
+\bibcite{hatcher2002algebraic}{5}
+\bibcite{guillemin1974differential}{6}
+\bibcite{carlsson2009topology}{7}
+\bibcite{kingma2014vae}{8}
+\bibcite{kato2020rdae}{9}
+\bibcite{nazari2023geometric}{10}
+\bibcite{ceruti2014danco}{11}
+\bibcite{pope2021intrinsic}{12}
+\bibcite{ansuini2019intrinsic}{13}
+\bibcite{birdal2021intrinsic}{14}
+\bibcite{valeriani2023geometry}{15}
+\bibcite{higgins2017betavae}{16}
+\bibcite{lucas2019elbo}{17}
+\bibcite{rifai2011cae}{18}
+\bibcite{alain2014dae}{19}
+\bibcite{kornblith2019cka}{20}
+\bibcite{tishby2000ib}{21}
+\bibcite{burda2016iwae}{22}
+\bibcite{vander2008tsne}{23}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Conclusion}{11}{}\protected@file@percent }
+\newlabel{sec:conclusion}{{VII}{11}{}{}{}}
+\@writefile{toc}{\contentsline {section}{References}{11}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  A: Exponential Saturation Model and Sensitivity Analysis for $\tau _\mathrm  {knee}$}{11}{}\protected@file@percent }
+\newlabel{app:tau_knee}{{A}{11}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XXIV}{\ignorespaces EZ: $\tau _\mathrm  {knee}$ Cross-Dataset Robustness}}{12}{}\protected@file@percent }
+\newlabel{tab:ez_tau}{{XXIV}{12}{}{}{}}
+\gdef \@abspage@last{12}

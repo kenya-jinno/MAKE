@@ -1,0 +1,61 @@
+== provenance ==
+  python_version: 3.12.3
+  torch_version: 2.7.1+cu118
+  torch_version_cuda: 11.8
+  cudnn_version: 90100
+  nvidia_driver_version: 570.211.01
+  gpu_name: NVIDIA GeForce RTX 3070
+  platform: Linux-6.8.0-124-generic-x86_64-with-glibc2.39
+  code_hash: 7ef85ae8a07dc254
+  loss_convention_id: sum_recon_sum_kl_v1
+
+== 設定 ==
+  beta=1.0  max_epochs=300  patience=30  delta=0.01  loss=sum_recon_sum_kl_v1
+
+=== MNIST_FC  (m=16) ===
+  データ (18000, 784) / val (2000, 784) (0.1s, hash=cffaecf5bccbb333)
+    ep   25/300  val_ELBO=   -27.9585  best@25      8.4s
+    ep   50/300  val_ELBO=   -27.4217  best@48     16.7s
+    ep   75/300  val_ELBO=   -27.2396  best@71     24.8s
+    ep  100/300  val_ELBO=   -27.3363  best@92     33.0s
+    ep  125/300  val_ELBO=   -26.9307  best@103     41.2s
+    ep  150/300  val_ELBO=   -26.8033  best@150     49.4s
+    ep  175/300  val_ELBO=   -26.8091  best@173     57.3s
+    ep  200/300  val_ELBO=   -26.8768  best@173     65.4s
+  実測 66.3s / 203ep = 0.327s/ep  (300ep 換算 1.6分)
+  best_epoch=173  early_stop=True  plateau=False
+  test: MSE=0.022095  AU=6/16  TwoNN=5.46  MLE=5.75
+
+=== dSprites_Conv  (m=16) ===
+  データ (18000, 1, 64, 64) / val (2000, 1, 64, 64) (4.2s, hash=1ea516804f7f9ac7)
+    ep   25/300  val_ELBO=  -173.5907  best@25     28.7s
+    ep   50/300  val_ELBO=  -173.5316  best@50     57.3s
+    ep   75/300  val_ELBO=  -173.5116  best@75     85.8s
+    ep  100/300  val_ELBO=  -173.5039  best@100    114.9s
+    ep  125/300  val_ELBO=  -173.5009  best@125    143.4s
+    ep  150/300  val_ELBO=  -173.5000  best@150    171.9s
+    ep  175/300  val_ELBO=  -173.4997  best@174    200.9s
+    ep  200/300  val_ELBO=  -173.4996  best@190    229.3s
+    ep  225/300  val_ELBO=  -173.4996  best@209    257.8s
+    ep  250/300  val_ELBO=  -173.4995  best@231    286.3s
+/home/kjinno/claude/manifold/manifold/src/metrics/intrinsic_dim.py:87: RuntimeWarning: divide by zero encountered in divide
+  m_i = 1.0 / (np.mean(log_ratios, axis=1))  # 各点の局所推定値
+  実測 299.4s / 261ep = 1.147s/ep  (300ep 換算 5.7分)
+  best_epoch=231  early_stop=True  plateau=True
+  test: MSE=0.042098  AU=0/16  TwoNN=1.25  MLE=inf
+
+=== CIFAR10_Conv  (m=64) ===
+  データ (18000, 3, 32, 32) / val (2000, 3, 32, 32) (1.2s, hash=55e0bcf8f4474c19)
+    ep   25/300  val_ELBO=   -67.2315  best@24     17.0s
+    ep   50/300  val_ELBO=   -65.9313  best@33     33.9s
+  実測 40.9s / 63ep = 0.650s/ep  (300ep 換算 3.2分)
+  best_epoch=33  early_stop=True  plateau=False
+  test: MSE=0.014339  AU=59/64  TwoNN=18.78  MLE=22.02
+
+=== 予算の導出（グリッド全点 × 1 seed、早期停止なしの最悪値）===
+条件                   s/ep     300ep    グリッド     全点300ep        推奨上限
+MNIST_FC            0.327      1.6分      12       0.33h       0.49h
+dSprites_Conv       1.147      5.7分      12       1.15h       1.72h
+CIFAR10_Conv        0.650      3.2分      10       0.54h       0.81h
+
+書き出し: results/make49/stage3_calibration.json, results/make49/stage3_budget.json

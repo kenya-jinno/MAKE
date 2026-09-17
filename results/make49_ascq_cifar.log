@@ -1,0 +1,6 @@
+CIFAR10   s=42     m=24 val=0.01514 runs=4 171s SUCCESS
+CIFAR10   s=123    m=24 val=0.01511 runs=4 157s SUCCESS
+CIFAR10   s=777    m=24 val=0.01533 runs=4 125s SUCCESS
+CIFAR10   s=2024   m=24 val=0.01502 runs=4 159s SUCCESS
+CIFAR10   s=31337  m=24 val=0.01498 runs=4 175s SUCCESS
+done

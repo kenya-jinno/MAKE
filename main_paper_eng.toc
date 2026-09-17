@@ -1,0 +1,40 @@
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Research Aim}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Two Notions of Dimension}{3}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Research Questions}{4}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Contributions}{4}{subsection.1.4}%
+\contentsline {section}{\numberline {2}Related Work}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Intrinsic Dimension Estimation}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}VAE Gaussian Prior and Topological Embedding}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}AE Bottleneck Dimension and Representation Quality}{5}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Proposed Framework}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Notation Summary}{5}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Two-Stage Pipeline}{5}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Optimal Bottleneck Dimension}{6}{subsection.3.3}%
+\contentsline {paragraph}{Threshold $\tau _\mathrm {knee}$ positioning.}{6}{section*.2}%
+\contentsline {subsection}{\numberline {3.4}Evaluation Metrics}{7}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Manifold Entanglement: Theoretical Framework for Multi-Class Data}{7}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Theoretical Background}{8}{section.4}%
+\contentsline {section}{\numberline {5}Experiments}{8}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Experimental Setup}{8}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Synthetic Manifold Experiments (RQ1)}{9}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}MSE Elbow Analysis (Experiment E1)}{9}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}Decoder Jacobian Analysis (Experiment E2)}{10}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}Noise Selectivity (Experiment E3)}{11}{subsubsection.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.4}Trustworthiness vs.\ Bottleneck Dimension (Experiment E5)}{11}{subsubsection.5.2.4}%
+\contentsline {subsection}{\numberline {5.3}Information Bottleneck and Topological Embedding (RQ2, RQ3)}{11}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}AU Saturation via Information Bottleneck (Experiment EA)}{11}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}Topological Constraints and AU Saturation (Experiment EB)}{12}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}Isometric Embedding via Decoder Regularization (Experiment EC)}{12}{subsubsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.4}Application to MNIST}{13}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Discussion}{14}{section.6}%
+\contentsline {subsection}{\numberline {6.1}RQ1: Alignment of $m^*$ with $\hat {d_{\mathrm {ID}}}$}{14}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}RQ2: $\mathrm {AU}_{\mathrm {sat}}$ and Topological Embedding Dimension}{14}{subsection.6.2}%
+\contentsline {paragraph}{AU saturation preprocessing dependence.}{14}{section*.3}%
+\contentsline {subsection}{\numberline {6.3}RQ3: Isometry and Comparison with CAE}{14}{subsection.6.3}%
+\contentsline {paragraph}{IsometricAE computational complexity and scope.}{14}{section*.4}%
+\contentsline {subsection}{\numberline {6.4}Practical Design Guidelines}{14}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}MNIST AU Saturation Interpretation Limitation}{15}{subsection.6.5}%
+\contentsline {subsection}{\numberline {6.6}Limitations and Future Work}{15}{subsection.6.6}%
+\contentsline {section}{\numberline {7}Conclusion}{15}{section.7}%
+\contentsline {section}{\numberline {A}Exponential Saturation Model and Sensitivity Analysis for $\tau _\mathrm {knee}$}{16}{appendix.A}%

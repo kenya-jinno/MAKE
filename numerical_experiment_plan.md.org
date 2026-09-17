@@ -1,0 +1,382 @@
+# 数値実験プラン：Auto Encoder による多様体抽出の検証
+
+> **理論解析との対応：** 本プランは `theoretical_analysis.tex` で確立した7つの定理を
+> 数値実験で検証するための具体的実施計画である。
+
+---
+
+## 概要
+
+| 実験ID | 実験名 | 検証する定理 | 難易度 | 推定工数 |
+|--------|--------|-------------|--------|----------|
+| E1 | 合成多様体での基礎検証 | 定理1,2,6 | ★★☆ | 2日 |
+| E2 | ヤコビアン特異値スペクトル解析 | 定理2,3,補題(命題1) | ★★★ | 3日 |
+| E3 | ノイズ方向選択性の定量化 | 定理4,5（系2） | ★★★ | 3日 |
+| E4 | ボトルネック次元スイープ（MNIST） | 定理5,6,7 | ★★☆ | 2日 |
+| E5 | 構造保存メトリクス評価 | 定理7 | ★★★ | 3日 |
+| E6 | モデル構造比較 | 系1,2,3 | ★★★ | 4日 |
+| E7 | 複雑データへの一般化 | 全定理 | ★★★ | 5日 |
+
+---
+
+## 実験 E1：合成多様体での基礎検証
+
+### 目的
+真の多様体次元 $d_{\rm true}$ が既知の人工データを用いて、
+- 内在次元推定器（TwoNN, MLE, PCA）の精度確認
+- AE ボトルネック次元 $m$ と再構成誤差の関係（$m = d_{\rm true}$ での「肘点」）
+
+### データセット
+```python
+# 生成する合成多様体（真の次元既知）
+manifolds = {
+    "Swiss Roll"      : (d_true=2, ambient=3),
+    "S-Curve"         : (d_true=2, ambient=3),
+    "Torus"           : (d_true=2, ambient=3),
+    "Sphere S^2"      : (d_true=2, ambient=3),
+    "Sphere S^d→R^N"  : (d_true=d, ambient=N, d∈{2,4,8}, N∈{10,50,100}),
+    "Linear Subspace" : (d_true=d, ambient=N),  # PCA が完全に解ける baseline
+    "Manifold+Normal Noise": 上記 + ε ~ N(0, σ²·I_{N-d})
+}
+```
+
+### 評価指標
+1. **内在次元推定精度**: $|\hat{d}_{\rm ID} - d_{\rm true}|$（TwoNN, MLE, PCA それぞれ）
+2. **再構成誤差の $m$ 依存性**: $m = 1, 2, \ldots, 2d_{\rm true}$ をスイープし、$m = d_{\rm true}$ で肘点が出現するか確認
+3. **AU（Active Units）数**: $m = d_{\rm true}$ での AU 数が $d_{\rm true}$ に一致するか（定理6の検証）
+
+### 実装の核心
+```python
+# 定理1の検証：m < d_true での再構成誤差急増
+for m in range(1, 2*d_true + 1):
+    ae = AutoEncoder(latent_dim=m, ...)
+    ae.fit(X_train)
+    mse[m] = ae.reconstruction_error(X_test)
+# 期待: mse が m = d_true 付近で急激に減少し、それ以上ではほぼ飽和
+
+# TwoNN による内在次元推定
+from sklearn.neighbors import NearestNeighbors
+d_hat = twonn_estimate(X)
+```
+
+### 期待される結果（理論との対応）
+- 定理1より：$m < d_{\rm true}$ では MSE が高止まり（情報損失）
+- 定理6より：$m > d_{\rm true}$ では AU が $d_{\rm true}$ で頭打ち
+
+---
+
+## 実験 E2：ヤコビアン特異値スペクトル解析
+
+### 目的
+デコーダヤコビアン $J_g(z) \in \mathbb{R}^{N \times m}$ の特異値分解（SVD）を行い、
+- 有意な特異値の数が推定 $d_{\rm ID}$ と一致するか（定理2, 系1の検証）
+- プルバック計量 $G(z) = J_g(z)^\top J_g(z)$ の均一性（定理3の検証）
+
+### 実験プロトコル
+```python
+def analyze_jacobian(model, Z_samples, d_true):
+    results = []
+    for z in Z_samples:
+        # 自動微分でデコーダのヤコビアンを計算
+        J = compute_jacobian(model.decoder, z)  # shape: [N, m]
+
+        # SVD
+        U, sigma, Vt = np.linalg.svd(J, full_matrices=False)
+
+        # 有意特異値の数（閾値 τ = 0.1 * max(sigma)）
+        n_significant = np.sum(sigma > 0.1 * sigma[0])
+
+        # プルバック計量
+        G = J.T @ J  # [m, m]
+        eigenvalues_G = np.linalg.eigvalsh(G)
+        condition_number = eigenvalues_G[-1] / (eigenvalues_G[0] + 1e-8)
+
+        results.append({
+            'singular_values': sigma,
+            'n_significant': n_significant,
+            'condition_number': condition_number,
+        })
+    return results
+```
+
+### 評価指標
+1. **特異値のスペクトルギャップ比**: $\sigma_{d+1} / \sigma_d$（$d = d_{\rm true}$ での急落の確認）
+2. **条件数** $\kappa(G(z)) = \lambda_{\max} / \lambda_{\min}$：等長性からの乖離を表す
+   - $\kappa \approx 1$：等長埋め込み達成（定理3の理想状態）
+3. **接空間主角度（Principal Angle, TSA）**: デコーダヤコビアンの生成する空間と、局所 PCA で推定した真の接空間の間の主角度
+
+### 期待される結果
+- $m = d_{\rm true}$ に設定した AE のデコーダヤコビアンは、$d_{\rm true}$ 個の大きな特異値と残りの小さな特異値を持つ（定理2の実験的確認）
+- CAE（収縮型 AE）の条件数 $\kappa$ は、普通の AE よりも 1 に近い（系1の検証）
+
+---
+
+## 実験 E3：ノイズ方向選択性の定量化
+
+### 目的
+定理4（Alain--Bengio）および系2（ノイズ方向選択性）の実験的検証：
+- 接方向ノイズ（$\epsilon_\parallel \in T_x\mathcal{M}$）は再構成に反映される
+- 法線方向ノイズ（$\epsilon_\perp \in N_x\mathcal{M}$）は除去される
+
+### 実験プロトコル
+```python
+def noise_direction_test(model, X_test, d_true, sigma_levels):
+    """
+    各テスト点 x について、接方向・法線方向ノイズを注入し、
+    再構成誤差の差異を測定する。
+    """
+    results = []
+    for x in X_test:
+        # 真の接空間を局所 PCA で推定
+        T_x = local_pca_tangent_space(X_train, x, d=d_true, k=20)
+        N_x = null_space(T_x)  # 法線空間の基底
+
+        for sigma in sigma_levels:
+            # 接方向ノイズ
+            eps_tangent = T_x @ np.random.randn(d_true) * sigma
+            # 法線方向ノイズ
+            eps_normal = N_x @ np.random.randn(X.shape[1] - d_true) * sigma
+
+            # 再構成
+            rec_tangent = model.reconstruct(x + eps_tangent)
+            rec_normal  = model.reconstruct(x + eps_normal)
+            rec_original = model.reconstruct(x)
+
+            # 再構成への影響量
+            effect_tangent = np.linalg.norm(rec_tangent - rec_original)
+            effect_normal  = np.linalg.norm(rec_normal  - rec_original)
+
+            results.append({
+                'sigma': sigma,
+                'effect_tangent': effect_tangent,
+                'effect_normal': effect_normal,
+                'selectivity_ratio': effect_tangent / (effect_normal + 1e-8),
+            })
+    return results
+```
+
+### 評価指標
+1. **ノイズ選択性比**（Noise Selectivity Ratio）:
+   $$\text{NSR} = \frac{\|h(x + \epsilon_\parallel) - h(x)\|}{\|h(x + \epsilon_\perp) - h(x)\|}$$
+   $m = d_{\rm true}$ のとき NSR $\gg 1$ であることを確認
+2. **NSR の $m$ 依存性**: $m$ が $d_{\rm true}$ から外れると NSR が低下するか
+
+### 期待される結果
+- DAE（Denoising AE）は、法線方向ノイズをより強く除去（NSR が高い）
+- NSR は $m = d_{\rm ID}$ で最大化（定理4の実験的確認）
+
+---
+
+## 実験 E4：ボトルネック次元スイープ（MNIST / Fashion-MNIST）
+
+### 目的
+定理5（レート歪み肘点）と定理6（AU 飽和）を MNIST で定量的に検証する。
+
+### データ：MNIST（60,000 枚，28×28 ピクセル，$N=784$）
+
+### 実験設定
+```python
+latent_dims = [1, 2, 4, 6, 8, 10, 12, 16, 20, 32, 64]
+models = ['FC-AE', 'Conv-AE', 'VAE', 'DAE', 'CAE']
+
+metrics_to_compute = {
+    'MSE'  : reconstruction_mse,
+    'AU'   : active_units,        # Var(z_k) > 0.01 の次元数
+    'CKA'  : centered_kernel_alignment,  # 入力・再構成画像間の類似度
+    'ID_Z' : twonn_estimate,      # 潜在空間の内在次元
+    'kNN_acc': knn_classification_accuracy,  # 下流タスク精度
+}
+```
+
+### 理論との対応
+| $m$ vs $d_{\rm ID}$ | 期待される観測（定理より） |
+|---------------------|--------------------------|
+| $m < d_{\rm ID}$ | MSE 高，AU = $m$，kNN 精度低（定理1） |
+| $m \approx d_{\rm ID}$ | MSE 肘点，AU 飽和始まり（定理5,6） |
+| $m > d_{\rm ID}$ | MSE ほぼ変化なし，AU 頭打ち（定理6） |
+| $m \gg d_{\rm ID}$ | MSE 増加または横ばい，余剰次元に 'prior collapse'（定理6） |
+
+MNIST の $d_{\rm ID}$ は TwoNN で推定（文献値: 約 14〜20）。
+
+### 可視化
+- **$m$ vs MSE / AU / CKA 曲線**（肘点の可視化）
+- **潜在空間の 2D UMAP 投影**（$m = \{2, d_{\rm ID}, 64\}$ の比較）
+- **活性化ヒートマップ**（どの潜在次元が活性か）
+
+---
+
+## 実験 E5：構造保存メトリクス評価
+
+### 目的
+定理7（局所近傍構造の保存条件）を複数の幾何学的・位相的メトリクスで検証する。
+
+### 評価メトリクス（計算方法）
+```python
+from sklearn.manifold import trustworthiness
+# 1. Trustworthiness（信頼性）・Continuity（連続性）
+T = trustworthiness(X, Z, n_neighbors=k)
+C = continuity(X, Z, n_neighbors=k)
+
+# 2. Geodesic Distance Distortion（測地線距離歪み）
+# 多様体上のk近傍グラフからの測地線距離 vs 潜在空間ユークリッド距離の相関
+from scipy.sparse.csgraph import shortest_path
+D_geo = shortest_path(knn_graph(X))
+D_lat = pairwise_distances(Z)
+distortion = spearman_corr(D_geo.flatten(), D_lat.flatten())
+
+# 3. Tangent Space Approximation（TSA）
+# デコーダヤコビアンの生成空間 vs 局所 PCA 接空間の主角度
+def tangent_space_approximation(model, X, d_true, k=20):
+    angles = []
+    for x in X:
+        J = compute_jacobian(model.decoder, model.encoder(x))
+        T_J = column_space(J)                    # デコーダが生成する空間
+        T_pca = local_pca_tangent_space(X, x, d_true, k)  # 局所 PCA 接空間
+        angles.append(principal_angle(T_J, T_pca))
+    return np.mean(angles)  # 小さいほど良い
+
+# 4. Representation Topology Divergence（RTD）（位相的散逸）
+# パーシステントホモロジーによる Wasserstein 距離（入力空間 vs 潜在空間）
+from ripser import ripser
+from persim import wasserstein
+def rtd(X, Z):
+    ph_X = ripser(X, maxdim=1)['dgms']
+    ph_Z = ripser(Z, maxdim=1)['dgms']
+    return wasserstein(ph_X[1], ph_Z[1])
+```
+
+### 比較モデル
+- **Vanilla AE**（ベースライン）
+- **CAE**（収縮型 AE：等長性への誘導，定理3/系1対応）
+- **DAE**（デノイジング AE：スコアマッチング，定理4対応）
+- **VAE**（変分 AE：情報ボトルネック，定理5対応）
+- **TopoAE**（位相的正則化 AE：RTD 最小化，定理7との関連）
+
+---
+
+## 実験 E6：学習過程の動的解析
+
+### 目的
+AE の学習初期から収束までの過程を追跡し、理論が示す「大域構造 → 局所構造」
+あるいはその逆の順序で多様体が学習されるかを確認する。
+
+### プロトコル
+```python
+# 各 epoch で以下を記録
+checkpoint_epochs = [1, 5, 10, 20, 50, 100, 200, 500]
+tracking_metrics = {
+    'mse_train', 'mse_test',
+    'au',              # 活性ユニット数（定理6の動的推移）
+    'id_z',            # 潜在空間内在次元（TwoNN）
+    'jacobian_rank',   # ヤコビアンの有効階数（定理2の動的推移）
+    'trustworthiness', # 局所近傍保存（定理7の動的推移）
+    'rtd',             # 位相的散逸（定理3との関連）
+    'cka',             # CKA（表現の安定性）
+}
+```
+
+### 期待される仮説（検証対象）
+- **仮説 A**: AE は学習初期に大域的な多様体形状（低周波成分）を捉え、
+  後期に局所的な接空間構造を整える
+- **仮説 B**: 逆に、局所的な MSE 最小化が先行し、大域的位相構造は後から整合する
+- これを Trustworthiness の推移と RTD の推移のタイミングを比較して判定する
+
+---
+
+## 実験 E7：複雑データへの一般化
+
+### データセット
+1. **Fashion-MNIST**（より複雑な多様体構造）
+2. **CIFAR-10**（色・テクスチャを含む自然画像）
+3. **ASD fMRI データ**（3次元畳み込み AE，脳機能ネットワーク構造）
+
+### 特別な検討事項
+- CIFAR-10：チャンネル間構造の扱い（Conv-AE が必要）
+- fMRI：MFTMA（Manifold Fit-based Tangent Manifold Analysis）による
+  多様体容量（半径・次元）の測定
+
+---
+
+## 実験環境・実装指針
+
+### ディレクトリ構成
+```
+manifold/
+├── theoretical_analysis.tex  # 理論解析（本ファイル参照）
+├── numerical_experiment_plan.md  # 本ファイル
+├── CLAUDE.md                 # Claude Code 用プロジェクト指示
+├── SKILL.md                  # Claude Code 用スキル定義
+├── src/
+│   ├── models/
+│   │   ├── ae.py             # Vanilla AE
+│   │   ├── vae.py            # VAE
+│   │   ├── cae.py            # Contractive AE
+│   │   └── dae.py            # Denoising AE
+│   ├── data/
+│   │   ├── synthetic.py      # 合成多様体生成
+│   │   └── loaders.py        # MNIST, CIFAR-10 ローダー
+│   ├── metrics/
+│   │   ├── intrinsic_dim.py  # TwoNN, MLE 内在次元推定
+│   │   ├── structure.py      # Trustworthiness, Continuity
+│   │   ├── jacobian.py       # ヤコビアン解析
+│   │   └── topology.py       # パーシステントホモロジー
+│   └── experiments/
+│       ├── E1_synthetic.py
+│       ├── E2_jacobian.py
+│       ├── E3_noise_direction.py
+│       ├── E4_bottleneck_sweep.py
+│       ├── E5_structure_metrics.py
+│       ├── E6_training_dynamics.py
+│       └── E7_complex_data.py
+├── results/
+│   ├── figures/
+│   └── tables/
+└── notebooks/
+    └── analysis.ipynb
+```
+
+### 依存ライブラリ
+```
+# requirements.txt
+torch>=2.0
+torchvision
+numpy
+scipy
+scikit-learn
+matplotlib
+seaborn
+ripser          # パーシステントホモロジー
+persim          # パーシステンス図の比較
+umap-learn      # UMAP 可視化
+tqdm
+pandas
+```
+
+---
+
+## 優先順位と推奨実行順序
+
+理論定理との対応の厳密さと実装の容易さから，以下の順序を推奨する：
+
+```
+E1 → E4 → E2 → E3 → E5 → E6 → E7
+（基礎）→（MNIST肘点）→（幾何）→（ノイズ）→（メトリクス）→（動的）→（発展）
+```
+
+E1 と E4 は独立して並行実行可能。
+E2, E3 は E1 の合成多様体データを流用できる。
+E5 は E4 で学習済みのモデルを再利用する。
+
+---
+
+## 論文への組み込み計画
+
+| 実験 | 論文セクション | 主張 |
+|------|--------------|------|
+| E1 | 実験1（合成多様体） | $\hat{d}_{\rm ID} \approx d_{\rm true}$，$m = d_{\rm true}$ での肘点 |
+| E2 | 実験2（ヤコビアン解析） | デコーダが接空間を生成すること |
+| E3 | 実験2（ノイズ実験） | 法線方向ノイズの選択的除去 |
+| E4 | 実験2（MNIST スイープ） | $\hat{d}_z^* \approx d_{\rm ID}$，AU の飽和 |
+| E5 | 実験3（構造保存） | 幾何・位相構造の定量的保存評価 |
+| E6 | 補足 | 学習ダイナミクスの解析 |
+| E7 | 実験4（複雑データ） | 一般化能力の確認 |

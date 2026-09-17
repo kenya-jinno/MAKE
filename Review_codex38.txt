@@ -1,0 +1,181 @@
+Review of main_paper_MAKE38.pdf
+Target journal: MDPI Machine Learning and Knowledge Extraction (MAKE)
+Reviewer: Codex
+Date: 2026-07-09
+
+Overall recommendation: accept with minor corrections
+
+Summary
+-------
+Revision 38 adequately addresses the remaining substantive issues from
+Review_codex37.txt. The protocol is now stated with a pre-registered primary
+Step-1 estimator, the torus margin is consistently reported as m >= 5 in the
+fine-grid experiment and m = 6 on the coarse grid, the multi-seed claims are
+substantially narrowed, and the V1/V2 threshold-sensitivity statement now
+distinguishes mean-verdict and per-seed ranges. The manuscript continues to
+present the method as a conditional diagnostic workflow rather than as a
+general bottleneck-selection algorithm.
+
+I find no remaining major methodological objection. The paper is suitable
+for publication after minor corrections, mainly production placeholders and
+a few local wording issues that could otherwise confuse readers about which
+experiments are multi-seed, which quantities are primary estimates, and
+which results are exploratory.
+
+Assessment of previous review responses
+---------------------------------------
+Minor comment 1 from Review_codex37, on the ambiguity of the verification
+point when TwoNN and MLE give a range for d_hat_ID, has been addressed.
+Section 3.2.1 now states that "the pre-registered primary estimator is the
+converged TwoNN value rounded to the nearest integer," while MLE and other
+estimators serve as cross-checks. Section 3.2.3 then defines m_ver using
+that primary TwoNN estimate and adds the rule that an MLE-shifted next grid
+point should also be verified. Section 4.3.4 applies this consistently:
+MNIST uses m_ver = 20 from primary TwoNN d_hat_ID = 10 and also reports
+that m = 32 passes under the MLE-shifted check.
+
+Minor comment 2, on inconsistent torus margins, has been addressed. The
+abstract now says that the torus has AU_sat = d_emb = 3 for m >= 5 and
+boundary over-pruning at m <= 4. Section 4.2 reports the fine-grid
+transition at m = 5 and then states that all checks pass at m = 6 on the
+coarse grid. The conclusion repeats the same "m >= 5 on the Torus" wording.
+
+Minor comment 3, on the over-broad claim that all main-text results are
+multi-seed, has mostly been addressed. Section 4.1 now says "All VAE
+verification results in the main text are multi-seed" and explicitly lists
+the single-seed Step-1 reference-AE sweep and the AE downstream comparison.
+The remaining wording issue is local: some single-seed exploratory VAE
+results are still summarized briefly in the main text, although they are
+clearly labeled as exploratory. This is a minor presentation issue, not a
+substantive flaw.
+
+Minor comment 4, on V1 threshold sensitivity, has been addressed. Section
+3.2.3 now distinguishes invariance of the multi-seed mean verdict from
+per-seed invariance, and explicitly identifies the limiting MNIST seed with
+AU = 14 at m_ver = 20. The supporting Exp_AU_Rule.json is consistent with
+this statement.
+
+Minor comment 5, on the Fashion-MNIST Step-1 value, has been addressed.
+Section 4.3.6 now summarizes Fashion-MNIST as d_hat_ID approximately 10 and
+explains that d = 9 was only a preliminary sweep-grid design value from the
+100-epoch exploratory run.
+
+Minor comment 6, on search-cost accounting and the unresolved d_hat_ID
+convention, has been addressed. Section 4.4 counts the VAE path at
+m = 20 using the primary TwoNN estimate and also gives the conservative
+variant that verifies m = 32 under the MLE-shifted check, changing the
+savings from approximately 82% to approximately 73%.
+
+Minor comment 7, on the claim that all experiments follow the reporting
+requirements, has been addressed. Section 3.2.3 now says that the main
+experiments report the quantities "where applicable" and that complete logs
+for boundary and exploratory experiments are in the supplementary material.
+
+Minor comment 8, on Proposition 3 remaining a sketch, has been addressed.
+The proposition is consistently called a "conditional-stability sketch" or
+"sketch," and the conclusion does not lean on it as a rigorous theorem.
+
+Typographical/presentation item 1 from Review_codex37, on MDPI production
+placeholders, remains only as a final production matter. The source still
+contains article number 0, empty received/revised/accepted/published dates,
+commented ORCID placeholders, and no final repository URL/DOI. This is
+acceptable at review stage but must be resolved before publication.
+
+Typographical/presentation item 2, on "restores V1 but not V2," has been
+addressed. The abstract, Table 3, Section 4.7, and conclusion now state
+that beta strengthening restores truncation/V1 but not order consistency/V2.
+
+Typographical/presentation item 3, on the Table 8 caption conflating the
+search window and verification point, has been addressed. The caption now
+separates the ID-guided search window [10, 24] from the VAE verification
+point m_ver = 20.
+
+Typographical/presentation item 4, on the torus "3x MSE improvement," has
+been addressed. Section 4.2 now specifies that the comparison is from
+m = 4 to m = 6, 0.220 to 0.073.
+
+Typographical/presentation item 5, on the dense title and abstract, has
+been partly addressed. The abstract remains long, but it is now more precise
+and less overstated. I do not regard further shortening as necessary for
+acceptance.
+
+Major comments
+--------------
+1. No remaining major methodological objection.
+
+The previous major and minor scientific concerns have been resolved or
+appropriately reframed. The remaining points below are minor corrections for
+clarity, reproducibility presentation, and final MDPI production.
+
+Minor comments
+--------------
+1. Clarify the sentence on Fashion-MNIST protocol status.
+
+Section 4.3.6 says: "A full multi-seed application of the protocol including
+VAE-side AU verification was confirmed only in a single-seed preliminary
+observation..." This is internally contradictory: "full multi-seed" cannot
+be "only single-seed." The intended meaning appears to be that Fashion-MNIST
+has multi-seed Step-1 evidence, while VAE-side AU verification remains a
+single-seed preliminary observation. Please rewrite this sentence directly.
+
+2. Slightly refine the global multi-seed sentence in Section 4.1.
+
+Section 4.1 states that "All VAE verification results in the main text are
+multi-seed experiments with at least 3 seeds," followed by an exception for
+single-seed exploratory observations separated into the appendix. However,
+the main text itself briefly reports single-seed high-beta Conv-VAE values
+in Section 4.7.1 and a single-seed Fashion-MNIST VAE observation in
+Section 4.3.6. These are labeled exploratory, so the evidence is not
+misrepresented, but the sentence would be cleaner as "All non-exploratory
+VAE verification results in the main text..." or "All main-text VAE
+verification results used for the principal verdicts..."
+
+3. Make the MNIST search-window convention explicit in one place.
+
+The manuscript now correctly uses primary TwoNN d_hat_ID = 10 for
+m_ver = 20 and treats MLE 11.3--11.9 as a cross-check. Section 4.3.3,
+however, still says that from "d_hat_ID approximately 10--12" the AE search
+window is [10, 24] and the VAE generous setting is m >= 20. This is
+reasonable, but readers may wonder why the upper endpoint uses the
+TwoNN--MLE envelope whereas the VAE verification point uses primary TwoNN.
+A short parenthetical such as "AE window shown as the TwoNN--MLE envelope;
+VAE m_ver follows the primary TwoNN rule" would remove this last ambiguity.
+
+4. Avoid implying that the Step-1 reference-AE route is fully multi-seed in
+the MNIST "full protocol" claim.
+
+In Section 1.2, the contribution statement says that multi-seed validation
+of the full protocol is given on MNIST. Later, Table 5 states that the main
+reference-AE Step-1 sweep is single-seed, with uncertainty quantified by
+subsampling and cross-checks, while other Step-1 stability evidence comes
+from the 3-seed real-geometry experiment. This is acceptable, but the
+claim would be more exact if it said "multi-seed AU verification on MNIST,
+with Step-1 stability supported by subsampling, estimator cross-checks, and
+the 3-seed reference-model comparison."
+
+Typographical and presentation issues
+-------------------------------------
+1. MDPI production placeholders remain: article number 0, empty
+received/revised/accepted/published fields, commented ORCID placeholders,
+and no final repository URL/DOI. These should be completed before final
+publication.
+
+2. In Section 3.2.3, the V2 threshold-invariance range is stated as
+"(2.3, 6.6)" for both mean and per-seed verdicts. The supporting JSON gives
+the mean lower edge as 2.233... and the per-seed lower edge as 2.3. The
+current statement is conservative and not wrong, but for exact
+reproducibility it would be better to write "approximately (2.24, 6.6) for
+the mean and (2.3, 6.6) per seed" or to state that the displayed range is
+rounded conservatively.
+
+3. In Section 4.7.2, the natural-image table caption says Step 1 agrees
+with Pope et al. "only near m approximately 2 d_hat_ID." This is accurate
+for CIFAR-10, but less so for SVHN, where the text emphasizes a larger
+discrepancy. Consider changing the caption to "CIFAR-10 agrees..." or
+"Step 1 agrees for CIFAR-10..." to avoid overgeneralizing across both
+datasets.
+
+4. The abstract is still quite long and densely packed. This is acceptable
+for a methods paper at this stage, but if MDPI requests tightening, the
+boundary-case details on Conv-VAEs and natural images could be shortened
+and left to the introduction and applicability table.

@@ -1,0 +1,70 @@
+[
+  {
+    "manifold": "SwissRoll",
+    "d_true": 2,
+    "m_values": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "jacobian_analysis": {
+      "1": {
+        "mean_n_significant": 1.0,
+        "mean_condition_number": 1.0
+      },
+      "2": {
+        "mean_n_significant": 2.0,
+        "mean_condition_number": 1.5112604546546935
+      },
+      "3": {
+        "mean_n_significant": 3.0,
+        "mean_condition_number": 1.74944473028183
+      },
+      "4": {
+        "mean_n_significant": 3.0,
+        "mean_condition_number": 2.034682831764221
+      }
+    },
+    "tsa_errors": [
+      26.232408810867646,
+      44.341823741023376,
+      38.8766959830242,
+      43.57733790319317
+    ]
+  },
+  {
+    "manifold": "Torus",
+    "d_true": 2,
+    "m_values": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "jacobian_analysis": {
+      "1": {
+        "mean_n_significant": 1.0,
+        "mean_condition_number": 1.0
+      },
+      "2": {
+        "mean_n_significant": 2.0,
+        "mean_condition_number": 2.301475312709808
+      },
+      "3": {
+        "mean_n_significant": 3.0,
+        "mean_condition_number": 1.4987590026855468
+      },
+      "4": {
+        "mean_n_significant": 3.0,
+        "mean_condition_number": 1.4702021479606628
+      }
+    },
+    "tsa_errors": [
+      10.617687339889324,
+      21.802566242647526,
+      22.04643221020002,
+      25.233666056699754
+    ]
+  }
+]

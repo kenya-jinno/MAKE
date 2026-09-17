@@ -1,0 +1,571 @@
+
+==============================================================================
+=== MNIST  beta=0.25  尤度=gaussian  d̂0=13.84  m_ref=[55, 111, 221]  上限=1470s ===
+==============================================================================
+  FONDUE の epoch 数を原著の手順で決める（予測が安定するまで増やす）
+    -> epochs=2 予測={1: 9, 2: 11, 3: 11} 安定=True 探索費用=9.6s
+  B1_full_mse                      s=42     m=    20 val_MSE=0.01367 runs=12   409.2s SUCCESS
+  B1_full_mse                      s=123    m=    32 val_MSE=0.01434 runs=12   378.7s SUCCESS
+  B1_full_mse                      s=777    m=    16 val_MSE=0.01410 runs=12   378.0s SUCCESS
+  B1_full_mse                      s=2024   m=    24 val_MSE=0.01341 runs=12   433.9s SUCCESS
+  B1_full_mse                      s=31337  m=    20 val_MSE=0.01440 runs=12   403.0s SUCCESS
+  B2_full_elbo                     s=42     m=     8 val_MSE=0.01796 runs=12   409.2s SUCCESS
+  B2_full_elbo                     s=123    m=     6 val_MSE=0.02134 runs=12   378.7s SUCCESS
+  B2_full_elbo                     s=777    m=     8 val_MSE=0.01813 runs=12   378.0s SUCCESS
+  B2_full_elbo                     s=2024   m=    16 val_MSE=0.01580 runs=12   433.9s SUCCESS
+  B2_full_elbo                     s=31337  m=     6 val_MSE=0.02169 runs=12   403.0s SUCCESS
+  B3_full_downstream               s=42     m=    48 val_MSE=0.01616 runs=12   545.1s SUCCESS
+  B3_full_downstream               s=123    m=    64 val_MSE=0.01547 runs=12   452.8s SUCCESS
+  B3_full_downstream               s=777    m=    64 val_MSE=0.01514 runs=12   437.3s SUCCESS
+  B3_full_downstream               s=2024   m=    48 val_MSE=0.01442 runs=12   517.5s SUCCESS
+  B3_full_downstream               s=31337  m=    64 val_MSE=0.01651 runs=12   553.7s SUCCESS
+  B4_coarse                        s=42     m=    10 val_MSE=0.01625 runs= 4   109.6s SUCCESS
+  B4_coarse                        s=123    m=    64 val_MSE=0.01547 runs= 4   127.9s SUCCESS
+  B4_coarse                        s=777    m=    64 val_MSE=0.01514 runs= 4   138.5s SUCCESS
+  B4_coarse                        s=2024   m=    64 val_MSE=0.01583 runs= 4   118.5s SUCCESS
+  B4_coarse                        s=31337  m=    10 val_MSE=0.01583 runs= 4   136.6s SUCCESS
+  B5_fixed32                       s=42     m=    32 val_MSE=0.01441 runs= 1    49.5s SUCCESS
+  B5_fixed32                       s=123    m=    32 val_MSE=0.01434 runs= 1    40.8s SUCCESS
+  B5_fixed32                       s=777    m=    32 val_MSE=0.01455 runs= 1    35.8s SUCCESS
+  B5_fixed32                       s=2024   m=    32 val_MSE=0.01410 runs= 1    52.7s SUCCESS
+  B5_fixed32                       s=31337  m=    32 val_MSE=0.01493 runs= 1    27.7s SUCCESS
+  B6a_fondue                       s=42     m=    11 val_MSE=0.01601 runs= 6    31.0s SUCCESS
+  B6a_fondue                       s=123    m=    10 val_MSE=0.01601 runs= 6    32.4s SUCCESS
+  B6a_fondue                       s=777    m=    11 val_MSE=0.01470 runs= 6    49.1s SUCCESS
+  B6a_fondue                       s=2024   m=    11 val_MSE=0.01600 runs= 6    33.5s SUCCESS
+  B6a_fondue                       s=31337  m=    11 val_MSE=0.01521 runs= 6    33.4s SUCCESS
+  B6b_fondue_var                   s=42     m=    52 val_MSE=0.01489 runs= 3    40.3s SUCCESS
+  B6b_fondue_var                   s=123    m=    50 val_MSE=0.01551 runs= 3    38.1s SUCCESS
+  B6b_fondue_var                   s=777    m=    48 val_MSE=0.01631 runs= 3    25.6s SUCCESS
+  B6b_fondue_var                   s=2024   m=    53 val_MSE=0.01470 runs= 3    45.8s SUCCESS
+  B6b_fondue_var                   s=31337  m=    55 val_MSE=0.01552 runs= 3    36.6s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=42     m=     4 val_MSE=0.02774 runs= 2    29.8s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=123    m=     4 val_MSE=0.02796 runs= 2    32.8s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=777    m=     4 val_MSE=0.02869 runs= 2    20.3s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=2024   m=     5 val_MSE=0.02439 runs= 2    31.1s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=31337  m=     3 val_MSE=0.03203 runs= 2    24.6s SUCCESS
+  proposed                         s=42     m=    10 val_MSE=0.01625 runs=10   524.3s SUCCESS
+  proposed                         s=123    m=    10 val_MSE=0.01601 runs=10   514.6s SUCCESS
+  proposed                         s=777    m=    10 val_MSE=0.01562 runs=10   525.4s SUCCESS
+  proposed                         s=2024   m=    10 val_MSE=0.01618 runs=10   544.1s SUCCESS
+  proposed                         s=31337  m=     8 val_MSE=0.01814 runs=10   558.7s SUCCESS
+  proposed_minus_AU                s=42     m=    10 val_MSE=0.01625 runs=10   524.3s SUCCESS
+  proposed_minus_AU                s=123    m=    10 val_MSE=0.01601 runs=10   514.6s SUCCESS
+  proposed_minus_AU                s=777    m=    10 val_MSE=0.01562 runs=10   525.4s SUCCESS
+  proposed_minus_AU                s=2024   m=    10 val_MSE=0.01618 runs=10   544.1s SUCCESS
+  proposed_minus_AU                s=31337  m=     8 val_MSE=0.01814 runs=10   558.7s SUCCESS
+  ascending_scan_Q                 s=42     m=    10 val_MSE=0.01625 runs= 6   184.7s SUCCESS
+  ascending_scan_Q                 s=123    m=    10 val_MSE=0.01601 runs= 6   190.7s SUCCESS
+  ascending_scan_Q                 s=777    m=    10 val_MSE=0.01562 runs= 6   190.7s SUCCESS
+  ascending_scan_Q                 s=2024   m=    10 val_MSE=0.01618 runs= 6   178.0s SUCCESS
+  ascending_scan_Q                 s=31337  m=     8 val_MSE=0.01814 runs= 5   158.9s SUCCESS
+  B4_plus_Q                        s=42     m=    10 val_MSE=0.01625 runs= 4   109.6s SUCCESS
+  B4_plus_Q                        s=123    m=    64 val_MSE=0.01547 runs= 4   127.9s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=777    m=    64 val_MSE=0.01514 runs= 4   138.5s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=2024   m=    64 val_MSE=0.01583 runs= 4   118.5s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=31337  m=    10 val_MSE=0.01583 runs= 4   136.6s SUCCESS
+  B6a_plus_Q                       s=42     m=    12 val_MSE=0.01610 runs= 7    62.1s SUCCESS
+  B6a_plus_Q                       s=123    m=    10 val_MSE=0.01601 runs= 7    73.7s SUCCESS
+  B6a_plus_Q                       s=777    m=    12 val_MSE=0.01494 runs= 7    89.2s SUCCESS
+  B6a_plus_Q                       s=2024   m=    12 val_MSE=0.01520 runs= 7    69.0s SUCCESS
+  B6a_plus_Q                       s=31337  m=    12 val_MSE=0.01566 runs= 7    79.1s SUCCESS
+  B6b_plus_Q                       s=42     m=    64 val_MSE=0.01627 runs= 3    30.4s NO_COMPACT_ALTERNATIVE_FOUND
+  B6b_plus_Q                       s=123    m=    64 val_MSE=0.01547 runs= 3    42.6s NO_COMPACT_ALTERNATIVE_FOUND
+  B6b_plus_Q                       s=777    m=    48 val_MSE=0.01631 runs= 4    77.8s SUCCESS
+  B6b_plus_Q                       s=2024   m=    64 val_MSE=0.01583 runs= 3    34.8s NO_COMPACT_ALTERNATIVE_FOUND
+  B6b_plus_Q                       s=31337  m=    64 val_MSE=0.01651 runs= 3    34.1s NO_COMPACT_ALTERNATIVE_FOUND
+
+==============================================================================
+=== dSprites  beta=0.25  尤度=bernoulli  d̂0=7.61  m_ref=[30, 61, 122]  上限=5163s ===
+==============================================================================
+  B1_full_mse                      s=42     m=    48 val_MSE=0.00102 runs=12  3029.9s SUCCESS
+  B1_full_mse                      s=123    m=    64 val_MSE=0.00102 runs=12  3053.7s SUCCESS
+  B1_full_mse                      s=777    m=    32 val_MSE=0.00099 runs=12  2794.8s SUCCESS
+  B1_full_mse                      s=2024   m=    64 val_MSE=0.00104 runs=12  3109.8s SUCCESS
+  B1_full_mse                      s=31337  m=    64 val_MSE=0.00096 runs=12  3052.8s SUCCESS
+  B2_full_elbo                     s=42     m=     6 val_MSE=0.00223 runs=12  3029.9s SUCCESS
+  B2_full_elbo                     s=123    m=    10 val_MSE=0.00150 runs=12  3053.7s SUCCESS
+  B2_full_elbo                     s=777    m=     8 val_MSE=0.00210 runs=12  2794.8s SUCCESS
+  B2_full_elbo                     s=2024   m=    10 val_MSE=0.00149 runs=12  3109.8s SUCCESS
+  B2_full_elbo                     s=31337  m=     8 val_MSE=0.00178 runs=12  3052.8s SUCCESS
+  B3_full_downstream               s=42     m=    64 val_MSE=0.00103 runs=12  3057.7s SUCCESS
+  B3_full_downstream               s=123    m=    64 val_MSE=0.00102 runs=12  3084.1s SUCCESS
+  B3_full_downstream               s=777    m=    64 val_MSE=0.00103 runs=12  2822.4s SUCCESS
+  B3_full_downstream               s=2024   m=    64 val_MSE=0.00104 runs=12  3140.8s SUCCESS
+  B3_full_downstream               s=31337  m=    64 val_MSE=0.00096 runs=12  3076.5s SUCCESS
+  B4_coarse                        s=42     m=    64 val_MSE=0.00103 runs= 4   814.0s SUCCESS
+  B4_coarse                        s=123    m=    64 val_MSE=0.00102 runs= 4   840.2s SUCCESS
+  B4_coarse                        s=777    m=    64 val_MSE=0.00103 runs= 4   772.7s SUCCESS
+  B4_coarse                        s=2024   m=    64 val_MSE=0.00104 runs= 4   735.9s SUCCESS
+  B4_coarse                        s=31337  m=    64 val_MSE=0.00096 runs= 4   800.2s SUCCESS
+  B5_fixed32                       s=42     m=    32 val_MSE=0.00105 runs= 1   172.2s SUCCESS
+  B5_fixed32                       s=123    m=    32 val_MSE=0.00103 runs= 1   230.1s SUCCESS
+  B5_fixed32                       s=777    m=    32 val_MSE=0.00099 runs= 1   188.8s SUCCESS
+  B5_fixed32                       s=2024   m=    32 val_MSE=0.00107 runs= 1   169.0s SUCCESS
+  B5_fixed32                       s=31337  m=    32 val_MSE=0.00112 runs= 1   194.7s SUCCESS
+  B6a_fondue                       s=42     m=     4 val_MSE=0.00633 runs= 5   149.2s SUCCESS
+  B6a_fondue                       s=123    m=     4 val_MSE=0.00639 runs= 5   155.7s SUCCESS
+  B6a_fondue                       s=777    m=     4 val_MSE=0.00638 runs= 5   116.0s SUCCESS
+  B6a_fondue                       s=2024   m=     6 val_MSE=0.00251 runs= 5   368.4s SUCCESS
+  B6a_fondue                       s=31337  m=     5 val_MSE=0.00250 runs= 5   209.9s SUCCESS
+  B6b_fondue_var                   s=42     m=   239 val_MSE=0.00094 runs= 6   220.2s SUCCESS
+  B6b_fondue_var                   s=123    m=    50 val_MSE=0.00112 runs= 4   219.9s SUCCESS
+  B6b_fondue_var                   s=777    m=     6 val_MSE=0.00273 runs= 4   222.8s SUCCESS
+  B6b_fondue_var                   s=2024   m=   237 val_MSE=0.00091 runs= 6   349.7s SUCCESS
+  B6b_fondue_var                   s=31337  m=    21 val_MSE=0.00114 runs= 4   124.6s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=42     m=    11 val_MSE=0.00145 runs= 2   130.6s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=123    m=    12 val_MSE=0.00133 runs= 2   274.4s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=777    m=    12 val_MSE=0.00129 runs= 2   265.2s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=2024   m=     7 val_MSE=0.00237 runs= 2   167.9s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=31337  m=    14 val_MSE=0.00145 runs= 2   135.3s SUCCESS
+  proposed                         s=42     m=    64 val_MSE=0.00103 runs= 4  1109.8s ID_UNRELIABLE
+  proposed                         s=123    m=    64 val_MSE=0.00102 runs= 4  1136.0s ID_UNRELIABLE
+  proposed                         s=777    m=    64 val_MSE=0.00103 runs= 4  1068.5s ID_UNRELIABLE
+  proposed                         s=2024   m=    64 val_MSE=0.00104 runs= 4  1031.6s ID_UNRELIABLE
+  proposed                         s=31337  m=    64 val_MSE=0.00096 runs= 4  1096.0s ID_UNRELIABLE
+  proposed_minus_AU                s=42     m=    64 val_MSE=0.00103 runs= 4  1109.8s ID_UNRELIABLE
+  proposed_minus_AU                s=123    m=    64 val_MSE=0.00102 runs= 4  1136.0s ID_UNRELIABLE
+  proposed_minus_AU                s=777    m=    64 val_MSE=0.00103 runs= 4  1068.5s ID_UNRELIABLE
+  proposed_minus_AU                s=2024   m=    64 val_MSE=0.00104 runs= 4  1031.6s ID_UNRELIABLE
+  proposed_minus_AU                s=31337  m=    64 val_MSE=0.00096 runs= 4  1096.0s ID_UNRELIABLE
+  ascending_scan_Q                 s=42     m=    16 val_MSE=0.00113 runs= 8  2012.0s SUCCESS
+  ascending_scan_Q                 s=123    m=    20 val_MSE=0.00105 runs= 9  2302.2s SUCCESS
+  ascending_scan_Q                 s=777    m=    32 val_MSE=0.00099 runs=11  2578.4s SUCCESS
+  ascending_scan_Q                 s=2024   m=    16 val_MSE=0.00107 runs= 8  2029.0s SUCCESS
+  ascending_scan_Q                 s=31337  m=    24 val_MSE=0.00104 runs=10  2652.9s SUCCESS
+  B4_plus_Q                        s=42     m=    64 val_MSE=0.00103 runs= 4   814.0s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=123    m=    64 val_MSE=0.00102 runs= 4   840.2s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=777    m=    64 val_MSE=0.00103 runs= 4   772.7s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=2024   m=    64 val_MSE=0.00104 runs= 4   735.9s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=31337  m=    64 val_MSE=0.00096 runs= 4   800.2s NO_COMPACT_ALTERNATIVE_FOUND
+  B6a_plus_Q                       s=42     m=    16 val_MSE=0.00113 runs=11  1871.8s SUCCESS
+  B6a_plus_Q                       s=123    m=    20 val_MSE=0.00105 runs=12  2180.8s SUCCESS
+  B6a_plus_Q                       s=777    m=    64 val_MSE=0.00103 runs=13  2258.9s BUDGET_EXHAUSTED
+  B6a_plus_Q                       s=2024   m=    16 val_MSE=0.00107 runs=10  1779.6s SUCCESS
+  B6a_plus_Q                       s=31337  m=    24 val_MSE=0.00104 runs=12  2423.4s SUCCESS
+  B6b_plus_Q                       s=42     m=    64 val_MSE=0.00103 runs= 6   280.1s NO_COMPACT_ALTERNATIVE_FOUND
+  B6b_plus_Q                       s=123    m=    64 val_MSE=0.00102 runs= 4   239.6s NO_COMPACT_ALTERNATIVE_FOUND
+  B6b_plus_Q                       s=777    m=    32 val_MSE=0.00099 runs=12  2335.0s SUCCESS
+  B6b_plus_Q                       s=2024   m=    64 val_MSE=0.00104 runs= 6   180.4s NO_COMPACT_ALTERNATIVE_FOUND
+  B6b_plus_Q                       s=31337  m=    24 val_MSE=0.00104 runs= 5   564.1s SUCCESS
+
+==============================================================================
+=== MNIST  beta=0.5  尤度=gaussian  d̂0=13.84  m_ref=[55, 111, 221]  上限=1470s ===
+==============================================================================
+  FONDUE の epoch 数を原著の手順で決める（予測が安定するまで増やす）
+    -> epochs=2 予測={1: 8, 2: 9, 3: 9} 安定=True 探索費用=9.6s
+  B1_full_mse                      s=42     m=    12 val_MSE=0.01663 runs=12   490.2s SUCCESS
+  B1_full_mse                      s=123    m=    12 val_MSE=0.01737 runs=12   425.8s SUCCESS
+  B1_full_mse                      s=777    m=    24 val_MSE=0.01766 runs=12   430.6s SUCCESS
+  B1_full_mse                      s=2024   m=    10 val_MSE=0.01744 runs=12   466.5s SUCCESS
+  B1_full_mse                      s=31337  m=    12 val_MSE=0.01732 runs=12   486.2s SUCCESS
+  B2_full_elbo                     s=42     m=    12 val_MSE=0.01663 runs=12   490.2s SUCCESS
+  B2_full_elbo                     s=123    m=    12 val_MSE=0.01737 runs=12   425.8s SUCCESS
+  B2_full_elbo                     s=777    m=    12 val_MSE=0.01769 runs=12   430.6s SUCCESS
+  B2_full_elbo                     s=2024   m=    16 val_MSE=0.01746 runs=12   466.5s SUCCESS
+  B2_full_elbo                     s=31337  m=    10 val_MSE=0.01736 runs=12   486.2s SUCCESS
+  B3_full_downstream               s=42     m=    64 val_MSE=0.01835 runs=12   540.6s SUCCESS
+  B3_full_downstream               s=123    m=    64 val_MSE=0.01965 runs=12   479.3s SUCCESS
+  B3_full_downstream               s=777    m=    64 val_MSE=0.01933 runs=12   482.1s SUCCESS
+  B3_full_downstream               s=2024   m=    64 val_MSE=0.01929 runs=12   520.2s SUCCESS
+  B3_full_downstream               s=31337  m=    64 val_MSE=0.01939 runs=12   540.1s SUCCESS
+  B4_coarse                        s=42     m=    64 val_MSE=0.01835 runs= 4   145.7s SUCCESS
+  B4_coarse                        s=123    m=    10 val_MSE=0.01766 runs= 4   133.0s SUCCESS
+  B4_coarse                        s=777    m=    64 val_MSE=0.01933 runs= 4   117.5s SUCCESS
+  B4_coarse                        s=2024   m=    10 val_MSE=0.01744 runs= 4   159.5s SUCCESS
+  B4_coarse                        s=31337  m=    10 val_MSE=0.01736 runs= 4   162.5s SUCCESS
+  B5_fixed32                       s=42     m=    32 val_MSE=0.01775 runs= 1    68.2s SUCCESS
+  B5_fixed32                       s=123    m=    32 val_MSE=0.01815 runs= 1    31.3s SUCCESS
+  B5_fixed32                       s=777    m=    32 val_MSE=0.01795 runs= 1    48.8s SUCCESS
+  B5_fixed32                       s=2024   m=    32 val_MSE=0.01787 runs= 1    45.4s SUCCESS
+  B5_fixed32                       s=31337  m=    32 val_MSE=0.01832 runs= 1    35.6s SUCCESS
+  B6a_fondue                       s=42     m=     9 val_MSE=0.02002 runs= 6    39.7s SUCCESS
+  B6a_fondue                       s=123    m=     9 val_MSE=0.01852 runs= 6    36.7s SUCCESS
+  B6a_fondue                       s=777    m=     9 val_MSE=0.01868 runs= 6    41.7s SUCCESS
+  B6a_fondue                       s=2024   m=     9 val_MSE=0.01848 runs= 6    55.5s SUCCESS
+  B6a_fondue                       s=31337  m=     9 val_MSE=0.01863 runs= 6    36.2s SUCCESS
+  B6b_fondue_var                   s=42     m=    26 val_MSE=0.01780 runs= 2    39.2s SUCCESS
+  B6b_fondue_var                   s=123    m=    40 val_MSE=0.01911 runs= 3    60.4s SUCCESS
+  B6b_fondue_var                   s=777    m=    27 val_MSE=0.01852 runs= 2    34.7s SUCCESS
+  B6b_fondue_var                   s=2024   m=    25 val_MSE=0.01844 runs= 2    27.2s SUCCESS
+  B6b_fondue_var                   s=31337  m=    22 val_MSE=0.01760 runs= 2    49.4s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=42     m=     2 val_MSE=0.03803 runs= 2    26.0s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=123    m=     2 val_MSE=0.03753 runs= 2    31.2s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=777    m=     2 val_MSE=0.03797 runs= 2    22.4s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=2024   m=     2 val_MSE=0.03706 runs= 2    36.7s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=31337  m=     2 val_MSE=0.03729 runs= 2    34.2s SUCCESS
+  proposed                         s=42     m=     8 val_MSE=0.01844 runs=10   596.0s SUCCESS
+  proposed                         s=123    m=     8 val_MSE=0.01885 runs=10   557.2s SUCCESS
+  proposed                         s=777    m=     8 val_MSE=0.01842 runs=10   540.0s SUCCESS
+  proposed                         s=2024   m=     8 val_MSE=0.01909 runs=10   589.7s SUCCESS
+  proposed                         s=31337  m=     8 val_MSE=0.02011 runs=10   600.5s SUCCESS
+  proposed_minus_AU                s=42     m=     8 val_MSE=0.01844 runs=10   596.0s SUCCESS
+  proposed_minus_AU                s=123    m=     8 val_MSE=0.01885 runs=10   557.2s SUCCESS
+  proposed_minus_AU                s=777    m=     8 val_MSE=0.01842 runs=10   540.0s SUCCESS
+  proposed_minus_AU                s=2024   m=     8 val_MSE=0.01909 runs=10   589.7s SUCCESS
+  proposed_minus_AU                s=31337  m=     8 val_MSE=0.02011 runs=10   600.5s SUCCESS
+  ascending_scan_Q                 s=42     m=     8 val_MSE=0.01844 runs= 5   170.9s SUCCESS
+  ascending_scan_Q                 s=123    m=     8 val_MSE=0.01885 runs= 5   167.6s SUCCESS
+  ascending_scan_Q                 s=777    m=     8 val_MSE=0.01842 runs= 5   174.8s SUCCESS
+  ascending_scan_Q                 s=2024   m=     8 val_MSE=0.01909 runs= 5   183.4s SUCCESS
+  ascending_scan_Q                 s=31337  m=     8 val_MSE=0.02011 runs= 5   188.1s SUCCESS
+  B4_plus_Q                        s=42     m=    64 val_MSE=0.01835 runs= 4   145.7s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=123    m=    10 val_MSE=0.01766 runs= 4   133.0s SUCCESS
+  B4_plus_Q                        s=777    m=    64 val_MSE=0.01933 runs= 4   117.5s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=2024   m=    10 val_MSE=0.01744 runs= 4   159.5s SUCCESS
+  B4_plus_Q                        s=31337  m=    10 val_MSE=0.01736 runs= 4   162.5s SUCCESS
+  B6a_plus_Q                       s=42     m=    10 val_MSE=0.01840 runs= 7    99.6s SUCCESS
+  B6a_plus_Q                       s=123    m=    10 val_MSE=0.01766 runs= 7    70.6s SUCCESS
+  B6a_plus_Q                       s=777    m=    10 val_MSE=0.01979 runs= 7    78.2s SUCCESS
+  B6a_plus_Q                       s=2024   m=    10 val_MSE=0.01744 runs= 7    95.6s SUCCESS
+  B6a_plus_Q                       s=31337  m=    10 val_MSE=0.01736 runs= 7   109.0s SUCCESS
+  B6b_plus_Q                       s=42     m=    32 val_MSE=0.01775 runs= 3   119.7s SUCCESS
+  B6b_plus_Q                       s=123    m=    48 val_MSE=0.01907 runs= 4    83.5s SUCCESS
+  B6b_plus_Q                       s=777    m=    32 val_MSE=0.01795 runs= 3   104.1s SUCCESS
+  B6b_plus_Q                       s=2024   m=    32 val_MSE=0.01787 runs= 3    99.3s SUCCESS
+  B6b_plus_Q                       s=31337  m=    24 val_MSE=0.01919 runs= 3   103.2s SUCCESS
+
+==============================================================================
+=== dSprites  beta=0.5  尤度=bernoulli  d̂0=7.61  m_ref=[30, 61, 122]  上限=5163s ===
+==============================================================================
+  B1_full_mse                      s=42     m=    64 val_MSE=0.00102 runs=12  2131.1s SUCCESS
+  B1_full_mse                      s=123    m=    64 val_MSE=0.00102 runs=12  2246.4s SUCCESS
+  B1_full_mse                      s=777    m=    64 val_MSE=0.00105 runs=12  2125.0s SUCCESS
+  B1_full_mse                      s=2024   m=    64 val_MSE=0.00109 runs=12  2098.9s SUCCESS
+  B1_full_mse                      s=31337  m=    64 val_MSE=0.00102 runs=12  2197.5s SUCCESS
+  B2_full_elbo                     s=42     m=    64 val_MSE=0.00102 runs=12  2131.1s SUCCESS
+  B2_full_elbo                     s=123    m=    32 val_MSE=0.00108 runs=12  2246.4s SUCCESS
+  B2_full_elbo                     s=777    m=    64 val_MSE=0.00105 runs=12  2125.0s SUCCESS
+  B2_full_elbo                     s=2024   m=    24 val_MSE=0.00114 runs=12  2098.9s SUCCESS
+  B2_full_elbo                     s=31337  m=    64 val_MSE=0.00102 runs=12  2197.5s SUCCESS
+  B3_full_downstream               s=42     m=    64 val_MSE=0.00102 runs=12  2158.9s SUCCESS
+  B3_full_downstream               s=123    m=    64 val_MSE=0.00102 runs=12  2270.9s SUCCESS
+  B3_full_downstream               s=777    m=    48 val_MSE=0.00108 runs=12  2147.1s SUCCESS
+  B3_full_downstream               s=2024   m=    64 val_MSE=0.00109 runs=12  2125.2s SUCCESS
+  B3_full_downstream               s=31337  m=    64 val_MSE=0.00102 runs=12  2216.2s SUCCESS
+  B4_coarse                        s=42     m=    64 val_MSE=0.00102 runs= 4   628.9s SUCCESS
+  B4_coarse                        s=123    m=    64 val_MSE=0.00102 runs= 4   642.4s SUCCESS
+  B4_coarse                        s=777    m=    64 val_MSE=0.00105 runs= 4   671.9s SUCCESS
+  B4_coarse                        s=2024   m=    64 val_MSE=0.00109 runs= 4   591.4s SUCCESS
+  B4_coarse                        s=31337  m=    64 val_MSE=0.00102 runs= 4   579.9s SUCCESS
+  B5_fixed32                       s=42     m=    32 val_MSE=0.00111 runs= 1   233.4s SUCCESS
+  B5_fixed32                       s=123    m=    32 val_MSE=0.00108 runs= 1   198.1s SUCCESS
+  B5_fixed32                       s=777    m=    32 val_MSE=0.00110 runs= 1   187.1s SUCCESS
+  B5_fixed32                       s=2024   m=    32 val_MSE=0.00114 runs= 1   184.9s SUCCESS
+  B5_fixed32                       s=31337  m=    32 val_MSE=0.00118 runs= 1   255.5s SUCCESS
+  B6a_fondue                       s=42     m=     4 val_MSE=0.00633 runs= 5   124.9s SUCCESS
+  B6a_fondue                       s=123    m=     4 val_MSE=0.00634 runs= 5   121.6s SUCCESS
+  B6a_fondue                       s=777    m=     5 val_MSE=0.00271 runs= 5   172.1s SUCCESS
+  B6a_fondue                       s=2024   m=     4 val_MSE=0.00640 runs= 5   115.1s SUCCESS
+  B6a_fondue                       s=31337  m=     5 val_MSE=0.00340 runs= 5   174.4s SUCCESS
+  B6b_fondue_var                   s=42     m=   119 val_MSE=0.00097 runs= 5   257.8s SUCCESS
+  B6b_fondue_var                   s=123    m=   232 val_MSE=0.00097 runs= 6   315.0s SUCCESS
+  B6b_fondue_var                   s=777    m=   119 val_MSE=0.00102 runs= 5   255.5s SUCCESS
+  B6b_fondue_var                   s=2024   m=   118 val_MSE=0.00103 runs= 5   274.7s SUCCESS
+  B6b_fondue_var                   s=31337  m=    58 val_MSE=0.00108 runs= 4   228.1s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=42     m=    10 val_MSE=0.00156 runs= 2   180.1s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=123    m=     8 val_MSE=0.00199 runs= 2   175.4s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=777    m=     7 val_MSE=0.00249 runs= 2   132.8s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=2024   m=    12 val_MSE=0.00127 runs= 2   160.5s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=31337  m=  None val_MSE=nan runs= 1     1.1s DEGENERATE_SELECTION
+  proposed                         s=42     m=    64 val_MSE=0.00102 runs= 4   924.7s ID_UNRELIABLE
+  proposed                         s=123    m=    64 val_MSE=0.00102 runs= 4   938.2s ID_UNRELIABLE
+  proposed                         s=777    m=    64 val_MSE=0.00105 runs= 4   967.6s ID_UNRELIABLE
+  proposed                         s=2024   m=    64 val_MSE=0.00109 runs= 4   887.2s ID_UNRELIABLE
+  proposed                         s=31337  m=    64 val_MSE=0.00102 runs= 4   875.7s ID_UNRELIABLE
+  proposed_minus_AU                s=42     m=    64 val_MSE=0.00102 runs= 4   924.7s ID_UNRELIABLE
+  proposed_minus_AU                s=123    m=    64 val_MSE=0.00102 runs= 4   938.2s ID_UNRELIABLE
+  proposed_minus_AU                s=777    m=    64 val_MSE=0.00105 runs= 4   967.6s ID_UNRELIABLE
+  proposed_minus_AU                s=2024   m=    64 val_MSE=0.00109 runs= 4   887.2s ID_UNRELIABLE
+  proposed_minus_AU                s=31337  m=    64 val_MSE=0.00102 runs= 4   875.7s ID_UNRELIABLE
+  ascending_scan_Q                 s=42     m=    32 val_MSE=0.00111 runs=11  1947.9s SUCCESS
+  ascending_scan_Q                 s=123    m=    32 val_MSE=0.00108 runs=11  1932.9s SUCCESS
+  ascending_scan_Q                 s=777    m=    20 val_MSE=0.00116 runs= 9  1528.1s SUCCESS
+  ascending_scan_Q                 s=2024   m=    16 val_MSE=0.00112 runs= 8  1276.8s SUCCESS
+  ascending_scan_Q                 s=31337  m=    24 val_MSE=0.00108 runs=10  1714.3s SUCCESS
+  B4_plus_Q                        s=42     m=    64 val_MSE=0.00102 runs= 4   628.9s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=123    m=    64 val_MSE=0.00102 runs= 4   642.4s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=777    m=    64 val_MSE=0.00105 runs= 4   671.9s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=2024   m=    64 val_MSE=0.00109 runs= 4   591.4s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=31337  m=    64 val_MSE=0.00102 runs= 4   579.9s NO_COMPACT_ALTERNATIVE_FOUND
+  B6a_plus_Q                       s=42     m=    64 val_MSE=0.00102 runs=13  1628.3s BUDGET_EXHAUSTED
+  B6a_plus_Q                       s=123    m=    64 val_MSE=0.00102 runs=13  1654.2s BUDGET_EXHAUSTED
+  B6a_plus_Q                       s=777    m=    20 val_MSE=0.00116 runs=11  1323.3s SUCCESS
+  B6a_plus_Q                       s=2024   m=    16 val_MSE=0.00112 runs=11  1207.4s SUCCESS
+  B6a_plus_Q                       s=31337  m=    24 val_MSE=0.00108 runs=12  1534.0s SUCCESS
+  B6b_plus_Q                       s=42     m=    64 val_MSE=0.00102 runs= 5   243.2s NO_COMPACT_ALTERNATIVE_FOUND
+  B6b_plus_Q                       s=123    m=    64 val_MSE=0.00102 runs= 6   267.9s NO_COMPACT_ALTERNATIVE_FOUND
+  B6b_plus_Q                       s=777    m=    64 val_MSE=0.00105 runs= 5   235.4s NO_COMPACT_ALTERNATIVE_FOUND
+  B6b_plus_Q                       s=2024   m=    64 val_MSE=0.00109 runs= 5   251.0s NO_COMPACT_ALTERNATIVE_FOUND
+  B6b_plus_Q                       s=31337  m=    64 val_MSE=0.00102 runs= 4   218.5s NO_COMPACT_ALTERNATIVE_FOUND
+
+==============================================================================
+=== MNIST  beta=1.0  尤度=gaussian  d̂0=13.84  m_ref=[55, 111, 221]  上限=1470s ===
+==============================================================================
+  FONDUE の epoch 数を原著の手順で決める（予測が安定するまで増やす）
+    -> epochs=1 予測={1: 7, 2: 7} 安定=True 探索費用=4.0s
+
+==============================================================================
+=== dSprites  beta=1.0  尤度=bernoulli  d̂0=7.61  m_ref=[30, 61, 122]  上限=5163s ===
+==============================================================================
+
+==============================================================================
+=== MNIST  beta=2.0  尤度=gaussian  d̂0=13.84  m_ref=[55, 111, 221]  上限=1470s ===
+==============================================================================
+  FONDUE の epoch 数を原著の手順で決める（予測が安定するまで増やす）
+    -> epochs=2 予測={1: 8, 2: 7, 3: 7} 安定=True 探索費用=8.1s
+  B1_full_mse                      s=42     m=     6 val_MSE=0.02579 runs=12   855.9s SUCCESS
+  B1_full_mse                      s=123    m=     8 val_MSE=0.02499 runs=12   839.9s SUCCESS
+  B1_full_mse                      s=777    m=    10 val_MSE=0.02520 runs=12   861.3s SUCCESS
+  B1_full_mse                      s=2024   m=     6 val_MSE=0.02632 runs=12   781.1s SUCCESS
+  B1_full_mse                      s=31337  m=     8 val_MSE=0.02548 runs=12   864.4s SUCCESS
+  B2_full_elbo                     s=42     m=     6 val_MSE=0.02579 runs=12   855.9s SUCCESS
+  B2_full_elbo                     s=123    m=     8 val_MSE=0.02499 runs=12   839.9s SUCCESS
+  B2_full_elbo                     s=777    m=    10 val_MSE=0.02520 runs=12   861.3s SUCCESS
+  B2_full_elbo                     s=2024   m=     6 val_MSE=0.02632 runs=12   781.1s SUCCESS
+  B2_full_elbo                     s=31337  m=     8 val_MSE=0.02548 runs=12   864.4s SUCCESS
+  B3_full_downstream               s=42     m=    48 val_MSE=0.02890 runs=12   928.0s SUCCESS
+  B3_full_downstream               s=123    m=    20 val_MSE=0.02762 runs=12   918.3s SUCCESS
+  B3_full_downstream               s=777    m=    48 val_MSE=0.02840 runs=12   933.1s SUCCESS
+  B3_full_downstream               s=2024   m=    32 val_MSE=0.02861 runs=12   845.6s SUCCESS
+  B3_full_downstream               s=31337  m=    32 val_MSE=0.02843 runs=12   934.9s SUCCESS
+  B4_coarse                        s=42     m=    10 val_MSE=0.02653 runs= 4   284.3s SUCCESS
+  B4_coarse                        s=123    m=    10 val_MSE=0.02723 runs= 4   227.1s SUCCESS
+  B4_coarse                        s=777    m=    10 val_MSE=0.02520 runs= 4   272.7s SUCCESS
+  B4_coarse                        s=2024   m=    10 val_MSE=0.02755 runs= 4   200.5s SUCCESS
+  B4_coarse                        s=31337  m=    10 val_MSE=0.02661 runs= 4   288.5s SUCCESS
+  B5_fixed32                       s=42     m=    32 val_MSE=0.02921 runs= 1    62.8s SUCCESS
+  B5_fixed32                       s=123    m=    32 val_MSE=0.02788 runs= 1    70.6s SUCCESS
+  B5_fixed32                       s=777    m=    32 val_MSE=0.03100 runs= 1    72.0s SUCCESS
+  B5_fixed32                       s=2024   m=    32 val_MSE=0.02861 runs= 1    79.0s SUCCESS
+  B5_fixed32                       s=31337  m=    32 val_MSE=0.02843 runs= 1    91.8s SUCCESS
+  B6a_fondue                       s=42     m=     7 val_MSE=0.02636 runs= 5    74.6s SUCCESS
+  B6a_fondue                       s=123    m=     7 val_MSE=0.02604 runs= 5    74.0s SUCCESS
+  B6a_fondue                       s=777    m=     7 val_MSE=0.02852 runs= 5    72.2s SUCCESS
+  B6a_fondue                       s=2024   m=     7 val_MSE=0.02653 runs= 5    56.0s SUCCESS
+  B6a_fondue                       s=31337  m=     7 val_MSE=0.02670 runs= 5    64.4s SUCCESS
+  B6b_fondue_var                   s=42     m=     4 val_MSE=0.02888 runs= 2    63.5s SUCCESS
+  B6b_fondue_var                   s=123    m=     3 val_MSE=0.03219 runs= 2    65.7s SUCCESS
+  B6b_fondue_var                   s=777    m=     7 val_MSE=0.02852 runs= 2    70.3s SUCCESS
+  B6b_fondue_var                   s=2024   m=     2 val_MSE=0.03777 runs= 2    39.7s SUCCESS
+  B6b_fondue_var                   s=31337  m=     4 val_MSE=0.02975 runs= 2    55.8s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=42     m=  None val_MSE=nan runs= 1     0.6s DEGENERATE_SELECTION
+  B6b_fondue_var_keepmixed_false   s=123    m=  None val_MSE=nan runs= 1     0.6s DEGENERATE_SELECTION
+  B6b_fondue_var_keepmixed_false   s=777    m=  None val_MSE=nan runs= 1     0.7s DEGENERATE_SELECTION
+  B6b_fondue_var_keepmixed_false   s=2024   m=  None val_MSE=nan runs= 1     0.7s DEGENERATE_SELECTION
+  B6b_fondue_var_keepmixed_false   s=31337  m=  None val_MSE=nan runs= 1     0.6s DEGENERATE_SELECTION
+  proposed                         s=42     m=     4 val_MSE=0.02888 runs=10   931.1s SUCCESS
+  proposed                         s=123    m=     4 val_MSE=0.02926 runs=10   883.4s SUCCESS
+  proposed                         s=777    m=     4 val_MSE=0.02845 runs=10   902.1s SUCCESS
+  proposed                         s=2024   m=     4 val_MSE=0.02842 runs=10   815.9s SUCCESS
+  proposed                         s=31337  m=     4 val_MSE=0.02975 runs=10   923.5s SUCCESS
+  proposed_minus_AU                s=42     m=     4 val_MSE=0.02888 runs=10   931.1s SUCCESS
+  proposed_minus_AU                s=123    m=     4 val_MSE=0.02926 runs=10   883.4s SUCCESS
+  proposed_minus_AU                s=777    m=     4 val_MSE=0.02845 runs=10   902.1s SUCCESS
+  proposed_minus_AU                s=2024   m=     4 val_MSE=0.02842 runs=10   815.9s SUCCESS
+  proposed_minus_AU                s=31337  m=     4 val_MSE=0.02975 runs=10   923.5s SUCCESS
+  ascending_scan_Q                 s=42     m=     4 val_MSE=0.02888 runs= 3   195.2s SUCCESS
+  ascending_scan_Q                 s=123    m=     4 val_MSE=0.02926 runs= 3   186.8s SUCCESS
+  ascending_scan_Q                 s=777    m=     4 val_MSE=0.02845 runs= 3   209.8s SUCCESS
+  ascending_scan_Q                 s=2024   m=     4 val_MSE=0.02842 runs= 3   160.0s SUCCESS
+  ascending_scan_Q                 s=31337  m=     4 val_MSE=0.02975 runs= 3   195.5s SUCCESS
+  B4_plus_Q                        s=42     m=    10 val_MSE=0.02653 runs= 4   284.3s SUCCESS
+  B4_plus_Q                        s=123    m=    10 val_MSE=0.02723 runs= 4   227.1s SUCCESS
+  B4_plus_Q                        s=777    m=    10 val_MSE=0.02520 runs= 4   272.7s SUCCESS
+  B4_plus_Q                        s=2024   m=    10 val_MSE=0.02755 runs= 4   200.5s SUCCESS
+  B4_plus_Q                        s=31337  m=    10 val_MSE=0.02661 runs= 4   288.5s SUCCESS
+  B6a_plus_Q                       s=42     m=     8 val_MSE=0.02667 runs= 6   134.3s SUCCESS
+  B6a_plus_Q                       s=123    m=     8 val_MSE=0.02499 runs= 6   149.3s SUCCESS
+  B6a_plus_Q                       s=777    m=     8 val_MSE=0.02674 runs= 6   150.4s SUCCESS
+  B6a_plus_Q                       s=2024   m=     8 val_MSE=0.02713 runs= 6    93.7s SUCCESS
+  B6a_plus_Q                       s=31337  m=     8 val_MSE=0.02548 runs= 6   143.2s SUCCESS
+  B6b_plus_Q                       s=42     m=     4 val_MSE=0.02888 runs= 3   139.5s SUCCESS
+  B6b_plus_Q                       s=123    m=     4 val_MSE=0.02926 runs= 3   120.2s SUCCESS
+  B6b_plus_Q                       s=777    m=     8 val_MSE=0.02674 runs= 3   148.6s SUCCESS
+  B6b_plus_Q                       s=2024   m=     4 val_MSE=0.02842 runs= 4   160.6s SUCCESS
+  B6b_plus_Q                       s=31337  m=     4 val_MSE=0.02975 runs= 3   130.9s SUCCESS
+
+==============================================================================
+=== dSprites  beta=2.0  尤度=bernoulli  d̂0=7.61  m_ref=[30, 61, 122]  上限=5163s ===
+==============================================================================
+  B1_full_mse                      s=42     m=    48 val_MSE=0.00143 runs=12  3234.1s SUCCESS
+  B1_full_mse                      s=123    m=    20 val_MSE=0.00148 runs=12  3361.9s SUCCESS
+  B1_full_mse                      s=777    m=    32 val_MSE=0.00145 runs=12  3113.9s SUCCESS
+  B1_full_mse                      s=2024   m=    32 val_MSE=0.00145 runs=12  2985.5s SUCCESS
+  B1_full_mse                      s=31337  m=    64 val_MSE=0.00140 runs=12  3256.5s SUCCESS
+  B2_full_elbo                     s=42     m=    64 val_MSE=0.00144 runs=12  3234.1s SUCCESS
+  B2_full_elbo                     s=123    m=    32 val_MSE=0.00151 runs=12  3361.9s SUCCESS
+  B2_full_elbo                     s=777    m=    64 val_MSE=0.00147 runs=12  3113.9s SUCCESS
+  B2_full_elbo                     s=2024   m=    64 val_MSE=0.00146 runs=12  2985.5s SUCCESS
+  B2_full_elbo                     s=31337  m=    64 val_MSE=0.00140 runs=12  3256.5s SUCCESS
+  B3_full_downstream               s=42     m=    64 val_MSE=0.00144 runs=12  3254.1s SUCCESS
+  B3_full_downstream               s=123    m=    64 val_MSE=0.00150 runs=12  3380.1s SUCCESS
+  B3_full_downstream               s=777    m=    64 val_MSE=0.00147 runs=12  3139.5s SUCCESS
+  B3_full_downstream               s=2024   m=    64 val_MSE=0.00146 runs=12  3006.0s SUCCESS
+  B3_full_downstream               s=31337  m=    64 val_MSE=0.00140 runs=12  3282.9s SUCCESS
+  B4_coarse                        s=42     m=    64 val_MSE=0.00144 runs= 4   911.8s SUCCESS
+  B4_coarse                        s=123    m=    64 val_MSE=0.00150 runs= 4   861.7s SUCCESS
+  B4_coarse                        s=777    m=    64 val_MSE=0.00147 runs= 4   856.1s SUCCESS
+  B4_coarse                        s=2024   m=    64 val_MSE=0.00146 runs= 4   901.3s SUCCESS
+  B4_coarse                        s=31337  m=    64 val_MSE=0.00140 runs= 4   828.6s SUCCESS
+  B5_fixed32                       s=42     m=    32 val_MSE=0.00144 runs= 1   331.8s SUCCESS
+  B5_fixed32                       s=123    m=    32 val_MSE=0.00151 runs= 1   331.9s SUCCESS
+  B5_fixed32                       s=777    m=    32 val_MSE=0.00145 runs= 1   213.7s SUCCESS
+  B5_fixed32                       s=2024   m=    32 val_MSE=0.00145 runs= 1   272.3s SUCCESS
+  B5_fixed32                       s=31337  m=    32 val_MSE=0.00161 runs= 1   278.9s SUCCESS
+  B6a_fondue                       s=42     m=     4 val_MSE=0.00620 runs= 5   166.5s SUCCESS
+  B6a_fondue                       s=123    m=     4 val_MSE=0.00616 runs= 5   176.4s SUCCESS
+  B6a_fondue                       s=777    m=     8 val_MSE=0.00191 runs= 6   252.3s SUCCESS
+  B6a_fondue                       s=2024   m=     4 val_MSE=0.00625 runs= 5   165.5s SUCCESS
+  B6a_fondue                       s=31337  m=     4 val_MSE=0.00602 runs= 5   144.7s SUCCESS
+  B6b_fondue_var                   s=42     m=  None val_MSE=nan runs= 2     2.2s DEGENERATE_SELECTION
+  B6b_fondue_var                   s=123    m=    58 val_MSE=0.00146 runs= 4   338.6s SUCCESS
+  B6b_fondue_var                   s=777    m=    59 val_MSE=0.00144 runs= 4   289.8s SUCCESS
+  B6b_fondue_var                   s=2024   m=  None val_MSE=nan runs= 2     2.2s DEGENERATE_SELECTION
+  B6b_fondue_var                   s=31337  m=    29 val_MSE=0.00164 runs= 3   333.6s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=42     m=  None val_MSE=nan runs= 1     1.1s DEGENERATE_SELECTION
+  B6b_fondue_var_keepmixed_false   s=123    m=     3 val_MSE=0.00767 runs= 2   113.0s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=777    m=     1 val_MSE=0.01692 runs= 2   273.9s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=2024   m=  None val_MSE=nan runs= 1     1.1s DEGENERATE_SELECTION
+  B6b_fondue_var_keepmixed_false   s=31337  m=  None val_MSE=nan runs= 1     1.1s DEGENERATE_SELECTION
+  proposed                         s=42     m=    64 val_MSE=0.00144 runs= 4  1207.5s ID_UNRELIABLE
+  proposed                         s=123    m=    64 val_MSE=0.00150 runs= 4  1157.5s ID_UNRELIABLE
+  proposed                         s=777    m=    64 val_MSE=0.00147 runs= 4  1151.9s ID_UNRELIABLE
+  proposed                         s=2024   m=    64 val_MSE=0.00146 runs= 4  1197.1s ID_UNRELIABLE
+  proposed                         s=31337  m=    64 val_MSE=0.00140 runs= 4  1124.4s ID_UNRELIABLE
+  proposed_minus_AU                s=42     m=    64 val_MSE=0.00144 runs= 4  1207.5s ID_UNRELIABLE
+  proposed_minus_AU                s=123    m=    64 val_MSE=0.00150 runs= 4  1157.5s ID_UNRELIABLE
+  proposed_minus_AU                s=777    m=    64 val_MSE=0.00147 runs= 4  1151.9s ID_UNRELIABLE
+  proposed_minus_AU                s=2024   m=    64 val_MSE=0.00146 runs= 4  1197.1s ID_UNRELIABLE
+  proposed_minus_AU                s=31337  m=    64 val_MSE=0.00140 runs= 4  1124.4s ID_UNRELIABLE
+  ascending_scan_Q                 s=42     m=    20 val_MSE=0.00149 runs= 9  2274.4s SUCCESS
+  ascending_scan_Q                 s=123    m=    10 val_MSE=0.00163 runs= 6  1463.6s SUCCESS
+  ascending_scan_Q                 s=777    m=    12 val_MSE=0.00156 runs= 7  1677.5s SUCCESS
+  ascending_scan_Q                 s=2024   m=    12 val_MSE=0.00154 runs= 7  1671.3s SUCCESS
+  ascending_scan_Q                 s=31337  m=    20 val_MSE=0.00153 runs= 9  2317.8s SUCCESS
+  B4_plus_Q                        s=42     m=    64 val_MSE=0.00144 runs= 4   911.8s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=123    m=    64 val_MSE=0.00150 runs= 4   861.7s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=777    m=    64 val_MSE=0.00147 runs= 4   856.1s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=2024   m=    64 val_MSE=0.00146 runs= 4   901.3s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=31337  m=    64 val_MSE=0.00140 runs= 4   828.6s NO_COMPACT_ALTERNATIVE_FOUND
+  B6a_plus_Q                       s=42     m=    20 val_MSE=0.00149 runs=12  2168.5s SUCCESS
+  B6a_plus_Q                       s=123    m=    10 val_MSE=0.00163 runs= 9  1312.7s SUCCESS
+  B6a_plus_Q                       s=777    m=    12 val_MSE=0.00156 runs= 9  1188.9s SUCCESS
+  B6a_plus_Q                       s=2024   m=    12 val_MSE=0.00154 runs=10  1585.1s SUCCESS
+  B6a_plus_Q                       s=31337  m=    20 val_MSE=0.00153 runs=12  2238.3s SUCCESS
+  B6b_plus_Q                       s=42     m=    20 val_MSE=0.00149 runs=11  2276.7s SUCCESS
+  B6b_plus_Q                       s=123    m=    64 val_MSE=0.00150 runs= 4   303.6s NO_COMPACT_ALTERNATIVE_FOUND
+  B6b_plus_Q                       s=777    m=    64 val_MSE=0.00147 runs= 4   280.2s NO_COMPACT_ALTERNATIVE_FOUND
+  B6b_plus_Q                       s=2024   m=    12 val_MSE=0.00154 runs= 9  1673.5s SUCCESS
+  B6b_plus_Q                       s=31337  m=    48 val_MSE=0.00150 runs= 5   951.4s SUCCESS
+
+==============================================================================
+=== MNIST  beta=4.0  尤度=gaussian  d̂0=13.84  m_ref=[55, 111, 221]  上限=1470s ===
+==============================================================================
+  FONDUE の epoch 数を原著の手順で決める（予測が安定するまで増やす）
+    -> epochs=2 予測={1: 9, 2: 8, 3: 8} 安定=True 探索費用=9.4s
+  B1_full_mse                      s=42     m=    10 val_MSE=0.03608 runs=12   914.7s SUCCESS
+  B1_full_mse                      s=123    m=     8 val_MSE=0.03609 runs=12   955.9s SUCCESS
+  B1_full_mse                      s=777    m=     6 val_MSE=0.03545 runs=12  1010.4s SUCCESS
+  B1_full_mse                      s=2024   m=     8 val_MSE=0.03656 runs=12   966.3s SUCCESS
+  B1_full_mse                      s=31337  m=    12 val_MSE=0.03622 runs=12   998.4s SUCCESS
+  B2_full_elbo                     s=42     m=    10 val_MSE=0.03608 runs=12   914.7s SUCCESS
+  B2_full_elbo                     s=123    m=     8 val_MSE=0.03609 runs=12   955.9s SUCCESS
+  B2_full_elbo                     s=777    m=     6 val_MSE=0.03545 runs=12  1010.4s SUCCESS
+  B2_full_elbo                     s=2024   m=     8 val_MSE=0.03656 runs=12   966.3s SUCCESS
+  B2_full_elbo                     s=31337  m=    12 val_MSE=0.03622 runs=12   998.4s SUCCESS
+  B3_full_downstream               s=42     m=    12 val_MSE=0.03653 runs=12  1003.5s SUCCESS
+  B3_full_downstream               s=123    m=    64 val_MSE=0.03824 runs=12  1042.3s SUCCESS
+  B3_full_downstream               s=777    m=    64 val_MSE=0.03829 runs=12  1103.0s SUCCESS
+  B3_full_downstream               s=2024   m=    32 val_MSE=0.03893 runs=12  1059.1s SUCCESS
+  B3_full_downstream               s=31337  m=    24 val_MSE=0.03738 runs=12  1087.8s SUCCESS
+  B4_coarse                        s=42     m=    10 val_MSE=0.03608 runs= 4   355.2s SUCCESS
+  B4_coarse                        s=123    m=    10 val_MSE=0.03767 runs= 4   318.3s SUCCESS
+  B4_coarse                        s=777    m=    10 val_MSE=0.03752 runs= 4   376.8s SUCCESS
+  B4_coarse                        s=2024   m=    10 val_MSE=0.03754 runs= 4   356.5s SUCCESS
+  B4_coarse                        s=31337  m=     4 val_MSE=0.03681 runs= 4   344.1s SUCCESS
+  B5_fixed32                       s=42     m=    32 val_MSE=0.03926 runs= 1    55.8s SUCCESS
+  B5_fixed32                       s=123    m=    32 val_MSE=0.03905 runs= 1    79.6s SUCCESS
+  B5_fixed32                       s=777    m=    32 val_MSE=0.03841 runs= 1    94.4s SUCCESS
+  B5_fixed32                       s=2024   m=    32 val_MSE=0.03893 runs= 1    71.8s SUCCESS
+  B5_fixed32                       s=31337  m=    32 val_MSE=0.03896 runs= 1    68.7s SUCCESS
+  B6a_fondue                       s=42     m=     8 val_MSE=0.03865 runs= 6    59.7s SUCCESS
+  B6a_fondue                       s=123    m=     8 val_MSE=0.03609 runs= 6    82.9s SUCCESS
+  B6a_fondue                       s=777    m=     8 val_MSE=0.03769 runs= 6    61.5s SUCCESS
+  B6a_fondue                       s=2024   m=     8 val_MSE=0.03656 runs= 6    61.5s SUCCESS
+  B6a_fondue                       s=31337  m=     8 val_MSE=0.03840 runs= 6    85.3s SUCCESS
+  B6b_fondue_var                   s=42     m=  None val_MSE=nan runs= 1     0.7s DEGENERATE_SELECTION
+  B6b_fondue_var                   s=123    m=  None val_MSE=nan runs= 1     0.7s DEGENERATE_SELECTION
+  B6b_fondue_var                   s=777    m=     3 val_MSE=0.03796 runs= 2    97.4s SUCCESS
+  B6b_fondue_var                   s=2024   m=     2 val_MSE=0.04072 runs= 2    90.1s SUCCESS
+  B6b_fondue_var                   s=31337  m=  None val_MSE=nan runs= 1     0.6s DEGENERATE_SELECTION
+  B6b_fondue_var_keepmixed_false   s=42     m=  None val_MSE=nan runs= 1     0.7s DEGENERATE_SELECTION
+  B6b_fondue_var_keepmixed_false   s=123    m=  None val_MSE=nan runs= 1     0.7s DEGENERATE_SELECTION
+  B6b_fondue_var_keepmixed_false   s=777    m=  None val_MSE=nan runs= 1     0.7s DEGENERATE_SELECTION
+  B6b_fondue_var_keepmixed_false   s=2024   m=  None val_MSE=nan runs= 1     0.6s DEGENERATE_SELECTION
+  B6b_fondue_var_keepmixed_false   s=31337  m=  None val_MSE=nan runs= 1     0.6s DEGENERATE_SELECTION
+  proposed                         s=42     m=     4 val_MSE=0.03709 runs=10   990.6s SUCCESS
+  proposed                         s=123    m=     4 val_MSE=0.03802 runs=10  1001.0s SUCCESS
+  proposed                         s=777    m=     4 val_MSE=0.04050 runs=10  1027.0s SUCCESS
+  proposed                         s=2024   m=     2 val_MSE=0.04072 runs=10  1032.9s SUCCESS
+  proposed                         s=31337  m=     4 val_MSE=0.03681 runs=10  1069.7s SUCCESS
+  proposed_minus_AU                s=42     m=     4 val_MSE=0.03709 runs=10   990.6s SUCCESS
+  proposed_minus_AU                s=123    m=     4 val_MSE=0.03802 runs=10  1001.0s SUCCESS
+  proposed_minus_AU                s=777    m=     4 val_MSE=0.04050 runs=10  1027.0s SUCCESS
+  proposed_minus_AU                s=2024   m=     2 val_MSE=0.04072 runs=10  1032.9s SUCCESS
+  proposed_minus_AU                s=31337  m=     4 val_MSE=0.03681 runs=10  1069.7s SUCCESS
+  ascending_scan_Q                 s=42     m=     4 val_MSE=0.03709 runs= 3   260.7s SUCCESS
+  ascending_scan_Q                 s=123    m=     4 val_MSE=0.03802 runs= 3   267.9s SUCCESS
+  ascending_scan_Q                 s=777    m=     4 val_MSE=0.04050 runs= 3   282.0s SUCCESS
+  ascending_scan_Q                 s=2024   m=     2 val_MSE=0.04072 runs= 2   187.4s SUCCESS
+  ascending_scan_Q                 s=31337  m=     4 val_MSE=0.03681 runs= 3   258.0s SUCCESS
+  B4_plus_Q                        s=42     m=    10 val_MSE=0.03608 runs= 4   355.2s SUCCESS
+  B4_plus_Q                        s=123    m=    10 val_MSE=0.03767 runs= 4   318.3s SUCCESS
+  B4_plus_Q                        s=777    m=    10 val_MSE=0.03752 runs= 4   376.8s SUCCESS
+  B4_plus_Q                        s=2024   m=    10 val_MSE=0.03754 runs= 4   356.5s SUCCESS
+  B4_plus_Q                        s=31337  m=     4 val_MSE=0.03681 runs= 4   344.1s SUCCESS
+  B6a_plus_Q                       s=42     m=     8 val_MSE=0.03865 runs= 7   155.5s SUCCESS
+  B6a_plus_Q                       s=123    m=     8 val_MSE=0.03609 runs= 7   160.1s SUCCESS
+  B6a_plus_Q                       s=777    m=     8 val_MSE=0.03769 runs= 7   154.9s SUCCESS
+  B6a_plus_Q                       s=2024   m=     8 val_MSE=0.03656 runs= 7   159.4s SUCCESS
+  B6a_plus_Q                       s=31337  m=     8 val_MSE=0.03840 runs= 7   161.4s SUCCESS
+  B6b_plus_Q                       s=42     m=     4 val_MSE=0.03709 runs= 4   261.4s SUCCESS
+  B6b_plus_Q                       s=123    m=     4 val_MSE=0.03802 runs= 4   268.6s SUCCESS
+  B6b_plus_Q                       s=777    m=     4 val_MSE=0.04050 runs= 3   189.0s SUCCESS
+  B6b_plus_Q                       s=2024   m=     2 val_MSE=0.04072 runs= 3   188.0s SUCCESS
+  B6b_plus_Q                       s=31337  m=     4 val_MSE=0.03681 runs= 4   258.7s SUCCESS
+
+==============================================================================
+=== dSprites  beta=4.0  尤度=bernoulli  d̂0=7.61  m_ref=[30, 61, 122]  上限=5163s ===
+==============================================================================
+  B1_full_mse                      s=42     m=    48 val_MSE=0.00204 runs=12  3506.6s SUCCESS
+  B1_full_mse                      s=123    m=    16 val_MSE=0.00203 runs=12  3613.3s SUCCESS
+  B1_full_mse                      s=777    m=    16 val_MSE=0.00199 runs=12  3435.1s SUCCESS
+  B1_full_mse                      s=2024   m=    32 val_MSE=0.00201 runs=12  3563.4s SUCCESS
+  B1_full_mse                      s=31337  m=     8 val_MSE=0.00205 runs=12  3162.8s SUCCESS
+  B2_full_elbo                     s=42     m=    48 val_MSE=0.00204 runs=12  3506.6s SUCCESS
+  B2_full_elbo                     s=123    m=    16 val_MSE=0.00203 runs=12  3613.3s SUCCESS
+  B2_full_elbo                     s=777    m=    16 val_MSE=0.00199 runs=12  3435.1s SUCCESS
+  B2_full_elbo                     s=2024   m=    32 val_MSE=0.00201 runs=12  3563.4s SUCCESS
+  B2_full_elbo                     s=31337  m=     8 val_MSE=0.00205 runs=12  3162.8s SUCCESS
+  B3_full_downstream               s=42     m=    64 val_MSE=0.00207 runs=12  3532.7s SUCCESS
+  B3_full_downstream               s=123    m=    32 val_MSE=0.00207 runs=12  3640.7s SUCCESS
+  B3_full_downstream               s=777    m=    48 val_MSE=0.00217 runs=12  3468.1s SUCCESS
+  B3_full_downstream               s=2024   m=    64 val_MSE=0.00220 runs=12  3588.8s SUCCESS
+  B3_full_downstream               s=31337  m=    64 val_MSE=0.00221 runs=12  3191.0s SUCCESS
+  B4_coarse                        s=42     m=    64 val_MSE=0.00207 runs= 4   915.5s SUCCESS
+  B4_coarse                        s=123    m=    64 val_MSE=0.00215 runs= 4   967.5s SUCCESS
+  B4_coarse                        s=777    m=    64 val_MSE=0.00209 runs= 4   787.8s SUCCESS
+  B4_coarse                        s=2024   m=    64 val_MSE=0.00220 runs= 4   954.3s SUCCESS
+  B4_coarse                        s=31337  m=    64 val_MSE=0.00221 runs= 4   928.8s SUCCESS
+  B5_fixed32                       s=42     m=    32 val_MSE=0.00221 runs= 1   331.7s SUCCESS
+  B5_fixed32                       s=123    m=    32 val_MSE=0.00207 runs= 1   331.7s SUCCESS
+  B5_fixed32                       s=777    m=    32 val_MSE=0.00215 runs= 1   331.7s SUCCESS
+  B5_fixed32                       s=2024   m=    32 val_MSE=0.00201 runs= 1   331.7s SUCCESS
+  B5_fixed32                       s=31337  m=    32 val_MSE=0.03760 runs= 1   171.4s SUCCESS
+  B6a_fondue                       s=42     m=     4 val_MSE=0.00647 runs= 5   143.5s SUCCESS
+  B6a_fondue                       s=123    m=     4 val_MSE=0.00611 runs= 5   200.4s SUCCESS
+  B6a_fondue                       s=777    m=     4 val_MSE=0.00644 runs= 5   103.0s SUCCESS
+  B6a_fondue                       s=2024   m=     4 val_MSE=0.00633 runs= 5   191.7s SUCCESS
+  B6a_fondue                       s=31337  m=     4 val_MSE=0.00628 runs= 5   170.9s SUCCESS
+  B6b_fondue_var                   s=42     m=  None val_MSE=nan runs= 3     3.3s DEGENERATE_SELECTION

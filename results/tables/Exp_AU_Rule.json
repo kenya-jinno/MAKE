@@ -1,0 +1,241 @@
+{
+  "rule": {
+    "r_max": 0.9,
+    "c": 3.0
+  },
+  "threshold_invariance": {
+    "v1_pass_max": 0.6666666666666667,
+    "v1_fail_min": 0.9427083333333334,
+    "v2_pass_max": 2.2333333333333334,
+    "v2_fail_min": 6.8
+  },
+  "threshold_invariance_per_seed": {
+    "v1_pass_max": 0.7,
+    "v1_fail_min": 0.9296875,
+    "v2_pass_max": 2.3,
+    "v2_fail_min": 6.6
+  },
+  "results": [
+    {
+      "name": "SwissRoll VAE (dhat=2, m=4=2dhat)",
+      "m": 4,
+      "au": 2.0,
+      "dhat": 2.0,
+      "ratio": 0.5,
+      "au_over_dhat": 1.0,
+      "v1": true,
+      "v2": true,
+      "pass": true,
+      "note": "",
+      "per_seed_au": [
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "Torus VAE (dhat=2, m=4=2dhat)",
+      "m": 4,
+      "au": 2.0,
+      "dhat": 2.0,
+      "ratio": 0.5,
+      "au_over_dhat": 1.0,
+      "v1": true,
+      "v2": true,
+      "pass": true,
+      "note": "(AU<demb: over-pruning)",
+      "per_seed_au": [
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "Torus VAE (dhat=2, m=6=3dhat)",
+      "m": 6,
+      "au": 3.0,
+      "dhat": 2.0,
+      "ratio": 0.5,
+      "au_over_dhat": 1.5,
+      "v1": true,
+      "v2": true,
+      "pass": true,
+      "note": "",
+      "per_seed_au": [
+        3,
+        3,
+        3
+      ]
+    },
+    {
+      "name": "MNIST FC-VAE beta=4 (3-seed mean)",
+      "m": 20,
+      "au": 13.333333333333334,
+      "dhat": 10.0,
+      "ratio": 0.6666666666666667,
+      "au_over_dhat": 1.3333333333333335,
+      "v1": true,
+      "v2": true,
+      "pass": true,
+      "note": "",
+      "per_seed_au": [
+        13,
+        13,
+        14
+      ]
+    },
+    {
+      "name": "MNIST FC-VAE beta=4 (3-seed mean)",
+      "m": 32,
+      "au": 15.666666666666666,
+      "dhat": 10.0,
+      "ratio": 0.4895833333333333,
+      "au_over_dhat": 1.5666666666666667,
+      "v1": true,
+      "v2": true,
+      "pass": true,
+      "note": "",
+      "per_seed_au": [
+        16,
+        15,
+        16
+      ]
+    },
+    {
+      "name": "MNIST FC-VAE beta=4 (3-seed mean)",
+      "m": 64,
+      "au": 22.333333333333332,
+      "dhat": 10.0,
+      "ratio": 0.3489583333333333,
+      "au_over_dhat": 2.2333333333333334,
+      "v1": true,
+      "v2": true,
+      "pass": true,
+      "note": "",
+      "per_seed_au": [
+        23,
+        22,
+        22
+      ]
+    },
+    {
+      "name": "MNIST Conv-VAE beta_max=4 (3-seed mean)",
+      "m": 64,
+      "au": 64.0,
+      "dhat": 10.0,
+      "ratio": 1.0,
+      "au_over_dhat": 6.4,
+      "v1": false,
+      "v2": false,
+      "pass": false,
+      "note": "",
+      "per_seed_au": [
+        64,
+        64,
+        64
+      ]
+    },
+    {
+      "name": "MNIST Conv-VAE beta_max=4 (3-seed mean)",
+      "m": 256,
+      "au": 241.33333333333334,
+      "dhat": 10.0,
+      "ratio": 0.9427083333333334,
+      "au_over_dhat": 24.133333333333333,
+      "v1": false,
+      "v2": false,
+      "pass": false,
+      "note": "",
+      "per_seed_au": [
+        241,
+        245,
+        238
+      ]
+    },
+    {
+      "name": "Fashion FC-VAE beta=4 (3-seed mean)",
+      "m": 20,
+      "au": 7.0,
+      "dhat": 10.0,
+      "ratio": 0.35,
+      "au_over_dhat": 0.7,
+      "v1": true,
+      "v2": false,
+      "pass": false,
+      "note": "",
+      "per_seed_au": [
+        7,
+        7,
+        7
+      ]
+    },
+    {
+      "name": "MNIST Conv-VAE beta_max=10 (3-seed mean)",
+      "m": 256,
+      "au": 95.66666666666667,
+      "dhat": 10.0,
+      "ratio": 0.3736979166666667,
+      "au_over_dhat": 9.566666666666666,
+      "v1": true,
+      "v2": false,
+      "pass": false,
+      "note": "",
+      "per_seed_au": [
+        93,
+        103,
+        91
+      ]
+    },
+    {
+      "name": "MNIST Conv-VAE beta_max=20 (3-seed mean)",
+      "m": 256,
+      "au": 68.0,
+      "dhat": 10.0,
+      "ratio": 0.265625,
+      "au_over_dhat": 6.8,
+      "v1": true,
+      "v2": false,
+      "pass": false,
+      "note": "",
+      "per_seed_au": [
+        66,
+        67,
+        71
+      ]
+    },
+    {
+      "name": "CIFAR-10 Conv-VAE beta_max=4",
+      "m": 256,
+      "au": 256.0,
+      "dhat": 25.2,
+      "ratio": 1.0,
+      "au_over_dhat": 10.158730158730158,
+      "v1": false,
+      "v2": false,
+      "pass": false,
+      "note": "",
+      "per_seed_au": [
+        256,
+        256,
+        256
+      ]
+    },
+    {
+      "name": "SVHN Conv-VAE beta_max=4",
+      "m": 256,
+      "au": 206.7,
+      "dhat": 20.0,
+      "ratio": 0.807421875,
+      "au_over_dhat": 10.334999999999999,
+      "v1": true,
+      "v2": false,
+      "pass": false,
+      "note": "",
+      "per_seed_au": [
+        206,
+        207,
+        207
+      ]
+    }
+  ]
+}

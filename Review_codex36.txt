@@ -1,0 +1,241 @@
+Review of main_paper_MAKE36.pdf
+Target journal: MDPI Machine Learning and Knowledge Extraction (MAKE)
+Reviewer: Codex
+Date: 2026-07-08
+
+Overall recommendation: Minor revision
+
+Summary
+-------
+This manuscript proposes a diagnostic protocol for choosing the bottleneck
+dimension of AEs and VAEs from an intrinsic-dimension estimate: estimate
+d_hat_ID, choose an AE/VAE bottleneck range with a topological margin, and
+verify VAE usage post hoc using active units (AU). The revision substantially
+improves the previous version. It now states the claim as conditional rather
+than universal, adds a reproducible V1/V2 AU decision rule, reports
+subsampling confidence intervals and cross-estimator checks for Step 1,
+quantifies search-cost savings with a linear-probe baseline, and labels the
+Conv-VAE, Fashion-MNIST, and natural-image results more honestly as boundary
+or exploratory evidence.
+
+The paper is now close to publishable as an applied-methods contribution, but
+several issues should still be fixed before acceptance. The most important
+remaining weaknesses are an inconsistency in the synthetic torus AU evidence,
+the still ad hoc nature of the V1/V2 thresholds and verification-point choice,
+some over-interpretation of the AE candidate range and water-filling
+surrogate, and the limited validation beyond MNIST fully connected models.
+
+Major comments
+--------------
+1. The torus AU result is internally inconsistent and affects the claim that
+   the synthetic full protocol cleanly passes.
+
+   Table 4 reports Torus VAE AU = 2.0 at m = 4, but the text states that the
+   Torus AU saturates at AUsat = 3 = d_emb when m is set above d_emb. Since
+   m = 4 is already above d_emb = 3 and also satisfies the protocol condition
+   m_ver >= 2 d_hat_ID with d_hat_ID approximately 2, this is not a minor
+   cosmetic issue. The subsequent verdict instead evaluates the Torus at
+   m_ver = 6 = 3 d_hat_ID, where AU = 3 and V1/V2 pass.
+
+   The authors should clarify whether m = 4 is a genuine under-activation
+   case, an optimization artifact, or a table/reporting error. If it is
+   genuine, the text should not claim sharp saturation at d_emb for all
+   m > d_emb, and the protocol should specify how m_ver is chosen. As written,
+   V1/V2 would also pass at m = 4 (AU/m = 0.5 and 2 <= AU <= 6), even though
+   the interpretation that AU reports d_emb would fail. This reveals a
+   limitation of the rule that should be explicitly discussed.
+
+2. The V1/V2 decision rule is useful, but its operating characteristics are
+   still insufficiently justified.
+
+   The addition of V1 (AU/m <= 0.9) and V2 (d_hat_ID <= AU <= 3 d_hat_ID) is a
+   real improvement over a qualitative knee detector. However, the thresholds
+   remain working defaults calibrated on this manuscript cases rather than
+   a validated rule. V2 is especially permissive: AU values up to three times
+   d_hat_ID are accepted, which can mask substantial over-use of latent
+   dimensions. Conversely, the lower bound d_hat_ID <= AU can conflict with
+   the paper caution that AU is not an ID estimator and is beta- and
+   architecture-dependent.
+
+   Please add a compact threshold-sensitivity table for the V1/V2 verdicts, or
+   state more explicitly that V1/V2 is a conservative reporting convention, not
+   a statistically validated test. It would also be better to evaluate V1/V2
+   per seed, or report confidence intervals for the verdict, rather than only
+   applying the rule to the multi-seed mean AU.
+
+3. The AE range [d_hat_ID, 2 d_hat_ID] is plausible but still over-presented
+   as a general candidate range.
+
+   The topological lower-bound argument only says that m must be at least
+   d_emb for exact self-intersection-free reconstruction. It does not imply
+   that 2 d_hat_ID is sufficient for real data, noisy data, unions of class
+   manifolds, or manifolds with more complex topology and sampling geometry.
+   The torus motivates a margin, but it does not validate the specific factor
+   of 2 beyond the tested examples. The paper does acknowledge this in places,
+   but the abstract, Figure 1, and conclusion still read as if the range has a
+   stronger general status than the evidence supports.
+
+   I recommend calling [d_hat_ID, 2 d_hat_ID] a default search window rather
+   than a principled candidate range, and stating that larger margins may be
+   required when topology, noise, class mixtures, or reconstruction fidelity
+   demand it.
+
+4. The water-filling proposition remains a rationale, not a predictor of
+   empirical AU, and a few links should be tightened.
+
+   Proposition 2 is correctly restricted to a linear-Gaussian
+   rate-distortion approximation, and the revision now flags the
+   aggregated-posterior mismatch. Still, the empirical AU definition is a
+   threshold on posterior-mean variance, whereas the proposition concerns
+   activated eigendirections/rate allocation. The connection between these two
+   notions is plausible but not exact. The effective-noise explanation for
+   Conv-VAEs is also post hoc and architecture-dependent.
+
+   The manuscript should avoid phrases implying that the surrogate explains
+   or predicts the nonlinear AU counts quantitatively. A short bridge
+   paragraph explaining when positive rate in the surrogate should correspond
+   to nonzero posterior-mean variance in AU would make the theory section more
+   defensible.
+
+5. Step-1 robustness is improved, but estimator validity remains only partly
+   established.
+
+   The new subsampling intervals and DANCo/ESS checks are valuable. However,
+   they quantify sampling variability on single trained reference-AE latents,
+   not the full uncertainty induced by reference-model training, architecture,
+   preprocessing, and estimator bias. Raw-space MNIST estimates are also not
+   entirely dismissed by the data: raw TwoNN = 12.63 and raw MLE = 14.46 are
+   not wildly different from the latent estimates, while ESS is higher and
+   DANCo degenerates. The discussion should therefore avoid implying that the
+   reference-AE route is uniquely validated; it is a pragmatic route that
+   stabilizes the selected estimators under the authors conditions.
+
+   The statement that PCA grossly overestimates the nonlinear manifold
+   structure should also be softened. PCA cumulative-variance dimensions are
+   not intrinsic-dimension estimates, so the comparison is illustrative rather
+   than a direct baseline.
+
+6. The empirical scope is now clearly stated, but it remains narrow for the
+   stronger practical claims.
+
+   The full multi-seed protocol is convincingly demonstrated mainly on
+   synthetic manifolds and MNIST FC-VAEs. Fashion-MNIST Step 3 remains
+   single-seed; high-beta Conv-VAE recovery is single-seed; natural-image Step
+   3 is unresolved; and the downstream validation is a linear probe on MNIST
+   with the AE side single-seed. These limitations are honestly reported, but
+   they should continue to constrain the abstract and conclusion. In
+   particular, the search-cost reduction should be described as demonstrated
+   on the MNIST grid used in this paper, not as a general 60--80% reduction.
+
+7. The topological lower-bound proposition should include its mathematical
+   assumptions more explicitly.
+
+   The proof relies on exact zero reconstruction, continuity, and the
+   existence of a continuous inverse on the embedded image. This is safest
+   under compactness or an explicit topological-embedding assumption. For real
+   neural AEs with finite error, noise, and non-injective behavior on small
+   sets, the proposition is only an idealized necessary condition. The paper
+   mostly says this, but the proposition/proof should make the compactness or
+   embedding condition explicit to avoid overclaiming.
+
+Minor comments and presentation issues
+--------------------------------------
+1. The abstract is still dense. It now contains the main caveats, which is
+   good, but the number of numerical claims and qualifications makes it hard
+   to parse. Consider shortening the Conv-VAE/natural-image caveats and moving
+   some detail to the introduction.
+
+2. In Table 4, explicitly mark the Torus m = 4 AU = 2 row as not saturated
+   if the value is retained. This would prevent readers from missing the
+   mismatch with the surrounding text.
+
+3. In the protocol section, define whether m_ver should be exactly
+   ceil(2 d_hat_ID), any point above that value, or a pre-specified larger
+   verification point. The current examples use different choices.
+
+4. The phrase all three steps pass should be used carefully for settings
+   where Step 1 and Step 3 are evaluated on different representations or
+   where the verification point was selected after observing the AU curve.
+
+5. Table 7 search-cost accounting counts Step-1 runs as 3 single-seed
+   runs but counts the full grid as 11 x 3 seeds. This is reasonable as an
+   illustrative comparison, but a fair operational protocol might also repeat
+   Step 1 across seeds. State this assumption explicitly.
+
+6. The raw-input DANCo result 784 (degenerate) needs a short explanation in
+   the caption or text. Otherwise readers may wonder whether this is a
+   software failure, a known estimator limitation, or a meaningful estimate.
+
+7. The term trustworthy is used for the natural-image Step-1 estimate near
+   m_ref approximately 2 d_hat_ID. Consider using consistent with prior
+   estimates instead, since true ID is unknown and SVHN shows substantial
+   estimator disagreement.
+
+8. The discussion of condition number kappa should be cautious. A very large
+   decoder-Jacobian condition number is a local geometric diagnostic, but it
+   does not by itself fully characterize the neighbor-rank distortions that
+   drive TwoNN.
+
+9. Make sure the supplementary material is complete and easy to audit. The
+   manuscript promises source code, configuration files, random seeds,
+   trained-model logs, and numerical results for all tables. This is important
+   because several claims depend on seed/grid choices.
+
+10. MDPI formatting readiness should be checked before submission: empty
+    received/revised/accepted dates, placeholder DOI, line numbering, ORCID
+    placeholders, reference formatting, and final repository/DOI information
+    should all be resolved according to the journal template.
+
+Strengths
+---------
+1. The paper addresses a real practical gap: bottleneck dimensions in
+   AEs/VAEs are often chosen by convention or exhaustive sweeps.
+
+2. The revised manuscript is much more honest and precise about scope than the
+   previous version. It no longer presents the method as a general solution.
+
+3. The distinction among d_ID, d_emb, d_hat_ID, AU, AUsat, and dstar(beta) is
+   conceptually valuable and helps avoid common misinterpretations.
+
+4. The V1/V2 rule, although still heuristic, is a useful step toward
+   reproducible AU-based reporting.
+
+5. The added subsampling intervals, DANCo/ESS cross-checks, and search-cost
+   comparison materially improve the empirical section.
+
+6. The boundary analysis for Conv-VAEs and natural images is a strength. It
+   shows where the protocol fails or becomes unresolved, rather than hiding
+   those cases.
+
+7. The appendix on change-point sensitivity is helpful and supports the
+   authors decision not to make automatic knee detection a named protocol
+   output.
+
+Recommended revision priorities
+-------------------------------
+1. Fix or explicitly explain the Torus AU inconsistency at m = 4, and align
+   the synthetic conclusions with the corrected interpretation.
+
+2. Specify the verification-point selection rule for V1/V2 and report
+   threshold/per-seed robustness of the verdicts.
+
+3. Soften the generality of the AE [d_hat_ID, 2 d_hat_ID] range and the
+   claimed search-cost savings.
+
+4. Tighten the bridge between the water-filling surrogate and empirical AU,
+   keeping nonlinear claims qualitative.
+
+5. Clarify the remaining uncertainty in Step-1 estimator validity and avoid
+   treating PCA variance dimensions as direct ID baselines.
+
+6. Complete MDPI formatting and supplementary-material readiness checks.
+
+Conclusion
+----------
+This revision resolves many of the major concerns from the previous round and
+is now close to suitable for MAKE. The manuscript offers a useful conditional
+workflow, meaningful diagnostics, and unusually clear failure-mode analysis.
+Before acceptance, the authors should fix the torus/protocol inconsistency,
+make the V1/V2 rule and verification-point choice more precise, and soften the
+remaining claims that exceed the demonstrated evidence. These changes appear
+substantial in importance but limited in scope, so I recommend minor revision.

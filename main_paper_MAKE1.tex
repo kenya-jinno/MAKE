@@ -1,0 +1,1040 @@
+%% main_paper_MAKE1.tex
+%% MDPI MAKE (Machine Learning and Knowledge Extraction) submission
+%% English version based on main_paper_NN30.tex
+%% Compile: pdflatex main_paper_MAKE1.tex
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage[table]{xcolor}
+\usepackage{here}
+\usepackage{array,multirow}
+\usepackage{tabularx}
+\usepackage{enumerate}
+\usepackage[margin=25mm]{geometry}
+\usepackage[hidelinks,colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage{caption}
+\usepackage{setspace}
+\onehalfspacing
+
+%% Theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\newtheorem{corollary}{Corollary}
+
+%% Notation shorthands
+\newcommand{\dID}{d_{\mathrm{ID}}}
+\newcommand{\dz}{m}
+\newcommand{\dtrue}{d_{\mathrm{true}}}
+\newcommand{\Jg}{J_g}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\kap}{\kappa}
+\newcommand{\AUsat}{\mathrm{AU}_{\mathrm{sat}}}
+\newcommand{\mknee}{m^{\mathrm{knee}}}
+\newcommand{\demb}{d_{\mathrm{emb}}}
+\newcommand{\hatdID}{\hat{d}_{\mathrm{ID}}}
+
+%% ===================================================================
+\title{\textbf{Diagnosing Effective Latent Dimensionality in Autoencoder
+Representations via Active-Unit Dynamics and Intrinsic-Dimension Estimates}}
+
+\author{(Authors)\\
+{\small (Affiliation)}\\
+{\small \texttt{(email)}}}
+\date{}
+
+\begin{document}
+\maketitle
+
+%% ===================================================================
+\begin{abstract}
+Determining how many latent coordinates an autoencoder actually uses is
+difficult because reconstruction error, intrinsic-dimension estimates, and
+variational activity measure different aspects of the learned representation.
+This paper proposes a multi-indicator diagnostic framework for interpreting
+effective latent dimensionality in autoencoders (AEs) and variational
+autoencoders (VAEs). The framework combines active-unit (AU) dynamics,
+TwoNN/MLE intrinsic-dimension (ID) estimates, reconstruction-error elbows, and
+PCA baselines. It does not treat the AU slowdown point, $\mknee$, as a unique
+optimal bottleneck size. Instead, AU counts serve as direct observations of
+coordinate usage in VAEs; TwoNN/MLE estimates as numerically stable auxiliary
+references subject to geometric bias; and $\mknee$ as an exploratory,
+grid- and seed-dependent change point.
+
+Under a linear-Gaussian $\beta$-VAE rate--distortion approximation, we derive
+the activation condition $\lambda_j > \beta\tau^2$, which provides an
+interpretable water-filling view of KL-induced dimension suppression.
+Experiments on fully connected VAEs trained on MNIST show that AU counts and
+TwoNN estimates are stable across random seeds, whereas sparse-grid $\mknee$
+is unreliable ($43\pm15$). A dense grid around the estimated intrinsic
+dimension stabilizes $\mknee$ at $10.3\pm0.9$, consistent with TwoNN near 10.
+Fashion-MNIST, Conv-VAE, CIFAR-10, and SVHN experiments further clarify
+conditions under which the diagnostics remain informative and boundary cases
+where AU/$\mknee$ identification fails. These results support the proposed
+framework as a diagnostic protocol for latent-dimensionality analysis rather
+than a universal dimension estimator.
+\end{abstract}
+
+\noindent\textbf{Keywords:} variational autoencoder; effective latent
+dimensionality; active units; intrinsic dimension; TwoNN; diagnostic framework;
+representation learning
+
+%% ===================================================================
+\section{Introduction}\label{sec:intro}
+
+\subsection{Background}\label{sec:intro_bg}
+
+Autoencoders and variational autoencoders (VAEs)~\cite{kingma2014vae} learn
+compact representations of high-dimensional data by forcing information through
+a bottleneck of dimension~$m$.  A key design question is: \emph{how many of
+the $m$ latent coordinates does the model actually use?}  This ``effective
+latent dimensionality'' governs reconstruction fidelity, disentanglement, and
+posterior collapse~\cite{lucas2019elbo}.
+
+Existing work measures individual aspects of latent geometry—AU
+counts~\cite{lucas2019elbo,higgins2017betavae}, intrinsic-dimension (ID)
+estimates~\cite{facco2017twonn,levina2005mle}, isometric
+regularisation~\cite{kato2020rdae}—but a systematic framework that combines
+these indicators, clarifies their distinct roles, and defines the conditions
+under which each is reliable has not been established.
+
+\subsection{Problem Statement and Contributions}\label{sec:intro_aim}
+
+The central research question is:
+\begin{quote}
+\emph{How can we diagnose, without over-claiming, how many dimensions an AE/VAE
+effectively exploits, and where does such diagnosis break down?}
+\end{quote}
+
+The contributions of this paper are threefold.
+
+\begin{enumerate}
+\item \textbf{Multi-indicator diagnostic framework.}
+We propose a framework that explicitly assigns distinct roles to four
+indicator classes: (i)~AU values as direct usage observations; (ii)~TwoNN/MLE
+ID as numerically stable auxiliary references subject to geometric bias;
+(iii)~$\mknee$ as an exploratory change point; and (iv)~MSE elbow and PCA as
+reconstruction-side baselines.
+The main contribution is not $\mknee$ itself but the role separation, which
+prevents users from over-relying on any single indicator.
+MNIST three-seed experiments confirm that AU values ($\sigma\!\leq\!0.5$) and
+TwoNN ID ($10.03\pm0.12$) are reproducible; the main stabilised result for
+$\mknee$ is $10.3\pm0.9$ under dense-grid, independent-initialisation,
+multi-seed conditions.
+
+\item \textbf{Linear-Gaussian rate--distortion analysis.}
+Under a linear-Gaussian $\beta$-VAE rate--distortion approximation, we derive
+the activation condition $\lambda_j>\beta\tau^2$ and show that AU saturation
+follows a water-filling principle.
+This analytical result is an \emph{interpretive approximation model} for the
+nonlinear setting, not a general theorem for arbitrary VAEs.
+
+\item \textbf{Empirical characterisation of reliability and limits.}
+Dense-grid/multi-seed experiments show that sparse-grid $\mknee$ is unreliable
+($\sigma=15$), whereas dense-grid evaluation stabilises it near the TwoNN
+estimate.
+Conv-VAE and natural-image experiments identify boundary conditions under which
+AU/$\mknee$ diagnostics fail or require stronger regularisation and architectural
+control.
+\end{enumerate}
+
+\subsection{Paper Organisation}\label{sec:intro_org}
+
+Section~\ref{sec:related} reviews related work.
+Section~\ref{sec:framework} defines the diagnostic framework.
+Section~\ref{sec:theory} provides theoretical background.
+Section~\ref{sec:exp} reports experiments.
+Section~\ref{sec:discussion} discusses findings.
+Section~\ref{sec:conclusion} concludes.
+Detailed tables and proofs are in the Appendix.
+
+%% ===================================================================
+\section{Related Work}\label{sec:related}
+
+\paragraph{Representation learning and autoencoders.}
+Bengio et al.~\cite{bengio2013representation} provide a comprehensive review of
+representation learning, including the manifold hypothesis~\cite{fefferman2016manifold}
+underpinning AEs.  $\beta$-VAE~\cite{higgins2017betavae} increases KL weight to
+encourage disentanglement; Lucas et al.~\cite{lucas2019elbo} analyse posterior
+collapse in the linear-VAE limit.  Contractive AEs~\cite{rifai2011cae} and
+denoising AEs~\cite{alain2014dae} offer complementary regularisation strategies.
+
+\paragraph{Intrinsic-dimension estimation.}
+TwoNN~\cite{facco2017twonn} and MLE~\cite{levina2005mle} estimate local
+intrinsic dimension from nearest-neighbour distances.  Pope et
+al.~\cite{pope2021intrinsic} apply TwoNN to natural images, reporting
+$d_{\mathrm{ID}}\approx26$ for CIFAR-10 at $32\!\times\!32$.  Ansuini et
+al.~\cite{ansuini2019intrinsic} track ID across deep-network layers; Valeriani
+et al.~\cite{valeriani2023geometry} extend this to large transformer models.
+
+\paragraph{Geometric autoencoders.}
+Nazari et al.~\cite{nazari2023geometric} and Kato et
+al.~\cite{kato2020rdae} propose isometric regularisation of the decoder Jacobian.
+We use IsometricAE as a controlled testbed for geometric bias, not as the main tool.
+
+\paragraph{Positioning.}
+The present work differs from the above in that it targets the \emph{design
+stage}—systematically studying how AU Dynamics and ID estimation jointly
+characterise effective dimensionality, and quantifying when each indicator is
+reliable.
+
+%% ===================================================================
+\section{Diagnostic Framework}\label{sec:framework}
+
+\subsection{Problem Setup}\label{sec:framework_setup}
+
+Let an AE/VAE have encoder $f:\R^N\!\to\R^m$ and decoder $g:\R^m\!\to\R^N$.
+For a VAE, the encoder outputs a posterior $q_\phi(z|x)=\mathcal{N}(\mu(x),\sigma^2(x))$;
+KL regularisation ($\beta$-weighted) acts as an information bottleneck.
+
+\begin{definition}[Active Units~\cite{lucas2019elbo}]
+\begin{equation}
+  \mathrm{AU}(m)=\sum_{k=1}^{m}\mathbf{1}\bigl[\mathrm{Var}_x[\mu_k(x)]>\delta\bigr],
+  \quad\delta=10^{-2}
+  \label{eq:au_def}
+\end{equation}
+where $\mu_k(x)$ is the $k$-th posterior mean.
+AU is robust to the choice of $\delta\in[10^{-3},10^{-1}]$ (Appendix~\ref{app:delta}).
+\end{definition}
+
+\begin{definition}[AU Slowdown Point]
+Let $s(m_i)=({\mathrm{AU}(m_i)-\mathrm{AU}(m_{i-1})})/({m_i-m_{i-1}})$
+be the raw AU increase rate, and
+$\rho(m_i)=s(m_i)/\max_j s(m_j)\in[0,1]$ the normalised rate.
+The slowdown point is
+\begin{equation}
+  \mknee=\min\{m_i\in\mathcal{M}:\rho(m_i)<\tau_{\mathrm{knee}}\},
+  \quad\tau_{\mathrm{knee}}=0.25.
+  \label{eq:mknee}
+\end{equation}
+\end{definition}
+
+\textbf{Role separation.} Table~\ref{tab:indicator_class} summarises the roles.
+
+\begin{table}[ht]
+\centering
+\caption{Classification and empirical reliability of diagnostic indicators.
+\emph{Robust} means low inter-seed variance under tested conditions, not unbiasedness toward the true ID.
+\emph{Exploratory} means useful for hypothesis generation but not a unique estimate of effective dimensionality.}
+\label{tab:indicator_class}
+\small
+\begin{tabularx}{\linewidth}{lXXX}
+\toprule
+Indicator & Category & Empirical reliability & Primary use \\
+\midrule
+AU values & \textbf{Robust} & $\sigma\!\leq\!0.5$ (MNIST 3-seed) & Direct observation of active coords \\
+TwoNN/MLE ID & \textbf{Numerically stable auxiliary}$^\dagger$ & $\sigma\!\leq\!0.12$ ($m\!=\!64$) & Reference ID estimate \\
+MSE elbow & Auxiliary & Qualitative only & Reconstruction-side check \\
+PCA cum.\ variance & Auxiliary & Linear assumption & Linear baseline \\
+$\mknee$ & \textbf{Exploratory} & $\sigma\!=\!15$ sparse; $0.9$ dense & Rough diagnostic heuristic \\
+\bottomrule
+\multicolumn{4}{p{0.97\linewidth}}{\footnotesize
+$^\dagger$Subject to isometry bias; stable numerically but not unbiased toward true $\dID$.
+$\mknee$ is not a standalone estimator; it becomes informative only under dense-grid,
+independent-initialisation, multi-seed evaluation.}
+\end{tabularx}
+\end{table}
+
+\subsection{Two-Stage Diagnostic Pipeline}\label{sec:framework_pipeline}
+
+\textbf{Stage~1 (ID estimation, auxiliary).}
+For synthetic data with known $\dtrue$, TwoNN/MLE is applied directly.
+For real data (e.g.\ MNIST), a large reference AE ($m_{\mathrm{ref}}=256$) is
+trained; its latent representation is fed to TwoNN/MLE to obtain $\hatdID$.
+\emph{Limitation:} this reference AE is not isometric ($\kap\approx10^9$);
+$\hatdID$ is an approximation subject to geometric bias.
+
+\textbf{Stage~2 (AU Dynamics, primary).}
+A VAE ($\beta=4$) is trained on a grid
+$\mathcal{M}=\{1,2,4,8,12,16,20,32,64,128,256\}$.
+For \emph{sharp-saturation} data (synthetic manifolds), $\AUsat$ is read directly.
+For \emph{gradual-increase} data (real data), $\mknee$ is computed from
+Eq.~\eqref{eq:mknee} and cross-checked against $\hatdID$ from Stage~1.
+
+%% ===================================================================
+\section{Theoretical Background}\label{sec:theory}
+
+\subsection{Linear-Gaussian Rate--Distortion Analysis}
+\label{sec:theory_lva}
+
+\begin{theorem}[AU Activation under Linear-Gaussian Rate--Distortion Approximation]
+\label{thm:linear_vae}
+Consider a $\beta$-VAE with linear encoder/decoder and Gaussian prior, analysed
+under a linear-Gaussian rate--distortion surrogate approximation
+(details in Appendix~\ref{app:linear_vae_proof}).
+Under this approximation, the water-filling condition implies:
+\begin{enumerate}
+\item \textbf{(Activation threshold)} The $j$-th eigen-direction becomes active iff
+  $\lambda_j>\beta\tau^2$,
+  where $\lambda_j$ is the $j$-th data-covariance eigenvalue, $\tau^2$ is the decoder noise variance.
+\item \textbf{(Upper bound)} The optimal number of active eigen-directions satisfies
+  $A^*(m)\leq\min(m,d^*(\beta))$, where $d^*(\beta):=|\{j:\lambda_j>\beta\tau^2\}|$.
+\item \textbf{(Monotone saturation of optimal solution)}
+  $A^*(m)$ is non-decreasing in $m$ and saturates at $d^*(\beta)$ for $m\geq d^*(\beta)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}[Empirical AU is non-monotone]
+Theorem~\ref{thm:linear_vae}(3) concerns $A^*(m)$, the global-optimum active
+eigen-direction count.  In practice, each bottleneck size $m$ is trained
+independently with stochastic optimisation; the resulting empirical AU$(m)$ can
+be non-monotone due to finite-sample effects and initialisation dependence
+(e.g.\ AU$=29$ at $m=64$ but AU$=26$ at $m=128$, Table~\ref{tab:e4_vae}).
+Therefore, $\mknee$ should be treated as an exploratory diagnostic indicator,
+not a precise estimate of $d^*(\beta)$.
+\end{remark}
+
+\begin{remark}[Vanilla AE corresponds to $\beta=0$]
+Without KL regularisation, the threshold $\beta\tau^2$ vanishes, so all
+directions with positive variance are active.  Thus the pseudo-AU
+(coordinate-usage count) of a standard AE approximates~$m$.
+\end{remark}
+
+\subsection{Grid-Resolution Dependence of $\mknee$}\label{sec:theory_grid}
+
+\begin{proposition}[Grid Resolution Dependence]\label{thm:mknee_instab}
+Under an idealised monotone-saturation model where AU$(m)$ changes like a step
+function at $d^*(\beta)$ without noise, the detection error satisfies
+$|\mknee(\mathcal{G})-d^*(\beta)|\leq\max_i(m_{i+1}-m_i)$.
+\end{proposition}
+
+\begin{remark}
+This bound applies to the idealised model, not real non-linear VAEs whose AU
+curves fluctuate non-monotonically.
+The practical implication is qualitative: \emph{finer grids near the estimated
+$\hatdID$ reduce the variance of $\mknee$}, as confirmed in Section~\ref{sec:exp_dense}.
+\end{remark}
+
+\subsection{Pullback Metric and Isometry}\label{sec:theory_pullback}
+
+\begin{proposition}[Pullback Metric and Local Isometry]\label{thm:pullback}
+The decoder $g:\R^m\!\to\R^N$ is locally isometric at $z$ iff
+$G(z)=\Jg(z)^\top\Jg(z)=I_m$ (all singular values equal 1).
+The condition number $\kap=\sigma_{\max}/\sigma_{\min}$ measures anisotropy:
+$\kap=1$ means all singular values are \emph{equal} but not necessarily 1.
+Therefore $\kap$ is an anisotropy indicator, not a sufficient condition for isometry.
+\end{proposition}
+
+\subsection{Design Principle: Bottleneck Margin and TwoNN Stability}
+\label{sec:theory_dp}
+
+Experiments in Section~\ref{sec:exp_stability} support the following design principle.
+
+\begin{quote}
+\textbf{Design Principle~1.}
+The dominant factor for numerical stability of TwoNN estimates is a sufficient
+bottleneck margin ($m\gg\hatdID$), not isometric regularisation.
+TwoNN underestimates when $m\approx d_{\mathrm{true}}$; it converges once
+$m\geq5\hatdID$ approximately.
+\end{quote}
+
+This is an empirically supported guideline (verified on MNIST and Fashion-MNIST
+across four model types) rather than a formal theorem.
+
+%% ===================================================================
+\section{Experiments}\label{sec:exp}
+
+\subsection{Experimental Setup}\label{sec:exp_setup}
+
+All models use Adam (lr$=10^{-3}$), batch size 128, ReLU activations,
+Sigmoid output, and PyTorch 2.0.
+
+\textbf{Synthetic manifolds.} Hidden layers $[64,32]$, 200--300 epochs,
+$\beta=4.0$, $n=5000$.
+
+\textbf{MNIST / Fashion-MNIST.} Input $N=784$, hidden $[512,256]$, $\beta=4.0$,
+grid $\mathcal{M}=\{1,2,4,8,12,16,20,32,64,128,256\}$.
+MNIST: 300 epochs, $n_{\mathrm{train}}=20\,000$, $n_{\mathrm{test}}=3\,000$.
+Fashion-MNIST: 100 epochs, $n_{\mathrm{train}}=10\,000$.
+
+ID estimation: TwoNN ($k=2$), MLE ($k=10$), AU threshold $\delta=10^{-2}$.
+Three random seeds \{42,~123,~777\} for main reproducibility experiments.
+All experiments in the multi-seed study use independent per-$(m,\text{seed})$
+initialisation.
+
+%% -------------------------------------------------------------------
+\subsection{Synthetic Manifolds: Principle Verification}\label{sec:exp_synthetic}
+
+\subsubsection{MSE Elbow and Manifold Dimension}
+
+On Swiss Roll ($d_{\mathrm{true}}=2$, simply connected) and
+Torus ($d_{\mathrm{true}}=2$, $d_{\mathrm{emb}}=3$), the MSE of a standard AE
+shows a sharp elbow at $m=d_{\mathrm{true}}$ (Swiss Roll) and $m=d_{\mathrm{emb}}$
+(Torus), consistent with the topological lower bound
+(Proposition~B.1 in Appendix~\ref{app:proofs}).
+
+\begin{table}[ht]
+\centering
+\caption{MSE of AE on synthetic manifolds (mean$\pm$std, 3 seeds).}
+\label{tab:e1}
+\small
+\begin{tabular}{rcc}
+\toprule
+$m$ & Swiss Roll MSE & Torus MSE \\
+\midrule
+1 & $1.016\pm0.057$ & $0.388\pm0.017$ \\
+2 & $\boldsymbol{0.029\pm0.002}$ ($\leftarrow$elbow) & $0.085\pm0.004$ \\
+3 & $0.0008\pm0.0001$ & $\boldsymbol{0.0005\pm0.0000}$ ($\leftarrow$elbow) \\
+4 & $0.041\pm0.015$ & $0.019\pm0.002$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{AU Saturation on Synthetic Data}
+
+VAE ($\beta=4$) saturates at $\AUsat=2$ (Swiss Roll, $=d_{\mathrm{true}}$) and
+$\AUsat=3$ (Torus, $=d_{\mathrm{emb}}>d_{\mathrm{true}}$), both with zero
+inter-seed variance, consistent with Theorem~\ref{thm:linear_vae}(qualitative).
+For standard AE, pseudo-AU$=m$ (all coordinates active), consistent with
+Remark~\ref{thm:linear_vae}.
+Detailed topological-manifold results (Torus, Möbius Band) are in
+Appendix~\ref{app:twonn_detail}.
+
+%% -------------------------------------------------------------------
+\subsection{MNIST: Multi-seed Reproducibility Study}\label{sec:exp_mnist}
+
+\subsubsection{ID Estimation via Reference AE}
+
+A standard AE trained on MNIST (300 epochs) with $m=256$ yields
+TwoNN ID$\approx10.02$, MLE ID$\approx11.85$.
+Multiple $m$ values confirm convergence above $m\geq64$:
+TwoNN ID$=9.54$ at $m=64$, stabilising to $10.02$ at $m=256$.
+This places MNIST's intrinsic dimension at $\hatdID\approx10$--$12$
+(Table~\ref{tab:e4_ae}).
+
+\begin{table}[ht]
+\centering
+\caption{MNIST AE results (300 epochs, seed 42).}
+\label{tab:e4_ae}
+\small
+\begin{tabular}{rccc}
+\toprule
+$m$ & MSE & TwoNN ID & MLE ID \\
+\midrule
+1   & 0.0437 & 1.02  & 1.15  \\
+32  & 0.0087 & 8.84  & 9.89  \\
+64  & 0.0062 & 9.54  & 11.26 \\
+256 & 0.0057 & \textbf{10.02} & \textbf{11.85} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{VAE AU Dynamics and Sparse-Grid $\mknee$}
+
+MNIST VAE ($\beta=4$, 300 epochs, seed~42) shows AU gradually increasing with $m$.
+At $m=12$, $\rho(m)$ drops sharply below $\tau_{\mathrm{knee}}=0.25$,
+giving $\mknee=12$ in this single seed with this extended grid
+($m\in\{1,4,8,\ldots,256\}$).
+\textbf{Important}: this value is a preliminary single-seed observation and is
+not the main result.
+Multi-seed experiments (Section~\ref{sec:exp_multiseed}) reveal that
+sparse-grid $\mknee$ varies widely.
+
+\begin{table}[ht]
+\centering
+\caption{MNIST VAE ($\beta=4$, 300 epochs, seed 42) results.
+The arrow marks the slowdown point in this single-seed run; the main
+stabilised result is $\mknee=10.3\pm0.9$ from dense-grid runs
+(Section~\ref{sec:exp_dense}).}
+\label{tab:e4_vae}
+\small
+\begin{tabular}{rcccl}
+\toprule
+$m$ & MSE & AU & TwoNN ID & $\rho(m)$ trend \\
+\midrule
+1  & 0.0464 & 1  & 1.00 & --- \\
+8  & 0.0186 & 8  & 6.36 & increasing \\
+12 & 0.0184 & 8  & 6.26 & $\downarrow$ sharp drop ($\mknee=12$, single-seed prelim.) \\
+64 & 0.0103 & 29 & 9.16 & slow \\
+128& 0.0085 & 26 & 10.02& slow \\
+256& 0.0072 & 36 & 10.14& slow \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Multi-seed Experiments: AU and TwoNN are Stable, $\mknee$ is Not}
+\label{sec:exp_multiseed}
+
+Table~\ref{tab:multiseed_300} reports MNIST VAE results with sparse grid
+$\mathcal{M}=\{4,8,12,16,20,32,64\}$ and three seeds (300 epochs).
+
+\begin{table}[ht]
+\centering
+\caption{MNIST VAE multi-seed study: Exp-Mnist-Multi-300 (mean$\pm$std, 3 seeds, sparse grid).
+AU and TwoNN ID are reproducible; $\mknee$ varies across seeds.}
+\label{tab:multiseed_300}
+\small
+\begin{tabular}{rccc}
+\toprule
+$m$ & AU (mean$\pm$std) & TwoNN ID (mean$\pm$std) & Note \\
+\midrule
+4  & $4.0\pm0.0$ & $3.98\pm0.14$ & all active \\
+12 & $10.0\pm0.0$ & $7.41\pm0.06$ & \\
+32 & $15.7\pm0.5$ & $9.07\pm0.10$ & \\
+64 & $22.3\pm0.5$ & $\mathbf{10.03\pm0.12}$ & converges to $\hatdID\approx10$ \\
+\midrule
+\multicolumn{4}{l}{Sparse-grid $\mknee$ ($\tau=0.25$):
+seed 42=64, 123=32, 777=32; mean $43\pm15$} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Key findings.}
+(1) AU values and TwoNN ID are highly reproducible across seeds
+($\sigma\leq0.5$ and $\sigma\leq0.12$, respectively).
+(2) Sparse-grid $\mknee$ varies from 32 to 64 ($\sigma=15$), confirming that
+it is an unreliable diagnostic reference at coarse grids.
+
+%% -------------------------------------------------------------------
+\subsection{Dense-Grid Stabilisation of $\mknee$}\label{sec:exp_dense}
+
+To isolate the effect of grid density, we designed
+Exp-Mnist-Dense-300 with
+$\mathcal{M}=\{8,9,10,11,12,13,14,15,16,18,20,24,28,32,40,48,64\}$,
+independent per-$(m,\text{seed})$ initialisation, 300 epochs, 3 seeds.
+
+\begin{table}[ht]
+\centering
+\caption{Dense-grid vs.\ sparse-grid $\mknee$ comparison (MNIST FC-VAE, $\beta=4$).
+Grid density is the dominant stabilisation factor.}
+\label{tab:el_mknee}
+\small
+\begin{tabularx}{\linewidth}{lXcccc}
+\toprule
+Condition & Max.\ grid interval & seed 42 & seed 123 & seed 777 & Mean$\pm$std \\
+\midrule
+Sparse, 300ep (Exp-Mnist-Multi-300) & 32 & 64 & 32 & 32 & $43\pm15$ \\
+\textbf{Dense, 300ep (Exp-Mnist-Dense-300)} & 8 & 11 & 9 & 11 & $\boldsymbol{10.3\pm0.9}$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The dense-grid result $\mknee=10.3\pm0.9$ is consistent with TwoNN ID
+($\approx10$) and represents the main stabilised $\mknee$ result of this paper.
+Note that even with dense grids the AU curve fluctuates non-monotonically
+(AU: 8→9→10→10→10→10→12→11→14→\ldots), so $\mknee$ should still be
+treated as an exploratory heuristic, not a precise estimator.
+The fixed-$\tau$ method outperforms the second-difference method for dense grids
+($\sigma=0.9$ vs.\ $18.3\pm6.8$, Appendix~\ref{app:twonn_detail}).
+
+%% -------------------------------------------------------------------
+\subsection{TwoNN Stability: Bottleneck Margin Dominates}\label{sec:exp_stability}
+
+Three complementary experiments support Design Principle~1.
+
+\subsubsection{Swiss Roll: Isometry vs.\ Margin}
+
+For standard AE ($\kap=1.79$) and IsometricAE ($\kap=1.06$), TwoNN$\approx1.55$
+at $m=2=d_{\mathrm{true}}$ for both—the bottleneck constraint drives
+underestimation, not $\kap$ difference.
+At $m=4>d_{\mathrm{true}}$, TwoNN recovers to $\approx2.03$ for standard AE
+despite $\kap=2.16$ (Appendix~\ref{app:twonn_detail}, Table~\ref{tab:eq_mnist}).
+
+\subsubsection{MNIST AE $m$-Sweep}
+
+TwoNN stabilises at $m\geq48\approx5\hatdID$ ($\approx10.16$) and remains
+stable even when $\kap$ jumps from 4.25 to 37.0 between $m=64$ and $m=128$
+(TwoNN: 10.17→10.98, $\Delta<0.82$).
+
+\subsubsection{Four-Model Comparison on MNIST/Fashion-MNIST (Exp-Real-Geom)}
+
+AE, IsometricAE, CAE, and DAE are swept over $m\in\{d,2d,3d,5d,10d\}$
+($d=\hatdID=10$).  All four models converge at $m=5d$--$10d$; inter-model
+TwoNN difference at the same $m$ is $<0.3$, far smaller than the gain from
+increasing $m$ ($\sim2.5$~points).  These results strongly support
+Design Principle~1 (see Table~\ref{tab:real_geom_mnist} in main text
+and Appendix~\ref{app:twonn_detail} for Fashion-MNIST).
+
+\begin{table}[ht]
+\centering
+\caption{Exp-Real-Geom: MNIST four-model comparison
+(mean$\pm$std, 3 seeds; $\hatdID=10$).
+TwoNN stabilisation is driven by $m/\hatdID$, not $\kap$.}
+\label{tab:real_geom_mnist}
+\small
+\begin{tabular}{llccccc}
+\toprule
+Model & $m$ & TwoNN ID & MLE ID & $\kap$ & Trust. & kNN ovlp. \\
+\midrule
+\multirow{3}{*}{AE}
+ & $10$ ($=d$)  & $7.3\pm0.4$ & $8.1\pm0.3$ & $85\pm22$   & $0.961$ & $0.73$ \\
+ & $30$ ($=3d$) & $9.8\pm0.2$ & $10.5\pm0.2$& $1200\pm400$& $0.981$ & $0.85$ \\
+ & $100$($=10d$)& $10.0\pm0.1$& $10.8\pm0.1$& $4.1\times10^7$& $0.987$ & $0.88$ \\
+\multirow{3}{*}{IsometricAE}
+ & $10$         & $7.5\pm0.4$ & $8.3\pm0.3$ & $3.2\pm0.4$ & $0.963$ & $0.74$ \\
+ & $30$         & $9.9\pm0.1$ & $10.6\pm0.1$& $5.2\pm0.8$ & $0.982$ & $0.86$ \\
+ & $100$        & $10.1\pm0.1$& $10.8\pm0.1$& $7.8\pm1.4$ & $0.988$ & $0.89$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% -------------------------------------------------------------------
+\subsection{Fashion-MNIST: Preliminary External Check}\label{sec:exp_fashion}
+
+Fashion-MNIST is used only as a preliminary external check, not as
+evidence of seed-level robustness.
+Single-seed (seed~42) results: TwoNN ID converges to $\approx9.4$ at $m\geq32$,
+suggesting $\hatdID\approx9$--10 (slightly lower than MNIST).
+VAE ($\beta=4$) shows a sharp $\rho(m)$ drop around $m=12$ in this single run,
+but multi-seed reproducibility is not assessed.
+Fashion-MNIST 3-seed experiments are left for future work.
+
+%% -------------------------------------------------------------------
+\subsection{Conv-VAE: Applicability Boundary on MNIST}\label{sec:exp_conv}
+
+Conv-VAE (2-layer strided convolution encoder, 2-layer transposed convolution
+decoder) trained on MNIST (100 epochs) shows AU$\approx m$ up to $m=64$---no
+KL-induced saturation.
+Extending to 300 epochs with fixed $\beta$ or cyclic KL annealing does not
+change this (AU$=m$ for $m\leq64$; FC-VAE saturates at AU$=15.7$ at $m=32$
+under the same conditions).
+Extending the $m$-grid to $\{96,128,\ldots,256\}$ reveals AU$<m$ onset at
+$m\approx96$, but no saturation plateau up to $m=512$ (Appendix~\ref{app:convvae_natimg}).
+
+\textbf{High-$\beta$ verification.}
+Increasing $\beta_{\max}$ to 10 and 20 shifts the AU saturation to lower
+dimensions ($\mknee\approx128$ and $\approx96$, respectively).
+This is consistent with the water-filling interpretation: higher $\beta$ raises
+$\beta\tau^2_{\mathrm{eff}}$, activating fewer dimensions.
+The $\beta_{\max}=4$ failure is therefore not a breakdown of the framework but
+a sign that $d^*(\beta)\gg256$ under this setting, requiring stronger
+regularisation or decoder-capacity reduction.
+
+%% -------------------------------------------------------------------
+\subsection{Natural Images: Defining the Applicability Boundary}\label{sec:exp_natural}
+
+\textbf{TwoNN auxiliary estimates} are partially informative for natural images.
+On CIFAR-10 ($n_{\mathrm{train}}=20\,000$, $m=64$, 150 epochs), the latent
+TwoNN ID$=25.21\pm0.41$, consistent with the raw-data value (25.20) and Pope
+et al.'s estimate ($\approx26$)~\cite{pope2021intrinsic}.
+However, at larger $m$ (128 and 256) TwoNN continues to increase (28.83, 30.91),
+so this consistency holds only near $m\approx2\hatdID$.
+SVHN shows raw TwoNN$=10.09$ but latent TwoNN$=27.08$ at $m=256$, indicating
+geometric distortion of the latent space.
+
+\textbf{AU/$\mknee$ diagnostics fail} in the tested regime.
+AU$=m$ for all $m\leq256$ on CIFAR-10 ($\beta_{\max}=4$).
+Extended sweeps up to $\beta_{\max}=80$ and thin decoder architectures
+(Appendix~\ref{app:convvae_natimg}) reveal AU plateau-like behaviour at
+$m\approx512$, but all five stable-identification criteria remain unmet
+(Appendix~\ref{app:convvae_natimg}).
+These results define the applicability boundary:
+
+\begin{quote}
+\emph{On natural images, TwoNN auxiliary estimates are partially informative
+near $m\approx2\hatdID$, while AU/$\mknee$ identification requires substantially
+stronger regularisation and decoder-capacity control.
+These experiments quantify the current applicability boundary of the proposed
+framework.}
+\end{quote}
+
+%% ===================================================================
+\section{Discussion}\label{sec:discussion}
+
+\subsection{Role Separation is the Main Contribution}\label{sec:disc_roles}
+
+The core message of this paper is not that $\mknee$ estimates effective
+dimensionality, but that \emph{different indicators serve different diagnostic
+roles} and conflating them leads to misinterpretation.
+AU values are reliable monitors of KL-induced activity; TwoNN ID is a stable
+auxiliary reference (not an unbiased estimator); $\mknee$ is informative only
+under controlled conditions.
+
+\subsection{When is $\mknee$ Informative?}\label{sec:disc_mknee}
+
+$\mknee$ is informative as a diagnostic aid \emph{only when}:
+(1) the $m$-grid is dense near $\hatdID$; (2) each $(m,\text{seed})$ is
+initialised independently; (3) at least 3 seeds are used; and
+(4) AU curves show reasonably monotone behaviour (observed in FC-VAE on MNIST).
+Under these conditions, $\mknee=10.3\pm0.9$ aligns with TwoNN ID ($\approx10$),
+providing a complementary check from the KL-dynamics side.
+Sparse grids ($\mknee=43\pm15$) are unreliable and should be avoided.
+
+\subsection{Optimisation Dynamics Interpretation of $\mknee$ Instability}
+\label{sec:disc_grad}
+
+\textbf{Gradient competition hypothesis.}
+The $\beta$-ELBO combines reconstruction gradient ($\nabla\mathcal{L}_{\mathrm{rec}}$)
+and KL gradient ($\beta\nabla\mathcal{L}_{\mathrm{KL}}$).
+Near $m\approx d^*(\beta)$, these gradients compete: the reconstruction term
+tries to activate surplus dimensions while the KL term tries to suppress them.
+The resolution speed depends on the initialisation, $m$-grid, and $\beta$,
+leading to a smooth (not step-like) AU curve in non-linear VAEs and thus
+grid-dependent $\mknee$ values.
+This hypothesis is consistent with all observed results but has not been
+directly verified by gradient measurements; it should be regarded as an
+\emph{interpretive hypothesis}.
+
+\subsection{Conv-VAE and Natural Images: Boundary, Not Failure}\label{sec:disc_boundary}
+
+For Conv-VAEs and natural images, the inability to achieve stable $\mknee$
+identification is not a failure of the framework---it reveals the
+\emph{applicability boundary}.
+The key insight from high-$\beta$ experiments is that AU saturation does occur
+when regularisation is sufficiently strong relative to decoder capacity.
+The boundary is thus characterised by the effective $\tau^2$ relative to the
+data eigenvalue spectrum, consistent with the water-filling interpretation of
+Theorem~\ref{thm:linear_vae}.
+
+\subsection{Limitations}\label{sec:disc_limitation}
+
+\begin{itemize}
+\item \textbf{Isometry bias of TwoNN ID.}
+The reference AE used in Stage~1 has $\kap\approx10^9$, so $\hatdID$ is an
+approximation.
+Numerical stability under $m\gg\hatdID$ is demonstrated, but geometric
+unbiasedness is not claimed.
+
+\item \textbf{Single-seed Fashion-MNIST.}
+Fashion-MNIST is used as a preliminary check only; multi-seed results are not
+available.
+
+\item \textbf{Linear-Gaussian approximation.}
+Theorem~\ref{thm:linear_vae} is an analytical model for the linear-Gaussian
+surrogate; its applicability to non-linear VAEs is qualitative.
+
+\item \textbf{Computational cost.}
+Full $m$-grid sweeps (11 sizes $\times$ 300 epochs $\times$ 2 models) require
+hours to days on GPU.
+IsometricAE Jacobian computation scales as $O(m)$ and is impractical for large $m$.
+
+\item \textbf{Natural-image stable identification not achieved.}
+Under the tested conditions, stable identification on CIFAR-10/SVHN is not
+achieved; this defines the current applicability boundary.
+\end{itemize}
+
+%% ===================================================================
+\section{Conclusions}\label{sec:conclusion}
+
+We proposed a multi-indicator diagnostic framework for effective latent
+dimensionality in AE/VAE representations.
+The main contribution is not a new dimension estimator but a role separation:
+AU values as reliable activity monitors, TwoNN/MLE ID as numerically stable
+auxiliary references, and $\mknee$ as an exploratory, grid-dependent change point.
+
+Key findings:
+(1)~AU values and TwoNN ID are reproducible across seeds (MNIST, 3-seed);
+(2)~sparse-grid $\mknee$ is unreliable ($\sigma=15$), whereas dense-grid,
+independent-initialisation, multi-seed evaluation stabilises it at
+$10.3\pm0.9$ (TwoNN-consistent);
+(3)~the dominant factor for TwoNN stability is bottleneck margin
+($m\gg\hatdID$), not isometric regularisation;
+(4)~Conv-VAE and natural-image experiments quantify the applicability
+boundary---AU/$\mknee$ diagnostics fail when decoder capacity greatly
+exceeds the regularisation level.
+
+The proposed diagnostic protocol supports practitioners in avoiding
+over-interpretation of any single indicator, in designing $m$-grids that make
+$\mknee$ informative, and in recognising when the framework reaches its limits.
+
+%% ===================================================================
+\vspace{1ex}
+\noindent\textbf{Author Contributions:}
+Conceptualisation, A.A.; Methodology, A.A.; Software, A.A.; Formal Analysis,
+A.A.; Writing---Original Draft Preparation, A.A.; Writing---Review \& Editing,
+A.A. All authors have read and agreed to the published version of the manuscript.
+
+\noindent\textbf{Funding:} This research received no external funding.
+
+\noindent\textbf{Data Availability Statement:}
+MNIST and Fashion-MNIST are publicly available.
+Code and experiment results will be made available upon acceptance.
+
+\noindent\textbf{Conflicts of Interest:} The authors declare no conflict of interest.
+
+%% ===================================================================
+\begin{thebibliography}{99}
+
+\bibitem{cover2006elements}
+Cover, T.M.; Thomas, J.A.
+\textit{Elements of Information Theory}, 2nd ed.;
+Wiley-Interscience: Hoboken, NJ, USA, 2006.
+
+\bibitem{fu2019cyclical}
+Fu, H.; Tan, C.; Peng, B.; Zhao, Z.; Yan, T.; Chang, C.; Zhao, L.
+Cyclical annealing schedule: A simple approach to mitigating {KL} vanishing.
+In \textit{Proceedings of NAACL-HLT 2019}, Minneapolis, MN, USA, 2019; pp.~240--250.
+
+\bibitem{krizhevsky2009learning}
+Krizhevsky, A.
+Learning multiple layers of features from tiny images.
+\textit{Technical Report}, University of Toronto, 2009.
+
+\bibitem{netzer2011reading}
+Netzer, Y.; Wang, T.; Coates, A.; Bissacco, A.; Wu, B.; Ng, A.Y.
+Reading digits in natural images with unsupervised feature learning.
+In \textit{NIPS Workshop on Deep Learning and Unsupervised Feature Learning}, 2011.
+
+\bibitem{tippingbishop1999ppca}
+Tipping, M.E.; Bishop, C.M.
+Probabilistic principal component analysis.
+\textit{J.~R.~Stat.~Soc.\ Ser.\ B} \textbf{1999}, \textit{61}, 611--622.
+
+\bibitem{fefferman2016manifold}
+Fefferman, C.; Mitter, S.; Narayanan, H.
+Testing the manifold hypothesis.
+\textit{J.~Am.~Math.~Soc.} \textbf{2016}, \textit{29}, 983--1049.
+
+\bibitem{bengio2013representation}
+Bengio, Y.; Courville, A.; Vincent, P.
+Representation learning: A review and new perspectives.
+\textit{IEEE Trans.~Pattern Anal.~Mach.~Intell.} \textbf{2013}, \textit{35}, 1798--1828.
+
+\bibitem{facco2017twonn}
+Facco, E.; d'Errico, M.; Rodriguez, A.; Laio, A.
+Estimating the intrinsic dimension of datasets by a minimal neighborhood information.
+\textit{Sci.~Rep.} \textbf{2017}, \textit{7}, 12140.
+
+\bibitem{levina2005mle}
+Levina, E.; Bickel, P.J.
+Maximum likelihood estimation of intrinsic dimension.
+In \textit{Advances in Neural Information Processing Systems (NIPS)}, Vol.~17, 2005.
+
+\bibitem{hatcher2002algebraic}
+Hatcher, A. \textit{Algebraic Topology};
+Cambridge University Press: Cambridge, UK, 2002.
+
+\bibitem{guillemin1974differential}
+Guillemin, V.; Pollack, A. \textit{Differential Topology};
+Prentice-Hall: Englewood Cliffs, NJ, USA, 1974.
+
+\bibitem{kingma2014vae}
+Kingma, D.P.; Welling, M.
+Auto-encoding variational Bayes.
+In \textit{ICLR 2014}, 2014.
+
+\bibitem{kato2020rdae}
+Kato, K.; Zhou, J.; Sasaki, T.; Nakagawa, A.
+Rate-distortion optimization guided autoencoder for isometric embedding in Euclidean latent space.
+In \textit{ICML 2020}, Vol.~119, 2020.
+
+\bibitem{nazari2023geometric}
+Nazari, P.; Damrich, S.; Hamprecht, F.A.
+Geometric autoencoders---what you see is what you decode.
+In \textit{ICML 2023}, Vol.~202, 2023.
+
+\bibitem{ceruti2014danco}
+Ceruti, C.; Bassis, S.; Rozza, A.; Lombardi, G.; Casiraghi, E.; Campadelli, P.
+DANCo: An intrinsic dimensionality estimator exploiting angle and norm concentration.
+\textit{Pattern Recognit.} \textbf{2014}, \textit{47}, 2569--2581.
+
+\bibitem{pope2021intrinsic}
+Pope, P.; Zhu, C.; Abdelkader, A.; Goldblum, M.; Goldstein, T.
+The intrinsic dimension of images and its impact on learning.
+In \textit{ICLR 2021}, 2021.
+
+\bibitem{ansuini2019intrinsic}
+Ansuini, A.; Laio, A.; Macke, J.H.; Zoccolan, D.
+Intrinsic dimension of data representations in deep neural networks.
+In \textit{NeurIPS 2019}, Vol.~32, 2019.
+
+\bibitem{birdal2021intrinsic}
+Birdal, T.; Lou, A.; Guibas, L.J.; Simsekli, U.
+Intrinsic dimension, persistent homology and generalization in neural networks.
+In \textit{NeurIPS 2021}, Vol.~34, 2021.
+
+\bibitem{valeriani2023geometry}
+Valeriani, L.; Wood, D.; Catania, G.; Gherardini, S.; Laio, A.; Ansuini, A.
+The geometry of hidden representations of large transformer models.
+In \textit{NeurIPS 2023}, Vol.~36, 2023.
+
+\bibitem{higgins2017betavae}
+Higgins, I.; Matthey, L.; Pal, A.; Burgess, C.; Glorot, X.; Botvinick, M.;
+Mohamed, S.; Lerchner, A.
+$\beta$-VAE: Learning basic visual concepts with a constrained variational framework.
+In \textit{ICLR 2017}, 2017.
+
+\bibitem{lucas2019elbo}
+Lucas, J.; Tucker, G.; Grosse, R.B.; Norouzi, M.
+Don't blame the ELBO! A linear VAE perspective on posterior collapse.
+In \textit{NeurIPS 2019}, Vol.~32, 2019.
+
+\bibitem{rifai2011cae}
+Rifai, S.; Vincent, P.; Muller, X.; Glorot, X.; Bengio, Y.
+Contractive auto-encoders: Explicit invariance during feature extraction.
+In \textit{ICML 2011}, Vol.~28, 2011.
+
+\bibitem{alain2014dae}
+Alain, G.; Bengio, Y.
+What regularized auto-encoders learn from the data-generating distribution.
+\textit{J.~Mach.~Learn.~Res.} \textbf{2014}, \textit{15}, 3743--3773.
+
+\bibitem{kornblith2019cka}
+Kornblith, S.; Norouzi, M.; Lee, H.; Hinton, G.
+Similarity of neural network representations revisited.
+In \textit{ICML 2019}, Vol.~97, pp.~3519--3529, 2019.
+
+\bibitem{mcinnes2018umap}
+McInnes, L.; Healy, J.; Melville, J.
+UMAP: Uniform manifold approximation and projection for dimension reduction.
+\textit{arXiv preprint arXiv:1802.03426}, 2018.
+
+\end{thebibliography}
+
+%% ===================================================================
+\appendix
+
+\section{Proofs and Supplementary Theory}\label{app:proofs}
+
+\subsection{Topological Lower Bound (Proposition B.1)}\label{app:lower_bound}
+
+\begin{proposition}[Topological Lower Bound]
+To represent a smooth $d$-dimensional manifold $\mathcal{M}\subset\R^N$
+without self-intersections under zero reconstruction error (idealised setting),
+a bottleneck of $m\geq d$ is necessary.
+This follows from standard properties of topological embedding dimension
+(see~\cite{hatcher2002algebraic}).
+\end{proposition}
+
+\noindent
+\textit{Note:} This is an idealised result; finite capacity and approximate
+reconstruction are excluded.
+
+\subsection{Proof Sketch for Theorem~\ref{thm:linear_vae}}\label{app:linear_vae_proof}
+
+The derivation follows the standard linear-Gaussian rate--distortion analysis
+with a $\beta$-ELBO objective.  For each PCA direction $j$, the contribution
+$L_j = -D_j/(2\tau^2) - \beta R_j$ (rate--distortion surrogate) is maximised
+independently.
+Setting $\partial L_j/\partial D_j=0$ yields the water-filling condition
+$D_j^*=\beta\tau^2$ (feasible only when $\lambda_j\geq\beta\tau^2$).
+Computing $\Delta L_j = L_j^{\mathrm{active}}-L_j^{\mathrm{dead}}
+= (\beta/2)h(\lambda_j/\beta\tau^2)$ where $h(t)=t-1-\log t\geq0$
+shows $\Delta L_j>0$ iff $\lambda_j>\beta\tau^2$.
+
+\begin{remark}[KL vs.\ mutual information]
+The surrogate $L_j$ implicitly identifies the expected KL $\mathbb{E}_xKL(q_j\|p_j)$
+with the mutual information $R_j=I(z_j;y_j)$.
+For a true VAE, the expected KL also includes aggregated-posterior/prior mismatch.
+Therefore Theorem~\ref{thm:linear_vae} is a result for the \emph{linear-Gaussian
+rate--distortion surrogate}, not a rigorous theorem about the full VAE ELBO.
+\end{remark}
+
+\section{TwoNN Stability Details and Linear Theory Bridge}
+\label{app:twonn_detail}
+
+\subsection{Exp-Geom: MNIST AE $m$-sweep}
+
+\begin{table}[H]
+\centering
+\caption{MNIST AE $m$-sweep (Exp-Geom). TwoNN stabilises at $m\geq48\approx5\hatdID$.}
+\label{tab:eq_mnist}
+\small
+\begin{tabular}{rrrrl}
+\toprule
+$m$ & $\kap$ & TwoNN ID & Trustworthiness & Convergence \\
+\midrule
+ 4  & 2.69 & 4.21 & 0.960 & not converged \\
+16  & 3.28 & 8.17 & 0.993 & converging \\
+48  & 4.44 & \textbf{10.16} & 0.998 & \textbf{converged} \\
+64  & 4.25 & 10.17 & 0.998 & stable \\
+96  & 9.94 & 10.86 & 0.999 & stable (despite $\kap$ jump) \\
+128 & 37.0 & 10.98 & 0.999 & stable \\
+\midrule
+\multicolumn{5}{l}{\small $n_{\mathrm{train}}=10\,000$, 200 ep, seed=42.} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Exp-Iso-ID: Standard AE vs.\ IsometricAE on Swiss Roll}
+
+\begin{table}[H]
+\centering
+\caption{Latent TwoNN ID for AE and IsometricAE on Swiss Roll
+($d_{\mathrm{true}}=2$, input TwoNN$=2.427$).
+At $m\geq3$, TwoNN difference stays below $\pm2.3\%$ despite $\kap$ ratio $\sim2$.}
+\label{tab:iso_id}
+\small
+\begin{tabular}{r cc | cc | c}
+\toprule
+ & \multicolumn{2}{c|}{AE} & \multicolumn{2}{c|}{IsometricAE} & \\
+$m$ & TwoNN ID & $\kap$ & TwoNN ID & $\kap$ & Diff.\ (\%) \\
+\midrule
+2 & 1.780 & 1.76 & 1.799 & 1.08 & $+1.1$ \\
+3 & 2.458 & 2.10 & 2.454 & 1.11 & $-0.2$ \\
+4 & 2.483 & 1.80 & 2.479 & 1.14 & $-0.2$ \\
+6 & 2.421 & 1.79 & 2.474 & 1.10 & $+2.2$ \\
+8 & 2.500 & 1.45 & 2.443 & 1.11 & $-2.3$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Fashion-MNIST Exp-Real-Geom (Preliminary)}
+
+Fashion-MNIST ($\hatdID=9$, $m\in\{9,18,27,45,90\}$) shows qualitatively the
+same pattern as MNIST: TwoNN converges at $m\approx5\hatdID$, inter-model
+differences are small, and $\kap$ improvements have minimal effect.
+Complete numerical tables will be provided upon acceptance.
+
+\subsection{Linear Theory Bridge (Exp-Mnist-PCA)}
+
+MNIST PCA spectrum: $\lambda_1=5.22, \lambda_2=3.76,\ldots,\lambda_{10}=1.23$.
+At $\beta=4$ and back-calculated $\tau^2_{\mathrm{eff}}\approx0.30$, the
+water-filling prediction gives $d^*\approx10$, consistent with TwoNN ID.
+The smooth (not step-like) AU curve of the non-linear FC-VAE explains why
+sparse-grid $\mknee$ is unstable: gradual saturation violates the
+step-function assumption of Proposition~\ref{thm:mknee_instab}.
+
+\section{Conv-VAE and Natural-Image Details}\label{app:convvae_natimg}
+
+\subsection{Exp-Conv-M512: MNIST Conv-VAE Extended Grid}
+
+\begin{table}[H]
+\centering
+\caption{MNIST Conv-VAE with $m\in\{256,384,512\}$ (per seed; KL cyclic annealing,
+$\beta_{\max}=4$, 150 ep).
+No AU plateau up to $m=512$; $d^*(\beta)>512$ under this setting.}
+\small
+\begin{tabular}{rccc}
+\toprule
+$m$ & AU (s42) & AU (s123) & AU (s777) \\
+\midrule
+256 & 241 & 245 & 238 \\
+384 & 382 & 383 & 380 \\
+512 & 512 & 511 & 512 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Natural-Image Extended Sweep (Exp-NatImg-Sweep)}
+
+Extended sweeps on CIFAR-10 ($m\in[32,1024]$, $\beta_{\max}\in\{10,20,40,80\}$,
+Standard/Deep/Thin decoders, 300 ep, 3 seeds):
+\begin{itemize}
+\item $\beta_{\max}=80$, Thin decoder: AU plateau-like at $m\in[512,1024]$
+  (AU$\approx24$). This is a preliminary, conditional observation.
+\item TwoNN ID: $24.7$--$25.4$ ($\sigma\leq0.6$) across all conditions.
+\end{itemize}
+The five stable-identification criteria (seed stability, grid stability,
+$\beta$ stability, AU-plateau stability, TwoNN--AU consistency) are all unmet
+under the tested conditions; strict stable identification remains a future goal.
+
+\section{Sensitivity Analyses}\label{app:sensitivity}
+
+\subsection{AU Threshold $\delta$}\label{app:delta}
+Swiss Roll and Torus experiments confirm AU patterns are identical for
+$\delta\in\{0.001,0.01,0.05,0.1\}$ (active coordinate variance $O(1)$
+vs.\ inactive $O(10^{-4})$; 2-order gap).
+
+\subsection{$\tau_{\mathrm{knee}}$ Sensitivity}\label{app:tau_knee}
+
+Cross-dataset validation confirms $\tau=0.25$ is stable for Gaussian
+mixture data.  Fashion-MNIST shows boundary sensitivity near $\tau\approx0.25$;
+the second-difference alternative is recommended for gradual-slope curves.
+Dense-grid experiments confirm the fixed-$\tau$ method outperforms second
+differences ($\sigma=0.9$ vs.\ $18.3\pm6.8$) for MNIST.
+
+\subsection{$\beta$ Sensitivity}\label{app:beta}
+Preliminary 50-epoch MNIST subsets: $\beta=1$ gives AU$\approx m$
+(insufficient regularisation); $\beta=8$ shows over-suppression signs.
+AU patterns are stable for $\beta\in[2,8]$; $\beta=4$ is used as default.
+
+\end{document}

@@ -1,0 +1,71 @@
+
+==============================================================================
+=== dSprites  尤度=bernoulli  d̂0=7.61  m_ref=[30, 61, 122]  上限=5163s ===
+==============================================================================
+  B1_full_mse                      s=42     m=    64 val_MSE=0.00117 runs=12  2653.7s SUCCESS
+  B1_full_mse                      s=123    m=    64 val_MSE=0.00114 runs=12  2581.0s SUCCESS
+  B1_full_mse                      s=777    m=    32 val_MSE=0.00117 runs=12  2548.4s SUCCESS
+  B1_full_mse                      s=2024   m=    64 val_MSE=0.00117 runs=12  2606.3s SUCCESS
+  B1_full_mse                      s=31337  m=    64 val_MSE=0.00117 runs=12  2434.5s SUCCESS
+  B2_full_elbo                     s=42     m=    64 val_MSE=0.00117 runs=12  2653.7s SUCCESS
+  B2_full_elbo                     s=123    m=    64 val_MSE=0.00114 runs=12  2581.0s SUCCESS
+  B2_full_elbo                     s=777    m=    32 val_MSE=0.00117 runs=12  2548.4s SUCCESS
+  B2_full_elbo                     s=2024   m=    64 val_MSE=0.00117 runs=12  2606.3s SUCCESS
+  B2_full_elbo                     s=31337  m=    64 val_MSE=0.00117 runs=12  2434.5s SUCCESS
+  B3_full_downstream               s=42     m=    64 val_MSE=0.00117 runs=12  2678.3s SUCCESS
+  B3_full_downstream               s=123    m=    64 val_MSE=0.00114 runs=12  2602.9s SUCCESS
+  B3_full_downstream               s=777    m=    64 val_MSE=0.00120 runs=12  2571.0s SUCCESS
+  B3_full_downstream               s=2024   m=    64 val_MSE=0.00117 runs=12  2635.2s SUCCESS
+  B3_full_downstream               s=31337  m=    64 val_MSE=0.00117 runs=12  2457.1s SUCCESS
+  B4_coarse                        s=42     m=    64 val_MSE=0.00117 runs= 4   751.0s SUCCESS
+  B4_coarse                        s=123    m=    64 val_MSE=0.00114 runs= 4   702.2s SUCCESS
+  B4_coarse                        s=777    m=    64 val_MSE=0.00120 runs= 4   720.6s SUCCESS
+  B4_coarse                        s=2024   m=    64 val_MSE=0.00117 runs= 4   648.2s SUCCESS
+  B4_coarse                        s=31337  m=    64 val_MSE=0.00117 runs= 4   697.8s SUCCESS
+  B5_fixed32                       s=42     m=    32 val_MSE=0.00121 runs= 1   300.9s SUCCESS
+  B5_fixed32                       s=123    m=    32 val_MSE=0.00120 runs= 1   257.7s SUCCESS
+  B5_fixed32                       s=777    m=    32 val_MSE=0.00117 runs= 1   219.2s SUCCESS
+  B5_fixed32                       s=2024   m=    32 val_MSE=0.00121 runs= 1   223.6s SUCCESS
+  B5_fixed32                       s=31337  m=    32 val_MSE=0.00131 runs= 1   287.7s SUCCESS
+  B6a_fondue                       s=42     m=     5 val_MSE=0.00319 runs= 5   167.7s SUCCESS
+  B6a_fondue                       s=123    m=     4 val_MSE=0.00574 runs= 5   139.1s SUCCESS
+  B6a_fondue                       s=777    m=     4 val_MSE=0.00623 runs= 5   138.0s SUCCESS
+  B6a_fondue                       s=2024   m=     4 val_MSE=0.00627 runs= 5   113.9s SUCCESS
+  B6a_fondue                       s=31337  m=     4 val_MSE=0.00609 runs= 5   145.0s SUCCESS
+  B6b_fondue_var                   s=42     m=  None val_MSE=nan runs= 1     1.1s DEGENERATE_SELECTION
+  B6b_fondue_var                   s=123    m=   114 val_MSE=0.00110 runs= 5   304.9s SUCCESS
+  B6b_fondue_var                   s=777    m=     1 val_MSE=0.01744 runs= 5   173.8s SUCCESS
+  B6b_fondue_var                   s=2024   m=    14 val_MSE=0.00135 runs= 2   272.8s SUCCESS
+  B6b_fondue_var                   s=31337  m=     1 val_MSE=0.01768 runs= 4   120.1s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=42     m=  None val_MSE=nan runs= 1     1.1s DEGENERATE_SELECTION
+  B6b_fondue_var_keepmixed_false   s=123    m=  None val_MSE=nan runs= 1     1.1s DEGENERATE_SELECTION
+  B6b_fondue_var_keepmixed_false   s=777    m=     3 val_MSE=0.00767 runs= 2   109.5s SUCCESS
+  B6b_fondue_var_keepmixed_false   s=2024   m=  None val_MSE=nan runs= 1     1.1s DEGENERATE_SELECTION
+  B6b_fondue_var_keepmixed_false   s=31337  m=     3 val_MSE=0.00766 runs= 2    89.4s SUCCESS
+  proposed                         s=42     m=    64 val_MSE=0.00117 runs= 4  1048.1s ID_UNRELIABLE
+  proposed                         s=123    m=    64 val_MSE=0.00114 runs= 4   999.4s ID_UNRELIABLE
+  proposed                         s=777    m=    64 val_MSE=0.00120 runs= 4  1017.7s ID_UNRELIABLE
+  proposed                         s=2024   m=    64 val_MSE=0.00117 runs= 4   945.4s ID_UNRELIABLE
+  proposed                         s=31337  m=    64 val_MSE=0.00117 runs= 4   994.9s ID_UNRELIABLE
+  proposed_minus_AU                s=42     m=    64 val_MSE=0.00117 runs= 4  1048.1s ID_UNRELIABLE
+  proposed_minus_AU                s=123    m=    64 val_MSE=0.00114 runs= 4   999.4s ID_UNRELIABLE
+  proposed_minus_AU                s=777    m=    64 val_MSE=0.00120 runs= 4  1017.7s ID_UNRELIABLE
+  proposed_minus_AU                s=2024   m=    64 val_MSE=0.00117 runs= 4   945.4s ID_UNRELIABLE
+  proposed_minus_AU                s=31337  m=    64 val_MSE=0.00117 runs= 4   994.9s ID_UNRELIABLE
+  B4_plus_Q                        s=42     m=    64 val_MSE=0.00117 runs= 4   751.0s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=123    m=    64 val_MSE=0.00114 runs= 4   702.2s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=777    m=    64 val_MSE=0.00120 runs= 4   720.6s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=2024   m=    64 val_MSE=0.00117 runs= 4   648.2s NO_COMPACT_ALTERNATIVE_FOUND
+  B4_plus_Q                        s=31337  m=    64 val_MSE=0.00117 runs= 4   697.8s NO_COMPACT_ALTERNATIVE_FOUND
+  B6a_plus_Q                       s=42     m=    24 val_MSE=0.00127 runs=12  1852.1s SUCCESS
+  B6a_plus_Q                       s=123    m=    20 val_MSE=0.00118 runs=12  1770.2s SUCCESS
+  B6a_plus_Q                       s=777    m=    16 val_MSE=0.00130 runs=11  1397.4s SUCCESS
+  B6a_plus_Q                       s=2024   m=    16 val_MSE=0.00128 runs=11  1476.4s SUCCESS
+  B6a_plus_Q                       s=31337  m=    24 val_MSE=0.00124 runs=13  1886.4s BUDGET_EXHAUSTED
+  B6b_plus_Q                       s=42     m=    24 val_MSE=0.00127 runs=11  2108.6s SUCCESS
+  B6b_plus_Q                       s=123    m=    64 val_MSE=0.00114 runs= 5   239.6s NO_COMPACT_ALTERNATIVE_FOUND
+  B6b_plus_Q                       s=777    m=    16 val_MSE=0.00130 runs=12  1491.4s SUCCESS
+  B6b_plus_Q                       s=2024   m=    16 val_MSE=0.00128 runs= 3   497.3s SUCCESS
+  B6b_plus_Q                       s=31337  m=    24 val_MSE=0.00124 runs=13  1966.2s BUDGET_EXHAUSTED
+
+完了: 130 件 -> results/make49/stage4_methods.json

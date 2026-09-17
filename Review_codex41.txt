@@ -1,0 +1,84 @@
+Review of main_paper_MAKE41.pdf
+Target journal: MDPI Machine Learning and Knowledge Extraction (MAKE)
+Reviewer: Codex
+Date: 2026-07-09
+
+Overall recommendation: accept
+
+Summary
+-------
+Revision 41 adequately addresses the remaining substantive correction from
+Review_codex40.txt. The Section 2 DANCo wording no longer says that DANCo is
+"left as future work"; it now correctly states that DANCo is not a primary
+estimator and is used as "an auxiliary robustness cross-check on selected
+MNIST latents."
+
+I find no new major methodological problem. The manuscript remains carefully
+qualified: the full protocol is validated on synthetic manifolds and MNIST,
+Fashion-MNIST Step 3 is explicitly preliminary, and Conv-VAE/natural-image
+results are framed as applicability boundaries. The manuscript is suitable
+for publication, subject only to expected final production completion of
+repository/DOI and MDPI metadata placeholders.
+
+Assessment of previous review responses
+---------------------------------------
+Minor comment 1 from Review_codex40, on the DANCo wording in Section 2, has
+been addressed. Section 2 now says: "DANCo ... is more precise but
+computationally expensive, so we do not use it as a primary estimator and
+instead apply it as an auxiliary robustness cross-check on selected MNIST
+latents (Section 4.3.2)." This is consistent with Section 4.3.2 and Table 5,
+where DANCo is used only as a robustness cross-check on MNIST reference-AE
+latents.
+
+Minor comment 2, on the final repository URL and DOI, remains appropriately
+handled for the review stage. Section 4.1 states that the material is
+attached for review and will be deposited "upon acceptance" in a public
+GitHub/Zenodo repository with URL and DOI. The Data Availability statement
+also says that the repository URL and DOI "will be added to the final
+manuscript." As noted previously, this is acceptable at submission/review
+stage, provided the final production manuscript contains the actual links.
+
+Typographical/presentation item 1 from Review_codex40, on MDPI production
+placeholders, remains an expected production matter. The source still has
+`\articlenumber{0}`, blank date fields, commented ORCID placeholders, and a
+commented external-editor placeholder. These are not scientific defects.
+
+Typographical/presentation item 2 from Review_codex40, on revision-history
+comments in the LaTeX source, remains harmless because these comments do not
+appear in the compiled manuscript. They may be removed before final
+production for source cleanliness.
+
+Revision 41 also claims a full bibliography and figure/table mention audit.
+My source-level spot check supports this claim. The bibliography is numbered
+in order of first citation, including the later references to ESS, cyclic
+annealing, CIFAR-10/SVHN, and Cover and Thomas. The figure/table labels
+inspected are referenced in the body or appendix text. I did not identify an
+uncited bibliography item or an unmentioned displayed table/figure.
+
+Major comments
+--------------
+1. No remaining major methodological objection.
+
+The central claims are conditional and appropriately bounded. In particular,
+the manuscript does not overclaim Fashion-MNIST or natural-image validation:
+Section 4.3.6 states that Fashion-MNIST Step 1 is multi-seed but VAE-side AU
+verification remains "a single-seed preliminary observation," and Section
+4.6 states that Step 3 on natural images is "unresolved." This framing is
+appropriate.
+
+Minor comments
+--------------
+1. No scientific minor correction is required.
+
+The remaining non-scientific repository URL/DOI issue is already marked as a
+final submission/editorial-stage matter.
+
+Typographical and presentation issues
+-------------------------------------
+1. MDPI production placeholders remain: `\articlenumber{0}`, blank
+`\datereceived`, `\daterevised`, `\dateaccepted`, and `\datepublished`
+fields, and commented ORCID placeholders. These should be completed or
+removed as appropriate before publication.
+
+2. The revision-history comments at the top of the LaTeX source are harmless
+but should preferably be removed from the final production source.

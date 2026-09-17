@@ -1,0 +1,60 @@
+Dear Editors of Machine Learning and Knowledge Extraction,
+
+Please find enclosed our manuscript entitled
+
+  "Choosing the Bottleneck Dimension of Autoencoders and Variational
+   Autoencoders from the Intrinsic Dimension of the Data: An ID-Guided
+   Protocol with Active-Unit Verification"
+
+by Chika Obata, Mizuki Dai, and Kenya Jin'no, which we would like to
+submit for consideration as an Article in Machine Learning and Knowledge
+Extraction (MAKE).
+
+The bottleneck dimension of autoencoders (AEs) and variational
+autoencoders (VAEs) is their most fundamental design parameter, yet it is
+usually chosen by convention or trial and error. Our manuscript proposes a
+conditional, diagnostic ID-guided protocol that closes the loop of
+estimation, setting, and verification: (i) a search window for the
+bottleneck dimension m is derived from an estimate of the intrinsic
+dimension of the input data (AE: m in [d_ID, 2 d_ID]; VAE: m >= 2 d_ID);
+(ii) after training, the active units (AU) of the VAE diagnose whether the
+surplus dimensions were actually truncated. The protocol is grounded in a
+topological lower bound for self-intersection-free reconstruction and in a
+water-filling activation condition proven for a linear-Gaussian surrogate.
+We validate the three protocol steps on synthetic manifolds with known
+ground truth and on fully connected VAEs on MNIST and Fashion-MNIST with
+multi-seed decision rules, and we explicitly quantify the limits of
+applicability on convolutional VAEs and natural images. On the MNIST grid
+used in the paper, the ID-guided window reduces the training runs of a
+full grid search by roughly 60-80% while attaining the grid-best
+downstream linear-probe accuracy inside the window.
+
+We believe this work fits the scope of MAKE: it extracts actionable
+knowledge (a principled model-selection rule) from the geometry of data,
+combines theory with reproducible multi-seed experiments, and candidly
+delineates the conditions under which the extracted rule is valid.
+
+All supporting materials (experiment scripts, analysis scripts that
+regenerate every table and figure, training logs for all seeds, and
+environment information) are attached as supplementary material for peer
+review and will be deposited in a public repository (GitHub/Zenodo) upon
+acceptance.
+
+We confirm that this manuscript is original, has not been published
+elsewhere, and is not under consideration by any other journal. All
+authors have read and approved the manuscript and agree with its
+submission to MAKE. The authors declare no conflicts of interest. The
+study did not involve humans or animals.
+
+Corresponding author:
+  Prof. Kenya Jin'no
+  Department of Intelligent Systems, Faculty of Information Engineering,
+  Tokyo City University
+  1-28-1 Tamazutsumi, Setagaya-ku, Tokyo 158-8557, Japan
+  E-mail: kjinno@tcu.ac.jp
+  Tel.: +81-3-5707-0104
+
+Thank you for your consideration.
+
+Sincerely,
+Kenya Jin'no, on behalf of all authors

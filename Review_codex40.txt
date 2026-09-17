@@ -1,0 +1,92 @@
+Review of main_paper_MAKE40.pdf
+Target journal: MDPI Machine Learning and Knowledge Extraction (MAKE)
+Reviewer: Codex
+Date: 2026-07-09
+
+Overall recommendation: accept with minor corrections
+
+Summary
+-------
+Revision 40 adequately addresses the two remaining minor comments from
+Review_codex39.txt. The Section 4 experiment overview now avoids implying a
+completed full-protocol Fashion-MNIST validation, and the repository
+URL/DOI issue is correctly left as a final submission/editorial matter. I
+find no new major methodological problem.
+
+The manuscript is suitable for publication after very minor editorial
+corrections. The only substantive remaining issue I found is a local wording
+inconsistency about DANCo: Section 2 says DANCo is "left as future work,"
+whereas Section 4.3.2 actually uses DANCo as a robustness cross-check.
+
+Assessment of previous review responses
+---------------------------------------
+Minor comment 1 from Review_codex39, on the experiment-overview wording for
+Fashion-MNIST, has been addressed. Section 4 now asks whether "the full
+protocol work[s] on MNIST, what evidence is available for Fashion-MNIST,"
+which correctly distinguishes the fully validated MNIST case from the
+limited Fashion-MNIST evidence. This is consistent with Section 4.3.6:
+"Step 1 is thus multi-seed for Fashion-MNIST; the VAE-side AU verification
+(Step 3), by contrast, remains a single-seed preliminary observation..."
+The possible over-reading noted in the previous review has therefore been
+removed.
+
+Minor comment 2, on keeping the production-data statement aligned with the
+final repository, is adequately handled for the review stage. Section 4.1
+states that the material is attached for review and will be deposited "upon
+acceptance" in a public GitHub/Zenodo repository with URL and DOI. The Data
+Availability statement similarly says that the repository URL and DOI "will
+be added to the final manuscript." This is acceptable at submission/review
+stage, assuming the final production version contains the actual links.
+
+Typographical/presentation item 1 from Review_codex39, on MDPI production
+placeholders, remains as an expected production matter. The source still has
+`\articlenumber{0}`, blank `\datereceived`, `\daterevised`,
+`\dateaccepted`, and `\datepublished` fields, commented ORCID placeholders,
+and a commented external-editor placeholder. These are not scientific
+defects but must be completed or cleaned during final MDPI production.
+
+Typographical/presentation item 2 from Review_codex39, on cross-references,
+does not reveal a new problem in the checked source locations. I did not
+recompile the manuscript in this read-only review environment, but the
+source-level section, table, and appendix references inspected for the
+previously disputed points are coherent.
+
+Major comments
+--------------
+1. No remaining major methodological objection.
+
+The manuscript consistently frames the proposed procedure as a conditional,
+diagnostic protocol rather than a general solution. The evidence hierarchy
+is now clear: synthetic manifolds and MNIST provide the main validation;
+Fashion-MNIST Step 3, strengthened-beta Conv-VAE behavior, and natural-image
+plateau observations are explicitly exploratory or unresolved.
+
+Minor comments
+--------------
+1. Correct the local DANCo wording in Section 2.
+
+Section 2 currently says: "As ID estimators we adopt TwoNN and MLE (DANCo
+is more precise but computationally expensive and left as future work)."
+However, Section 4.3.2 states that the authors "apply DANCo and ESS" to the
+MNIST reference-AE latents, and Table 5 reports DANCo values. Please revise
+the Section 2 wording, for example to say that DANCo is not used as the
+primary estimator but is used as an auxiliary robustness cross-check on
+selected MNIST latents.
+
+2. Ensure that the final Data Availability statement contains the actual
+repository URL and DOI.
+
+The present "upon acceptance" wording is acceptable now, but the final
+published version should not retain this placeholder language.
+
+Typographical and presentation issues
+-------------------------------------
+1. MDPI production placeholders remain: `\articlenumber{0}`, blank
+`\datereceived`, `\daterevised`, `\dateaccepted`, and `\datepublished`
+fields, and commented ORCID placeholders. These should be completed or
+removed as appropriate before publication.
+
+2. The revision-history comments at the top of the LaTeX source are harmless
+because they do not appear in the compiled manuscript, but the production
+source may be cleaner if these internal review notes are removed before
+final submission.

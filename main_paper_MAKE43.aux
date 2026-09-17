@@ -1,0 +1,355 @@
+\relax 
+\providecommand*\new@tpo@label[2]{}
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\bibstyle{Definitions/mdpi}
+\citation{kingma2014vae}
+\citation{bengio2013representation}
+\citation{lucas2019elbo}
+\newmarginnote{note.1.1}{{1}{10945661sp}}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{1}{1}{Introduction}{section.1}{}}
+\newlabel{sec:intro@cref}{{[section][1][]1}{[1][1][]1}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Background: How Should the Bottleneck Dimension Be Chosen?}{1}{subsection.1.1}\protected@file@percent }
+\newlabel{sec:intro_bg}{{1.1}{1}{Background: How Should the Bottleneck Dimension Be Chosen?}{subsection.1.1}{}}
+\newlabel{sec:intro_bg@cref}{{[subsection][1][1]1.1}{[1][1][]1}{}{}{}}
+\citation{fefferman2016manifold}
+\citation{facco2017twonn}
+\citation{pope2021intrinsic}
+\citation{pope2021intrinsic}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Central Idea and Contributions}{2}{subsection.1.2}\protected@file@percent }
+\newlabel{sec:intro_aim}{{1.2}{2}{Central Idea and Contributions}{subsection.1.2}{}}
+\newlabel{sec:intro_aim@cref}{{[subsection][2][1]1.2}{[1][2][]2}{}{}{}}
+\citation{ansuini2019intrinsic,pope2021intrinsic,valeriani2023geometry}
+\citation{lucas2019elbo}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Two Faces of the ``Manifold Dimension'': $d_{\mathrm  {ID}}$ and $d_{\mathrm  {emb}}$}{3}{subsection.1.3}\protected@file@percent }
+\newlabel{sec:intro_dim}{{1.3}{3}{Two Faces of the ``Manifold Dimension'': $\dID $ and $\demb $}{subsection.1.3}{}}
+\newlabel{sec:intro_dim@cref}{{[subsection][3][1]1.3}{[1][3][]3}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Limitations of This Paper (Summary)}{3}{subsection.1.4}\protected@file@percent }
+\newlabel{sec:intro_limits}{{1.4}{3}{Limitations of This Paper (Summary)}{subsection.1.4}{}}
+\newlabel{sec:intro_limits@cref}{{[subsection][4][1]1.4}{[1][3][]3}{}{}{}}
+\citation{bengio2013representation}
+\citation{fefferman2016manifold}
+\citation{higgins2017betavae}
+\citation{alain2014dae}
+\citation{rifai2011cae}
+\citation{pope2021intrinsic}
+\citation{ansuini2019intrinsic}
+\citation{valeriani2023geometry}
+\citation{birdal2021intrinsic}
+\citation{facco2017twonn}
+\citation{levina2005mle}
+\citation{ceruti2014danco}
+\citation{camastra2016intrinsic}
+\citation{allegra2020data}
+\citation{ansuini2019intrinsic,pope2021intrinsic}
+\citation{higgins2017betavae,lucas2019elbo}
+\citation{lucas2019elbo}
+\citation{tippingbishop1999ppca}
+\citation{bishop1999bayesian}
+\citation{ghahramani2005infinite}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{4}{section.2}\protected@file@percent }
+\newlabel{sec:related}{{2}{4}{Related Work}{section.2}{}}
+\newlabel{sec:related@cref}{{[section][2][]2}{[1][4][]4}{}{}{}}
+\citation{nazari2023geometric}
+\citation{kato2020rdae}
+\citation{lucas2019elbo}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {section}{\numberline {3}ID-Guided Protocol for Selecting the Bottleneck Dimension}{5}{section.3}\protected@file@percent }
+\newlabel{sec:protocol}{{3}{5}{ID-Guided Protocol for Selecting the Bottleneck Dimension}{section.3}{}}
+\newlabel{sec:protocol@cref}{{[section][3][]3}{[1][5][]5}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Problem Setting and Main Symbols}{5}{subsection.3.1}\protected@file@percent }
+\newlabel{sec:protocol_setup}{{3.1}{5}{Problem Setting and Main Symbols}{subsection.3.1}{}}
+\newlabel{sec:protocol_setup@cref}{{[subsection][1][3]3.1}{[1][5][]5}{}{}{}}
+\newlabel{eq:au_def}{{1}{5}{Problem Setting and Main Symbols}{equation.1}{}}
+\newlabel{eq:au_def@cref}{{[equation][1][]1}{[1][5][]5}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Main symbols. Each quantity is distinguished so that the protocol's claims are stated without conflating targets and estimators.}}{5}{table.caption.1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tab:notation}{{1}{5}{Main symbols. Each quantity is distinguished so that the protocol's claims are stated without conflating targets and estimators}{table.caption.1}{}}
+\newlabel{tab:notation@cref}{{[table][1][]1}{[1][5][]5}{}{}{}}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}The Protocol}{6}{subsection.3.2}\protected@file@percent }
+\newlabel{sec:protocol_main}{{3.2}{6}{The Protocol}{subsection.3.2}{}}
+\newlabel{sec:protocol_main@cref}{{[subsection][2][3]3.2}{[1][6][]6}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces ID-guided protocol for choosing the bottleneck dimension $m$. The protocol closes the loop: the data-side estimate $\hat  {d}_{\mathrm  {ID}}$ determines the design, and the model-side observable AU verifies the design after training.}}{6}{figure.caption.2}\protected@file@percent }
+\newlabel{fig:protocol}{{1}{6}{ID-guided protocol for choosing the bottleneck dimension $m$. The protocol closes the loop: the data-side estimate $\hatdID $ determines the design, and the model-side observable AU verifies the design after training}{figure.caption.2}{}}
+\newlabel{fig:protocol@cref}{{[figure][1][]1}{[1][6][]6}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Step 1: Estimating the Intrinsic Dimension}{6}{subsubsection.3.2.1}\protected@file@percent }
+\newlabel{sec:protocol_s1}{{3.2.1}{6}{Step 1: Estimating the Intrinsic Dimension}{subsubsection.3.2.1}{}}
+\newlabel{sec:protocol_s1@cref}{{[subsubsection][1][3,2]3.2.1}{[1][6][]6}{}{}{}}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Step 2: Setting the Bottleneck Dimension}{7}{subsubsection.3.2.2}\protected@file@percent }
+\newlabel{sec:protocol_s2}{{3.2.2}{7}{Step 2: Setting the Bottleneck Dimension}{subsubsection.3.2.2}{}}
+\newlabel{sec:protocol_s2@cref}{{[subsubsection][2][3,2]3.2.2}{[1][7][]7}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Step 3: Post-Training Verification}{7}{subsubsection.3.2.3}\protected@file@percent }
+\newlabel{sec:protocol_s3}{{3.2.3}{7}{Step 3: Post-Training Verification}{subsubsection.3.2.3}{}}
+\newlabel{sec:protocol_s3@cref}{{[subsubsection][3][3,2]3.2.3}{[1][7][]7}{}{}{}}
+\newlabel{eq:rule_v1}{{2}{7}{Step 3: Post-Training Verification}{equation.2}{}}
+\newlabel{eq:rule_v1@cref}{{[equation][2][]2}{[1][7][]7}{}{}{}}
+\newlabel{eq:rule_v2}{{3}{7}{Step 3: Post-Training Verification}{equation.3}{}}
+\newlabel{eq:rule_v2@cref}{{[equation][3][]3}{[1][7][]7}{}{}{}}
+\def\@LN@column{1}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Failure modes in Step 3 and their diagnoses. Each row is backed by the experiments in Section~\ref {sec:exp}.}}{8}{table.caption.3}\protected@file@percent }
+\newlabel{tab:failure}{{2}{8}{Failure modes in Step 3 and their diagnoses. Each row is backed by the experiments in Section~\ref {sec:exp}}{table.caption.3}{}}
+\newlabel{tab:failure@cref}{{[table][2][]2}{[1][8][]8}{}{}{}}
+\citation{pope2021intrinsic}
+\citation{hatcher2002algebraic}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Applicability (Summary in Advance)}{9}{subsection.3.3}\protected@file@percent }
+\newlabel{sec:protocol_applicability}{{3.3}{9}{Applicability (Summary in Advance)}{subsection.3.3}{}}
+\newlabel{sec:protocol_applicability@cref}{{[subsection][3][3]3.3}{[1][9][]9}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Applicability of the ID-guided protocol (summary of the evidence in Section~\ref {sec:exp}). ``Stable'' means low inter-seed variance under our experimental conditions, not unbiasedness.}}{9}{table.caption.4}\protected@file@percent }
+\newlabel{tab:applicability}{{3}{9}{Applicability of the ID-guided protocol (summary of the evidence in Section~\ref {sec:exp}). ``Stable'' means low inter-seed variance under our experimental conditions, not unbiasedness}{table.caption.4}{}}
+\newlabel{tab:applicability@cref}{{[table][3][]3}{[1][9][]9}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Theoretical Grounding of the Selection Principle}{9}{section.4}\protected@file@percent }
+\newlabel{sec:theory}{{4}{9}{Theoretical Grounding of the Selection Principle}{section.4}{}}
+\newlabel{sec:theory@cref}{{[section][4][]4}{[1][9][]9}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Necessary Condition: Topological Lower Bound}{9}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:theory_lower}{{4.1}{9}{Necessary Condition: Topological Lower Bound}{subsection.4.1}{}}
+\newlabel{sec:theory_lower@cref}{{[subsection][1][4]4.1}{[1][9][]9}{}{}{}}
+\newlabel{thm:lower_bound}{{1}{9}{Topological lower bound for the bottleneck dimension}{proposition.1}{}}
+\newlabel{thm:lower_bound@cref}{{[proposition][1][]1}{[1][9][]9}{}{}{}}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Mechanism on the Sufficient Side: Water-Filling Surrogate Activation Condition}{10}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:theory_wf}{{4.2}{10}{Mechanism on the Sufficient Side: Water-Filling Surrogate Activation Condition}{subsection.4.2}{}}
+\newlabel{sec:theory_wf@cref}{{[subsection][2][4]4.2}{[1][10][]10}{}{}{}}
+\newlabel{thm:linear_vae}{{2}{10}{Surrogate activation condition under a linear-Gaussian rate--distortion approximation}{proposition.2}{}}
+\newlabel{thm:linear_vae@cref}{{[proposition][2][]2}{[1][10][]10}{}{}{}}
+\newlabel{eq:au_threshold}{{4}{10}{Surrogate activation condition under a linear-Gaussian rate--distortion approximation}{equation.4}{}}
+\newlabel{eq:au_threshold@cref}{{[equation][4][]4}{[1][10][]10}{}{}{}}
+\newlabel{rem:implication}{{1}{10}{Implications for the protocol}{remark.1}{}}
+\newlabel{rem:implication@cref}{{[remark][1][]1}{[1][10][]10}{}{}{}}
+\newlabel{rem:bridge}{{2}{10}{Surrogate rate vs.\ empirical AU}{remark.2}{}}
+\newlabel{rem:bridge@cref}{{[remark][2][]2}{[1][10][]10}{}{}{}}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Grounding of Step 1: A Conditional-Stability Rationale for Latent-Space TwoNN Estimation}{11}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:theory_twonn}{{4.3}{11}{Grounding of Step 1: A Conditional-Stability Rationale for Latent-Space TwoNN Estimation}{subsection.4.3}{}}
+\newlabel{sec:theory_twonn@cref}{{[subsection][3][4]4.3}{[1][11][]11}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experiments}{11}{section.5}\protected@file@percent }
+\newlabel{sec:exp}{{5}{11}{Experiments}{section.5}{}}
+\newlabel{sec:exp@cref}{{[section][5][]5}{[1][11][]11}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Experimental Setup}{11}{subsection.5.1}\protected@file@percent }
+\newlabel{sec:exp_setup}{{5.1}{11}{Experimental Setup}{subsection.5.1}{}}
+\newlabel{sec:exp_setup@cref}{{[subsection][1][5]5.1}{[1][11][]11}{}{}{}}
+\citation{lecun1998}
+\citation{xiao2017fashion}
+\citation{facco2017twonn}
+\citation{levina2005mle}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Principle Validation: Synthetic Manifolds with Known Ground Truth}{12}{subsection.5.2}\protected@file@percent }
+\newlabel{sec:exp_syn}{{5.2}{12}{Principle Validation: Synthetic Manifolds with Known Ground Truth}{subsection.5.2}{}}
+\newlabel{sec:exp_syn@cref}{{[subsection][2][5]5.2}{[1][12][]12}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Synthetic manifolds (Exp-Syn-1): AE reconstruction MSE (mean$\pm $std, 3 seeds). The elbow appears exactly at $m = d_{\mathrm  {emb}}$.}}{12}{table.caption.5}\protected@file@percent }
+\newlabel{tab:e1}{{4}{12}{Synthetic manifolds (Exp-Syn-1): AE reconstruction MSE (mean$\pm $std, 3 seeds). The elbow appears exactly at $m = \demb $}{table.caption.5}{}}
+\newlabel{tab:e1@cref}{{[table][4][]4}{[1][12][]12}{}{}{}}
+\def\@LN@column{1}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Synthetic manifolds (Exp-Syn-AU): active units of the VAE ($\beta = 4$) vs.\ the coordinate usage of the vanilla AE (mean$\pm $std, 3 seeds). ``AU'' for the AE is a pseudo-AU defined by the encoding-variance threshold (auxiliary observation). On the Swiss Roll the VAE AU saturates at $2 = d_{\mathrm  {true}}$ over the whole tested range; on the Torus, AU $= 2$ at $m = 4$ is an over-pruned boundary case ($< d_{\mathrm  {emb}}$), and AU $= 3 = d_{\mathrm  {emb}}$ becomes stable from $m = 5$ in the fine-grid experiment (see text).}}{13}{table.caption.6}\protected@file@percent }
+\newlabel{tab:ea}{{5}{13}{Synthetic manifolds (Exp-Syn-AU): active units of the VAE ($\beta = 4$) vs.\ the coordinate usage of the vanilla AE (mean$\pm $std, 3 seeds). ``AU'' for the AE is a pseudo-AU defined by the encoding-variance threshold (auxiliary observation). On the Swiss Roll the VAE AU saturates at $2 = \dtrue $ over the whole tested range; on the Torus, AU $= 2$ at $m = 4$ is an over-pruned boundary case ($< \demb $), and AU $= 3 = \demb $ becomes stable from $m = 5$ in the fine-grid experiment (see text)}{table.caption.6}{}}
+\newlabel{tab:ea@cref}{{[table][5][]5}{[1][12][]13}{}{}{}}
+\citation{kornblith2019cka}
+\citation{ceruti2014danco}
+\citation{johnsson2015ess}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Real-Data Validation: MNIST}{14}{subsection.5.3}\protected@file@percent }
+\newlabel{sec:exp_mnist}{{5.3}{14}{Real-Data Validation: MNIST}{subsection.5.3}{}}
+\newlabel{sec:exp_mnist@cref}{{[subsection][3][5]5.3}{[1][14][]14}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.1}Step 1: Estimating $\hat  {d}_{\mathrm  {ID}}$}{14}{subsubsection.5.3.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces MNIST Step 1 (\textbf  {reference-AE latents used to define $\hat  {d}_{\mathrm  {ID}}$}): TwoNN/MLE estimates through reference AEs of increasing $m_{\mathrm  {ref}}$. \textbf  {All rows are a single-seed (42) exploratory sweep} (300 epochs); statistical uncertainty at $m_{\mathrm  {ref}} \in \{64, 128, 256\}$ is quantified separately by subsampling CIs and estimator cross-checks in Table~\ref {tab:boot_ci} (Section~\ref {sec:exp_mnist_ci}), and the 3-seed reproducibility of the latent estimate is reported in Table~\ref {tab:mnist_s3}.}}{14}{table.caption.7}\protected@file@percent }
+\newlabel{tab:mnist_s1}{{6}{14}{MNIST Step 1 (\textbf {reference-AE latents used to define $\hatdID $}): TwoNN/MLE estimates through reference AEs of increasing $m_{\mathrm {ref}}$. \textbf {All rows are a single-seed (42) exploratory sweep} (300 epochs); statistical uncertainty at $m_{\mathrm {ref}} \in \{64, 128, 256\}$ is quantified separately by subsampling CIs and estimator cross-checks in Table~\ref {tab:boot_ci} (Section~\ref {sec:exp_mnist_ci}), and the 3-seed reproducibility of the latent estimate is reported in Table~\ref {tab:mnist_s3}}{table.caption.7}{}}
+\newlabel{tab:mnist_s1@cref}{{[table][6][]6}{[1][14][]14}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.2}Statistical Robustness of Step 1: Subsampling CIs and Estimator Cross-Checks}{14}{subsubsection.5.3.2}\protected@file@percent }
+\newlabel{sec:exp_mnist_ci}{{5.3.2}{14}{Statistical Robustness of Step 1: Subsampling CIs and Estimator Cross-Checks}{subsubsection.5.3.2}{}}
+\newlabel{sec:exp_mnist_ci@cref}{{[subsubsection][2][5,3]5.3.2}{[1][14][]14}{}{}{}}
+\def\@LN@column{1}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Exp-Boot-CI (MNIST): statistical robustness of Step 1. Subsampling 95\% intervals ($n = 1500$, 200 repeats, without replacement) and cross-check estimators (DANCo, ESS) on the same reference-AE latents (single-seed-42 models; the uncertainty quantified here is the sampling variability of the estimators).}}{15}{table.caption.8}\protected@file@percent }
+\newlabel{tab:boot_ci}{{7}{15}{Exp-Boot-CI (MNIST): statistical robustness of Step 1. Subsampling 95\% intervals ($n = 1500$, 200 repeats, without replacement) and cross-check estimators (DANCo, ESS) on the same reference-AE latents (single-seed-42 models; the uncertainty quantified here is the sampling variability of the estimators)}{table.caption.8}{}}
+\newlabel{tab:boot_ci@cref}{{[table][7][]7}{[1][14][]15}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.3}Step 2: Setting the Search Window}{15}{subsubsection.5.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.4}Step 3: Verification by AU and MSE (3 Seeds)}{15}{subsubsection.5.3.4}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces MNIST Step 3 (Exp-Mnist-Multi-300): AU and TwoNN ID of the VAE ($\beta = 4$, 300 epochs, mean$\pm $std over 3 seeds). The AU growth slows beyond $m \approx \hat  {d}_{\mathrm  {ID}}$, and the latent TwoNN converges to $\hat  {d}_{\mathrm  {ID}}\approx 10$. The TwoNN column is computed on \textbf  {candidate-VAE latents} and serves as a diagnostic cross-check only; it is not used to set $\hat  {d}_{\mathrm  {ID}}$ (Section~\ref {sec:protocol_s1}).}}{16}{table.caption.9}\protected@file@percent }
+\newlabel{tab:mnist_s3}{{8}{16}{MNIST Step 3 (Exp-Mnist-Multi-300): AU and TwoNN ID of the VAE ($\beta = 4$, 300 epochs, mean$\pm $std over 3 seeds). The AU growth slows beyond $m \approx \hatdID $, and the latent TwoNN converges to $\hatdID \approx 10$. The TwoNN column is computed on \textbf {candidate-VAE latents} and serves as a diagnostic cross-check only; it is not used to set $\hatdID $ (Section~\ref {sec:protocol_s1})}{table.caption.9}{}}
+\newlabel{tab:mnist_s3@cref}{{[table][8][]8}{[1][15][]16}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces MNIST: $m$-dependence of the indicators (300 epochs; single-seed (42) sweep for both the AE and VAE panels---the multi-seed reproducibility of the VAE AU signal is shown separately in Figure~\ref {fig:e4_multiseed}). \textbf  {(a)} AE reconstruction MSE (log scale); vertical dotted lines mark the PCA 80/90/95\% cumulative-variance dimensions (43/86/152), far above the nonlinear estimate $\hat  {d}_{\mathrm  {ID}}\approx 10$. \textbf  {(b)} TwoNN ID on the AE latents. \textbf  {(c)} VAE ($\beta = 4$) reconstruction MSE. \textbf  {(d)} VAE AU and latent TwoNN ID; the AU growth slows beyond $m \approx \hat  {d}_{\mathrm  {ID}}$ (the vertical axis is clipped at 45 for readability, so the dotted AU $= m$ diagonal leaves the plotted range). In panels (b) and (d), the dashed horizontal line marks the rounded Step-1 TwoNN reference $\hat  {d}_{\mathrm  {ID}}= 10$---an estimator-derived reference value, not a ground-truth dimension.}}{16}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:e4_dualaxis}{{2}{16}{MNIST: $m$-dependence of the indicators (300 epochs; single-seed (42) sweep for both the AE and VAE panels---the multi-seed reproducibility of the VAE AU signal is shown separately in Figure~\ref {fig:e4_multiseed}). \textbf {(a)} AE reconstruction MSE (log scale); vertical dotted lines mark the PCA 80/90/95\% cumulative-variance dimensions (43/86/152), far above the nonlinear estimate $\hatdID \approx 10$. \textbf {(b)} TwoNN ID on the AE latents. \textbf {(c)} VAE ($\beta = 4$) reconstruction MSE. \textbf {(d)} VAE AU and latent TwoNN ID; the AU growth slows beyond $m \approx \hatdID $ (the vertical axis is clipped at 45 for readability, so the dotted AU $= m$ diagonal leaves the plotted range). In panels (b) and (d), the dashed horizontal line marks the rounded Step-1 TwoNN reference $\hatdID = 10$---an estimator-derived reference value, not a ground-truth dimension}{figure.caption.10}{}}
+\newlabel{fig:e4_dualaxis@cref}{{[figure][2][]2}{[1][16][]16}{}{}{}}
+\def\@LN@column{1}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces MNIST: multi-seed reproducibility of the AU verification signal (3 seeds, 300 epochs). Left: per-seed AU$(m)$ with the ID-guided search window $[\hat  {d}_{\mathrm  {ID}}, 2\hat  {d}_{\mathrm  {ID}}]$ shaded; right: mean$\pm $std band with the rounded Step-1 TwoNN reference $\hat  {d}_{\mathrm  {ID}}= 10$ (an estimator-derived reference value, not a ground-truth dimension). AU values are highly reproducible ($\sigma \leq 0.5$). Change-point (knee) estimates are deliberately not shown here; they are exploratory only (Appendix~\ref {app:knee}).}}{17}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:e4_multiseed}{{3}{17}{MNIST: multi-seed reproducibility of the AU verification signal (3 seeds, 300 epochs). Left: per-seed AU$(m)$ with the ID-guided search window $[\hatdID , 2\hatdID ]$ shaded; right: mean$\pm $std band with the rounded Step-1 TwoNN reference $\hatdID = 10$ (an estimator-derived reference value, not a ground-truth dimension). AU values are highly reproducible ($\sigma \leq 0.5$). Change-point (knee) estimates are deliberately not shown here; they are exploratory only (Appendix~\ref {app:knee})}{figure.caption.11}{}}
+\newlabel{fig:e4_multiseed@cref}{{[figure][3][]3}{[1][16][]17}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.5}Fine-Grained View of the Slowdown Region and a Caution on Change-Point Detection}{17}{subsubsection.5.3.5}\protected@file@percent }
+\newlabel{sec:exp_mnist_dense}{{5.3.5}{17}{Fine-Grained View of the Slowdown Region and a Caution on Change-Point Detection}{subsubsection.5.3.5}{}}
+\newlabel{sec:exp_mnist_dense@cref}{{[subsubsection][5][5,3]5.3.5}{[1][17][]17}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.6}Fashion-MNIST}{17}{subsubsection.5.3.6}\protected@file@percent }
+\newlabel{sec:exp_fashion}{{5.3.6}{17}{Fashion-MNIST}{subsubsection.5.3.6}{}}
+\newlabel{sec:exp_fashion@cref}{{[subsubsection][6][5,3]5.3.6}{[1][17][]17}{}{}{}}
+\def\@LN@column{1}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Exp-Fashion-MS (Fashion-MNIST FC-VAE, $\beta = 4$, 300 epochs, mean$\pm $std, 3 seeds). At the pre-specified verification point $m_{\mathrm  {ver}} = 20$, V1 passes (activation ratio $0.35$) while the lower V2 bound is violated (AU $= 7.0 < \hat  {d}_{\mathrm  {ID}}= 10$) unanimously across seeds---a diagnostic boundary case (third row of Table~\ref {tab:failure}).}}{18}{table.caption.12}\protected@file@percent }
+\newlabel{tab:fashion_s3}{{9}{18}{Exp-Fashion-MS (Fashion-MNIST FC-VAE, $\beta = 4$, 300 epochs, mean$\pm $std, 3 seeds). At the pre-specified verification point $m_{\mathrm {ver}} = 20$, V1 passes (activation ratio $0.35$) while the lower V2 bound is violated (AU $= 7.0 < \hatdID = 10$) unanimously across seeds---a diagnostic boundary case (third row of Table~\ref {tab:failure})}{table.caption.12}{}}
+\newlabel{tab:fashion_s3@cref}{{[table][9][]9}{[1][18][]18}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Baseline Comparison: Search Cost and Downstream Performance}{18}{subsection.5.4}\protected@file@percent }
+\newlabel{sec:exp_downstream}{{5.4}{18}{Baseline Comparison: Search Cost and Downstream Performance}{subsection.5.4}{}}
+\newlabel{sec:exp_downstream@cref}{{[subsection][4][5]5.4}{[1][18][]18}{}{}{}}
+\citation{kato2020rdae}
+\citation{rifai2011cae}
+\citation{alain2014dae}
+\def\@LN@column{1}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Training-run accounting for the specific MNIST grid, epoch count, seed design, and verification procedure used in this study. ``Runs'' counts model trainings only (Step-1 reference-AE trainings included); GPU time, estimator computation, and analysis time are not included.}}{19}{table.caption.13}\protected@file@percent }
+\newlabel{tab:cost}{{10}{19}{Training-run accounting for the specific MNIST grid, epoch count, seed design, and verification procedure used in this study. ``Runs'' counts model trainings only (Step-1 reference-AE trainings included); GPU time, estimator computation, and analysis time are not included}{table.caption.13}{}}
+\newlabel{tab:cost@cref}{{[table][10][]10}{[1][18][]19}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Exp-Downstream (MNIST): linear-probe test accuracy and MSE vs.\ $m$. Left: AE latents (300 epochs, single seed 42; reuse of the reference-AE sweep). Right: FC-VAE ($\beta = 4$) latents (300 epochs, mean$\pm $std, 3 seeds). Bold $m$ values lie in the ID-guided search window $[10, 24]$, which contains the best observed accuracy over the full grid; for the VAE, $m = 20$ is in addition the pre-specified verification point $m_{\mathrm  {ver}}$ (Section~\ref {sec:protocol_s3}). Raw-pixel baseline: $91.6\%$. Because the AE results are based on a single reference-AE seed, the AE probe accuracies should be interpreted descriptively rather than as multi-seed performance estimates.}}{19}{table.caption.14}\protected@file@percent }
+\newlabel{tab:downstream}{{11}{19}{Exp-Downstream (MNIST): linear-probe test accuracy and MSE vs.\^^M$m$. Left: AE latents (300 epochs, single seed 42; reuse of the reference-AE sweep). Right: FC-VAE ($\beta = 4$) latents (300 epochs, mean$\pm $std, 3 seeds). Bold $m$ values lie in the ID-guided search window $[10, 24]$, which contains the best observed accuracy over the full grid; for the VAE, $m = 20$ is in addition the pre-specified verification point $m_{\mathrm {ver}}$ (Section~\ref {sec:protocol_s3}). Raw-pixel baseline: $91.6\%$. Because the AE results are based on a single reference-AE seed, the AE probe accuracies should be interpreted descriptively rather than as multi-seed performance estimates}{table.caption.14}{}}
+\newlabel{tab:downstream@cref}{{[table][11][]11}{[1][19][]19}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Validity Condition of Step 1: What Makes Intrinsic-Dimension Estimation Stable?}{19}{subsection.5.5}\protected@file@percent }
+\newlabel{sec:exp_real_geom}{{5.5}{19}{Validity Condition of Step 1: What Makes Intrinsic-Dimension Estimation Stable?}{subsection.5.5}{}}
+\newlabel{sec:exp_real_geom@cref}{{[subsection][5][5]5.5}{[1][19][]19}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces Exp-Real-Geom (MNIST, mean$\pm $std, 3 seeds): TwoNN through four reference models. Convergence is driven by the bottleneck margin $m_{\mathrm  {ref}} / \hat  {d}_{\mathrm  {ID}}$, largely independently of the isometry (condition number $\kappa $).}}{19}{table.caption.15}\protected@file@percent }
+\newlabel{tab:real_geom}{{12}{19}{Exp-Real-Geom (MNIST, mean$\pm $std, 3 seeds): TwoNN through four reference models. Convergence is driven by the bottleneck margin $m_{\mathrm {ref}} / \hatdID $, largely independently of the isometry (condition number $\kap $)}{table.caption.15}{}}
+\newlabel{tab:real_geom@cref}{{[table][12][]12}{[1][19][]19}{}{}{}}
+\citation{fu2019cyclical}
+\citation{fu2019cyclical}
+\def\@LN@column{1}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Step-1 stability: (left) on the Swiss Roll, TwoNN recovers once $m_{\mathrm  {ref}} > d_{\mathrm  {true}}$ across the tested reference models, despite large differences in the decoder-Jacobian condition number; (right) on MNIST, TwoNN stabilizes for $m_{\mathrm  {ref}} \geq 48 \approx 5\hat  {d}_{\mathrm  {ID}}$ even where the condition number $\kappa $ grows sharply. This result does not establish that isometry is generally irrelevant to intrinsic-dimension estimation.}}{20}{figure.caption.16}\protected@file@percent }
+\newlabel{fig:ep}{{4}{20}{Step-1 stability: (left) on the Swiss Roll, TwoNN recovers once $m_{\mathrm {ref}} > \dtrue $ across the tested reference models, despite large differences in the decoder-Jacobian condition number; (right) on MNIST, TwoNN stabilizes for $m_{\mathrm {ref}} \geq 48 \approx 5\hatdID $ even where the condition number $\kap $ grows sharply. This result does not establish that isometry is generally irrelevant to intrinsic-dimension estimation}{figure.caption.16}{}}
+\newlabel{fig:ep@cref}{{[figure][4][]4}{[1][20][]20}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Applicability Boundary: Conv-VAEs and Natural Images}{20}{subsection.5.6}\protected@file@percent }
+\newlabel{sec:exp_boundary}{{5.6}{20}{Applicability Boundary: Conv-VAEs and Natural Images}{subsection.5.6}{}}
+\newlabel{sec:exp_boundary@cref}{{[subsection][6][5]5.6}{[1][20][]20}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.6.1}Conv-VAE: Truncation Failure Due to Insufficient $\beta $ (3 Seeds)}{20}{subsubsection.5.6.1}\protected@file@percent }
+\citation{krizhevsky2009learning}
+\citation{netzer2011reading}
+\citation{pope2021intrinsic}
+\citation{pope2021intrinsic}
+\citation{allegra2020data}
+\citation{sonderby2016ladder}
+\def\@LN@column{1}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Boundary condition (Exp-Conv-M256): the MNIST Conv-VAE with $\beta _{\max } = 4$ keeps AU $= m$ (no truncation) up to $m = 64$ and stays at 94\% activation even at $m = 256$---the failure mode ``$\beta $ too small relative to decoder power'' detected by the AU signal.}}{21}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:en}{{5}{21}{Boundary condition (Exp-Conv-M256): the MNIST Conv-VAE with $\beta _{\max } = 4$ keeps AU $= m$ (no truncation) up to $m = 64$ and stays at 94\% activation even at $m = 256$---the failure mode ``$\beta $ too small relative to decoder power'' detected by the AU signal}{figure.caption.17}{}}
+\newlabel{fig:en@cref}{{[figure][5][]5}{[1][21][]21}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.6.2}Natural Images: Bounded Trust Region of Step 1 and Unmet Step 3 (3 Seeds)}{21}{subsubsection.5.6.2}\protected@file@percent }
+\citation{pope2021intrinsic}
+\def\@LN@column{1}
+\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces Natural images (Exp-Nat-Cifar / Exp-Nat-SVHN): Conv-VAE with KL cyclic annealing ($\beta _{\max } = 4$, 150 epochs, mean$\pm $std, 3 seeds). For CIFAR-10, Step 1 agrees with Pope et al.~\cite  {pope2021intrinsic} only near $m \approx 2\hat  {d}_{\mathrm  {ID}}$ (for SVHN the latent--raw discrepancy is larger; see text); Step 3 (AU saturation) is not reached in the tested range.}}{22}{table.caption.18}\protected@file@percent }
+\newlabel{tab:natural}{{13}{22}{Natural images (Exp-Nat-Cifar / Exp-Nat-SVHN): Conv-VAE with KL cyclic annealing ($\beta _{\max } = 4$, 150 epochs, mean$\pm $std, 3 seeds). For CIFAR-10, Step 1 agrees with Pope et al.~\cite {pope2021intrinsic} only near $m \approx 2\hatdID $ (for SVHN the latent--raw discrepancy is larger; see text); Step 3 (AU saturation) is not reached in the tested range}{table.caption.18}{}}
+\newlabel{tab:natural@cref}{{[table][13][]13}{[1][22][]22}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Discussion}{22}{section.6}\protected@file@percent }
+\newlabel{sec:discussion}{{6}{22}{Discussion}{section.6}{}}
+\newlabel{sec:discussion@cref}{{[section][6][]6}{[1][22][]22}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}What Differs from Conventional Model-Selection Criteria?}{22}{subsection.6.1}\protected@file@percent }
+\newlabel{sec:disc_model_selection}{{6.1}{22}{What Differs from Conventional Model-Selection Criteria?}{subsection.6.1}{}}
+\newlabel{sec:disc_model_selection@cref}{{[subsection][1][6]6.1}{[1][22][]22}{}{}{}}
+\citation{sonderby2016ladder}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Stability vs.\ Validity: What Does $\hat  {d}_{\mathrm  {ID}}$ Estimate?}{23}{subsection.6.2}\protected@file@percent }
+\newlabel{sec:disc_twonn}{{6.2}{23}{Stability vs.\ Validity: What Does $\hatdID $ Estimate?}{subsection.6.2}{}}
+\newlabel{sec:disc_twonn@cref}{{[subsection][2][6]6.2}{[1][23][]23}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Limits of AU Verification: Why Change-Point Detection Is Not a Named Output}{23}{subsection.6.3}\protected@file@percent }
+\newlabel{sec:disc_knee}{{6.3}{23}{Limits of AU Verification: Why Change-Point Detection Is Not a Named Output}{subsection.6.3}{}}
+\newlabel{sec:disc_knee@cref}{{[subsection][3][6]6.3}{[1][23][]23}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Limitations and Future Work}{23}{subsection.6.4}\protected@file@percent }
+\newlabel{sec:disc_limitation}{{6.4}{23}{Limitations and Future Work}{subsection.6.4}{}}
+\newlabel{sec:disc_limitation@cref}{{[subsection][4][6]6.4}{[1][23][]23}{}{}{}}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusions}{24}{section.7}\protected@file@percent }
+\newlabel{sec:conclusion}{{7}{24}{Conclusions}{section.7}{}}
+\newlabel{sec:conclusion@cref}{{[section][7][]7}{[1][24][]24}{}{}{}}
+\citation{lecun1998}
+\citation{xiao2017fashion}
+\citation{krizhevsky2009learning}
+\citation{netzer2011reading}
+\citation{cover2006elements}
+\citation{tippingbishop1999ppca}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Appendix~A}{25}{appendix.A}\protected@file@percent }
+\newlabel{app:proofs}{{A}{25}{\appendixname ~\thesection }{appendix.A}{}}
+\newlabel{app:proofs@cref}{{[section][1][]A}{[1][25][]25}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Appendix~A.1}{25}{subsection.A.1}\protected@file@percent }
+\citation{hoffman2016elbo}
+\citation{tippingbishop1999ppca,lucas2019elbo}
+\def\@LN@column{1}
+\newlabel{eq:elbo_surgery}{{A2}{26}{\appendixname ~\thesubsection }{equation.2}{}}
+\newlabel{eq:elbo_surgery@cref}{{[equation][2][]A2}{[1][26][]26}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Appendix~A.2}{26}{subsection.A.2}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Appendix~A.3}{27}{subsection.A.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {B}Appendix~B}{27}{appendix.B}\protected@file@percent }
+\newlabel{app:knee}{{B}{27}{\appendixname ~\thesection }{appendix.B}{}}
+\newlabel{app:knee@cref}{{[section][2][]B}{[1][27][]27}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Appendix~B.1}{27}{subsection.B.1}\protected@file@percent }
+\newlabel{eq:mknee}{{A3}{27}{\appendixname ~\thesubsection }{equation.3}{}}
+\newlabel{eq:mknee@cref}{{[equation][3][]A3}{[1][27][]27}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}Appendix~B.2}{27}{subsection.B.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {A1}{\ignorespaces Grid sensitivity of the change-point detector on the MNIST FC-VAE ($\tau _{\mathrm  {knee}} = 0.25$, 3 seeds). The sparse-grid value is dominated by the grid interval; the dense grid is placed around the TwoNN estimate and is therefore a TwoNN-conditioned curve summary, not independent validation.}}{27}{table.caption.19}\protected@file@percent }
+\newlabel{tab:knee_grid}{{A1}{27}{Grid sensitivity of the change-point detector on the MNIST FC-VAE ($\tau _{\mathrm {knee}} = 0.25$, 3 seeds). The sparse-grid value is dominated by the grid interval; the dense grid is placed around the TwoNN estimate and is therefore a TwoNN-conditioned curve summary, not independent validation}{table.caption.19}{}}
+\newlabel{tab:knee_grid@cref}{{[table][1][]A1}{[1][27][]27}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.3}Appendix~B.3}{27}{subsection.B.3}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{lot}{\contentsline {table}{\numberline {A2}{\ignorespaces Detector sensitivity on the dense grid (300 ep, 3 seeds).}}{28}{table.caption.20}\protected@file@percent }
+\newlabel{tab:knee_method}{{A2}{28}{Detector sensitivity on the dense grid (300 ep, 3 seeds)}{table.caption.20}{}}
+\newlabel{tab:knee_method@cref}{{[table][2][]A2}{[1][27][]28}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.4}Appendix~B.4}{28}{subsection.B.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {C}Appendix~C}{28}{appendix.C}\protected@file@percent }
+\newlabel{app:exploratory}{{C}{28}{\appendixname ~\thesection }{appendix.C}{}}
+\newlabel{app:exploratory@cref}{{[section][3][]C}{[1][28][]28}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.1}Appendix~C.1}{28}{subsection.C.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {A3}{\ignorespaces Exp-ConvV-HiBeta (mean$\pm $std, 3 seeds): AU of the MNIST Conv-VAE under strengthened $\beta _{\max }$ (mean activation rate in parentheses). The $\beta _{\max } = 4$ column is the 3-seed Exp-Conv-M256 reference.}}{28}{table.caption.21}\protected@file@percent }
+\newlabel{tab:hibeta}{{A3}{28}{Exp-ConvV-HiBeta (mean$\pm $std, 3 seeds): AU of the MNIST Conv-VAE under strengthened $\beta _{\max }$ (mean activation rate in parentheses). The $\beta _{\max } = 4$ column is the 3-seed Exp-Conv-M256 reference}{table.caption.21}{}}
+\newlabel{tab:hibeta@cref}{{[table][3][]A3}{[1][28][]28}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {A1}{\ignorespaces Exp-ConvV-HiBeta (mean$\pm $std, 3 seeds): increasing $\beta _{\max }$ shifts the AU truncation to lower dimensions, consistent with the surrogate activation condition.}}{28}{figure.caption.22}\protected@file@percent }
+\newlabel{fig:hibeta}{{A1}{28}{Exp-ConvV-HiBeta (mean$\pm $std, 3 seeds): increasing $\beta _{\max }$ shifts the AU truncation to lower dimensions, consistent with the surrogate activation condition}{figure.caption.22}{}}
+\newlabel{fig:hibeta@cref}{{[figure][1][]A1}{[1][28][]28}{}{}{}}
+\citation{pope2021intrinsic}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.2}Appendix~C.2}{29}{subsection.C.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.3}Appendix~C.3}{29}{subsection.C.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.4}Appendix~C.4}{29}{subsection.C.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {D}Appendix~D}{29}{appendix.D}\protected@file@percent }
+\newlabel{app:sens}{{D}{29}{\appendixname ~\thesection }{appendix.D}{}}
+\newlabel{app:sens@cref}{{[section][4][]D}{[1][29][]29}{}{}{}}
+\bibcite{kingma2014vae}{{1}{}{{}}{{}}}
+\bibcite{bengio2013representation}{{2}{}{{}}{{}}}
+\bibcite{lucas2019elbo}{{3}{}{{}}{{}}}
+\bibcite{fefferman2016manifold}{{4}{}{{}}{{}}}
+\bibcite{facco2017twonn}{{5}{}{{}}{{}}}
+\bibcite{pope2021intrinsic}{{6}{}{{}}{{}}}
+\bibcite{ansuini2019intrinsic}{{7}{}{{}}{{}}}
+\bibcite{valeriani2023geometry}{{8}{}{{}}{{}}}
+\bibcite{higgins2017betavae}{{9}{}{{}}{{}}}
+\bibcite{alain2014dae}{{10}{}{{}}{{}}}
+\bibcite{rifai2011cae}{{11}{}{{}}{{}}}
+\bibcite{birdal2021intrinsic}{{12}{}{{}}{{}}}
+\bibcite{levina2005mle}{{13}{}{{}}{{}}}
+\def\@LN@column{1}
+\@writefile{lot}{\contentsline {table}{\numberline {A4}{\ignorespaces Experiment overview. Main-text VAE verification results used for the principal verdicts use 3 seeds (42, 123, 777); single-seed sweeps are marked in the Seeds column; appendix experiments marked ``single'' use seed 42 only.}}{30}{table.caption.23}\protected@file@percent }
+\newlabel{tab:exp_list}{{A4}{30}{Experiment overview. Main-text VAE verification results used for the principal verdicts use 3 seeds (42, 123, 777); single-seed sweeps are marked in the Seeds column; appendix experiments marked ``single'' use seed 42 only}{table.caption.23}{}}
+\newlabel{tab:exp_list@cref}{{[table][4][]A4}{[1][29][]30}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {E}}{30}{appendix.E}\protected@file@percent }
+\bibcite{ceruti2014danco}{{14}{}{{}}{{}}}
+\bibcite{camastra2016intrinsic}{{15}{}{{}}{{}}}
+\bibcite{allegra2020data}{{16}{}{{}}{{}}}
+\bibcite{tippingbishop1999ppca}{{17}{}{{}}{{}}}
+\bibcite{bishop1999bayesian}{{18}{}{{}}{{}}}
+\bibcite{ghahramani2005infinite}{{19}{}{{}}{{}}}
+\bibcite{nazari2023geometric}{{20}{}{{}}{{}}}
+\bibcite{kato2020rdae}{{21}{}{{}}{{}}}
+\bibcite{hatcher2002algebraic}{{22}{}{{}}{{}}}
+\bibcite{lecun1998}{{23}{}{{}}{{}}}
+\bibcite{xiao2017fashion}{{24}{}{{}}{{}}}
+\bibcite{kornblith2019cka}{{25}{}{{}}{{}}}
+\bibcite{johnsson2015ess}{{26}{}{{}}{{}}}
+\bibcite{fu2019cyclical}{{27}{}{{}}{{}}}
+\bibcite{krizhevsky2009learning}{{28}{}{{}}{{}}}
+\bibcite{netzer2011reading}{{29}{}{{}}{{}}}
+\bibcite{sonderby2016ladder}{{30}{}{{}}{{}}}
+\bibcite{cover2006elements}{{31}{}{{}}{{}}}
+\bibcite{hoffman2016elbo}{{32}{}{{}}{{}}}
+\providecommand\NAT@force@numbers{}\NAT@force@numbers
+\def\@LN@column{1}
+\newlabel{LastPage}{{D}{31}{Appendix~E}{page.31}{}}
+\gdef\lastpage@lastpage{31}
+\gdef\lastpage@lastpageHy{31}
+\gdef \@abspage@last{31}

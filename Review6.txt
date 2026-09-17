@@ -1,0 +1,93 @@
+
+---
+
+## Reviewer Report for *Neural Networks*
+
+### Recommendation
+
+**Major Revision**
+
+### Summary
+
+This manuscript studies how to interpret the effective latent dimensionality learned by AE/VAE models. The paper proposes a **multi-indicator analysis framework** that combines intrinsic-dimension estimation (TwoNN/MLE), Active Unit (AU) dynamics, reconstruction-based criteria such as the MSE elbow, and PCA, rather than relying on a single criterion. Within this framework, the authors introduce the AU slow-down point (m_{\mathrm{knee}}) as an exploratory indicator for detecting when KL regularization begins to compress latent dimensions. The framework is evaluated on synthetic manifolds, MNIST, Fashion-MNIST, and limited convolutional AE/VAE settings. The revised manuscript now makes clear that AU values and TwoNN ID are the more robust quantities, whereas (m_{\mathrm{knee}}) is useful only as a coarse heuristic whose numerical value depends on the (m)-grid, random seed, and training convergence. 
+
+The topic fits the scope of *Neural Networks*, and the revised manuscript is substantially improved in terms of clarity, balance, and honesty about limitations. In particular, the authors now avoid overclaiming, clearly distinguish robust findings from exploratory ones, and explicitly incorporate the negative result that (m_{\mathrm{knee}}) is not numerically stable across multi-seed MNIST experiments. This is a meaningful improvement over earlier drafts. 
+
+At the same time, I do not think the current version is ready for acceptance as is. The main reason is that the paper’s strongest positive contribution is no longer the proposed (m_{\mathrm{knee}}) itself, but rather the broader multi-indicator perspective and the clarification of when (m_{\mathrm{knee}}) fails. That is scientifically valuable, but the empirical scope remains limited, especially for modern image settings. The claims are now much more credible, but the paper still reads as a careful and insightful study with somewhat narrow validation rather than a decisive new methodology paper. For this reason, I recommend **Major Revision** rather than acceptance at this stage. 
+
+---
+
+## Strengths
+
+1. **The paper is now much more internally consistent.**
+   The revised manuscript aligns its abstract, introduction, methodology, discussion, and conclusion around the same central message: the main contribution is the multi-indicator framework, while (m_{\mathrm{knee}}) is an exploratory and non-robust quantity. This substantially improves the paper’s credibility. 
+
+2. **The distinction between robust and non-robust indicators is clear and useful.**
+   The multi-seed MNIST experiments show that AU values and TwoNN ID are highly reproducible, while (m_{\mathrm{knee}}) varies between 32 and 64 under the tested conditions. This contrast is one of the most informative findings in the paper. 
+
+3. **Negative results are treated constructively rather than hidden.**
+   The manuscript now explicitly frames the instability of (m_{\mathrm{knee}}) not as a failure to be ignored, but as a finding that reveals when and why the heuristic breaks down. This is a strength. 
+
+4. **The synthetic-manifold experiments are well motivated.**
+   The manuscript provides a useful conceptual bridge from bottleneck lower bounds and latent geometry to experimentally observable behavior in AU saturation and intrinsic-dimension estimates. 
+
+5. **The paper is carefully written.**
+   Compared with earlier versions, the language is much more appropriately calibrated, and the manuscript now reads like a serious analysis paper rather than a paper overselling a single heuristic. 
+
+---
+
+## Main Concerns
+
+### 1. The empirical validation remains limited
+
+Although the authors now clearly state the limits of the study, the core validation is still concentrated on **MNIST and Fashion-MNIST**, with only limited Conv-AE evidence and no convincing Conv-VAE validation. This makes the main contribution somewhat narrow for a journal paper in *Neural Networks*. In particular, the paper would be more persuasive if it included at least one stronger nontrivial visual benchmark beyond MNIST-scale data, or one convincingly converged convolutional VAE experiment. 
+
+### 2. The paper’s positive claim is now more modest than the framing may still suggest
+
+The revised version correctly shifts emphasis toward the multi-indicator framework, which is good. However, readers may still expect a stronger positive methodological advance from the framing around effective latent dimensionality. In practice, the most important result is that:
+
+* AU values and TwoNN ID are robust,
+* (m_{\mathrm{knee}}) is only a rough guide,
+* and multi-indicator interpretation is preferable to single-indicator design.
+  This is valuable, but somewhat less ambitious than the framing initially suggests. I recommend ensuring that the contribution is presented as a **careful methodological perspective and empirical characterization**, not as a broadly validated new dimension-selection criterion. 
+
+### 3. Conv-VAE support is still too weak
+
+The manuscript is careful in saying that Conv-VAE validation is inconclusive due to insufficient convergence, which is appropriate. However, because the title and overall framing now describe a general framework for AE/VAE interpretation, the absence of a convincing Conv-VAE result remains a weakness. If no additional experiments are added, the limitations should remain very explicit. 
+
+### 4. Some interpretive wording could still be softened slightly
+
+Most overstatements have been removed, but there are still a few places where the language around (m_{\mathrm{knee}}) and “sensing” effective dimension could be read too strongly. Given the paper’s own results, I would encourage the authors to consistently use language such as “may indicate,” “can serve as a coarse design cue,” or “under certain conditions” rather than more definitive phrasing. 
+
+---
+
+## Specific Comments for Revision
+
+1. **Keep the contribution hierarchy explicit throughout the paper.**
+   The current hierarchy is good and should remain consistent:
+
+   * primary contribution: multi-indicator framework,
+   * secondary contribution: empirical characterization of (m_{\mathrm{knee}}),
+   * tertiary/exploratory findings: topology-related AUsat behavior, training dynamics, IsometricAE observations. 
+
+2. **Slightly soften the remaining interpretive claims about (m_{\mathrm{knee}}).**
+   In places where the manuscript says (m_{\mathrm{knee}}) can be interpreted as the point where KL regularization “senses” effective dimension, the wording should be kept clearly heuristic and conditional. This is especially important because the numerical instability is one of the central empirical findings. 
+
+3. **Maintain strong visibility of the negative result.**
+   One of the paper’s most valuable contributions is that multi-seed experiments reveal instability in (m_{\mathrm{knee}}) even at 300 epochs, while AU and TwoNN ID remain stable. This contrast should continue to be highlighted as a central message rather than treated only as a limitation. 
+
+4. **Clarify the scope of generalization one last time.**
+   The paper already states that Conv-VAE and natural-image generalization remain open. I suggest keeping this limitation highly visible in the abstract and conclusion, because it is likely to matter strongly to reviewers and editors. 
+
+5. **If possible, add one more converged Conv-VAE result before submission.**
+   This is the single most useful additional experiment if the authors have time. Even one convincing convolutional VAE case would substantially improve the paper’s impact. If that is not possible, the current limitation statement is necessary and appropriate. 
+
+---
+
+## Final Assessment
+
+This is a thoughtful, substantially improved manuscript on an interesting problem: how to interpret effective latent dimensionality in AE/VAE models without relying on a single metric. The revised version is notably more balanced and scientifically trustworthy than earlier drafts. I especially appreciate that the paper now treats the instability of (m_{\mathrm{knee}}) as an informative result rather than trying to obscure it. 
+
+My main reservation is that the validation remains somewhat limited for a journal publication, especially given the inconclusive Conv-VAE evidence and the focus on relatively simple image datasets. For this reason, I recommend **Major Revision** rather than acceptance. That said, the paper is now close to being a coherent and respectable contribution, and with either slightly broader validation or very careful final positioning, it could become suitable for publication. 
+
+---

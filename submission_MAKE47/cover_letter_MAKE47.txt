@@ -1,0 +1,73 @@
+Dear Editors of Machine Learning and Knowledge Extraction,
+
+We are pleased to submit our manuscript entitled
+
+  "Intrinsic-Dimension-Guided Bottleneck Selection for Autoencoders and
+   Variational Autoencoders with Active-Unit Diagnostics"
+
+by Chika Obata, Mizuki Dai, and Kenya Jin'no, for consideration as a
+Research Article in the Learning section of Machine Learning and Knowledge
+Extraction (MAKE).
+
+Significance and context. The bottleneck dimension of autoencoders (AEs)
+and variational autoencoders (VAEs) is one of their most fundamental design
+parameters, yet in practice it is almost always set by convention or trial
+and error. Existing work has measured the intrinsic dimension of data and
+of deep representations (e.g., Facco et al. 2017; Pope et al. 2021;
+Ansuini et al. 2019) or analyzed posterior collapse in VAEs (Lucas et al.
+2019), but stops short of connecting these threads into a design
+procedure. Our manuscript closes this gap with a conditional, diagnostic
+estimate-set-verify protocol: an intrinsic-dimension estimate of the input
+data serves as a search-window reference for the bottleneck dimension, and
+post-training verification based on active units (AU) and reconstruction
+error diagnoses whether the chosen dimension behaved as intended. The
+protocol is motivated theoretically by a topological lower bound and a
+linear-Gaussian rate-distortion surrogate, validated with multiple seeds
+on synthetic manifolds with known ground truth and on MNIST and
+Fashion-MNIST, and reduces the training runs of a full grid search by
+roughly 60-80% on the tested MNIST grid while containing the best observed
+linear-probe accuracy. Importantly, the paper also quantifies where the
+approach reaches its limits (natural images and convolutional VAEs),
+rather than claiming a universal solution.
+
+Fit to the scope of MAKE. The paper extracts actionable knowledge from
+learned representations - reading effective latent dimensionality from
+trained models - and turns it into a transparent, reproducible design
+procedure with pre-specified decision rules and a failure-mode taxonomy.
+This combination of machine learning methodology and knowledge extraction,
+together with the emphasis on reproducibility (all code, configurations,
+and seed-specific logs are provided as an anonymized supplementary archive
+for review, to be released publicly with a DOI upon acceptance), aligns
+directly with the aims of MAKE.
+
+A preliminary analysis of part of this study was presented at NOLTA 2025
+(Obata & Jin'no, "Analysis of the Relationship Between Manifold Structure
+and Latent Space Capacity of Input Data Using VAE"); it is cited in the
+manuscript, which substantially extends it with the full protocol,
+multi-seed validation, and applicability analysis. The manuscript has not
+previously been submitted to MAKE or to any other MDPI journal. The use of
+generative AI tools (assistance in generating experimental program code,
+English grammar checking, and proofreading) is disclosed in the
+Acknowledgments section, and the authors take full responsibility for the
+content. The authors declare no conflicts of interest.
+
+We confirm that neither the manuscript nor any parts of its content are
+currently under consideration for publication with or published in another
+journal.
+
+All authors have approved the manuscript and agree with its submission to
+MAKE.
+
+Thank you for considering our manuscript. We look forward to the
+reviewers' feedback.
+
+Sincerely,
+
+Kenya Jin'no (corresponding author)
+Department of Intelligent Systems, Faculty of Information Engineering,
+Tokyo City University
+1-28-1 Tamazutsumi, Setagaya-ku, Tokyo 158-8557, Japan
+E-mail: kjinno@tcu.ac.jp
+Tel.: +81-3-5707-0104
+
+On behalf of all authors: Chika Obata, Mizuki Dai, and Kenya Jin'no

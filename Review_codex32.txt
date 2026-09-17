@@ -1,0 +1,223 @@
+Review of main_paper_MAKE32.pdf
+Target journal: MDPI Machine Learning and Knowledge Extraction (MAKE)
+Reviewer: Codex
+Date: 2026-07-07
+
+Recommendation: Major Revision
+
+Summary
+-------
+This manuscript proposes a multi-indicator diagnostic framework for interpreting
+effective latent dimensionality in AEs and VAEs. The framework combines active
+units (AU), intrinsic-dimension estimates by TwoNN/MLE, reconstruction-error
+elbows, and PCA baselines. A linear-Gaussian rate-distortion surrogate is used
+to derive an AU activation threshold, lambda_j > beta tau^2, and a set of
+experiments on synthetic manifolds, MNIST/Fashion-MNIST, Conv-VAEs, CIFAR-10,
+and SVHN is used to characterize where the indicators are stable or unstable.
+
+The manuscript has a useful and timely goal: it tries to move away from a
+single-number estimate of latent dimensionality and instead clarifies the
+diagnostic role and reliability of multiple indicators. The paper is also
+commendably cautious in several places, especially in treating m_knee as an
+exploratory indicator rather than a unique optimum. However, the current draft
+is not yet ready for publication. The main issues are the strength of the
+claims relative to the evidence, the circularity and bias of the reference-AE
+TwoNN estimate, the fragility of m_knee, and the need for clearer experimental
+protocols and reproducibility details.
+
+Major Comments
+--------------
+1. The central quantity "effective latent dimensionality" still needs a sharper
+operational definition.
+
+The paper repeatedly states that the goal is diagnostic interpretation rather
+than a unique estimate. This is a reasonable position, but the manuscript still
+uses several quantities as if they measure the same target: AU(m), TwoNN ID of a
+reference AE, MLE ID, MSE elbow, PCA variance dimension, m_knee, AU saturation,
+and sometimes topological embedding dimension. The reader needs a more precise
+definition of what is being estimated in each setting.
+
+Suggested revision:
+- Add a short subsection that explicitly distinguishes:
+  (i) data-manifold intrinsic dimension,
+  (ii) latent representation intrinsic dimension,
+  (iii) number of KL-active VAE coordinates,
+  (iv) bottleneck dimension needed for reconstruction,
+  (v) diagnostic design dimension.
+- State which claims concern each quantity. For example, AU is not an intrinsic
+  dimension estimator; it is a beta-, architecture-, threshold-, and training-
+  dependent measure of coordinate usage.
+
+2. The dense-grid m_knee result is promising but not fully independent.
+
+The manuscript reports sparse-grid m_knee values of 43 +/- 15 or 53 +/- 15 on
+MNIST, but dense-grid m_knee = 10.3 +/- 0.9 after searching m = 8--16 densely,
+near the TwoNN estimate of about 10. This supports the practical value of
+dense search, but it also introduces a dependence on the prior TwoNN estimate.
+Because the candidate region was chosen using the same framework, the agreement
+between dense-grid m_knee and TwoNN is not a fully independent validation.
+
+Suggested revision:
+- Reframe the result as "TwoNN-guided local refinement of m_knee" rather than
+  as independent confirmation.
+- Add an experiment or analysis using a pre-specified dense grid over a broader
+  range, or use nested validation: estimate the dense-search region on one
+  subset/seed set and evaluate m_knee on disjoint seeds or data.
+- Report the exact per-seed AU curves for all dense-grid runs, not only
+  representative values for seed 42.
+
+3. The instability of m_knee should be treated as a first-class limitation, not
+only as something solved by grid density.
+
+The paper correctly shows that m_knee can vary widely on sparse grids and that
+the AU curve can be non-monotone. However, the final narrative sometimes reads
+as if dense grids and multi-seed runs are sufficient to stabilize m_knee in
+general. The evidence supports this strongly only for MNIST FC-VAE under the
+specific beta=4, architecture, and dense-grid design. Fashion-MNIST is
+single-seed in the main experiment, Conv-VAE requires much larger m or beta,
+and natural images do not satisfy the proposed stability criteria.
+
+Suggested revision:
+- In the abstract and conclusion, make the scope of the stabilized m_knee
+  result explicit: MNIST FC-VAE, beta=4, dense grid near the estimated ID,
+  three seeds.
+- Avoid wording such as "recommended for use" unless the required conditions
+  are stated immediately.
+- Consider using "m_knee is a TwoNN-guided exploratory change point" as the
+  default description.
+
+4. The reference-AE TwoNN estimate is stable, but its accuracy remains uncertain.
+
+The manuscript acknowledges isometry bias and possible circularity, which is
+important. However, the paper still uses the reference-AE TwoNN estimate as a
+major anchor for the entire diagnostic framework. The Exp-Real-Geom results
+show that increasing m/d stabilizes TwoNN, but they do not prove that the
+stable value is unbiased with respect to the true data manifold. A stable
+biased estimator can still guide a diagnostic pipeline, but the claims should
+be more cautious.
+
+Suggested revision:
+- State more prominently that TwoNN provides a stable latent-space reference,
+  not necessarily the true intrinsic dimension of the input distribution.
+- For MNIST, compare with raw-pixel TwoNN/MLE, PCA-space TwoNN, and possibly
+  other ID estimators such as DANCo or ESS, at least in a supplementary table.
+- Report confidence intervals or bootstrap variability for TwoNN/MLE estimates,
+  not only seed standard deviations.
+
+5. The theoretical contribution should be positioned more conservatively.
+
+The linear-Gaussian rate-distortion surrogate and the threshold
+lambda_j > beta tau^2 are useful for interpretation, but the result is closely
+related to known PPCA, rate-distortion, water-filling, and linear-VAE analyses.
+The paper states that the theorem quantifies prior qualitative arguments. This
+is acceptable, but the novelty should not be overstated.
+
+Suggested revision:
+- Emphasize that the theorem is an interpretive surrogate and not a theorem
+  about trained nonlinear VAEs.
+- Clarify the relation to PPCA and linear VAE results in more detail.
+- In the theorem statement, define precisely whether lambda_j is a covariance
+  eigenvalue in input space, PCA space, or an effective local spectrum.
+- Move some derivation details to the appendix and keep the main text focused
+  on assumptions, implications, and limitations.
+
+6. Several experimental claims require stronger reproducibility support.
+
+The paper contains many experiments, but the level of replication is uneven.
+Some key claims are based on three seeds, while others are explicitly
+single-seed or preliminary. Three seeds are acceptable for an exploratory
+study, but the paper should avoid broad claims based on them.
+
+Suggested revision:
+- Add a compact experiment table with, for each experiment: dataset, model,
+  epochs, beta schedule, m grid, number of seeds, sample size, and whether the
+  result is main/supplementary/preliminary.
+- Mark all single-seed results in tables and captions, not only in prose.
+- For central claims, include per-seed values and standard deviations for both
+  AU and TwoNN/MLE.
+- Provide code, configs, and raw logs as supplementary material at submission,
+  not only after acceptance if possible.
+
+7. The natural-image section should be shortened and reframed.
+
+The CIFAR-10/SVHN experiments are useful because they identify boundary
+conditions, but the current draft devotes substantial space to conditions under
+which the framework does not achieve stable identification. This makes the
+paper long and can obscure the main MNIST/synthetic contribution.
+
+Suggested revision:
+- Move some natural-image sweeps to the appendix.
+- In the main text, keep only the main lesson: TwoNN can be numerically stable
+  near the known CIFAR-10 ID scale, while AU/m_knee is not stably identified
+  without high beta and restricted decoder capacity.
+- Avoid implying that the natural-image experiments validate the full
+  framework. They mainly define its current boundary.
+
+8. The proposed stable-identification criteria are useful but appear ad hoc.
+
+The five criteria for stable identification are sensible engineering criteria,
+but the thresholds are not theoretically justified and are introduced late in
+the paper. This is acceptable if framed as operational criteria, but the
+manuscript should avoid treating them as general validity conditions.
+
+Suggested revision:
+- Introduce the criteria earlier, before the natural-image evaluation.
+- State that the thresholds are author-defined operational thresholds.
+- Explain why 10%, 20%, 5%, and 3*d_ID were selected, or provide sensitivity
+  analysis showing that conclusions do not depend strongly on these choices.
+
+Minor Comments
+--------------
+1. The manuscript is too long and repetitive for a standard article. Many
+sentences repeatedly state that m_knee is exploratory and TwoNN is auxiliary.
+This message is important, but it can be consolidated.
+
+2. Some tables are dense and difficult to read. Consider moving large
+multi-condition tables to the appendix and using summary plots in the main
+text.
+
+3. Use consistent terminology for "active units", "AU values", "AU saturation",
+"AUsat", "effective dimensionality", and "diagnostic candidate dimension".
+
+4. The abstract is long and contains many detailed numbers. It should be
+shortened and focused on the problem, method, key result, and limitation.
+
+5. The Fashion-MNIST results may confuse readers because the main experiment
+and tau-sensitivity appendix give different absolute values under different
+setups. The current caveat helps, but the paper should reduce direct
+cross-comparison or place the appendix result clearly as a separate protocol.
+
+6. The statement that Fashion-MNIST may have "fewer local degrees of freedom
+than handwritten digits" should be softened unless supported by more rigorous
+analysis.
+
+7. The author-contribution statement lists K.J. as writing the original draft
+and formal analysis. Ensure that all author roles comply with MDPI authorship
+and contribution expectations.
+
+8. Check that all figures referenced through IfFileExists are actually included
+in the submission package. Missing figures would severely weaken readability.
+
+9. The data-availability statement says code and logs will be deposited upon
+acceptance. For a computational paper, providing them for review is strongly
+recommended.
+
+10. The paper should include hardware details and runtime estimates for the
+main experiments, especially because the framework requires many model
+trainings across m grids and seeds.
+
+Overall Assessment
+------------------
+The manuscript has a worthwhile idea and a substantial amount of experimental
+work. Its strongest contribution is not a new universal estimator of latent
+dimension, but a careful diagnostic separation of AU, TwoNN/MLE, reconstruction
+error, PCA, and m_knee, together with empirical evidence that AU and TwoNN can
+be stable while m_knee is highly protocol-dependent.
+
+For publication in MAKE, I recommend major revision. The authors should narrow
+the claims, define the target quantities more sharply, present the dense-grid
+m_knee result as TwoNN-guided rather than independent, strengthen
+reproducibility reporting, and shorten or reorganize the natural-image
+boundary experiments. With these changes, the paper could become a useful
+methodological contribution for researchers diagnosing latent representations
+in AEs and VAEs.

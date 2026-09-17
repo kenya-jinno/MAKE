@@ -1,0 +1,10 @@
+dSprites 参照値: 全ゼロ予測 SSE=173.50  平均画像予測 SSE=153.88
+学習 60 epochs, m=16, seed=42
+
+ likelihood   beta     AU    val SSE    val KL             判定
+   gaussian   1.00   0/16     173.52     0.000             崩壊
+   gaussian   0.25   0/16     173.52     0.000             崩壊
+  bernoulli   1.00  14/16       7.30    28.029         学習している
+  bernoulli   0.25  16/16       5.91    51.654         学習している
+
+書き出し: results/make49/stage3_dsprites_likelihood.json
