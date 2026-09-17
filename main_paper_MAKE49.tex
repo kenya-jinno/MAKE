@@ -333,16 +333,17 @@ reproducibility; negative results; pre-registration}
 
 \section{Introduction}\label{sec:intro}
 
-The latent dimension of a variational autoencoder has to be set before
+The latent dimension of a variational autoencoder~\cite{kingma2014vae} has to be set before
 training, and it is usually set by grid search: train a model at each
 candidate capacity and keep the one that performs best. This is reliable
 and expensive, and a number of cheaper criteria have been proposed in its
-place. Some estimate the intrinsic dimension of the data and use it to
-place a search window. Others train a single large model briefly and read
+place. Some estimate the intrinsic dimension of the data~\cite{facco2017twonn,levina2005mle}
+and use it to place a search window~\cite{bonheme2022fondue}. Others train a single large model briefly and read
 off how many latent coordinates remain in use, either from the variance of
-the posterior means or from a classification of the latent variables into
-types. Others again prune during training, under an explicit constraint on
-reconstruction quality or under a prior that suppresses irrelevant axes.
+the posterior means~\cite{burda2016iwae} or from a classification of the
+latent variables into types~\cite{bonheme2023active}. Others again prune during training, under an explicit constraint on
+reconstruction quality~\cite{deboom2020geco} or under a prior that
+suppresses irrelevant axes~\cite{saha2025ardvae}.
 
 Each of these criteria has been reported to work on the datasets its
 authors used. What has not been established is how they behave against one
@@ -386,7 +387,7 @@ Two overlaps with existing work bear on how this paper should be read, and
 we state them before the survey rather than after it.
 
 First, the appendix of the intrinsic-dimension selection algorithm that we
-use as a comparison method already proposes choosing the latent dimension
+use as a comparison method~\cite{bonheme2022fondue} already proposes choosing the latent dimension
 from the variable types of a briefly trained model. That is the same idea
 as the activity-based verification this line of work set out to study. Its
 authors describe it and set it aside, reporting that variable types are
@@ -394,8 +395,8 @@ unreliable early in training. Our measurements reproduce that instability,
 and extend the comparison to long training, where we find that the
 advantage they were weighing does not appear in either direction.
 
-Second, the pruning method we added during revision selects the smallest
-capacity that satisfies an explicit upper bound on reconstruction error.
+Second, the pruning method we added during revision~\cite{deboom2020geco}
+selects the smallest capacity that satisfies an explicit upper bound on reconstruction error.
 The quality criterion used throughout this paper is that construction. We
 do not present it as a contribution, and in Section~\ref{sec:res_threshold}
 we report the correspondence quantitatively.
@@ -403,22 +404,25 @@ we report the correspondence quantitatively.
 \subsection{Dimensionality Reduction and Intrinsic Dimension}\label{sec:rel_dr}
 
 Reducing dimension by finding coordinates that preserve structure is an old
-problem. Principal component analysis gives a linear answer; Isomap and
-locally linear embedding give nonlinear ones by preserving geodesic or
+problem. Principal component analysis~\cite{tippingbishop1999ppca} gives a linear
+answer; Isomap~\cite{tenenbaum2000isomap} and locally linear
+embedding~\cite{roweis2000lle} give nonlinear ones by preserving geodesic or
 neighbourhood structure. These methods produce an embedding, not a
 criterion for how many coordinates a separately trained generative model
 should have, which is the question here.
 
 Estimating the intrinsic dimension of a sample is a related but distinct
-task. We use the two-nearest-neighbour estimator as the primary estimator
-and a maximum-likelihood estimator as a cross-check; other families exist,
-including concentration-based estimators and graph-based estimators built
-from minimal spanning trees or geodesic entropic graphs. We did not
+task. We use the two-nearest-neighbour estimator~\cite{facco2017twonn} as the
+primary estimator and a maximum-likelihood estimator~\cite{levina2005mle}
+as a cross-check; other families
+exist~\cite{ceruti2014danco,johnsson2015ess,camastra2016intrinsic,allegra2020data},
+including graph-based estimators built from geodesic entropic
+graphs~\cite{costa2004geodesic}. We did not
 implement a graph-based estimator: the measurements in
 Section~\ref{sec:res_id} show that the disagreement we care about is
 already visible between the two estimators we do use, and adding a third
-would not resolve it. Deep representations have been reported to have
-lower intrinsic dimension than their inputs, which is part of the
+would not resolve it. Deep representations have been reported to have lower intrinsic dimension
+than their inputs~\cite{ansuini2019intrinsic,pope2021intrinsic}, which is part of the
 motivation for reading a latent dimension off such an estimate.
 
 \subsection{Choosing the Latent Dimension}\label{sec:rel_select}
@@ -436,14 +440,14 @@ independently.
 \subsection{Pruning During Training}\label{sec:rel_prune}
 
 A different strategy trains one large model and removes capacity while
-training. One approach places a binary gate on each latent coordinate,
-penalises the number of open gates, and holds reconstruction error below a
+training. One approach~\cite{deboom2020geco} places a binary gate on each latent
+coordinate, penalises the number of open gates~\cite{louizos2018l0}, and holds reconstruction error below a
 stated bound by a Lagrange multiplier updated from the constraint
-violation; the number of gates left open is the answer. Because the bound
+violation~\cite{rezende2018geco}; the number of gates left open is the answer. Because the bound
 is stated in data space rather than in the latent space, its authors argue
 it is easier to set than a regularisation weight --- an argument our
 measurements support, and which is why we adopt the same construction as
-our common quality target. Another approach replaces the fixed prior with
+our common quality target. Another approach~\cite{saha2025ardvae} replaces the fixed prior with
 a hierarchical one whose per-axis variance is fitted to the encoded data,
 and reads relevance from that variance; it introduces no threshold of the
 kind the other methods rely on, and Section~\ref{sec:res_threshold} shows
@@ -452,15 +456,14 @@ what that buys.
 \subsection{Active Units and Posterior Collapse}\label{sec:rel_au}
 
 Counting the latent coordinates whose posterior means retain variance is a
-standard diagnostic for posterior collapse, and the classification of
-latent variables into active, mixed and passive types is a refinement of
-it. Both are read from a trained model rather than used to choose its
+standard diagnostic for posterior collapse~\cite{burda2016iwae,lucas2019elbo}, and the classification of latent variables into active, mixed and passive
+types~\cite{bonheme2023active} is a refinement of it. Both are read from a trained model rather than used to choose its
 capacity; the step from diagnostic to selection criterion is the one this
 paper evaluates.
 
 \subsection{Relation to Our Earlier Conference Paper}\label{sec:rel_nolta}
 
-A conference paper by the same authors reported that the intrinsic
+A conference paper by the same authors~\cite{obata2025manifold} reported that the intrinsic
 dimension of the data is informative for bottleneck design and that latent
 estimates fall below input estimates, using fully connected models on a
 single dataset. It did not consider active units, did not compare against
@@ -528,8 +531,7 @@ contribution of this paper and neither is used as a guarantee.
 
 A continuous, self-intersection-free reconstruction of data supported on a
 $d$-dimensional manifold requires a latent space at least as large as the
-manifold's embedding dimension, which is bounded above by $2d$ for smooth
-manifolds. This gives a geometric reason to look near twice an estimate of
+manifold's embedding dimension, which is bounded above by $2d$ for smooth manifolds~\cite{hatcher2002algebraic}. This gives a geometric reason to look near twice an estimate of
 the intrinsic dimension when placing a search window. It does not tell us
 that an estimate obtained from a particular representation corresponds to
 the manifold dimension, nor does it place a lower bound on the average
@@ -539,7 +541,9 @@ sensitivity rather than deriving it.
 
 In a linear-Gaussian surrogate with fixed observation noise, the latent
 coordinates that remain informative are those whose signal exceeds a
-threshold set by the regularisation weight. This gives a reason to expect
+threshold set by the regularisation weight~\cite{cover2006elements};
+related behaviour has been reported for trained
+models~\cite{rolinek2019pca}. This gives a reason to expect
 that the count of active coordinates responds to that weight. It does not
 license reading the count as an estimate of a geometric dimension, and it
 does not transfer to the nonlinear models we train. Claims in the earlier
@@ -555,7 +559,7 @@ the sign of a divergence term --- have been removed.
 
 The reconstruction term is summed over input dimensions and averaged over
 the batch; the divergence term is summed over latent dimensions and
-averaged over the batch. This matters: an earlier version of this work
+averaged over the batch~\cite{higgins2017betavae}. This matters: an earlier version of this work
 averaged the divergence over latent dimensions as well, which made the
 effective regularisation weight inversely proportional to the very
 capacity being varied. Every variational experiment in that version was
@@ -563,8 +567,8 @@ affected, and all of them have been re-run. A regression test now checks
 that the divergence scales with capacity for fixed per-coordinate
 statistics.
 
-The likelihood follows the data type: Bernoulli for the binary image
-dataset, Gaussian elsewhere. This is stated in every table and figure,
+The likelihood follows the data type: Bernoulli for the binary image dataset~\cite{matthey2017dsprites},
+Gaussian elsewhere. This is stated in every table and figure,
 loss values are never ranked across datasets with different likelihoods,
 and the same weight under different likelihoods is not described as the
 same strength. The per-pixel mean squared error used for the quality
@@ -572,6 +576,9 @@ target is common to all of them.
 
 \subsection{Data, Splits and Repetition}\label{sec:setup_data}
 
+The datasets are MNIST~\cite{lecun1998},
+Fashion-MNIST~\cite{xiao2017fashion}, dSprites~\cite{matthey2017dsprites}
+and CIFAR-10~\cite{krizhevsky2009learning}.
 Official training data is split into training and validation portions by a
 fixed random draw whose indices are stored; the official test split is
 used once, on the checkpoint that validation selected. Subsets are drawn
@@ -1010,5 +1017,230 @@ with one method at zero and another spanning more than a hundred
 dimensions on the same data. We also record three implementation defects
 of a single kind, invisible in aggregate results, that anyone
 re-implementing these methods is likely to meet.
+
+\begin{thebibliography}{999}
+
+\bibitem{kingma2014vae}
+Kingma, D.P.; Welling, M.
+Auto-encoding variational Bayes.
+In \textit{Proceedings of the 2nd International Conference on Learning
+Representations (ICLR)}, Banff, AB, Canada, 14--16 April 2014.
+arXiv:1312.6114.
+
+\bibitem{higgins2017betavae}
+Higgins, I.; Matthey, L.; Pal, A.; Burgess, C.; Glorot, X.; Botvinick, M.;
+Mohamed, S.; Lerchner, A.
+$\beta$-VAE: Learning basic visual concepts with a constrained variational
+framework.
+In \textit{Proceedings of the 5th International Conference on Learning
+Representations (ICLR)}, Toulon, France, 24--26 April 2017.
+
+\bibitem{bengio2013representation}
+Bengio, Y.; Courville, A.; Vincent, P.
+Representation learning: A review and new perspectives.
+\textit{IEEE Trans.\ Pattern Anal.\ Mach.\ Intell.} \textbf{2013},
+\textit{35}, 1798--1828. https://doi.org/10.1109/TPAMI.2013.50.
+
+\bibitem{fefferman2016manifold}
+Fefferman, C.; Mitter, S.; Narayanan, H.
+Testing the manifold hypothesis.
+\textit{J.\ Am.\ Math.\ Soc.} \textbf{2016}, \textit{29}, 983--1049.
+https://doi.org/10.1090/jams/852.
+
+\bibitem{tenenbaum2000isomap}
+Tenenbaum, J.B.; de Silva, V.; Langford, J.C.
+A global geometric framework for nonlinear dimensionality reduction.
+\textit{Science} \textbf{2000}, \textit{290}, 2319--2323.
+https://doi.org/10.1126/science.290.5500.2319.
+
+\bibitem{roweis2000lle}
+Roweis, S.T.; Saul, L.K.
+Nonlinear dimensionality reduction by locally linear embedding.
+\textit{Science} \textbf{2000}, \textit{290}, 2323--2326.
+https://doi.org/10.1126/science.290.5500.2323.
+
+\bibitem{tippingbishop1999ppca}
+Tipping, M.E.; Bishop, C.M.
+Probabilistic principal component analysis.
+\textit{J.\ R.\ Stat.\ Soc.\ Ser.\ B} \textbf{1999}, \textit{61}, 611--622.
+https://doi.org/10.1111/1467-9868.00196.
+
+\bibitem{bishop1999bayesian}
+Bishop, C.M.
+Bayesian PCA.
+In \textit{Advances in Neural Information Processing Systems}, Vol.~11,
+1999; pp.~382--388.
+
+\bibitem{facco2017twonn}
+Facco, E.; d'Errico, M.; Rodriguez, A.; Laio, A.
+Estimating the intrinsic dimension of datasets by a minimal neighborhood
+information.
+\textit{Sci.\ Rep.} \textbf{2017}, \textit{7}, 12140.
+https://doi.org/10.1038/s41598-017-11873-y.
+
+\bibitem{levina2005mle}
+Levina, E.; Bickel, P.J.
+Maximum likelihood estimation of intrinsic dimension.
+In \textit{Advances in Neural Information Processing Systems (NeurIPS)},
+Vol.~17, 2005.
+
+\bibitem{ceruti2014danco}
+Ceruti, C.; Bassis, S.; Rozza, A.; Lombardi, G.; Casiraghi, E.;
+Campadelli, P.
+DANCo: An intrinsic dimensionality estimator exploiting angle and norm
+concentration.
+\textit{Pattern Recognit.} \textbf{2014}, \textit{47}, 2569--2581.
+https://doi.org/10.1016/j.patcog.2014.02.013.
+
+\bibitem{johnsson2015ess}
+Johnsson, K.; Soneson, C.; Fontes, M.
+Low bias local intrinsic dimension estimation from expected simplex
+skewness.
+\textit{IEEE Trans.\ Pattern Anal.\ Mach.\ Intell.} \textbf{2015},
+\textit{37}, 196--202. https://doi.org/10.1109/TPAMI.2014.2343220.
+
+\bibitem{camastra2016intrinsic}
+Camastra, F.; Staiano, A.
+Intrinsic dimension estimation: Advances and open problems.
+\textit{Inf.\ Sci.} \textbf{2016}, \textit{328}, 26--41.
+https://doi.org/10.1016/j.ins.2015.08.029.
+
+\bibitem{allegra2020data}
+Allegra, M.; Facco, E.; Denti, F.; Laio, A.; Mira, A.
+Data segmentation based on the local intrinsic dimension.
+\textit{Sci.\ Rep.} \textbf{2020}, \textit{10}, 16449.
+https://doi.org/10.1038/s41598-020-72222-0.
+
+\bibitem{costa2004geodesic}
+Costa, J.A.; Hero, A.O.
+Geodesic entropic graphs for dimension and entropy estimation in manifold
+learning.
+\textit{IEEE Trans.\ Signal Process.} \textbf{2004}, \textit{52},
+2210--2221. https://doi.org/10.1109/TSP.2004.831130.
+
+\bibitem{ansuini2019intrinsic}
+Ansuini, A.; Laio, A.; Macke, J.H.; Zoccolan, D.
+Intrinsic dimension of data representations in deep neural networks.
+In \textit{NeurIPS 2019}, Vol.~32, 2019.
+
+\bibitem{pope2021intrinsic}
+Pope, P.; Zhu, C.; Abdelkader, A.; Goldblum, M.; Goldstein, T.
+The intrinsic dimension of images and its impact on learning.
+In \textit{ICLR 2021}, 2021.
+
+\bibitem{bonheme2022fondue}
+Bonheme, L.; Grzes, M.
+FONDUE: An algorithm to find the optimal dimensionality of the latent
+representations of variational autoencoders.
+arXiv \textbf{2022}, arXiv:2209.12806.
+https://doi.org/10.48550/arXiv.2209.12806.
+
+\bibitem{bonheme2023active}
+Bonheme, L.; Grzes, M.
+Be more active! Understanding the differences between mean and sampled
+representations of variational autoencoders.
+\textit{J.\ Mach.\ Learn.\ Res.} \textbf{2023}, \textit{24}, 1--30.
+
+\bibitem{deboom2020geco}
+De Boom, C.; Wauthier, S.; Verbelen, T.; Dhoedt, B.
+Dynamic narrowing of VAE bottlenecks using GECO and $L_0$ regularization.
+arXiv \textbf{2020}, arXiv:2003.10901.
+https://doi.org/10.48550/arXiv.2003.10901.
+
+\bibitem{rezende2018geco}
+Rezende, D.J.; Viola, F.
+Taming VAEs.
+arXiv \textbf{2018}, arXiv:1810.00597.
+https://doi.org/10.48550/arXiv.1810.00597.
+
+\bibitem{louizos2018l0}
+Louizos, C.; Welling, M.; Kingma, D.P.
+Learning sparse neural networks through $L_0$ regularization.
+In \textit{Proceedings of the 6th International Conference on Learning
+Representations (ICLR)}, Vancouver, BC, Canada, 30 April--3 May 2018.
+arXiv:1712.01312.
+
+\bibitem{saha2025ardvae}
+Saha, S.; Joshi, S.; Whitaker, R.
+ARD-VAE: A statistical formulation to find the relevant latent dimensions
+of variational autoencoders.
+arXiv \textbf{2025}, arXiv:2501.10901.
+https://doi.org/10.48550/arXiv.2501.10901.
+
+\bibitem{lucas2019elbo}
+Lucas, J.; Tucker, G.; Grosse, R.B.; Norouzi, M.
+Don't blame the ELBO! A linear VAE perspective on posterior collapse.
+In \textit{NeurIPS 2019}, Vol.~32, 2019.
+
+\bibitem{burda2016iwae}
+Burda, Y.; Grosse, R.; Salakhutdinov, R.
+Importance weighted autoencoders.
+In \textit{Proceedings of the 4th International Conference on Learning
+Representations (ICLR)}, San Juan, Puerto Rico, 2--4 May 2016.
+arXiv:1509.00519.
+
+\bibitem{hoffman2016elbo}
+Hoffman, M.D.; Johnson, M.J.
+{ELBO} surgery: Yet another way to carve up the variational evidence lower
+bound.
+In \textit{NIPS Workshop on Advances in Approximate Bayesian Inference},
+Barcelona, Spain, 2016.
+
+\bibitem{fu2019cyclical}
+Fu, H.; Tan, C.; Peng, B.; Zhao, Z.; Yan, T.; Chang, C.; Zhao, L.
+Cyclical annealing schedule: A simple approach to mitigating {KL} vanishing.
+In \textit{Proceedings of NAACL-HLT 2019}, Minneapolis, MN, USA, 2019;
+pp.~240--250.
+
+\bibitem{rolinek2019pca}
+Rolinek, M.; Zietlow, D.; Martius, G.
+Variational autoencoders pursue PCA directions (by accident).
+In \textit{Proceedings of the IEEE/CVF Conference on Computer Vision and
+Pattern Recognition (CVPR)}, Long Beach, CA, USA, 15--20 June 2019;
+pp.\ 12406--12415. https://doi.org/10.1109/CVPR.2019.01269.
+
+\bibitem{hatcher2002algebraic}
+Hatcher, A.
+\textit{Algebraic Topology};
+Cambridge University Press: Cambridge, UK, 2002.
+
+\bibitem{cover2006elements}
+Cover, T.M.; Thomas, J.A.
+\textit{Elements of Information Theory}, 2nd ed.;
+Wiley-Interscience: Hoboken, NJ, USA, 2006.
+
+\bibitem{lecun1998}
+LeCun, Y.; Bottou, L.; Bengio, Y.; Haffner, P.
+Gradient-based learning applied to document recognition.
+\textit{Proc.\ IEEE} \textbf{1998}, \textit{86}, 2278--2324.
+https://doi.org/10.1109/5.726791.
+
+\bibitem{xiao2017fashion}
+Xiao, H.; Rasul, K.; Vollgraf, R.
+Fashion-{MNIST}: A Novel Image Dataset for Benchmarking Machine Learning
+Algorithms.
+\textit{arXiv} \textbf{2017}, 1708.07747.
+
+\bibitem{matthey2017dsprites}
+Matthey, L.; Higgins, I.; Hassabis, D.; Lerchner, A.
+dSprites: Disentanglement testing sprites dataset. 2017.
+Available online: https://github.com/google-deepmind/dsprites-dataset
+(accessed on 12 September 2026).
+
+\bibitem{krizhevsky2009learning}
+Krizhevsky, A.
+Learning multiple layers of features from tiny images.
+\textit{Technical Report}; University of Toronto: Toronto, ON, Canada,
+2009.
+
+\bibitem{obata2025manifold}
+Obata, C.; Jin'no, K.
+Analysis of the relationship between manifold structure and latent space
+capacity of input data using VAE.
+In \textit{Proceedings of the 2025 International Symposium on Nonlinear
+Theory and Its Applications (NOLTA2025)}, Okinawa, Japan, 27--31 October
+2025; pp. 32--35.
+
+\end{thebibliography}
 
 \end{document}

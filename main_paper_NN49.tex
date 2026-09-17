@@ -1,0 +1,107 @@
+\documentclass[11pt,a4paper]{jsarticle}
+
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage{here}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{enumerate}
+\usepackage[margin=25mm]{geometry}
+\usepackage[dvipdfmx,hidelinks]{hyperref}
+\usepackage{caption}
+
+%% 定理環境
+\newtheorem{theorem}{定理}
+\newtheorem{proposition}{命題}
+\newtheorem{definition}{定義}
+\newtheorem{remark}{注意}
+\newtheorem{corollary}{系}
+
+%% 記号略記
+\newcommand{\dID}{d_{\mathrm{ID}}}
+\newcommand{\hatdID}{\hat{d}_{\mathrm{ID}}}
+\newcommand{\dz}{m}
+\newcommand{\dtrue}{d_{\mathrm{true}}}
+\newcommand{\Jg}{J_g}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\kap}{\kappa}
+\newcommand{\AUsat}{\mathrm{AU}_{\mathrm{sat}}}
+\newcommand{\demb}{d_{\mathrm{emb}}}
+\newcommand{\mknee}{m^{\mathrm{knee}}}
+\newcommand{\dstar}{d^{*}(\beta)}
+
+%% ===================================================================
+%% 改訂版 NN49（日本語版）
+%% 枠組み: 「ID 誘導による高速な次元選択法の提案」から
+%%         「VAE の潜在次元選択における診断と落とし穴の実証研究」へ
+%% 英語版: main_paper_MAKE49.tex
+%% 根拠: MAKE49_段階1〜8 の各報告書
+%% ===================================================================
+
+\title{潜在次元の選択を実際に支える信号はどれか：\\
+内在次元・活性度・剪定による判定基準の事前登録比較}
+
+\author{小幡 千佳，大井 瑞生，神野 健哉\\
+東京都市大学 情報工学部 知能情報工学科}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+変分自己符号化器の潜在次元は，通常グリッド探索で決める。より安価な判定基準として，
+データの内在次元推定に基づくもの，学習後に活性のまま残る潜在変数の数に基づくものが
+提案されてきた。本論文は，事前に固定した一つの手順のもとで，これらの信号が実際に
+選択を支えるのかを問う。内在次元による誘導，公表済みの選択アルゴリズム 2 種，
+再構成制約つきの剪定法，自動関連度決定の変種，全探索，粗い探索，固定次元を，
+4 データセット・5 シード・5 通りの正則化強度にわたって比較した。
+
+内在次元による誘導には測定可能な利点がなかった。同じ品質条件のもとで候補を小さい順に
+走査するだけの手順が，すべてのデータセットで同等以上の結果をより低い費用で達成し，
+誘導の段階は 3 つの画像データセットのうち 2 つで適用を見送った。活性度に基づく読み取りは，
+同数の無作為特徴量を超える情報を持たなかった。検討したほぼすべての判定基準は
+自由閾値に支配されており，その閾値を変えると選択される次元が数倍動く。
+この感度による手法の序列自体は再現性があり，1 つの手法だけがこれに鈍感である。
+本論文は，これらの否定的結果，感度の序列，および遭遇した実装上の失敗様式を
+寄与として報告する。
+\end{abstract}
+
+\section{まえがき}\label{sec:intro}
+% 英語版 §1 に対応
+% TODO(text): 英語版 main_paper_MAKE49.tex の Introduction を訳出・調整
+
+\section{関連研究}\label{sec:related}
+% 英語版 §2 に対応。冒頭で 2 つの重なりを開示する:
+%   (a) FONDUE 付録 G の Algorithm 3 は本研究の活性ベース診断と目的を共有する
+%   (b) GECO の再構成制約は本研究の品質条件と同型であり，後者は新規性を主張しない
+% TODO(text)
+
+\section{評価の枠組み}\label{sec:framework}
+% 英語版 §3 に対応（品質目標・費用計上・終了状態）
+% TODO(text)
+
+\section{理論的背景}\label{sec:theory}
+% 英語版 §4 に対応。削除した 5 項目を明記する
+% TODO(text)
+
+\section{実験設定}\label{sec:setup}
+% 英語版 §5 に対応（損失規約・尤度・分割・比較法・出所情報）
+% TODO(text)
+
+\section{結果}\label{sec:results}
+% 英語版 §6 に対応（6 小節）
+% TODO(text)
+
+\section{考察}\label{sec:discussion}
+% 英語版 §7 に対応（4 小節）
+% TODO(text)
+
+\section{むすび}\label{sec:conclusion}
+% 英語版 §8 に対応
+% TODO(text)
+
+\end{document}
