@@ -1,0 +1,206 @@
+% Table D2: method x beta comparison (5 seeds each)
+% cols: method & beta & selected m & val MSE & total s & termination
+% ===== MNIST =====
+B1 full grid & 0.25 & $22.4 \pm 6.1$ & 0.01398 & 401 & SUCCESS$\times$5 \\
+B1 full grid & 0.5 & $14.0 \pm 5.7$ & 0.01728 & 460 & SUCCESS$\times$5 \\
+B1 full grid & 1 & $12.8 \pm 6.4$ & 0.02098 & 628 & SUCCESS$\times$5 \\
+B1 full grid & 2 & $7.6 \pm 1.7$ & 0.02556 & 840 & SUCCESS$\times$5 \\
+B1 full grid & 4 & $8.8 \pm 2.3$ & 0.03608 & 969 & SUCCESS$\times$5 \\
+B4 coarse & 0.25 & $42.4 \pm 29.6$ & 0.01571 & 126 & SUCCESS$\times$5 \\
+B4 coarse & 0.5 & $31.6 \pm 29.6$ & 0.01803 & 144 & SUCCESS$\times$5 \\
+B4 coarse & 1 & $10.0 \pm 0.0$ & 0.02180 & 190 & SUCCESS$\times$5 \\
+B4 coarse & 2 & $10.0 \pm 0.0$ & 0.02662 & 255 & SUCCESS$\times$5 \\
+B4 coarse & 4 & $8.8 \pm 2.7$ & 0.03713 & 350 & SUCCESS$\times$5 \\
+B5 fixed 32 & 0.25 & $32.0 \pm 0.0$ & 0.01447 & 41 & SUCCESS$\times$5 \\
+B5 fixed 32 & 0.5 & $32.0 \pm 0.0$ & 0.01801 & 46 & SUCCESS$\times$5 \\
+B5 fixed 32 & 1 & $32.0 \pm 0.0$ & 0.02343 & 56 & SUCCESS$\times$5 \\
+B5 fixed 32 & 2 & $32.0 \pm 0.0$ & 0.02903 & 75 & SUCCESS$\times$5 \\
+B5 fixed 32 & 4 & $32.0 \pm 0.0$ & 0.03892 & 74 & SUCCESS$\times$5 \\
+B6a FONDUE & 0.25 & $10.8 \pm 0.4$ & 0.01558 & 36 & SUCCESS$\times$5 \\
+B6a FONDUE & 0.5 & $9.0 \pm 0.0$ & 0.01887 & 42 & SUCCESS$\times$5 \\
+B6a FONDUE & 1 & $7.0 \pm 0.0$ & 0.02193 & 41 & SUCCESS$\times$5 \\
+B6a FONDUE & 2 & $7.0 \pm 0.0$ & 0.02683 & 68 & SUCCESS$\times$5 \\
+B6a FONDUE & 4 & $8.0 \pm 0.0$ & 0.03748 & 70 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 0.25 & $51.6 \pm 2.7$ & 0.01539 & 37 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 0.5 & $28.0 \pm 7.0$ & 0.01829 & 42 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 1 & $9.8 \pm 8.5$ & 0.02297 & 50 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 2 & $4.0 \pm 1.9$ & 0.03142 & 59 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 4 & $1.0 \pm 1.4$ & 0.03934 & 38 & DEGENERATE_SELECTION$\times$3, SUCCESS$\times$2 \\
+proposed (ID+Q) & 0.25 & $9.6 \pm 0.9$ & 0.01644 & 533 & SUCCESS$\times$5 \\
+proposed (ID+Q) & 0.5 & $8.0 \pm 0.0$ & 0.01898 & 577 & SUCCESS$\times$5 \\
+proposed (ID+Q) & 1 & $6.0 \pm 0.0$ & 0.02244 & 715 & SUCCESS$\times$5 \\
+proposed (ID+Q) & 2 & $4.0 \pm 0.0$ & 0.02895 & 891 & SUCCESS$\times$5 \\
+proposed (ID+Q) & 4 & $3.6 \pm 0.9$ & 0.03863 & 1024 & SUCCESS$\times$5 \\
+ascending scan+Q & 0.25 & $9.6 \pm 0.9$ & 0.01644 & 181 & SUCCESS$\times$5 \\
+ascending scan+Q & 0.5 & $8.0 \pm 0.0$ & 0.01898 & 177 & SUCCESS$\times$5 \\
+ascending scan+Q & 1 & $6.0 \pm 0.0$ & 0.02244 & 182 & SUCCESS$\times$5 \\
+ascending scan+Q & 2 & $4.0 \pm 0.0$ & 0.02895 & 189 & SUCCESS$\times$5 \\
+ascending scan+Q & 4 & $3.6 \pm 0.9$ & 0.03863 & 251 & SUCCESS$\times$5 \\
+B6a+Q & 0.25 & $11.6 \pm 0.9$ & 0.01558 & 75 & SUCCESS$\times$5 \\
+B6a+Q & 0.5 & $10.0 \pm 0.0$ & 0.01813 & 91 & SUCCESS$\times$5 \\
+B6a+Q & 1 & $8.0 \pm 0.0$ & 0.02172 & 126 & SUCCESS$\times$5 \\
+B6a+Q & 2 & $8.0 \pm 0.0$ & 0.02620 & 134 & SUCCESS$\times$5 \\
+B6a+Q & 4 & $8.0 \pm 0.0$ & 0.03748 & 158 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 0.25 & $11.8 \pm 1.3$ & 0.01579 & 158 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 0.5 & $9.4 \pm 0.5$ & 0.01874 & 159 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 1 & $7.2 \pm 0.4$ & 0.02240 & 215 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 2 & $5.6 \pm 0.5$ & 0.02732 & 184 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 4 & $3.0 \pm 0.0$ & 0.04718 & 218 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 0.25 & $6.0 \pm 0.0$ & 0.02177 & 118 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 0.5 & $6.0 \pm 0.0$ & 0.02171 & 122 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 1 & $6.0 \pm 0.0$ & 0.02244 & 176 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 2 & $6.0 \pm 0.0$ & 0.02636 & 160 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 4 & $6.0 \pm 0.0$ & 0.03765 & 162 & SUCCESS$\times$5 \\
+% ===== FashionMNIST =====
+B1 full grid & 0.25 & $28.8 \pm 19.9$ & 0.01500 & 354 & SUCCESS$\times$5 \\
+B1 full grid & 0.5 & $15.6 \pm 5.4$ & 0.01631 & 442 & SUCCESS$\times$5 \\
+B1 full grid & 1 & $22.8 \pm 15.6$ & 0.01833 & 645 & SUCCESS$\times$5 \\
+B1 full grid & 2 & $12.8 \pm 10.9$ & 0.02106 & 623 & SUCCESS$\times$5 \\
+B1 full grid & 4 & $8.0 \pm 2.8$ & 0.02497 & 701 & SUCCESS$\times$5 \\
+B4 coarse & 0.25 & $42.4 \pm 29.6$ & 0.01521 & 111 & SUCCESS$\times$5 \\
+B4 coarse & 0.5 & $10.0 \pm 0.0$ & 0.01677 & 146 & SUCCESS$\times$5 \\
+B4 coarse & 1 & $6.4 \pm 3.3$ & 0.01903 & 250 & SUCCESS$\times$5 \\
+B4 coarse & 2 & $8.8 \pm 2.7$ & 0.02152 & 203 & SUCCESS$\times$5 \\
+B4 coarse & 4 & $5.2 \pm 2.7$ & 0.02518 & 226 & SUCCESS$\times$5 \\
+B5 fixed 32 & 0.25 & $32.0 \pm 0.0$ & 0.01514 & 34 & SUCCESS$\times$5 \\
+B5 fixed 32 & 0.5 & $32.0 \pm 0.0$ & 0.01709 & 35 & SUCCESS$\times$5 \\
+B5 fixed 32 & 1 & $32.0 \pm 0.0$ & 0.01924 & 45 & SUCCESS$\times$5 \\
+B5 fixed 32 & 2 & $32.0 \pm 0.0$ & 0.02191 & 55 & SUCCESS$\times$5 \\
+B5 fixed 32 & 4 & $32.0 \pm 0.0$ & 0.02546 & 69 & SUCCESS$\times$5 \\
+B6a FONDUE & 0.25 & $6.8 \pm 0.4$ & 0.01565 & 34 & SUCCESS$\times$5 \\
+B6a FONDUE & 0.5 & $6.4 \pm 0.5$ & 0.01745 & 33 & SUCCESS$\times$5 \\
+B6a FONDUE & 1 & $6.8 \pm 0.4$ & 0.01929 & 46 & SUCCESS$\times$5 \\
+B6a FONDUE & 2 & $6.0 \pm 0.0$ & 0.02134 & 51 & SUCCESS$\times$5 \\
+B6a FONDUE & 4 & $6.0 \pm 0.0$ & 0.02560 & 54 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 0.25 & $67.4 \pm 17.2$ & 0.01545 & 32 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 0.5 & $29.8 \pm 8.3$ & 0.01698 & 33 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 1 & $14.4 \pm 3.8$ & 0.01918 & 37 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 2 & $4.4 \pm 1.7$ & 0.02218 & 47 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 4 & $8.2 \pm 2.2$ & 0.02537 & 43 & SUCCESS$\times$5 \\
+proposed (ID+Q) & 0.25 & $42.4 \pm 29.6$ & 0.01521 & 318 & ID_UNRELIABLE$\times$5 \\
+proposed (ID+Q) & 0.5 & $10.0 \pm 0.0$ & 0.01677 & 353 & ID_UNRELIABLE$\times$5 \\
+proposed (ID+Q) & 1 & $6.4 \pm 3.3$ & 0.01903 & 457 & ID_UNRELIABLE$\times$5 \\
+proposed (ID+Q) & 2 & $8.8 \pm 2.7$ & 0.02152 & 410 & ID_UNRELIABLE$\times$5 \\
+proposed (ID+Q) & 4 & $5.2 \pm 2.7$ & 0.02518 & 433 & ID_UNRELIABLE$\times$5 \\
+ascending scan+Q & 0.25 & $6.0 \pm 0.0$ & 0.01622 & 112 & SUCCESS$\times$5 \\
+ascending scan+Q & 0.5 & $4.8 \pm 1.1$ & 0.01862 & 118 & SUCCESS$\times$5 \\
+ascending scan+Q & 1 & $4.0 \pm 0.0$ & 0.01938 & 209 & SUCCESS$\times$5 \\
+ascending scan+Q & 2 & $4.0 \pm 0.0$ & 0.02213 & 150 & SUCCESS$\times$5 \\
+ascending scan+Q & 4 & $2.4 \pm 0.9$ & 0.02753 & 139 & SUCCESS$\times$5 \\
+B6a+Q & 0.25 & $7.6 \pm 0.9$ & 0.01563 & 59 & SUCCESS$\times$5 \\
+B6a+Q & 0.5 & $6.8 \pm 1.1$ & 0.01726 & 65 & SUCCESS$\times$5 \\
+B6a+Q & 1 & $7.6 \pm 0.9$ & 0.01900 & 108 & SUCCESS$\times$5 \\
+B6a+Q & 2 & $6.0 \pm 0.0$ & 0.02134 & 101 & SUCCESS$\times$5 \\
+B6a+Q & 4 & $6.0 \pm 0.0$ & 0.02560 & 126 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 0.25 & $5.8 \pm 0.4$ & 0.01686 & 150 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 0.5 & $5.2 \pm 0.4$ & 0.01911 & 151 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 1 & $4.2 \pm 0.4$ & 0.01938 & 295 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 2 & $4.0 \pm 0.7$ & 0.02295 & 173 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 4 & $3.8 \pm 0.8$ & 0.02638 & 179 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 0.25 & $3.8 \pm 0.4$ & 0.02057 & 113 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 0.5 & $3.8 \pm 0.4$ & 0.02024 & 123 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 1 & $3.8 \pm 0.4$ & 0.02067 & 207 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 2 & $3.8 \pm 0.4$ & 0.02295 & 135 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 4 & $3.8 \pm 0.4$ & 0.02580 & 139 & SUCCESS$\times$5 \\
+% ===== dSprites =====
+B1 full grid & 0.25 & $54.4 \pm 14.3$ & 0.00101 & 3008 & SUCCESS$\times$5 \\
+B1 full grid & 0.5 & $64.0 \pm 0.0$ & 0.00104 & 2160 & SUCCESS$\times$5 \\
+B1 full grid & 1 & $57.6 \pm 14.3$ & 0.00116 & 2565 & SUCCESS$\times$5 \\
+B1 full grid & 2 & $39.2 \pm 17.1$ & 0.00144 & 3190 & SUCCESS$\times$5 \\
+B1 full grid & 4 & $24.0 \pm 16.0$ & 0.00203 & 3456 & SUCCESS$\times$5 \\
+B4 coarse & 0.25 & $64.0 \pm 0.0$ & 0.00102 & 793 & SUCCESS$\times$5 \\
+B4 coarse & 0.5 & $64.0 \pm 0.0$ & 0.00104 & 623 & SUCCESS$\times$5 \\
+B4 coarse & 1 & $64.0 \pm 0.0$ & 0.00117 & 704 & SUCCESS$\times$5 \\
+B4 coarse & 2 & $64.0 \pm 0.0$ & 0.00145 & 872 & SUCCESS$\times$5 \\
+B4 coarse & 4 & $64.0 \pm 0.0$ & 0.00214 & 911 & SUCCESS$\times$5 \\
+B5 fixed 32 & 0.25 & $32.0 \pm 0.0$ & 0.00105 & 191 & SUCCESS$\times$5 \\
+B5 fixed 32 & 0.5 & $32.0 \pm 0.0$ & 0.00112 & 212 & SUCCESS$\times$5 \\
+B5 fixed 32 & 1 & $32.0 \pm 0.0$ & 0.00122 & 258 & SUCCESS$\times$5 \\
+B5 fixed 32 & 2 & $32.0 \pm 0.0$ & 0.00149 & 286 & SUCCESS$\times$5 \\
+B5 fixed 32 & 4 & $32.0 \pm 0.0$ & 0.00921 & 300 & SUCCESS$\times$5 \\
+B6a FONDUE & 0.25 & $4.6 \pm 0.9$ & 0.00482 & 200 & SUCCESS$\times$5 \\
+B6a FONDUE & 0.5 & $4.4 \pm 0.5$ & 0.00504 & 142 & SUCCESS$\times$5 \\
+B6a FONDUE & 1 & $4.2 \pm 0.4$ & 0.00550 & 141 & SUCCESS$\times$5 \\
+B6a FONDUE & 2 & $4.8 \pm 1.8$ & 0.00531 & 181 & SUCCESS$\times$5 \\
+B6a FONDUE & 4 & $4.0 \pm 0.0$ & 0.00633 & 162 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 0.25 & $110.6 \pm 117.4$ & 0.00137 & 227 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 0.5 & $129.2 \pm 63.2$ & 0.00101 & 266 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 1 & $26.0 \pm 49.5$ & 0.00939 & 175 & DEGENERATE_SELECTION$\times$1, SUCCESS$\times$4 \\
+B6b FONDUE-VAR & 2 & $29.2 \pm 29.3$ & 0.00151 & 193 & DEGENERATE_SELECTION$\times$2, SUCCESS$\times$3 \\
+B6b FONDUE-VAR & 4 & $23.0 \pm 24.2$ & 0.00219 & 203 & DEGENERATE_SELECTION$\times$2, SUCCESS$\times$3 \\
+proposed (ID+Q) & 0.25 & $64.0 \pm 0.0$ & 0.00102 & 1088 & ID_UNRELIABLE$\times$5 \\
+proposed (ID+Q) & 0.5 & $64.0 \pm 0.0$ & 0.00104 & 919 & ID_UNRELIABLE$\times$5 \\
+proposed (ID+Q) & 1 & $64.0 \pm 0.0$ & 0.00117 & 1001 & ID_UNRELIABLE$\times$5 \\
+proposed (ID+Q) & 2 & $64.0 \pm 0.0$ & 0.00145 & 1168 & ID_UNRELIABLE$\times$5 \\
+proposed (ID+Q) & 4 & $64.0 \pm 0.0$ & 0.00214 & 1207 & ID_UNRELIABLE$\times$5 \\
+ascending scan+Q & 0.25 & $21.6 \pm 6.7$ & 0.00106 & 2315 & SUCCESS$\times$5 \\
+ascending scan+Q & 0.5 & $24.8 \pm 7.2$ & 0.00111 & 1680 & SUCCESS$\times$5 \\
+ascending scan+Q & 1 & $20.0 \pm 4.0$ & 0.00126 & 1797 & SUCCESS$\times$5 \\
+ascending scan+Q & 2 & $14.8 \pm 4.8$ & 0.00155 & 1881 & SUCCESS$\times$5 \\
+ascending scan+Q & 4 & $9.6 \pm 1.7$ & 0.00222 & 1485 & SUCCESS$\times$5 \\
+B6a+Q & 0.25 & $28.0 \pm 20.4$ & 0.00106 & 2103 & SUCCESS$\times$4, BUDGET_EXHAUSTED$\times$1 \\
+B6a+Q & 0.5 & $37.6 \pm 24.3$ & 0.00108 & 1469 & BUDGET_EXHAUSTED$\times$2, SUCCESS$\times$3 \\
+B6a+Q & 1 & $20.0 \pm 4.0$ & 0.00126 & 1676 & SUCCESS$\times$4, BUDGET_EXHAUSTED$\times$1 \\
+B6a+Q & 2 & $14.8 \pm 4.8$ & 0.00155 & 1699 & SUCCESS$\times$5 \\
+B6a+Q & 4 & $9.6 \pm 1.7$ & 0.00222 & 1388 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 0.25 & $64.0 \pm 0.0$ & 0.00102 & 580 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 0.5 & $64.0 \pm 0.0$ & 0.00104 & 587 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 1 & $64.0 \pm 0.0$ & 0.00117 & 969 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 2 & $64.0 \pm 0.0$ & 0.00145 & 666 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 4 & $64.0 \pm 0.0$ & 0.00214 & 685 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 0.25 & $9.2 \pm 1.5$ & 0.00186 & 598 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 0.5 & $9.2 \pm 1.5$ & 0.00190 & 459 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 1 & $9.2 \pm 1.5$ & 0.00192 & 792 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 2 & $9.2 \pm 1.5$ & 0.00198 & 568 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 4 & $9.2 \pm 1.5$ & 0.00237 & 620 & SUCCESS$\times$5 \\
+% ===== CIFAR10 =====
+B1 full grid & 0.25 & $185.6 \pm 97.1$ & 0.00917 & 311 & SUCCESS$\times$5 \\
+B1 full grid & 0.5 & $192.0 \pm 64.0$ & 0.01096 & 349 & SUCCESS$\times$5 \\
+B1 full grid & 1 & $140.8 \pm 53.5$ & 0.01383 & 428 & SUCCESS$\times$5 \\
+B1 full grid & 2 & $100.8 \pm 84.6$ & 0.01749 & 507 & SUCCESS$\times$5 \\
+B1 full grid & 4 & $107.2 \pm 60.8$ & 0.02184 & 510 & SUCCESS$\times$5 \\
+B4 coarse & 0.25 & $214.4 \pm 93.0$ & 0.00932 & 135 & SUCCESS$\times$5 \\
+B4 coarse & 0.5 & $256.0 \pm 0.0$ & 0.01115 & 134 & SUCCESS$\times$5 \\
+B4 coarse & 1 & $131.2 \pm 113.9$ & 0.01401 & 159 & SUCCESS$\times$5 \\
+B4 coarse & 2 & $131.2 \pm 113.9$ & 0.01764 & 185 & SUCCESS$\times$5 \\
+B4 coarse & 4 & $41.6 \pm 14.3$ & 0.02199 & 204 & SUCCESS$\times$5 \\
+B5 fixed 32 & 0.25 & $32.0 \pm 0.0$ & 0.01201 & 41 & SUCCESS$\times$5 \\
+B5 fixed 32 & 0.5 & $32.0 \pm 0.0$ & 0.01257 & 34 & SUCCESS$\times$5 \\
+B5 fixed 32 & 1 & $32.0 \pm 0.0$ & 0.01417 & 46 & SUCCESS$\times$5 \\
+B5 fixed 32 & 2 & $32.0 \pm 0.0$ & 0.01761 & 51 & SUCCESS$\times$5 \\
+B5 fixed 32 & 4 & $32.0 \pm 0.0$ & 0.02196 & 52 & SUCCESS$\times$5 \\
+B6a FONDUE & 0.25 & $21.4 \pm 0.5$ & 0.01463 & 41 & SUCCESS$\times$5 \\
+B6a FONDUE & 0.5 & $16.8 \pm 0.8$ & 0.01641 & 36 & SUCCESS$\times$5 \\
+B6a FONDUE & 1 & $14.4 \pm 0.5$ & 0.01779 & 57 & SUCCESS$\times$5 \\
+B6a FONDUE & 2 & $13.4 \pm 0.5$ & 0.01911 & 50 & SUCCESS$\times$5 \\
+B6a FONDUE & 4 & $12.6 \pm 0.5$ & 0.02205 & 61 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 0.25 & $80.4 \pm 0.9$ & 0.01016 & 28 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 0.5 & $52.8 \pm 19.5$ & 0.01158 & 38 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 1 & $34.2 \pm 1.3$ & 0.01417 & 51 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 2 & $22.4 \pm 4.9$ & 0.01776 & 54 & SUCCESS$\times$5 \\
+B6b FONDUE-VAR & 4 & $11.6 \pm 3.3$ & 0.02264 & 48 & SUCCESS$\times$5 \\
+proposed (ID+Q) & 0.25 & $214.4 \pm 93.0$ & 0.00932 & 475 & ID_UNRELIABLE$\times$5 \\
+proposed (ID+Q) & 0.5 & $256.0 \pm 0.0$ & 0.01115 & 474 & ID_UNRELIABLE$\times$5 \\
+proposed (ID+Q) & 1 & $131.2 \pm 113.9$ & 0.01401 & 499 & ID_UNRELIABLE$\times$5 \\
+proposed (ID+Q) & 2 & $131.2 \pm 113.9$ & 0.01764 & 526 & ID_UNRELIABLE$\times$5 \\
+proposed (ID+Q) & 4 & $41.6 \pm 14.3$ & 0.02199 & 545 & ID_UNRELIABLE$\times$5 \\
+ascending scan+Q & 0.25 & $60.8 \pm 20.9$ & 0.00972 & 225 & SUCCESS$\times$5 \\
+ascending scan+Q & 0.5 & $48.0 \pm 0.0$ & 0.01166 & 200 & SUCCESS$\times$5 \\
+ascending scan+Q & 1 & $24.0 \pm 0.0$ & 0.01512 & 157 & SUCCESS$\times$5 \\
+ascending scan+Q & 2 & $16.0 \pm 0.0$ & 0.01832 & 142 & SUCCESS$\times$5 \\
+ascending scan+Q & 4 & $8.0 \pm 0.0$ & 0.02369 & 110 & SUCCESS$\times$5 \\
+B6a+Q & 0.25 & $60.8 \pm 20.9$ & 0.00972 & 176 & SUCCESS$\times$5 \\
+B6a+Q & 0.5 & $48.0 \pm 0.0$ & 0.01166 & 158 & SUCCESS$\times$5 \\
+B6a+Q & 1 & $24.0 \pm 0.0$ & 0.01512 & 133 & SUCCESS$\times$5 \\
+B6a+Q & 2 & $16.0 \pm 0.0$ & 0.01832 & 111 & SUCCESS$\times$5 \\
+B6a+Q & 4 & $16.0 \pm 0.0$ & 0.02205 & 122 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 0.25 & $42.6 \pm 5.1$ & 0.01051 & 232 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 0.5 & $30.8 \pm 0.8$ & 0.01257 & 226 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 1 & $20.0 \pm 1.0$ & 0.01629 & 400 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 2 & $13.4 \pm 0.5$ & 0.01832 & 231 & SUCCESS$\times$5 \\
+B7 GECO+L0 & 4 & $8.4 \pm 0.5$ & 0.02369 & 241 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 0.25 & $14.2 \pm 0.4$ & 0.01658 & 174 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 0.5 & $14.2 \pm 0.4$ & 0.01675 & 172 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 1 & $14.2 \pm 0.4$ & 0.01709 & 314 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 2 & $14.2 \pm 0.4$ & 0.01832 & 182 & SUCCESS$\times$5 \\
+B8 ARD-VAE & 4 & $14.2 \pm 0.4$ & 0.02205 & 192 & SUCCESS$\times$5 \\
