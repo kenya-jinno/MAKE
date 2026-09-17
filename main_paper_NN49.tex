@@ -12,6 +12,7 @@
 \usepackage[margin=25mm]{geometry}
 \usepackage[dvipdfmx,hidelinks]{hyperref}
 \usepackage{caption}
+\usepackage{tabularx}
 
 %% 定理環境
 \newtheorem{theorem}{定理}
@@ -71,37 +72,604 @@
 \end{abstract}
 
 \section{まえがき}\label{sec:intro}
-% 英語版 §1 に対応
-% TODO(text): 英語版 main_paper_MAKE49.tex の Introduction を訳出・調整
+
+変分自己符号化器\cite{kingma2014vae}の潜在次元は学習前に決めておく必要があり，
+通常はグリッド探索で決める。候補となる各容量でモデルを学習し，最も性能の良いものを
+採用する方法である。これは確実だが高価であり，代替となる安価な判定基準がいくつか
+提案されてきた。データの内在次元を推定\cite{facco2017twonn,levina2005mle}して
+探索窓を置くもの\cite{bonheme2022fondue}，大きなモデルを短時間だけ学習し，
+使われたまま残る潜在座標の数を，事後平均の分散\cite{burda2016iwae}あるいは
+潜在変数の型分類\cite{bonheme2023active}から読み取るもの，
+再構成品質への明示的な制約\cite{deboom2020geco}や
+不要な軸を抑える事前分布\cite{saha2025ardvae}のもとで学習中に剪定するものがある。
+
+これらはいずれも，著者らが用いたデータセットで機能すると報告されている。
+確立されていないのは，**単一の手順のもとで互いをどう比較するか**である。
+同じ品質目標，同じ費用計上，同じシード数，そして手法が回答を拒む場合の同じ扱い。
+これらが揃わないと，報告された削減が判定基準によるものか，測定された条件によるものかを
+判別できない。
+
+本論文はその比較を報告する。手順は事前に固定した。品質目標，予算，終了状態，
+判定規則，シード数である。以後の変更はすべて理由とともに記録した。
+そのうえで，内在次元による誘導，公表済みの選択アルゴリズム 2 種，制約つき剪定法，
+自動関連度決定の変種，全探索，粗い探索，固定次元を，4 データセット・5 シード・
+5 通りの正則化強度にわたって実行した。
+
+結果は大部分が否定的であり，それを寄与として報告する。内在次元による誘導は，
+同じ品質目標のもとでの単純な昇順探索が得られなかったものを何も与えなかった。
+また，開発に用いなかったデータセットでは適用を見送った。活性度に基づく読み取りは，
+改善対象であったはずの読み取りより安定ではなく，事前に固定した予測課題では
+同数の無作為特徴量と区別できなかった。よく転移した唯一の判定基準は本研究のものではない。
+既存の剪定法が用いる制約と一致しており，その旨を述べる。
+
+浮かび上がったのは測定量である。検討したほぼすべての規則は自由パラメータに支配されており，
+選択される次元はそのパラメータを変えると数倍動く。この感度は手法間で 2 桁異なり，
+序列はデータセットをまたいで再現し，1 つの手法は 0 である。あわせて，
+同じ型の実装上の欠陥を 3 件記録する。和を平均と書き誤ったもので，学習は破綻せず，
+得られる曲線ももっともらしいままだった。
+測定は \ref{sec:results} 節に，結論を変えうる条件は \ref{sec:discussion} 節に示す。
 
 \section{関連研究}\label{sec:related}
-% 英語版 §2 に対応。冒頭で 2 つの重なりを開示する:
-%   (a) FONDUE 付録 G の Algorithm 3 は本研究の活性ベース診断と目的を共有する
-%   (b) GECO の再構成制約は本研究の品質条件と同型であり，後者は新規性を主張しない
-% TODO(text)
+
+本論文の読み方に関わる既存研究との重なりが 2 点ある。調査の後ではなく先に述べる。
+
+第一に，比較対象として用いる内在次元選択アルゴリズム\cite{bonheme2022fondue}の付録は，
+短時間だけ学習したモデルの変数型から潜在次元を選ぶ方法を既に提案している。
+これは本研究が調べようとした活性度に基づく検証と同じ着想である。
+原著者らはこれを記述したうえで退けており，変数型が学習初期に信頼できないと報告している。
+我々の測定はその不安定性を再現し，比較を長時間学習へ拡張した結果，
+原著者らが比較していた優劣がどちらの向きにも現れないことを見出した。
+
+第二に，改訂で追加した剪定法\cite{deboom2020geco}は，再構成誤差の明示的な上限を満たす
+最小の容量を選ぶ。本論文を通じて用いる品質条件はその構成そのものである。
+これを寄与として提示することはせず，\ref{sec:res_threshold} 節でその対応を定量的に報告する。
+
+\subsection{次元削減と内在次元}\label{sec:rel_dr}
+
+構造を保つ座標を見つけて次元を減らす問題は古い。
+主成分分析\cite{tippingbishop1999ppca}は線形の答えを与え，
+Isomap\cite{tenenbaum2000isomap}と局所線形埋め込み\cite{roweis2000lle}は
+測地的構造や近傍構造を保つことで非線形の答えを与える。これらは埋め込みを生成するが，
+別に学習される生成モデルが何座標を持つべきかの判定基準は与えない。
+ここでの問いは後者である。
+
+標本の内在次元の推定は関連するが別の課題である。本研究は 2 近傍推定量\cite{facco2017twonn}を
+主推定量とし，最尤推定量\cite{levina2005mle}を補助的な照合に用いる。
+他の系統も存在し\cite{ceruti2014danco,johnsson2015ess,camastra2016intrinsic,allegra2020data}，
+測地エントロピーグラフに基づくグラフ系推定量\cite{costa2004geodesic}もある。
+グラフ系推定量は実装しなかった。\ref{sec:res_id} 節の測定が示すとおり，
+問題としている食い違いは既に用いている 2 つの推定量の間で見えており，
+3 つ目を加えても解消しないからである。
+深層表現は入力より内在次元が低いと報告されており
+\cite{ansuini2019intrinsic,pope2021intrinsic}，
+そのような推定値から潜在次元を読み取る動機の一部となっている。
+
+\subsection{潜在次元の選択}\label{sec:rel_select}
+
+公表済みのアルゴリズム 2 種が，表現の内在次元推定から次元を選ぶ。
+第一のものは，短時間学習したモデルの標本表現と平均表現の推定次元を比較し，
+両者がまだ乖離していない最大の容量を返す。同じ研究の付録に与えられた第二のものは，
+データ推定値の 2 倍から出発し，未使用型の潜在変数が現れるまで容量を倍増し，
+残ったものの数を返す。上述のとおり，第二のものは本研究が独立に調べようとした構成である。
+
+\subsection{学習中の剪定}\label{sec:rel_prune}
+
+別の戦略は，大きなモデルを 1 つ学習し，学習中に容量を削る。
+ある方法\cite{deboom2020geco}は各潜在座標に二値ゲートを置き，
+開いたゲート数に罰則を与え\cite{louizos2018l0}，
+制約違反から更新されるラグランジュ乗数\cite{rezende2018geco}によって
+再構成誤差を所定の上限以下に保つ。開いたまま残ったゲート数が答えである。
+上限が潜在空間ではなくデータ空間で記述されるため，正則化重みより設定しやすいと
+原著者らは論じている。我々の測定はこの主張を支持しており，
+同じ構成を共通の品質目標として採用する理由でもある。
+もう一つの方法\cite{saha2025ardvae}は固定事前分布を，
+軸ごとの分散を符号化データから当てはめる階層事前に置き換え，その分散から関連度を読む。
+他手法が依拠する種類の閾値を導入しない。それが何をもたらすかは
+\ref{sec:res_threshold} 節に示す。
+
+\subsection{活性ユニットと事後崩壊}\label{sec:rel_au}
+
+事後平均が分散を保つ潜在座標を数えることは，事後崩壊の標準的な診断であり
+\cite{burda2016iwae,lucas2019elbo}，潜在変数を active・mixed・passive に分類すること
+\cite{bonheme2023active}はその精緻化である。いずれも学習済みモデルから読み取るもので，
+容量を選ぶために用いるものではない。本論文が評価するのは，診断から選択基準への
+この一歩である。
+
+\subsection{先行会議論文との関係}\label{sec:rel_nolta}
+
+同じ著者らによる会議論文\cite{obata2025manifold}は，データの内在次元が
+ボトルネック設計に有益であること，潜在推定値が入力推定値を下回ることを，
+単一データセット上の全結合モデルを用いて報告した。活性ユニットは扱わず，
+他の選択手法との比較も行わず，正則化重みも変化させていない。
+本論文は出発点の観察を共有するが，結論が異なる。追加した比較は，
+その観察を探索窓の設置に用いることを支持しない。
 
 \section{評価の枠組み}\label{sec:framework}
-% 英語版 §3 に対応（品質目標・費用計上・終了状態）
-% TODO(text)
+
+すべての手法を同じ目標，同じ計上，同じ結果の集合のもとで評価する。
+以下に述べる設定は，ここで報告する実験を実行する前に固定したものであり，
+以後の変更はそれぞれ日付と理由とともに補足資料に列挙してある。
+
+\subsection{品質目標}\label{sec:framework_quality}
+
+ある候補は，検証用再構成誤差が事前宣言した参照モデルのそれを所定の許容量を超えて
+上回らない場合に受容される。参照は候補グリッドの最大容量であり，候補と同じモデル族・
+尤度・正則化重みで学習し，その費用も計上する。許容量は，相対的な余裕，
+参照におけるシード間標準偏差の 3 倍，および参照誤差がほぼ 0 のとき判定を意味あるものに
+保つ絶対下限の，最大値とする。得られる目標は介入の前に固定し，後から再計算しない。
+
+\ref{sec:related} 節で述べたとおり，これは既存の剪定法の再構成制約と同じ構成であり，
+新規性は主張しない。それでも明示するのは，これが比較を可能にする共通の尺度だからである。
+共有された目標がなければ，異なる目的関数を最適化する手法が同じ品質に達したとは言えない。
+
+\subsection{費用の計上}\label{sec:framework_cost}
+
+各手法には，モデルが選択され最終評価の準備が整うまでの費用を計上する。
+参照モデルの学習，内在次元の推定，候補の学習，品質目標が要求する参照モデル，
+再探索，ラベルを用いる手法における probe の当てはめ，評価が含まれる。
+探索段階を意図的に短くした手法はその利点を保つ。選択された次元での最終学習は
+すべての手法に等しく課されるからである。1 つの手法の 1 回の実行の中で
+同じ設定が繰り返し要求された場合は 1 回だけ計上する。
+
+\subsection{終了状態}\label{sec:framework_outcomes}
+
+1 回の実行は 5 つの状態のいずれかで終わる。参照より小さい容量を選択した，
+参照より小さく目標を満たすものが見つからなかった，推定段階が信頼性検査に失敗し
+事前宣言した通常探索へ切り替えた，予算を使い切った，学習できない容量を返した。
+予算を使い切った実行や退化した容量を返した実行は内訳に報告し，平均から除かない。
+これを明示するのは，それらを黙って落とす比較は，最も無様に失敗する手法を
+有利にするからである。
 
 \section{理論的背景}\label{sec:theory}
-% 英語版 §4 に対応。削除した 5 項目を明記する
-% TODO(text)
+
+測定する量を動機づける既知の結果が 2 つある。いずれも本論文の寄与ではなく，
+保証として用いるものでもない。
+
+$d$ 次元多様体上に台を持つデータの，連続かつ自己交差のない再構成は，
+その多様体の埋め込み次元以上の潜在空間を要し，滑らかな多様体に対して
+その上界は $2d$ である\cite{hatcher2002algebraic}。
+これは探索窓を置く際に内在次元推定値の 2 倍付近を見る幾何学的な理由を与える。
+だが，特定の表現から得た推定値が多様体次元に対応することを保証するものではなく，
+所定の許容量のもとでの有限標本の平均再構成誤差に下界を与えるものでもない。
+したがって係数 2 は検証対象の既定値として扱い，導出するのではなく感度を測定する。
+
+固定観測ノイズの線形ガウス代理では，情報を保つ潜在座標は，
+信号が正則化重みで定まる閾値を超えるものである\cite{cover2006elements}。
+学習済みモデルについても関連する挙動が報告されている\cite{rolinek2019pca}。
+これは活性座標の数がその重みに応答すると期待する理由を与える。
+しかし，その数を幾何学的次元の推定値として読むことを許すものではなく，
+本研究が学習する非線形モデルへ転移するものでもない。
+旧版でこれを超えていた主張，すなわちヤコビ行列の階数に基づく議論，未証明の上界，
+説明すべき挙動によって定義された実効ノイズ量，活性数と変数型分類の同一視，
+発散項の符号からの方向の推論は，いずれも削除した。
 
 \section{実験設定}\label{sec:setup}
-% 英語版 §5 に対応（損失規約・尤度・分割・比較法・出所情報）
-% TODO(text)
+
+\subsection{目的関数と尤度}\label{sec:setup_loss}
+
+再構成項は入力次元について和をとりバッチについて平均する。
+発散項は潜在次元について和をとりバッチについて平均する\cite{higgins2017betavae}。
+これは重要である。旧版は発散項を潜在次元についても平均しており，
+実効的な正則化重みが，まさに変化させている容量に反比例していた。
+旧版のすべての変分実験がこの影響を受けており，すべて再実行した。
+座標ごとの統計量を固定したとき発散が容量に比例して増えることを，
+回帰テストで確認するようにした。
+
+尤度はデータの型に従う。二値画像データセット\cite{matthey2017dsprites}には Bernoulli，
+それ以外には Gaussian である。これはすべての表と図に明記し，
+尤度の異なるデータセット間で損失値を順位づけせず，異なる尤度のもとでの同じ重みを
+同じ強さとは述べない。品質目標に用いる画素平均二乗誤差はそれらに共通である。
+
+\subsection{データ，分割，反復}\label{sec:setup_data}
+
+データセットは MNIST\cite{lecun1998}，Fashion-MNIST\cite{xiao2017fashion}，
+dSprites\cite{matthey2017dsprites}，CIFAR-10\cite{krizhevsky2009learning}である。
+公式の学習データを固定乱数の抽出で学習用と検証用に分け，そのインデックスを保存する。
+公式のテスト分割は，検証が選択した checkpoint に対して 1 度だけ用いる。
+部分集合は先頭からではなく無作為に抽出する。変換は学習用部分にのみ当てはめる。
+主比較は独立 5 シードを用い，参照モデル・推定・選択・最終学習という手順全体を
+各シードで反復する。1 つの checkpoint を 5 回評価することは 5 シードではない。
+
+\subsection{モデル，グリッド，比較法}\label{sec:setup_methods}
+
+灰色階調の 2 データセットには全結合の符号化器・復号化器を，
+他の 2 つには畳み込みのものを用いる。候補グリッドは前者 3 データで 12 容量，
+最大のもので 10 容量である。比較法の定義は英語版の表 2 に示す。
+
+\subsection{出所情報}\label{sec:setup_prov}
+
+各実行で，処理系，枠組み，CUDA および cuDNN の版，ドライバと装置，プラットフォーム，
+コードと分割インデックスのハッシュ，目的関数の規約，経過時間，更新回数，終了状態，
+収束判定を記録する。旧版は学習環境についてこれらを一切報告しておらず，
+その環境はもはや再構成できない。ここで報告する数値は再実行によるものである。
 
 \section{結果}\label{sec:results}
-% 英語版 §6 に対応（6 小節）
-% TODO(text)
+
+以下の結果はすべて，条件あたり独立 5 シードを用いる。参照モデル，推定，選択，
+選択された次元での最終学習という手順全体を各シードで反復する。
+1 つの checkpoint を複数回評価することは複数シードとは数えない。
+特に断らない限り，報告する再構成誤差は検証分割上の画素平均二乗誤差であり，
+評価モードで決定論的再構成から計算する。テスト分割は，検証が既に選択した
+checkpoint に対して 1 度だけ用いる。
+
+\subsection{手法単位の比較}\label{sec:res_methods}
+
+主要な正則化設定における結果を英語版の表 1 に示す。MNIST では誘導手順が 715 秒を要し，
+実行したどの手法よりも高価で，比較対象の選択アルゴリズムの 41 秒の 17 倍である。
+しかも再構成誤差はわずかに劣る（0.02244 対 0.02193）。
+そのアルゴリズムに品質目標を加えると，誘導手順より誤差も費用も良くなった
+（126 秒で 0.02172）。昇順走査は，内在次元推定も参照モデルも用いずに，
+誘導手順とまったく同じ次元と誤差を 182 秒で返した。費用は 4 分の 1 である。
+
+他の 2 データセットでは誘導手順はまったく適用されなかった。
+推定段階が全シードで信頼性検査に失敗し，通常探索へ切り替わった。
+CIFAR-10 ではその切り替え先自体が不安定だった（$131.2 \pm 113.9$）。
+昇順走査は両者で成功し，dSprites で $20.0 \pm 4.0$，CIFAR-10 で $24.0 \pm 0.0$ を選んだ。
+
+\subsection{内在次元推定の感度}\label{sec:res_id}
+
+誘導手順が依拠する量は，データだけの性質ではない。dSprites では入力空間で 7.70，
+階数を上げた主成分空間で 2.68 から 4.32，3 つの容量の参照自己符号化器を通して
+2.08 から 4.56 である。単一データセット上で 3.7 倍の開きがある。
+MNIST での対応する幅は 1.7 倍である。2 つの推定量の相対的な食い違いは，
+dSprites で標本 1000 点の 0.068 から 10000 点の 0.885 へ，
+CIFAR-10 で 0.063 から 0.686 へ増大する。
+
+\subsection{閾値による支配とその序列}\label{sec:res_threshold}
+
+正則化重みを 5 通りに変えると，各手法が選択する次元が動く。
+その幅を英語版の表 3 に示す。幅は 2 桁以上異なり，平均で 0 から 72.2 までである。
+比較の中で最も素朴な規則である再構成基準の全探索でさえ平均 41.7 であり，
+正則化重みを固定すれば最適次元が定まるという前提は，そこでさえ成立しない。
+誘導手順は 64.4 で，CIFAR-10 の値に押し上げられている。
+そこでは切り替え先の探索の不安定性を引き継いでいる。
+
+1 つの手法は平坦である。自動関連度の変種は，どのデータセットのどの段でも
+同一の値を返す。変化させるべき自由閾値を持たず，各軸の関連度を
+データに当てはめた階層事前から読むからである。検討した他のすべての手法は
+大きく動く。本研究の最も明確な単一の結果はこれである。問うべきは，
+選択規則が自由パラメータを持つかどうかではなく，答えがそれにどれだけ強く依存するかである。
+
+\subsection{活性度読み取りの安定性}\label{sec:res_au}
+
+同じ checkpoint から計算される 2 つの読み取りを比較した。事後平均が分散を保つ
+潜在座標の数と，公表済みアルゴリズムが用いる変数型分類である。
+いずれも学習初期に不安定で，いずれも終期には安定する。最終 checkpoint では
+両者は近い値に一致するので，一方が他方より安定であるという主張は支持されない。
+最も早い checkpoint では，ある条件で序列はむしろ逆転する。
+
+活性度の読み取りは，それ自身の閾値に支配される。自然画像では，
+広く用いられている閾値の範囲内で判定が反転する。小さい側では
+どの容量でも遮断が検出されず，大きい側では容量が 256 まで増えても 23 から 32 で飽和する。
+表現の尺度で閾値を正規化してもこの依存性は消えず，再パラメータ化されるだけである。
+
+活性度の読み取りが他の診断にない情報を持つかも，事前に定義した未使用条件上の
+予測課題で問うた。事前登録した規則は肯定的な判定を返した。
+同じ基底に同数の無作為特徴量を加える対照は，それと区別できない改善を生んだ。
+したがって，事前登録した検定にはその改善を読み取りに帰属させる検出力がなかったと報告し，
+増分価値は主張しない。
+
+\subsection{自然画像}\label{sec:res_natural}
+
+誘導手順を実行した MNIST 以外の 2 データセットでは，推定段階が全シードで
+自身の信頼性検査に失敗し，手順は適用を見送って事前宣言した通常探索へ切り替えた。
+切り替え先は自然画像上でそれ自体が不安定だった。手順が成功したのは
+開発に用いたデータセットだけである。したがって自然画像への適用可能性は主張しない。
+
+dSprites では 3 つの参照モデルが 3.96，3.91，2.10 という推定値を与え，
+相対範囲 0.474 は基準 0.15 に対して大きく，2 つの推定量は基準 0.25 に対して
+1.816 だけ食い違った。CIFAR-10 でも同様に検査に失敗した。
+いずれの場合も手順は全 5 シードで信頼不能の状態を返した。
+
+\subsection{実装上の失敗様式}\label{sec:res_failures}
+
+本研究の過程で 3 つの欠陥が表面化した。いずれも同じ種類である。
+和が平均として書かれていた，あるいはその逆で，目的関数の 2 つの項が
+次元数の程度の係数で相対的に重みづけられていた。いずれも学習を破綻させず，
+もっともらしい曲線を生み，報告される数値からは見えなかった。
+
+第一は我々自身の目的関数にあり，旧版のすべての変分実験に影響した。
+発散項が潜在次元についても平均され，再構成項は入力次元について和をとっていたため，
+実効的な重みは公称の重みを容量で割ったものになっていた。
+旧版が報告した活性数の容量依存性は，それをこの比の関数として読み替えることで
+1.7 以内で再現される。第二は剪定法の再実装に現れた。再構成制約が画素平均として
+評価されていたが，原典は画素についての和として定義している。
+釣り合うべき項より入力次元の分だけ小さくなり，この手法は満たしていると報告する制約を
+破りながら 64 次元から 1 次元まで剪定した。第三は，公表済みアルゴリズムが
+2 つある宣言済み設定の一方のもとで，原著者らが用いるエポック予算のもと
+MNIST で全 5 シードにわたり活性数 0 を返す退化である。
+これは忠実に再現したうえでそのように報告するのであって，その研究の誤りとしては扱わない。
 
 \section{考察}\label{sec:discussion}
-% 英語版 §7 に対応（4 小節）
-% TODO(text)
+
+\subsection{比較が示すもの}\label{sec:disc_main}
+
+本研究が答えようとした問いは，利用可能な信号のうちどれが潜在次元の選択を支えるか
+であった。ここで集めた証拠のもとでは，内在次元推定は支えない。
+取得が高価であり，計算する表現に依存し，それを完全に無視する探索のほうが
+早く同じ答えに達する。活性度の読み取りも支えない。学習が終われば代替の読み取りと
+一致し，自然画像上での判定は自身の閾値で反転し，事前に設計した予測課題では
+同数の無作為特徴量と区別できなかった。
+
+残るのは手法というより測定である。検討したほぼすべての規則が自由パラメータに支配され，
+選択される次元はそのパラメータが変わると数倍動く。幅は手法間で 2 桁異なり，
+序列はデータセットをまたいで再現する。その序列が，本研究で見出した最も転移する量である。
+
+\subsection{既存研究との関係}\label{sec:disc_related}
+
+読者に発見されるのではなく，率直に述べておくべき重なりが 2 点ある。
+第一に，比較対象とした内在次元アルゴリズムの付録は，短時間学習したモデルの変数型から
+次元を選ぶことを既に提案しており，これは本研究が調べようとした活性度に基づく検証と
+同じ着想である。原著者らはそれを退けており，その理由は我々の測定が再現するものである。
+第二に，改訂で追加した剪定法は，明示的な再構成制約を満たす最小の容量を既に選んでいる。
+本論文を通じて用いる品質条件はその構成そのものである。
+したがってこれを寄与として主張せず，対応を定量的に報告する。
+その手法が選択する次元は，我々が設定した制約に梯子全体にわたって追随する。
+
+\subsection{結論を変えうる条件}\label{sec:disc_limits}
+
+これらは，データセットあたり 1 つのアーキテクチャ族，1 つの候補グリッド，
+5 シード，5 通りの正則化設定のもとでの観察である。内在次元が一般に無情報であることを
+示すものではなく，これらの条件のもとでは，より安価な探索が与えないものを
+何も与えなかったことを示すにすぎない。異なる品質目標，再構成がなお急峻に改善する
+容量域，あるいは表現をまたいで推定値が安定するデータセットは，
+それぞれ均衡を変えうる。転移すると考えるのは感度の序列であって，
+個々の選択次元ではない。
+
+2 つの比較が欠けている。内在次元アルゴリズムの再実装は，公表値の存在する唯一の
+データセットでその値を再現しておらず，その値は参考欄にとどめ，差は残ったままである。
+剪定法は原著者らとは異なる勾配推定量で実装し，関連度法は周辺化事前の代わりに
+ガウス近似で実装した。どちらの逸脱も，手法を定義する箇所に明記してある。
+
+\subsection{合成データと実データ}\label{sec:disc_synth}
+
+埋め込み次元が既知の，標準化された合成多様体上では，活性度の読み取りは
+位相的議論が示唆するとおりに振る舞う。埋め込み次元で飽和し，
+それが除外する座標を 0 にしても再構成は 0.2\% 未満しか変わらない。
+本研究の旧版はある多様体で逆を報告していたが，その観察は座標を標準化しなかったことの
+人工物であった。そこでは 1 つの軸が分散の 1000 分の 2 しか担っておらず，
+ほとんど費用なしに無視できた。読み取りが機能する合成の場合と，
+判定が閾値で決まる画像データセットの場合との対比こそ，我々が持ち越す知見である。
 
 \section{むすび}\label{sec:conclusion}
-% 英語版 §8 に対応
-% TODO(text)
+
+変分自己符号化器の潜在次元を選ぶために提案されてきた信号を，
+実験の前に固定した手順のもとで，4 データセット・5 シード・5 通りの正則化設定にわたって
+比較した。内在次元推定による誘導は，同じ品質条件のもとでの昇順探索に対して
+測定可能な利点を与えず，開発に用いなかった画像データセットでは適用を見送った。
+活性度に基づく読み取りは，改善対象であったはずの代替より安定ではなく，
+同数の無作為特徴量を超える情報を持たなかった。よく転移した品質条件は本研究のものではなく，
+既存の剪定法が用いる制約と一致する。
+
+提供できるのは手法ではなく測定である。各規則の答えが自由パラメータにどれだけ強く
+依存するかの再現可能な序列であり，一方の端には 0 の手法があり，
+他方には同じデータ上で 100 次元を超えて動く手法がある。
+あわせて，集計結果からは見えず，これらの手法を再実装する者が遭遇しうる，
+単一の型の実装上の欠陥を 3 件記録する。
+
+\begin{thebibliography}{999}
+
+\bibitem{kingma2014vae}
+Kingma, D.P.; Welling, M.
+Auto-encoding variational Bayes.
+In \textit{Proceedings of the 2nd International Conference on Learning
+Representations (ICLR)}, Banff, AB, Canada, 14--16 April 2014.
+arXiv:1312.6114.
+
+\bibitem{higgins2017betavae}
+Higgins, I.; Matthey, L.; Pal, A.; Burgess, C.; Glorot, X.; Botvinick, M.;
+Mohamed, S.; Lerchner, A.
+$\beta$-VAE: Learning basic visual concepts with a constrained variational
+framework.
+In \textit{Proceedings of the 5th International Conference on Learning
+Representations (ICLR)}, Toulon, France, 24--26 April 2017.
+
+\bibitem{bengio2013representation}
+Bengio, Y.; Courville, A.; Vincent, P.
+Representation learning: A review and new perspectives.
+\textit{IEEE Trans.\ Pattern Anal.\ Mach.\ Intell.} \textbf{2013},
+\textit{35}, 1798--1828. https://doi.org/10.1109/TPAMI.2013.50.
+
+\bibitem{fefferman2016manifold}
+Fefferman, C.; Mitter, S.; Narayanan, H.
+Testing the manifold hypothesis.
+\textit{J.\ Am.\ Math.\ Soc.} \textbf{2016}, \textit{29}, 983--1049.
+https://doi.org/10.1090/jams/852.
+
+\bibitem{tenenbaum2000isomap}
+Tenenbaum, J.B.; de Silva, V.; Langford, J.C.
+A global geometric framework for nonlinear dimensionality reduction.
+\textit{Science} \textbf{2000}, \textit{290}, 2319--2323.
+https://doi.org/10.1126/science.290.5500.2319.
+
+\bibitem{roweis2000lle}
+Roweis, S.T.; Saul, L.K.
+Nonlinear dimensionality reduction by locally linear embedding.
+\textit{Science} \textbf{2000}, \textit{290}, 2323--2326.
+https://doi.org/10.1126/science.290.5500.2323.
+
+\bibitem{tippingbishop1999ppca}
+Tipping, M.E.; Bishop, C.M.
+Probabilistic principal component analysis.
+\textit{J.\ R.\ Stat.\ Soc.\ Ser.\ B} \textbf{1999}, \textit{61}, 611--622.
+https://doi.org/10.1111/1467-9868.00196.
+
+\bibitem{bishop1999bayesian}
+Bishop, C.M.
+Bayesian PCA.
+In \textit{Advances in Neural Information Processing Systems}, Vol.~11,
+1999; pp.~382--388.
+
+\bibitem{facco2017twonn}
+Facco, E.; d'Errico, M.; Rodriguez, A.; Laio, A.
+Estimating the intrinsic dimension of datasets by a minimal neighborhood
+information.
+\textit{Sci.\ Rep.} \textbf{2017}, \textit{7}, 12140.
+https://doi.org/10.1038/s41598-017-11873-y.
+
+\bibitem{levina2005mle}
+Levina, E.; Bickel, P.J.
+Maximum likelihood estimation of intrinsic dimension.
+In \textit{Advances in Neural Information Processing Systems (NeurIPS)},
+Vol.~17, 2005.
+
+\bibitem{ceruti2014danco}
+Ceruti, C.; Bassis, S.; Rozza, A.; Lombardi, G.; Casiraghi, E.;
+Campadelli, P.
+DANCo: An intrinsic dimensionality estimator exploiting angle and norm
+concentration.
+\textit{Pattern Recognit.} \textbf{2014}, \textit{47}, 2569--2581.
+https://doi.org/10.1016/j.patcog.2014.02.013.
+
+\bibitem{johnsson2015ess}
+Johnsson, K.; Soneson, C.; Fontes, M.
+Low bias local intrinsic dimension estimation from expected simplex
+skewness.
+\textit{IEEE Trans.\ Pattern Anal.\ Mach.\ Intell.} \textbf{2015},
+\textit{37}, 196--202. https://doi.org/10.1109/TPAMI.2014.2343220.
+
+\bibitem{camastra2016intrinsic}
+Camastra, F.; Staiano, A.
+Intrinsic dimension estimation: Advances and open problems.
+\textit{Inf.\ Sci.} \textbf{2016}, \textit{328}, 26--41.
+https://doi.org/10.1016/j.ins.2015.08.029.
+
+\bibitem{allegra2020data}
+Allegra, M.; Facco, E.; Denti, F.; Laio, A.; Mira, A.
+Data segmentation based on the local intrinsic dimension.
+\textit{Sci.\ Rep.} \textbf{2020}, \textit{10}, 16449.
+https://doi.org/10.1038/s41598-020-72222-0.
+
+\bibitem{costa2004geodesic}
+Costa, J.A.; Hero, A.O.
+Geodesic entropic graphs for dimension and entropy estimation in manifold
+learning.
+\textit{IEEE Trans.\ Signal Process.} \textbf{2004}, \textit{52},
+2210--2221. https://doi.org/10.1109/TSP.2004.831130.
+
+\bibitem{ansuini2019intrinsic}
+Ansuini, A.; Laio, A.; Macke, J.H.; Zoccolan, D.
+Intrinsic dimension of data representations in deep neural networks.
+In \textit{NeurIPS 2019}, Vol.~32, 2019.
+
+\bibitem{pope2021intrinsic}
+Pope, P.; Zhu, C.; Abdelkader, A.; Goldblum, M.; Goldstein, T.
+The intrinsic dimension of images and its impact on learning.
+In \textit{ICLR 2021}, 2021.
+
+\bibitem{bonheme2022fondue}
+Bonheme, L.; Grzes, M.
+FONDUE: An algorithm to find the optimal dimensionality of the latent
+representations of variational autoencoders.
+arXiv \textbf{2022}, arXiv:2209.12806.
+https://doi.org/10.48550/arXiv.2209.12806.
+
+\bibitem{bonheme2023active}
+Bonheme, L.; Grzes, M.
+Be more active! Understanding the differences between mean and sampled
+representations of variational autoencoders.
+\textit{J.\ Mach.\ Learn.\ Res.} \textbf{2023}, \textit{24}, 1--30.
+
+\bibitem{deboom2020geco}
+De Boom, C.; Wauthier, S.; Verbelen, T.; Dhoedt, B.
+Dynamic narrowing of VAE bottlenecks using GECO and $L_0$ regularization.
+arXiv \textbf{2020}, arXiv:2003.10901.
+https://doi.org/10.48550/arXiv.2003.10901.
+
+\bibitem{rezende2018geco}
+Rezende, D.J.; Viola, F.
+Taming VAEs.
+arXiv \textbf{2018}, arXiv:1810.00597.
+https://doi.org/10.48550/arXiv.1810.00597.
+
+\bibitem{louizos2018l0}
+Louizos, C.; Welling, M.; Kingma, D.P.
+Learning sparse neural networks through $L_0$ regularization.
+In \textit{Proceedings of the 6th International Conference on Learning
+Representations (ICLR)}, Vancouver, BC, Canada, 30 April--3 May 2018.
+arXiv:1712.01312.
+
+\bibitem{saha2025ardvae}
+Saha, S.; Joshi, S.; Whitaker, R.
+ARD-VAE: A statistical formulation to find the relevant latent dimensions
+of variational autoencoders.
+arXiv \textbf{2025}, arXiv:2501.10901.
+https://doi.org/10.48550/arXiv.2501.10901.
+
+\bibitem{lucas2019elbo}
+Lucas, J.; Tucker, G.; Grosse, R.B.; Norouzi, M.
+Don't blame the ELBO! A linear VAE perspective on posterior collapse.
+In \textit{NeurIPS 2019}, Vol.~32, 2019.
+
+\bibitem{burda2016iwae}
+Burda, Y.; Grosse, R.; Salakhutdinov, R.
+Importance weighted autoencoders.
+In \textit{Proceedings of the 4th International Conference on Learning
+Representations (ICLR)}, San Juan, Puerto Rico, 2--4 May 2016.
+arXiv:1509.00519.
+
+\bibitem{hoffman2016elbo}
+Hoffman, M.D.; Johnson, M.J.
+{ELBO} surgery: Yet another way to carve up the variational evidence lower
+bound.
+In \textit{NIPS Workshop on Advances in Approximate Bayesian Inference},
+Barcelona, Spain, 2016.
+
+\bibitem{fu2019cyclical}
+Fu, H.; Tan, C.; Peng, B.; Zhao, Z.; Yan, T.; Chang, C.; Zhao, L.
+Cyclical annealing schedule: A simple approach to mitigating {KL} vanishing.
+In \textit{Proceedings of NAACL-HLT 2019}, Minneapolis, MN, USA, 2019;
+pp.~240--250.
+
+\bibitem{rolinek2019pca}
+Rolinek, M.; Zietlow, D.; Martius, G.
+Variational autoencoders pursue PCA directions (by accident).
+In \textit{Proceedings of the IEEE/CVF Conference on Computer Vision and
+Pattern Recognition (CVPR)}, Long Beach, CA, USA, 15--20 June 2019;
+pp.\ 12406--12415. https://doi.org/10.1109/CVPR.2019.01269.
+
+\bibitem{hatcher2002algebraic}
+Hatcher, A.
+\textit{Algebraic Topology};
+Cambridge University Press: Cambridge, UK, 2002.
+
+\bibitem{cover2006elements}
+Cover, T.M.; Thomas, J.A.
+\textit{Elements of Information Theory}, 2nd ed.;
+Wiley-Interscience: Hoboken, NJ, USA, 2006.
+
+\bibitem{lecun1998}
+LeCun, Y.; Bottou, L.; Bengio, Y.; Haffner, P.
+Gradient-based learning applied to document recognition.
+\textit{Proc.\ IEEE} \textbf{1998}, \textit{86}, 2278--2324.
+https://doi.org/10.1109/5.726791.
+
+\bibitem{xiao2017fashion}
+Xiao, H.; Rasul, K.; Vollgraf, R.
+Fashion-{MNIST}: A Novel Image Dataset for Benchmarking Machine Learning
+Algorithms.
+\textit{arXiv} \textbf{2017}, 1708.07747.
+
+\bibitem{matthey2017dsprites}
+Matthey, L.; Higgins, I.; Hassabis, D.; Lerchner, A.
+dSprites: Disentanglement testing sprites dataset. 2017.
+Available online: https://github.com/google-deepmind/dsprites-dataset
+(accessed on 12 September 2026).
+
+\bibitem{krizhevsky2009learning}
+Krizhevsky, A.
+Learning multiple layers of features from tiny images.
+\textit{Technical Report}; University of Toronto: Toronto, ON, Canada,
+2009.
+
+\bibitem{obata2025manifold}
+Obata, C.; Jin'no, K.
+Analysis of the relationship between manifold structure and latent space
+capacity of input data using VAE.
+In \textit{Proceedings of the 2025 International Symposium on Nonlinear
+Theory and Its Applications (NOLTA2025)}, Okinawa, Japan, 27--31 October
+2025; pp. 32--35.
+
+\end{thebibliography}
 
 \end{document}
