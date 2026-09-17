@@ -567,7 +567,71 @@ succeeded on datasets where the guided procedure declined to apply.
 Figure~\ref{fig:quality_cost} shows the quality--cost trade-off with all
 regularisation settings overlaid.
 
-% TODO(text): 数値は Table D2 / MAKE49_段階4_主比較結果.md §2.1, §4 から転記
+\begin{table}[H]
+\caption{Method-level comparison at the primary regularisation setting.
+Selected dimension is mean $\pm$ SD over five independent seeds;
+reconstruction error is the per-pixel mean on the validation split for the
+final model; cost is total wall-clock including reference models,
+estimation, candidates, the reference capacity, re-search and evaluation.
+Termination states are reported in full and no trial is dropped.}
+\label{tab:methods}
+\begin{tabularx}{\textwidth}{lCCCl}
+\toprule
+\textbf{Method} & \textbf{Selected} & \textbf{Val.\ MSE} & \textbf{Cost (s)}
+& \textbf{Termination} \\
+\midrule
+\multicolumn{5}{l}{\emph{MNIST}} \\
+Grid search (reconstruction) & $12.8 \pm 6.4$ & 0.02098 & 628 & success $\times$5 \\
+FONDUE + quality target      & $8.0 \pm 0.0$  & 0.02172 & 126 & success $\times$5 \\
+FONDUE                       & $7.0 \pm 0.0$  & 0.02193 & \textbf{41} & success $\times$5 \\
+GECO + $L_0$                 & $7.2 \pm 0.4$  & 0.02240 & 215 & success $\times$5 \\
+ARD-VAE                      & $6.0 \pm 0.0$  & 0.02244 & 176 & success $\times$5 \\
+Ascending scan + target      & $6.0 \pm 0.0$  & 0.02244 & 182 & success $\times$5 \\
+ID-guided + target           & $6.0 \pm 0.0$  & 0.02244 & \textbf{715} & success $\times$5 \\
+\midrule
+\multicolumn{5}{l}{\emph{dSprites}} \\
+Grid search (reconstruction) & $57.6 \pm 14.3$ & 0.00116 & 2565 & success $\times$5 \\
+Ascending scan + target      & $20.0 \pm 4.0$  & 0.00126 & 1797 & success $\times$5 \\
+FONDUE + quality target      & $20.0 \pm 4.0$  & 0.00126 & 1676 & success $\times$4, budget $\times$1 \\
+ARD-VAE                      & $9.2 \pm 1.5$   & 0.00192 & 792  & success $\times$5 \\
+FONDUE                       & $4.2 \pm 0.4$   & 0.00550 & 141  & success $\times$5 \\
+GECO + $L_0$                 & $64.0 \pm 0.0$  & 0.00117 & 969  & success $\times$5 \\
+ID-guided + target           & $64.0 \pm 0.0$  & 0.00117 & 1001 & \textbf{unreliable $\times$5} \\
+\midrule
+\multicolumn{5}{l}{\emph{CIFAR-10}} \\
+Grid search (reconstruction) & $140.8 \pm 53.5$ & 0.01383 & 428 & success $\times$5 \\
+Ascending scan + target      & $24.0 \pm 0.0$   & 0.01512 & \textbf{157} & success $\times$5 \\
+FONDUE + quality target      & $24.0 \pm 0.0$   & 0.01512 & 133 & success $\times$5 \\
+GECO + $L_0$                 & $20.0 \pm 1.0$   & 0.01629 & 400 & success $\times$5 \\
+FONDUE                       & $14.4 \pm 0.5$   & 0.01779 & 57  & success $\times$5 \\
+ARD-VAE                      & $14.2 \pm 0.4$   & 0.01709 & 314 & success $\times$5 \\
+ID-guided + target           & $131.2 \pm 113.9$ & 0.01401 & 499 & \textbf{unreliable $\times$5} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+On MNIST the guided procedure cost 715~s, more than any other method we
+ran and 17 times the 41~s of the selection algorithm we compare against,
+while reaching a slightly worse reconstruction error (0.02244 against
+0.02193). Adding the quality target to that algorithm gave both a better
+error and a lower cost than the guided procedure (0.02172 at 126~s). The
+ascending scan returned exactly the same dimension and the same error as
+the guided procedure at 182~s, a quarter of its cost, using no
+intrinsic-dimension estimate and no reference models.
+
+On the other two datasets the guided procedure did not apply at all: its
+estimation step failed the reliability check on every seed and it fell
+back to a conventional search, which on CIFAR-10 was itself unstable
+($131.2 \pm 113.9$). The ascending scan succeeded on both, selecting
+$20.0 \pm 4.0$ on dSprites and $24.0 \pm 0.0$ on CIFAR-10.
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{results/figures/MAKE49_FigH_quality_cost_beta.pdf}
+\caption{Reconstruction error against total cost, with all five
+regularisation settings overlaid. Five seeds per point; both axes
+logarithmic.}
+\label{fig:quality_cost}
+\end{figure}
 
 \subsection{Sensitivity of the Intrinsic-Dimension Estimate}\label{sec:res_id}
 
@@ -586,7 +650,20 @@ on a quantity that is free to choose. We fixed the sample size before
 seeing any result, and we report the dependence rather than selecting the
 value that would have let the procedure proceed.
 
-% TODO(text): 数値は MAKE49_段階5_結果.md E3-1〜E3-5 から転記
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{results/figures/MAKE49_FigC_id_dependence.pdf}
+\caption{The intrinsic-dimension estimate as a function of the estimation
+sample size (left) and of the preprocessing representation (right).}
+\label{fig:id_dependence}
+\end{figure}
+
+On dSprites the estimate is 7.70 in the input space, between 2.68 and 4.32
+in principal-component spaces of increasing rank, and between 2.08 and
+4.56 through trained reference autoencoders of three capacities: a range
+of 3.7 to one on a single dataset. On MNIST the corresponding range is 1.7
+to one. The relative disagreement between the two estimators rises from
+0.068 at a thousand points to 0.885 at ten thousand on dSprites, and from
+0.063 to 0.686 on CIFAR-10.
 
 \subsection{Threshold Governance and Its Ordering}\label{sec:res_threshold}
 
@@ -606,7 +683,44 @@ the clearest single result of the study: the question is not whether a
 selection rule has a free parameter, but how strongly the answer depends
 on it.
 
-% TODO(text): 数値は Table F から転記。4 データ揃い次第確定
+\begin{table}[H]
+\caption{Span of the selected dimension across five regularisation
+settings, by method and dataset. Smaller is less governed by the free
+parameter; five seeds per setting.}
+\label{tab:threshold_span}
+\begin{tabularx}{\textwidth}{lCCCCC}
+\toprule
+\textbf{Method} & \textbf{MNIST} & \textbf{Fashion} & \textbf{dSprites}
+& \textbf{CIFAR-10} & \textbf{Mean} \\
+\midrule
+Fixed dimension          & 0.0  & 0.0  & 0.0   & 0.0   & \textbf{0.0} \\
+ARD-VAE                  & 0.0  & 0.0  & 0.0   & 0.0   & \textbf{0.0} \\
+FONDUE                   & 3.8  & 0.8  & 0.8   & 8.8   & 3.5 \\
+GECO + $L_0$             & 8.8  & 2.0  & 0.0   & 34.2  & 11.2 \\
+Ascending scan + target  & 6.0  & 3.6  & 15.2  & 52.8  & 19.4 \\
+FONDUE + quality target  & 3.6  & 1.6  & 28.0  & 44.8  & 19.5 \\
+Grid search              & 14.8 & 20.8 & 40.0  & 91.2  & 41.7 \\
+ID-guided + target       & 6.0  & 37.2 & 0.0   & 214.4 & 64.4 \\
+Coarse search            & 33.6 & 37.2 & 0.0   & 214.4 & 71.3 \\
+FONDUE-VAR               & 50.6 & 63.0 & 106.2 & 68.8  & \textbf{72.2} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{results/figures/MAKE49_FigG_beta_dependence.pdf}
+\caption{Selected dimension against the regularisation weight, five seeds,
+error bars are standard deviations. The automatic-relevance method is flat
+on every dataset.}
+\label{fig:beta_dependence}
+\end{figure}
+
+The spans differ by more than two orders of magnitude, from zero to 72.2
+on average. Grid search under a reconstruction criterion, the least
+elaborate rule in the comparison, has a mean span of 41.7: the premise
+that fixing the regularisation weight fixes an optimal dimension does not
+hold even there. The guided procedure sits at 64.4, inflated by CIFAR-10,
+where it inherits the instability of the search it falls back to.
 
 \subsection{Stability of the Activity Readout}\label{sec:res_au}
 
@@ -634,7 +748,22 @@ an improvement that cannot be distinguished from it. We therefore report
 that the pre-registered test lacked the power to attribute the improvement
 to the readout, and we do not claim incremental value.
 
-% TODO(text): 数値は MAKE49_段階3_E7a_E2結果.md, 段階5 E4-1/E4-5 から転記
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{results/figures/MAKE49_FigD_delta_sensitivity.pdf}
+\caption{Activity count against capacity for three settings of the
+activity threshold. On CIFAR-10 the verdict reverses between the smallest
+and largest setting.}
+\label{fig:delta_sensitivity}
+\end{figure}
+
+On CIFAR-10 at the smallest threshold the count equals capacity in every
+condition we ran, so no truncation is detected anywhere; at the largest it
+saturates between 23 and 32 while capacity grows to 256. The
+pre-registered prediction task gave a mean improvement in area under the
+curve of $+0.108$ with a bootstrap interval of $[+0.059, +0.157]$,
+which the registered rule reads as incremental value; a control adding
+three random features to the same baseline gave $+0.098$ with interval
+$[-0.025, +0.227]$, which the first interval does not exclude.
 
 \subsection{Natural Images}\label{sec:res_natural}
 
@@ -645,7 +774,11 @@ conventional search. The fallback was itself unstable on natural images.
 The procedure succeeded only on the dataset used for development. We
 therefore do not claim applicability to natural images.
 
-% TODO(text): 数値は MAKE49_段階5_結果.md E5-1〜E5-4 から転記
+On dSprites the three reference models gave estimates of 3.96, 3.91 and
+2.10, a relative range of 0.474 against a criterion of 0.15, and the two
+estimators disagreed by 1.816 against a criterion of 0.25. On CIFAR-10 the
+checks failed likewise. In both cases the procedure returned the
+unreliable state on all five seeds.
 
 \subsection{Implementation Failure Modes}\label{sec:res_failures}
 
@@ -666,7 +799,19 @@ guard against them, because this class of defect is invisible in
 aggregate results and is a realistic hazard for anyone re-implementing
 these methods.
 
-% TODO(text): 数値は MAKE49_段階1_監査結果.md A1, 段階7 §1, 段階4 §2.6 から転記
+In the first case the divergence term was averaged over latent dimensions
+as well as over the batch while the reconstruction term was summed over
+input dimensions, so the effective weight was the nominal weight divided
+by the capacity. The previously reported dependence of the activity count
+on capacity is reproduced to within 1.7 units by re-reading it as a
+function of that ratio. In the second, a reconstruction constraint was
+evaluated as a per-pixel mean where its source defines it as a sum over
+pixels, leaving it smaller by the input dimension than the term it was
+meant to balance; the method then pruned from 64 dimensions to 1 while
+violating the constraint it reports satisfying. In the third, the
+variable-type algorithm under one of its two declared settings returns an
+active count of zero on MNIST at the epoch budget its authors use, on all
+five seeds.
 
 \section{Discussion}\label{sec:discussion}
 
