@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.3.23)  18 SEP 2026 08:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.3.23)  18 SEP 2026 09:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1063,7 +1063,7 @@ Package: seqsplit 2006/08/07 v0.1 Splitting long sequences (DNA, RNA, proteins,
 \cellWidthZ=\skip196
 )
 Package translations Info: No language package found. I am going to use `englis
-h' as default language. on input line 325.
+h' as default language. on input line 326.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2024-01-20 v7.01h Hypertext links for LaTeX
@@ -1196,7 +1196,7 @@ Package cleveref Info: always capitalise cross-reference names on input line 78
 Package cleveref Info: no abbreviation of names on input line 7852.
 )
 LaTeX Font Info:    Trying to load font information for T1+ppl on input line 32
-5.
+6.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ppl.fd
 File: t1ppl.fd 2001/06/04 font definitions for T1/ppl.
@@ -1204,24 +1204,24 @@ File: t1ppl.fd 2001/06/04 font definitions for T1/ppl.
 (./main_paper_MAKE49.aux)
 \openout1 = `main_paper_MAKE49.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 325.
-LaTeX Font Info:    ... okay on input line 325.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 325.
-LaTeX Font Info:    ... okay on input line 325.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 325.
-LaTeX Font Info:    ... okay on input line 325.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 325.
-LaTeX Font Info:    ... okay on input line 325.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 325.
-LaTeX Font Info:    ... okay on input line 325.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 325.
-LaTeX Font Info:    ... okay on input line 325.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 325.
-LaTeX Font Info:    ... okay on input line 325.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 325.
-LaTeX Font Info:    ... okay on input line 325.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 325.
-LaTeX Font Info:    ... okay on input line 325.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 326.
+LaTeX Font Info:    ... okay on input line 326.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 326.
+LaTeX Font Info:    ... okay on input line 326.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 326.
+LaTeX Font Info:    ... okay on input line 326.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 326.
+LaTeX Font Info:    ... okay on input line 326.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 326.
+LaTeX Font Info:    ... okay on input line 326.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 326.
+LaTeX Font Info:    ... okay on input line 326.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 326.
+LaTeX Font Info:    ... okay on input line 326.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 326.
+LaTeX Font Info:    ... okay on input line 326.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 326.
+LaTeX Font Info:    ... okay on input line 326.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -1237,19 +1237,19 @@ LaTeX Font Info:    ... okay on input line 325.
 \makeMPintoPDFobject=\count392
 \everyMPtoPDFconversion=\toks63
 )
-LaTeX Info: Redefining \microtypecontext on input line 325.
-Package microtype Info: Applying patch `item' on input line 325.
-Package microtype Info: Applying patch `toc' on input line 325.
-Package microtype Info: Applying patch `eqnum' on input line 325.
-Package microtype Info: Applying patch `footnote' on input line 325.
-Package microtype Info: Applying patch `verbatim' on input line 325.
+LaTeX Info: Redefining \microtypecontext on input line 326.
+Package microtype Info: Applying patch `item' on input line 326.
+Package microtype Info: Applying patch `toc' on input line 326.
+Package microtype Info: Applying patch `eqnum' on input line 326.
+Package microtype Info: Applying patch `footnote' on input line 326.
+Package microtype Info: Applying patch `verbatim' on input line 326.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 325.
+LaTeX Info: Redefining \showhyphens on input line 326.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -1262,7 +1262,7 @@ File: translations-basic-dictionary-english.trsl (english translation file `tra
 nslations-basic-dictionary')
 )
 Package translations Info: loading dictionary `translations-basic-dictionary' f
-or `english'. on input line 325.
+or `english'. on input line 326.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: hyperref package is loaded.
@@ -1305,63 +1305,63 @@ Package caption Info: End \AtBeginDocument code.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 Package newfloat Info: `float' package detected.
-Package hyperref Info: Link coloring ON on input line 325.
+Package hyperref Info: Link coloring ON on input line 326.
 (./main_paper_MAKE49.out) (./main_paper_MAKE49.out)
 \@outlinefile=\write4
 \openout4 = `main_paper_MAKE49.out'.
 
 LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 3
-25.
+26.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
 )
 LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 3
-25.
+26.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
 )
 LaTeX Font Info:    Trying to load font information for OML+zplm on input line 
-325.
+326.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omlzplm.fd
 File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
 )
 LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 
-325.
+326.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omszplm.fd
 File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
 )
 LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 
-325.
+326.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omxzplm.fd
 File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 325.
+(Font)              scaled to size 10.42007pt on input line 326.
 
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 325.
+(Font)              scaled to size 7.91925pt on input line 326.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 325.
+(Font)              scaled to size 6.25204pt on input line 326.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 325.
+(Font)              scaled to size 10.42007pt on input line 326.
 
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 325.
+(Font)              scaled to size 7.91925pt on input line 326.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 325.
+(Font)              scaled to size 6.25204pt on input line 326.
 LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 
-325.
+326.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
@@ -1374,16 +1374,16 @@ Package microtype Info: Loading generic protrusion settings for font family
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-eur.cfg
 File: mt-eur.cfg 2006/07/31 v1.1 microtype config. file: AMS Euler Roman (RS)
 )
-LaTeX Font Info:    Redeclaring symbol font `AMSb' on input line 325.
+LaTeX Font Info:    Redeclaring symbol font `AMSb' on input line 326.
 LaTeX Font Info:    Overwriting symbol font `AMSb' in version `normal'
-(Font)                  U/msb/m/n --> U/msb/m/n on input line 325.
+(Font)                  U/msb/m/n --> U/msb/m/n on input line 326.
 LaTeX Font Info:    Overwriting symbol font `AMSb' in version `bold'
-(Font)                  U/msb/m/n --> U/msb/m/n on input line 325.
+(Font)                  U/msb/m/n --> U/msb/m/n on input line 326.
 Package marginnote Info: Margin note 1.1 is on absolute page 1 on input line 32
-5.
-Package marginnote Info: right page because not two side mode on input line 325
+6.
+Package marginnote Info: right page because not two side mode on input line 326
 .
-Package marginnote Info: xpos seems to be 167.01753pt on input line 325.
+Package marginnote Info: xpos seems to be 167.01753pt on input line 326.
 Package epstopdf Info: Source file: <Definitions/logo-mdpi.eps>
 (epstopdf)                    date: 2026-08-29 22:14:12
 (epstopdf)                    size: 563678 bytes
@@ -1393,37 +1393,37 @@ Package epstopdf Info: Source file: <Definitions/logo-mdpi.eps>
 (epstopdf)                    size: 13161 bytes
 (epstopdf)             Command: <repstopdf --outfile=Definitions/logo-mdpi-eps-
 converted-to.pdf Definitions/logo-mdpi.eps>
-(epstopdf)             \includegraphics on input line 325.
+(epstopdf)             \includegraphics on input line 326.
 Package epstopdf Info: Output file is already uptodate.
 <Definitions/logo-mdpi-eps-converted-to.pdf, id=134, 74.2775pt x 49.18375pt>
 File: Definitions/logo-mdpi-eps-converted-to.pdf Graphic file (type pdf)
 <use Definitions/logo-mdpi-eps-converted-to.pdf>
 Package pdftex.def Info: Definitions/logo-mdpi-eps-converted-to.pdf  used on in
-put line 325.
+put line 326.
 (pdftex.def)             Requested size: 42.96877pt x 28.45274pt.
 <Definitions/logo-orcid.pdf, id=136, 102.3825pt x 102.3825pt>
 File: Definitions/logo-orcid.pdf Graphic file (type pdf)
 <use Definitions/logo-orcid.pdf>
-Package pdftex.def Info: Definitions/logo-orcid.pdf  used on input line 325.
+Package pdftex.def Info: Definitions/logo-orcid.pdf  used on input line 326.
 (pdftex.def)             Requested size: 9.10509pt x 9.10466pt.
 File: Definitions/logo-orcid.pdf Graphic file (type pdf)
 <use Definitions/logo-orcid.pdf>
-Package pdftex.def Info: Definitions/logo-orcid.pdf  used on input line 325.
+Package pdftex.def Info: Definitions/logo-orcid.pdf  used on input line 326.
 (pdftex.def)             Requested size: 9.10509pt x 9.10466pt.
 File: Definitions/logo-orcid.pdf Graphic file (type pdf)
 <use Definitions/logo-orcid.pdf>
-Package pdftex.def Info: Definitions/logo-orcid.pdf  used on input line 325.
+Package pdftex.def Info: Definitions/logo-orcid.pdf  used on input line 326.
 (pdftex.def)             Requested size: 9.10509pt x 9.10466pt.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 325.
+(Font)              scaled to size 8.33606pt on input line 326.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 325.
+(Font)              scaled to size 5.21004pt on input line 326.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 325.
+(Font)              scaled to size 8.33606pt on input line 326.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 325.
+(Font)              scaled to size 5.21004pt on input line 326.
 LaTeX Font Info:    Trying to load font information for T1+cmss on input line 3
-25.
+26.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmss.fd
 File: t1cmss.fd 2023/04/13 v2.5m Standard LaTeX font definitions
@@ -1464,7 +1464,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-6.18796pt}.
 
 [3]
-Overfull \hbox (4.2103pt too wide) in paragraph at lines 532--541
+Overfull \hbox (4.2103pt too wide) in paragraph at lines 545--554
 []\T1/ppl/m/n/10 (-20) A con-tin-u-ous, self-intersection-free re-con-struc-tio
 n of data sup-ported on a $\OML/zplm/m/it/10 d$\T1/ppl/m/n/10 (-20) -dimensiona
 l
@@ -1498,15 +1498,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [6]
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 690.
+(Font)              scaled to size 9.37807pt on input line 703.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 690.
+(Font)              scaled to size 7.29405pt on input line 703.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 690.
+(Font)              scaled to size 9.37807pt on input line 703.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 690.
+(Font)              scaled to size 7.29405pt on input line 703.
 
-Overfull \hbox (0.86412pt too wide) in paragraph at lines 724--724
+Overfull \hbox (0.86412pt too wide) in paragraph at lines 737--737
  []|\T1/ppl/b/n/10 (-20) Selected| 
  []
 
@@ -1534,14 +1534,14 @@ File: results/figures/MAKE49_FigH_quality_cost_beta.pdf Graphic file (type pdf)
 
 <use results/figures/MAKE49_FigH_quality_cost_beta.pdf>
 Package pdftex.def Info: results/figures/MAKE49_FigH_quality_cost_beta.pdf  use
-d on input line 743.
+d on input line 756.
 (pdftex.def)             Requested size: 394.35522pt x 85.80704pt.
 <results/figures/MAKE49_FigC_id_dependence.pdf, id=274, 857.73512pt x 324.24399
 pt>
 File: results/figures/MAKE49_FigC_id_dependence.pdf Graphic file (type pdf)
 <use results/figures/MAKE49_FigC_id_dependence.pdf>
 Package pdftex.def Info: results/figures/MAKE49_FigC_id_dependence.pdf  used on
- input line 768.
+ input line 781.
 (pdftex.def)             Requested size: 394.35522pt x 149.07487pt.
 
 
@@ -1559,7 +1559,7 @@ E49_FigC_id_dependence.pdf>]
 File: results/figures/MAKE49_FigG_beta_dependence.pdf Graphic file (type pdf)
 <use results/figures/MAKE49_FigG_beta_dependence.pdf>
 Package pdftex.def Info: results/figures/MAKE49_FigG_beta_dependence.pdf  used 
-on input line 825.
+on input line 838.
 (pdftex.def)             Requested size: 394.35522pt x 86.69336pt.
 
 
@@ -1577,7 +1577,7 @@ File: results/figures/MAKE49_FigD_delta_sensitivity.pdf Graphic file (type pdf)
 
 <use results/figures/MAKE49_FigD_delta_sensitivity.pdf>
 Package pdftex.def Info: results/figures/MAKE49_FigD_delta_sensitivity.pdf  use
-d on input line 866.
+d on input line 879.
 (pdftex.def)             Requested size: 394.35522pt x 114.66374pt.
 
 
@@ -1598,13 +1598,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-6.18796pt}.
 
 [12]
-Underfull \hbox (badness 6625) in paragraph at lines 1039--1043
+Underfull \hbox (badness 6625) in paragraph at lines 1052--1056
 []\T1/ppl/m/n/9 (+20) Bengio, Y.; Courville, A.; Vin-cent, P. Rep-re-sen-ta-tio
 n learn-ing: A re-view and
  []
 
 
-Underfull \hbox (badness 4072) in paragraph at lines 1039--1043
+Underfull \hbox (badness 4072) in paragraph at lines 1052--1056
 \T1/ppl/m/n/9 (+20) new per-spec-tives. \T1/ppl/m/it/9 (+20) IEEE Trans. Pat-te
 rn Anal. Mach. In-tell. \T1/ppl/b/n/9 (+20) 2013\T1/ppl/m/n/9 (+20) , \T1/ppl/m
 /it/9 (+20) 35\T1/ppl/m/n/9 (+20) , 1798--1828.
@@ -1619,64 +1619,64 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-6.18796pt}.
 
 [13]
-Underfull \hbox (badness 3557) in paragraph at lines 1115--1120
+Underfull \hbox (badness 3557) in paragraph at lines 1128--1133
 []\T1/ppl/m/n/9 (+20) Costa, J.A.; Hero, A.O. Geodesic en-tropic graphs for di-
 men-sion and en-tropy es-
  []
 
 
-Underfull \hbox (badness 3260) in paragraph at lines 1115--1120
+Underfull \hbox (badness 3260) in paragraph at lines 1128--1133
 \T1/ppl/m/n/9 (+20) ti-ma-tion in man-i-fold learn-ing. \T1/ppl/m/it/9 (+20) IE
 EE Trans. Sig-nal Pro-cess. \T1/ppl/b/n/9 (+20) 2004\T1/ppl/m/n/9 (+20) , \T1/p
 pl/m/it/9 (+20) 52\T1/ppl/m/n/9 (+20) , 2210--2221.
  []
 
 
-Underfull \hbox (badness 1122) in paragraph at lines 1132--1137
+Underfull \hbox (badness 1122) in paragraph at lines 1145--1150
 []\T1/ppl/m/n/9 (+20) Bonheme, L.; Grzes, M. FON-DUE: An al-go-rithm to find th
 e op-ti-mal di-men-sion-al-ity
  []
 
 
-Underfull \hbox (badness 2126) in paragraph at lines 1145--1149
+Underfull \hbox (badness 2126) in paragraph at lines 1158--1162
 []\T1/ppl/m/n/9 (+20) De Boom, C.; Wau-thier, S.; Ver-be-len, T.; Dhoedt, B. Dy
 -namic nar-row-ing of VAE
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1145--1149
+Underfull \hbox (badness 10000) in paragraph at lines 1158--1162
 \T1/ppl/m/n/9 (+20) bot-tle-necks us-ing GECO and $\OML/zplm/m/it/9 L[]$ \T1/pp
 l/m/n/9 (+20) reg-u-lar-iza-tion. arXiv \T1/ppl/b/n/9 (+20) 2020\T1/ppl/m/n/9 (
 +20) , arXiv:2003.10901.
  []
 
 
-Overfull \hbox (57.14043pt too wide) in paragraph at lines 1151--1155
+Overfull \hbox (57.14043pt too wide) in paragraph at lines 1164--1168
 []\T1/ppl/m/n/9 (-20) Rezende, D.J.; Vi-ola, F. Tam-ing VAEs. arXiv \T1/ppl/b/n
 /9 (-20) 2018\T1/ppl/m/n/9 (-20) , arXiv:1810.00597. https://doi.org/10.48550/a
 rXiv.1810.00597. 
  []
 
 
-Underfull \hbox (badness 1194) in paragraph at lines 1164--1169
+Underfull \hbox (badness 1194) in paragraph at lines 1177--1182
 []\T1/ppl/m/n/9 (+20) Saha, S.; Joshi, S.; Whitaker, R. ARD-VAE: A sta-tis-ti-c
 al for-mu-la-tion to find the rel-
  []
 
 
-Underfull \hbox (badness 2662) in paragraph at lines 1164--1169
+Underfull \hbox (badness 2662) in paragraph at lines 1177--1182
 \T1/ppl/m/n/9 (+20) e-vant la-tent di-men-sions of vari-a-tional au-toen-coders
 . arXiv \T1/ppl/b/n/9 (+20) 2025\T1/ppl/m/n/9 (+20) , arXiv:2501.10901.
  []
 
 
-Underfull \hbox (badness 1168) in paragraph at lines 1196--1201
+Underfull \hbox (badness 1168) in paragraph at lines 1209--1214
 \T1/ppl/m/n/9 (+20) (by ac-ci-dent). In \T1/ppl/m/it/9 (+20) Pro-ceed-ings of t
 he IEEE/CVF Con-fer-ence on Com-puter Vi-sion and Pat-
  []
 
 
-Underfull \hbox (badness 2142) in paragraph at lines 1196--1201
+Underfull \hbox (badness 2142) in paragraph at lines 1209--1214
 \T1/ppl/m/it/9 (+20) tern Recog-ni-tion (CVPR)\T1/ppl/m/n/9 (+20) , Long Beach,
  CA, USA, 15--20 June 2019; pp. 12406--12415.
  []
@@ -1709,11 +1709,11 @@ Package rerunfilecheck Info: File `main_paper_MAKE49.out' has not changed.
 (rerunfilecheck)             Checksum: 5D0855DC8C4AF33275B7A5F772B63142;5365.
  ) 
 Here is how much of TeX's memory you used:
- 34496 strings out of 475662
- 642710 string characters out of 5784442
+ 34499 strings out of 475662
+ 642740 string characters out of 5784442
  1953975 words of memory out of 5000000
  55509 multiletter control sequences out of 15000+600000
- 631465 words of font info for 421 fonts, out of 8000000 for 9000
+ 631620 words of font info for 423 fonts, out of 8000000 for 9000
  264 hyphenation exceptions out of 8191
  123i,13n,124p,1014b,820s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </home/kjinno/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecss0800.37
@@ -1723,7 +1723,7 @@ re/texlive/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1
 /urw/palatino/uplri8a.pfb>
-Output written on main_paper_MAKE49.pdf (15 pages, 280884 bytes).
+Output written on main_paper_MAKE49.pdf (15 pages, 281281 bytes).
 PDF statistics:
  703 PDF objects out of 1000 (max. 8388607)
  362 compressed objects within 4 object streams

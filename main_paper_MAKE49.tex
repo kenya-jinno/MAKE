@@ -271,9 +271,8 @@
 \newcommand{\dstar}{d^{*}(\beta)}
 
 %=================================================================
-\Title{Which Signals Actually Support the Choice of a VAE Latent
-Dimension? A Pre-Registered Comparison of Intrinsic-Dimension,
-Activity-Based and Pruning Criteria}
+\Title{Intrinsic-Dimension-Guided Bottleneck Selection Revisited:
+A Common-Protocol Comparison with Existing Criteria}
 
 % ORCID IDs
 \newcommand{\orcidauthorA}{0009-0001-1209-0918} % Chika Obata
@@ -297,29 +296,31 @@ $^{1}$ \quad Department of Intelligent Systems,
 
 %=================================================================
 \abstract{%
-Choosing the latent dimension of a variational autoencoder is usually
-done by grid search. Cheaper criteria have been proposed, based on an
-intrinsic-dimension estimate of the data or on how many latent variables
-stay active after training. Under one protocol fixed in advance, we asked
-which of these signals actually supports the decision. We compared
-intrinsic-dimension guidance, two published selection algorithms, a
-pruning method with a reconstruction constraint, an automatic-relevance
-variant, grid search, coarse search and fixed dimensions, across four
-datasets, five seeds and five regularisation settings. Guidance by
-intrinsic dimension gave no measurable advantage: a plain ascending scan
-under the same quality criterion matched or beat it at lower cost on every
-dataset, and the guidance step declined to apply on two of three image
-datasets. The activity readout carried no information beyond a matched set
-of random features. Nearly every criterion was governed by a free
-threshold, and the dimension selected moves several-fold when that
-threshold varies; the ordering of methods by this sensitivity is itself
-reproducible, and one method is insensitive to it. We report these
-negative results, the sensitivity ordering, and the implementation failure
-modes we met, as the contribution.}
+Several criteria promise a cheaper choice of the latent dimension of a
+variational autoencoder than grid search: placing a search window from an
+intrinsic-dimension estimate, counting the latent variables that stay
+active after training, or pruning capacity during training under a
+reconstruction constraint or a relevance prior. Each has been evaluated on
+the datasets its authors used, but not against the others under a shared
+protocol. We provide that comparison, using a common quality target, a
+common accounting of cost, and a protocol fixed before the experiments,
+across four datasets, five seeds and five regularisation settings.
+We introduce threshold sensitivity, meaning how far the selected dimension
+moves when a criterion's free parameter is varied, as a measurable
+property. It orders the criteria reproducibly across datasets and spans
+two orders of magnitude, from one method that is insensitive to it to
+another that moves by over a hundred dimensions on the same data.
+Within this comparison, intrinsic-dimension guidance did not improve on an
+ascending scan under the same target and declined to apply on two of three
+image datasets, and the activity-based readout was neither more stable
+than the readout it refines nor distinguishable from matched random
+features in a pre-registered prediction task. We also document three
+implementation failure modes that leave training intact and results
+plausible.}
 
 \keyword{variational autoencoder; latent dimension; intrinsic dimension;
 active units; model selection; pruning; automatic relevance determination;
-reproducibility; negative results; pre-registration}
+threshold sensitivity; benchmarking; reproducibility}
 
 %=================================================================
 \begin{document}
@@ -333,53 +334,65 @@ reproducibility; negative results; pre-registration}
 
 \section{Introduction}\label{sec:intro}
 
-The latent dimension of a variational autoencoder~\cite{kingma2014vae} has to be set before
-training, and it is usually set by grid search: train a model at each
-candidate capacity and keep the one that performs best. This is reliable
-and expensive, and a number of cheaper criteria have been proposed in its
-place. Some estimate the intrinsic dimension of the data~\cite{facco2017twonn,levina2005mle}
-and use it to place a search window~\cite{bonheme2022fondue}. Others train a single large model briefly and read
-off how many latent coordinates remain in use, either from the variance of
-the posterior means~\cite{burda2016iwae} or from a classification of the
-latent variables into types~\cite{bonheme2023active}. Others again prune during training, under an explicit constraint on
-reconstruction quality~\cite{deboom2020geco} or under a prior that
-suppresses irrelevant axes~\cite{saha2025ardvae}.
+The latent dimension of a variational autoencoder~\cite{kingma2014vae} has
+to be set before training, and it is usually set by grid search: train a
+model at each candidate capacity and keep the one that performs best. This
+is reliable and expensive, and several cheaper criteria have been proposed
+in its place. Some estimate the intrinsic dimension of the
+data~\cite{facco2017twonn,levina2005mle} and use it to place a search
+window~\cite{bonheme2022fondue}. Others train a single large model briefly
+and read off how many latent coordinates remain in use, either from the
+variance of the posterior means~\cite{burda2016iwae} or from a
+classification of the latent variables into
+types~\cite{bonheme2023active}. Others again prune during training, under
+an explicit constraint on reconstruction quality~\cite{deboom2020geco} or
+under a prior that suppresses irrelevant axes~\cite{saha2025ardvae}.
 
 Each of these criteria has been reported to work on the datasets its
 authors used. What has not been established is how they behave against one
 another under a single protocol: with the same quality target, the same
 accounting of cost, the same number of seeds, and the same treatment of
-the cases where a method declines to answer. Without that, it is difficult
-to know whether a reported saving reflects the criterion or the conditions
-in which it was measured.
+the cases where a method declines to answer. Without that, a reported
+saving cannot be separated from the conditions in which it was measured.
 
-This paper reports such a comparison. We fixed the protocol in advance ---
-the quality target, the budget, the termination states, the decision rules
-and the number of seeds --- and recorded every subsequent change with its
-reason. We then ran intrinsic-dimension guidance, two published selection
-algorithms, a constrained pruning method, an automatic-relevance variant,
-grid search, coarse search and fixed dimensions across four datasets, five
-seeds and five settings of the regularisation weight.
+This paper supplies that comparison, and the contribution is of two kinds.
 
-Our results are largely negative, and we report them as the contribution.
-Guidance by an intrinsic-dimension estimate bought nothing that a plain
-ascending search under the same quality target did not, and it declined to
-apply on the datasets it was not developed on. The activity-based readout
-was no more stable than the readout it was meant to improve on, and in a
-prediction task fixed in advance it was not distinguishable from random
-features of the same number. The one criterion that transferred well is
-not ours: it coincides with a constraint already used by an existing
-pruning method, and we say so.
+The first is the comparison itself. We fixed the protocol in advance --- the
+quality target, the budget, the termination states, the decision rules and
+the number of seeds --- and recorded every subsequent change with its
+reason. We then evaluated seven published or standard criteria, together
+with grid, coarse and fixed-dimension baselines, across four datasets,
+five seeds and five settings of the regularisation weight. To our
+knowledge no previous study places these particular criteria on a common
+quality scale with a common cost model.
 
-What does emerge is a measurement. Nearly every rule we examined is
-governed by a free parameter, and the dimension it selects moves
-severalfold when that parameter is varied. The methods differ in this
-sensitivity by two orders of magnitude, the ordering reproduces across
-datasets, and one method sits at zero. We also document three
-implementation defects of a single kind --- a sum written as a mean --- that
-left training intact and the resulting curves plausible. Section~\ref{sec:results}
-presents the measurements and Section~\ref{sec:discussion} discusses what
-would change the conclusion.
+The second is a property of such criteria that the comparison makes
+visible. Almost every rule we examined carries a free parameter, and the
+dimension it selects moves when that parameter is varied. We call the size
+of that movement the \emph{threshold sensitivity} of the criterion, and we
+find that it orders the criteria reproducibly across datasets, spanning
+two orders of magnitude. One method sits at zero because it introduces no
+such parameter; plain grid search under a reconstruction criterion, the
+least elaborate rule in the comparison, does not. The useful question
+about a selection rule is therefore not whether it has a free parameter
+but how strongly its answer depends on one, and that question has a
+reproducible answer.
+
+Within this comparison, two criteria that have attracted interest did not
+support the decision. Guidance by an intrinsic-dimension estimate did not
+improve on an ascending scan under the same quality target, and its
+reliability checks declined to apply on two of the three image datasets.
+The activity-based readout was not more stable than the variable-type
+readout it was meant to refine, and in a prediction task fixed in advance
+it was not distinguishable from a matched set of random features. The
+quality target that did transfer across methods is not ours: it coincides
+with the reconstruction constraint of an existing pruning method, and we
+report the correspondence rather than claim the construction.
+
+We also document three implementation failure modes encountered in this
+work, all of the same kind and all invisible in aggregate results.
+Section~\ref{sec:results} presents the measurements and
+Section~\ref{sec:discussion} discusses what would change the conclusions.
 
 \section{Related Work}\label{sec:related}
 
