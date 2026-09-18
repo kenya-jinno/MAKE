@@ -1,0 +1,9 @@
+{
+  "choices": {
+    "MSE": 12,
+    "ELBO proxy": 12,
+    "MC ELBO": 12
+  },
+  "MC_interpretation": "Validation MSE selects width 12, the proxy selects 12, and Monte Carlo ELBO selects 12. Agreement in this run does not make the proxy an ELBO estimator.",
+  "HC_interpretation": "The final training moving-average constraint is +0.045 summed-error units, with 7 counted gates and multiplier 0.844. The transferred grid width is 6. The endpoint training constraint remains violated. This diagnostic therefore does not promote the HC implementation to a validated pruning baseline."
+}

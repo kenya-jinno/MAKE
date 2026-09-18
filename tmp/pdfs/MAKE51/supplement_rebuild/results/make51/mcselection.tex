@@ -1,0 +1,13 @@
+\begin{table}[H]
+\caption{New MNIST seed-42 capacity selection at $\beta=1$, Gaussian variance $1/2$. All criteria choose among the same twelve proxy-selected checkpoints. MSE is multiplied by $10^3$; ELBO is mean nats/example and its $\pm$ value is Monte Carlo SE ($K=32$), not a training-seed SD. Test is evaluated after validation choices are frozen.}\label{tab:mcselection}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccc@{}}
+\toprule
+Criterion & Width & Val. MSE & Test MSE & MC ELBO $\pm$ MC SE \\
+\midrule
+MSE & 12 & 20.98 & 20.43 & $-478.067 \pm 0.012$ \\
+ELBO proxy & 12 & 20.98 & 20.43 & $-478.067 \pm 0.012$ \\
+MC ELBO & 12 & 20.98 & 20.43 & $-478.067 \pm 0.012$ \\
+\bottomrule\end{tabular*}
+\end{table}

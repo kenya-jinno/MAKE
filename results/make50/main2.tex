@@ -1,0 +1,28 @@
+\begin{table}[H]
+\caption{Dimension selection at $\beta=1$ (Bernoulli for dSprites; Gaussian for CIFAR-10). Values are mean $\pm$ sample SD over five candidate-training seeds. $m_{\rm final}$ is the width of the evaluated ordinary VAE, including grid rounding for the pruning adaptations. MSE columns are multiplied by $10^3$; $Q$ counts validation target attainment. $C_{\rm train}$ is the recorded training-time account including the quality anchor, not complete wall-clock cost (Section~\ref{sec:cost}).}\label{tab:main2}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
+\toprule
+Method & $m_{\rm final}$ & Val. MSE & Test MSE & $Q$ & $C_{\rm train}$ (s) \\
+\midrule
+\multicolumn{6}{l}{\emph{dSprites}} \\
+Grid (MSE) & $57.6 \pm 14.3$ & $1.16 \pm 0.01$ & $1.15 \pm 0.01$ & 5/5 & $2565 \pm 82$ \\
+FONDUE & $4.2 \pm 0.4$ & $5.50 \pm 1.31$ & $5.42 \pm 1.28$ & 0/5 & $378 \pm 25$ \\
+FONDUE + Q & $20.0 \pm 4.0$ & $1.26 \pm 0.05$ & $1.24 \pm 0.05$ & 5/5 & $1676 \pm 224$ \\
+GECO adaptation & $64.0 \pm 0.0$ & $1.17 \pm 0.02$ & $1.16 \pm 0.03$ & 5/5 & $969 \pm 10$ \\
+ARD adaptation & $8.4 \pm 1.7$ & $1.92 \pm 0.60$ & $1.88 \pm 0.60$ & 0/5 & $1029 \pm 32$ \\
+Ascending + Q & $20.0 \pm 4.0$ & $1.26 \pm 0.05$ & $1.24 \pm 0.05$ & 5/5 & $1797 \pm 266$ \\
+ID-guided + Q & $64.0 \pm 0.0$ & $1.17 \pm 0.02$ & $1.16 \pm 0.03$ & 5/5 & $1001 \pm 38$ \\
+\midrule
+\multicolumn{6}{l}{\emph{CIFAR-10}} \\
+Grid (MSE) & $140.8 \pm 53.5$ & $13.83 \pm 0.04$ & $14.07 \pm 0.04$ & 5/5 & $428 \pm 16$ \\
+FONDUE & $14.4 \pm 0.5$ & $17.79 \pm 0.30$ & $18.10 \pm 0.30$ & 0/5 & $110 \pm 16$ \\
+FONDUE + Q & $24.0 \pm 0.0$ & $15.12 \pm 0.14$ & $15.36 \pm 0.13$ & 5/5 & $133 \pm 17$ \\
+GECO adaptation & $19.2 \pm 4.4$ & $16.29 \pm 1.18$ & $16.57 \pm 1.20$ & 2/5 & $452 \pm 14$ \\
+ARD adaptation & $16.0 \pm 0.0$ & $17.09 \pm 0.09$ & $17.39 \pm 0.08$ & 0/5 & $366 \pm 12$ \\
+Ascending + Q & $24.0 \pm 0.0$ & $15.12 \pm 0.14$ & $15.36 \pm 0.13$ & 5/5 & $157 \pm 20$ \\
+ID-guided + Q & $131.2 \pm 113.9$ & $14.01 \pm 0.13$ & $14.25 \pm 0.14$ & 5/5 & $499 \pm 18$ \\
+\bottomrule
+\end{tabular*}
+\end{table}

@@ -1,0 +1,14 @@
+\begin{table}[H]
+\caption{ID-local costs across five weights and five candidate seeds (25 tasks per dataset). Cold charges the bank each time; warm assumes an existing bank; batch allocates its training cost once across 25 tasks. All exclude unrecorded ID/evaluation overhead. Nonmono counts qualifying masks that change from pass to fail as width increases.}\label{tab:amortization}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccccc@{}}
+\toprule
+Dataset & Bank (s) & Cold (s) & Warm (s) & Batch (s) & Exact & Nonmono \\
+\midrule
+MNIST & 207.5 & 705.2 & 497.7 & 506.0 & 25/25 & 1/25 \\
+Fashion-MNIST & 207.1 & 352.9 & 145.8 & 154.1 & 25/25 & 2/25 \\
+dSprites & 295.8 & 2127.2 & 1831.4 & 1843.3 & 25/25 & 13/25 \\
+CIFAR-10 & 340.5 & 507.2 & 166.7 & 180.3 & 25/25 & 4/25 \\
+\bottomrule\end{tabular*}
+\end{table}

@@ -1,0 +1,14 @@
+\begin{table}[H]
+\caption{Retrospective paired AU comparison at $\beta=1$, using logistic decision scores to avoid saturated-probability ties. Values are means of five seed-specific AUROCs, each evaluated over all nonminimal capacities in that seed. Random features are three standard-normal columns with generator seed 7. All methods use the same rows and labels.}\label{tab:au}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
+\toprule
+Evaluation condition & Rows & Base & Base + AU & Base + random & AU $-$ random \\
+\midrule
+dSprites & 55 & 0.950 & 0.858 & 0.898 & -0.041 \\
+Fashion-MNIST & 55 & 0.980 & 1.000 & 0.880 & +0.120 \\
+CIFAR-10 & 45 & 1.000 & 1.000 & 1.000 & +0.000 \\
+\bottomrule
+\end{tabular*}
+\end{table}

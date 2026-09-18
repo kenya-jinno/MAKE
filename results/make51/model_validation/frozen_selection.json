@@ -1,0 +1,47 @@
+{
+  "choices": {
+    "MSE": 12,
+    "ELBO proxy": 12,
+    "MC ELBO": 12
+  },
+  "criterion": "validation only",
+  "specification": {
+    "date": "2026-09-19",
+    "dataset": "MNIST",
+    "grid": [
+      2,
+      4,
+      6,
+      8,
+      10,
+      12,
+      16,
+      20,
+      24,
+      32,
+      48,
+      64
+    ],
+    "training_seed": 42,
+    "max_epochs": 300,
+    "patience": 30,
+    "batch_size": 128,
+    "lr": 0.001,
+    "beta": 1,
+    "checkpoint": "best posterior-mean ELBO proxy",
+    "mc_samples": 32,
+    "mc_seed": 20260919,
+    "mc_gaussian_variance": 0.5,
+    "device": "cpu",
+    "train_curve_subset": 2000,
+    "train_curve_seed": 20260919,
+    "native_hc_seed": 42,
+    "native_hc_epochs": 300,
+    "scope": "one new seed, full MNIST grid; separate from archived CUDA results",
+    "python": "3.11.11",
+    "torch": "2.7.1",
+    "numpy": "2.3.2",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "threads": 4
+  }
+}

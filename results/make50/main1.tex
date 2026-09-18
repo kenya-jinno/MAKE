@@ -1,0 +1,28 @@
+\begin{table}[H]
+\caption{Dimension selection at $\beta=1$ (Gaussian likelihoods). Values are mean $\pm$ sample SD over five candidate-training seeds. $m_{\rm final}$ is the width of the evaluated ordinary VAE, including grid rounding for the pruning adaptations. MSE columns are multiplied by $10^3$; $Q$ counts validation target attainment. $C_{\rm train}$ is the recorded training-time account including the quality anchor, not complete wall-clock cost (Section~\ref{sec:cost}).}\label{tab:main1}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
+\toprule
+Method & $m_{\rm final}$ & Val. MSE & Test MSE & $Q$ & $C_{\rm train}$ (s) \\
+\midrule
+\multicolumn{6}{l}{\emph{MNIST}} \\
+Grid (MSE) & $12.8 \pm 6.4$ & $20.98 \pm 0.24$ & $20.50 \pm 0.26$ & 5/5 & $628 \pm 35$ \\
+FONDUE & $7.0 \pm 0.0$ & $21.93 \pm 0.77$ & $21.54 \pm 0.78$ & 5/5 & $104 \pm 8$ \\
+FONDUE + Q & $8.0 \pm 0.0$ & $21.72 \pm 0.50$ & $21.33 \pm 0.55$ & 5/5 & $126 \pm 19$ \\
+GECO adaptation & $6.4 \pm 0.9$ & $22.40 \pm 0.23$ & $22.00 \pm 0.24$ & 5/5 & $278 \pm 30$ \\
+ARD adaptation & $6.0 \pm 0.0$ & $22.44 \pm 0.15$ & $22.05 \pm 0.17$ & 5/5 & $238 \pm 37$ \\
+Ascending + Q & $6.0 \pm 0.0$ & $22.44 \pm 0.15$ & $22.05 \pm 0.17$ & 5/5 & $182 \pm 20$ \\
+ID-guided + Q & $6.0 \pm 0.0$ & $22.44 \pm 0.15$ & $22.05 \pm 0.17$ & 5/5 & $715 \pm 38$ \\
+\midrule
+\multicolumn{6}{l}{\emph{Fashion-MNIST}} \\
+Grid (MSE) & $22.8 \pm 15.6$ & $18.33 \pm 0.20$ & $18.08 \pm 0.19$ & 5/5 & $645 \pm 42$ \\
+FONDUE & $6.8 \pm 0.4$ & $19.29 \pm 0.16$ & $19.01 \pm 0.16$ & 5/5 & $100 \pm 10$ \\
+FONDUE + Q & $7.6 \pm 0.9$ & $19.00 \pm 0.33$ & $18.75 \pm 0.34$ & 5/5 & $108 \pm 15$ \\
+GECO adaptation & $4.0 \pm 0.0$ & $19.38 \pm 0.24$ & $19.06 \pm 0.25$ & 5/5 & $349 \pm 27$ \\
+ARD adaptation & $3.6 \pm 0.9$ & $20.67 \pm 2.75$ & $20.36 \pm 2.80$ & 4/5 & $261 \pm 19$ \\
+Ascending + Q & $4.0 \pm 0.0$ & $19.38 \pm 0.24$ & $19.06 \pm 0.25$ & 5/5 & $209 \pm 26$ \\
+ID-guided + Q & $6.4 \pm 3.3$ & $19.03 \pm 0.61$ & $18.73 \pm 0.57$ & 5/5 & $457 \pm 32$ \\
+\bottomrule
+\end{tabular*}
+\end{table}

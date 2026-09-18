@@ -1,0 +1,24 @@
+\begin{table}[H]
+\caption{Dimension selection at $\beta=1$ (Gaussian likelihoods). Values are mean $\pm$ sample SD over five candidate-training seeds. $m_{\rm final}$ is the width of the evaluated ordinary VAE. MSE columns are multiplied by $10^3$; $Q$ counts validation target attainment. Historical timing ledgers are separated in Appendix~\ref{app:timing}; replay costs use a single canonical snapshot.}\label{tab:main1}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccc@{}}
+\toprule
+Method & $m_{\rm final}$ & Val. MSE & Test MSE & $Q$ \\
+\midrule
+\multicolumn{5}{l}{\emph{MNIST}} \\
+Grid (MSE) & $12.8 \pm 6.4$ & $20.98 \pm 0.24$ & $20.50 \pm 0.26$ & 5/5 \\
+FONDUE & $7.0 \pm 0.0$ & $21.93 \pm 0.77$ & $21.54 \pm 0.78$ & 5/5 \\
+FONDUE + Q & $8.0 \pm 0.0$ & $21.72 \pm 0.50$ & $21.33 \pm 0.55$ & 5/5 \\
+Ascending + Q & $6.0 \pm 0.0$ & $22.44 \pm 0.15$ & $22.05 \pm 0.17$ & 5/5 \\
+Legacy ID window & $6.0 \pm 0.0$ & $22.44 \pm 0.15$ & $22.05 \pm 0.17$ & 5/5 \\
+\midrule
+\multicolumn{5}{l}{\emph{Fashion-MNIST}} \\
+Grid (MSE) & $22.8 \pm 15.6$ & $18.33 \pm 0.20$ & $18.08 \pm 0.19$ & 5/5 \\
+FONDUE & $6.8 \pm 0.4$ & $19.29 \pm 0.16$ & $19.01 \pm 0.16$ & 5/5 \\
+FONDUE + Q & $7.6 \pm 0.9$ & $19.00 \pm 0.33$ & $18.75 \pm 0.34$ & 5/5 \\
+Ascending + Q & $4.0 \pm 0.0$ & $19.38 \pm 0.24$ & $19.06 \pm 0.25$ & 5/5 \\
+Legacy ID window & $6.4 \pm 3.3$ & $19.03 \pm 0.61$ & $18.73 \pm 0.57$ & 5/5 \\
+\bottomrule
+\end{tabular*}
+\end{table}

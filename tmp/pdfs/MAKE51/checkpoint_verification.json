@@ -1,0 +1,8 @@
+{
+  "width_6_validation_mse": 0.02234303501674107,
+  "width_12_validation_mse": 0.02098269155074139,
+  "width_12_mc_elbo": -478.06732088040627,
+  "width_64_validation_mse": 0.022929652622767856,
+  "native_hc_mean_validation_mse": 0.022423793870575574,
+  "native_hc_gates": 7
+}

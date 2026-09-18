@@ -1,0 +1,31 @@
+\begin{table}[H]
+\caption{Quality anchors and targets, in units of $10^{-3}$ MSE, mean $\pm$ SD over five seeds. Each decision uses its own seed-specific target, not the displayed mean. The relative margin is 10\%; the absolute floor is inactive. Gaussian likelihood except Bernoulli dSprites.}\label{tab:anchors}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccc@{}}
+\toprule
+Dataset & $\beta$ & Anchor MSE & Target $T_{D,s}$ \\
+\midrule
+MNIST & 0.25 & $15.843 \pm 0.562$ & $17.428 \pm 0.618$ \\
+MNIST & 0.5 & $19.202 \pm 0.497$ & $21.122 \pm 0.546$ \\
+MNIST & 1 & $23.712 \pm 0.532$ & $26.084 \pm 0.585$ \\
+MNIST & 2 & $30.061 \pm 0.560$ & $33.068 \pm 0.617$ \\
+MNIST & 4 & $38.977 \pm 0.673$ & $42.875 \pm 0.740$ \\
+Fashion-MNIST & 0.25 & $15.591 \pm 0.678$ & $17.150 \pm 0.746$ \\
+Fashion-MNIST & 0.5 & $17.408 \pm 0.513$ & $19.148 \pm 0.564$ \\
+Fashion-MNIST & 1 & $19.679 \pm 0.162$ & $21.647 \pm 0.179$ \\
+Fashion-MNIST & 2 & $22.416 \pm 0.527$ & $24.658 \pm 0.580$ \\
+Fashion-MNIST & 4 & $25.967 \pm 0.587$ & $28.564 \pm 0.645$ \\
+dSprites & 0.25 & $1.015 \pm 0.032$ & $1.117 \pm 0.036$ \\
+dSprites & 0.5 & $1.040 \pm 0.032$ & $1.144 \pm 0.035$ \\
+dSprites & 1 & $1.170 \pm 0.024$ & $1.287 \pm 0.026$ \\
+dSprites & 2 & $1.453 \pm 0.038$ & $1.598 \pm 0.041$ \\
+dSprites & 4 & $2.144 \pm 0.064$ & $2.358 \pm 0.070$ \\
+CIFAR-10 & 0.25 & $9.407 \pm 0.610$ & $10.348 \pm 0.671$ \\
+CIFAR-10 & 0.5 & $11.151 \pm 0.200$ & $12.266 \pm 0.220$ \\
+CIFAR-10 & 1 & $14.064 \pm 0.108$ & $15.470 \pm 0.119$ \\
+CIFAR-10 & 2 & $17.806 \pm 0.262$ & $19.587 \pm 0.288$ \\
+CIFAR-10 & 4 & $22.399 \pm 0.286$ & $24.638 \pm 0.314$ \\
+\bottomrule
+\end{tabular*}
+\end{table}

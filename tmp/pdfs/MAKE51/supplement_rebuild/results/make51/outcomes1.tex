@@ -1,0 +1,29 @@
+\begin{table}[H]
+\caption{Outcome audit at $\beta=1$; all counts have denominator five. S: recorded success; I: ID unreliable; B: budget exceeded; D: degenerate; N: no compact alternative. FB is the fallback flag; budget, validation quality $Q$, and compression of the final VAE are independently recomputed or read from flags.}\label{tab:outcomes1}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llccccc@{}}
+\toprule
+Dataset & Method & State & FB & Budget & $Q$ & Compact \\
+\midrule
+dSprites & Grid (MSE) & S5 & 0 & 0 & 5 & 1 \\
+dSprites & FONDUE & S5 & 0 & 0 & 0 & 5 \\
+dSprites & FONDUE + Q & B1, S4 & 0 & 1 & 5 & 5 \\
+dSprites & GECO adaptation & S5 & 0 & 0 & 5 & 0 \\
+dSprites & ARD adaptation & S5 & 0 & 0 & 0 & 5 \\
+dSprites & Ascending + Q & S5 & 0 & 0 & 5 & 5 \\
+dSprites & Legacy ID window & I5 & 5 & 0 & 5 & 0 \\
+dSprites & FONDUE-VAR (mixed kept) & D1, S4 & 0 & 0 & 1 & 3 \\
+dSprites & FONDUE-VAR (active only) & D3, S2 & 0 & 0 & 0 & 2 \\
+CIFAR-10 & Grid (MSE) & S5 & 0 & 0 & 5 & 5 \\
+CIFAR-10 & FONDUE & S5 & 0 & 0 & 0 & 5 \\
+CIFAR-10 & FONDUE + Q & S5 & 0 & 0 & 5 & 5 \\
+CIFAR-10 & GECO adaptation & S5 & 0 & 0 & 2 & 5 \\
+CIFAR-10 & ARD adaptation & S5 & 0 & 0 & 0 & 5 \\
+CIFAR-10 & Ascending + Q & S5 & 0 & 0 & 5 & 5 \\
+CIFAR-10 & Legacy ID window & I5 & 5 & 0 & 5 & 3 \\
+CIFAR-10 & FONDUE-VAR (mixed kept) & S5 & 0 & 0 & 5 & 5 \\
+CIFAR-10 & FONDUE-VAR (active only) & S5 & 0 & 0 & 0 & 5 \\
+\bottomrule
+\end{tabular*}
+\end{table}

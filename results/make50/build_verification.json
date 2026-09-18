@@ -1,0 +1,22 @@
+{
+  "pages": 26,
+  "method_rows": 1600,
+  "figures": 6,
+  "compile_errors": 0,
+  "unresolved_references": 0,
+  "overfull_boxes": 0,
+  "underfull_boxes": 19,
+  "visual_review": "All 26 final rendered pages checked; algorithm heading and graph tick labels verified.",
+  "original_tracked_files_modified": false,
+  "sha256": {
+    "main_paper_MAKE50.tex": "f2430f44373c83c2f3542522de550f34117a723bd30a47d8d3607bebe2dbb9fe",
+    "main_paper_MAKE50.pdf": "9676a93440cbe2fae3cb50e2170feb87800dd5df0e3a353d0f742d8e9a04eb3d",
+    "MAKE50_revision_notes.md": "60388c54e53a906537d88c126003bffa706d48cfab04859bb521b20237adb945",
+    "results/figures/MAKE50/quality_cost.pdf": "4954970443dffb981cc1b7ee2f92c07ee87dc0702b90158dffde76b26f480590",
+    "results/figures/MAKE50/id.pdf": "1dc91911884ef9a112e7b88d9397ccc8431080938eff83c214d57cbd4fe1d43b",
+    "results/figures/MAKE50/beta.pdf": "a6232e1aca9e3c901c428b95edda9c10dad66785d41818ca7ecd9d07f15f041b",
+    "results/figures/MAKE50/learning.pdf": "6406d0d09533eaabfc2fad3e63b79515e10c18ab9fa96689a404aafee20bb76b",
+    "results/figures/MAKE50/readouts.pdf": "fcf030e5cc00d92f12452d0c1e4c76955abc7b71a35d6b044e48d28bed63938e",
+    "results/figures/MAKE50/delta.pdf": "51281f3696a59353d179209b575229a41ced2a81932a95447ad6361a0ba8b075"
+  }
+}

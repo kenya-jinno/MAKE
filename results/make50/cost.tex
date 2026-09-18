@@ -1,0 +1,18 @@
+\begin{table}[H]
+\caption{MNIST training-time decomposition at $\beta=1$ (mean seconds, five seeds). The final model is charged once and removed from the other-candidate column. ID computation and post-training evaluation were not separately timed. FONDUE epoch calibration adds 4.14 s once per dataset--$\beta$ setting and is not included below.}\label{tab:cost}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrr@{}}
+\toprule
+Method & Anchor & ID AEs & Other training & Final & Total \\
+\midrule
+Grid (MSE) & 69.3 & 0.0 & 502.0 & 56.2 & 627.5 \\
+FONDUE & 62.6 & 0.0 & 1.4 & 39.9 & 103.9 \\
+FONDUE + Q & 69.3 & 0.0 & 1.4 & 55.3 & 125.9 \\
+GECO adaptation & 62.6 & 0.0 & 175.4 & 39.6 & 277.6 \\
+ARD adaptation & 62.6 & 0.0 & 138.0 & 37.6 & 238.2 \\
+Ascending + Q & 69.3 & 0.0 & 72.8 & 39.9 & 182.0 \\
+ID-guided + Q & 69.3 & 205.5 & 400.7 & 39.9 & 715.4 \\
+\bottomrule
+\end{tabular*}
+\end{table}

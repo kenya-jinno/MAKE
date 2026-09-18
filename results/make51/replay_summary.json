@@ -1,0 +1,202 @@
+{
+  "MNIST": {
+    "Full grid Q": {
+      "selected_m": 6.0,
+      "excess_width": 0.0,
+      "requested_count": 12.0,
+      "cold_seconds": 572.3963237285614,
+      "candidate_seconds": 572.3963237285614,
+      "exact": 1.0
+    },
+    "Ascending Q": {
+      "selected_m": 6.0,
+      "excess_width": 0.0,
+      "requested_count": 4.0,
+      "cold_seconds": 177.09583134651183,
+      "candidate_seconds": 177.09583134651183,
+      "exact": 1.0
+    },
+    "Legacy window": {
+      "selected_m": 6.0,
+      "excess_width": 0.0,
+      "requested_count": 10.0,
+      "cold_seconds": 672.2802920341492,
+      "candidate_seconds": 464.8160274028778,
+      "exact": 1.0
+    },
+    "ID local": {
+      "selected_m": 6.0,
+      "excess_width": 0.0,
+      "requested_count": 9.0,
+      "cold_seconds": 635.9162775993348,
+      "candidate_seconds": 428.45201296806334,
+      "exact": 1.0
+    },
+    "Midpoint local": {
+      "selected_m": 6.0,
+      "excess_width": 0.0,
+      "requested_count": 6.0,
+      "cold_seconds": 279.08516058921816,
+      "candidate_seconds": 279.08516058921816,
+      "exact": 1.0
+    },
+    "ID certified": {
+      "selected_m": 6.0,
+      "excess_width": 0.0,
+      "requested_count": 10.0,
+      "cold_seconds": 672.2802920341492,
+      "candidate_seconds": 464.8160274028778,
+      "exact": 1.0
+    }
+  },
+  "FashionMNIST": {
+    "Full grid Q": {
+      "selected_m": 4.0,
+      "excess_width": 0.0,
+      "requested_count": 12.0,
+      "cold_seconds": 645.0891613960266,
+      "candidate_seconds": 645.0891613960266,
+      "exact": 1.0
+    },
+    "Ascending Q": {
+      "selected_m": 4.0,
+      "excess_width": 0.0,
+      "requested_count": 3.0,
+      "cold_seconds": 209.27872533798217,
+      "candidate_seconds": 209.27872533798217,
+      "exact": 1.0
+    },
+    "Legacy window": {
+      "selected_m": 6.4,
+      "excess_width": 2.4,
+      "requested_count": 4.0,
+      "cold_seconds": 456.7284295082092,
+      "candidate_seconds": 249.60682315826415,
+      "exact": 0.6
+    },
+    "ID local": {
+      "selected_m": 4.0,
+      "excess_width": 0.0,
+      "requested_count": 3.0,
+      "cold_seconds": 416.40033168792723,
+      "candidate_seconds": 209.27872533798217,
+      "exact": 1.0
+    },
+    "Midpoint local": {
+      "selected_m": 4.0,
+      "excess_width": 0.0,
+      "requested_count": 7.0,
+      "cold_seconds": 407.1359673023224,
+      "candidate_seconds": 407.1359673023224,
+      "exact": 1.0
+    },
+    "ID certified": {
+      "selected_m": 4.0,
+      "excess_width": 0.0,
+      "requested_count": 3.0,
+      "cold_seconds": 416.40033168792723,
+      "candidate_seconds": 209.27872533798217,
+      "exact": 1.0
+    }
+  },
+  "dSprites": {
+    "Full grid Q": {
+      "selected_m": 20.0,
+      "excess_width": 0.0,
+      "requested_count": 12.0,
+      "cold_seconds": 2563.397764635086,
+      "candidate_seconds": 2563.397764635086,
+      "exact": 1.0
+    },
+    "Ascending Q": {
+      "selected_m": 20.0,
+      "excess_width": 0.0,
+      "requested_count": 9.0,
+      "cold_seconds": 1796.522164916992,
+      "candidate_seconds": 1796.522164916992,
+      "exact": 1.0
+    },
+    "Legacy window": {
+      "selected_m": 64.0,
+      "excess_width": 44.0,
+      "requested_count": 4.0,
+      "cold_seconds": 999.179835510254,
+      "candidate_seconds": 703.397279214859,
+      "exact": 0.0
+    },
+    "ID local": {
+      "selected_m": 20.0,
+      "excess_width": 0.0,
+      "requested_count": 9.0,
+      "cold_seconds": 2092.304721212387,
+      "candidate_seconds": 1796.522164916992,
+      "exact": 1.0
+    },
+    "Midpoint local": {
+      "selected_m": 20.0,
+      "excess_width": 0.0,
+      "requested_count": 4.0,
+      "cold_seconds": 940.8314170360566,
+      "candidate_seconds": 940.8314170360566,
+      "exact": 1.0
+    },
+    "ID certified": {
+      "selected_m": 20.0,
+      "excess_width": 0.0,
+      "requested_count": 9.0,
+      "cold_seconds": 2092.304721212387,
+      "candidate_seconds": 1796.522164916992,
+      "exact": 1.0
+    }
+  },
+  "CIFAR10": {
+    "Full grid Q": {
+      "selected_m": 24.0,
+      "excess_width": 0.0,
+      "requested_count": 10.0,
+      "cold_seconds": 428.2531198978424,
+      "candidate_seconds": 428.2531198978424,
+      "exact": 1.0
+    },
+    "Ascending Q": {
+      "selected_m": 24.0,
+      "excess_width": 0.0,
+      "requested_count": 4.0,
+      "cold_seconds": 157.33476366996766,
+      "candidate_seconds": 157.33476366996766,
+      "exact": 1.0
+    },
+    "Legacy window": {
+      "selected_m": 131.2,
+      "excess_width": 107.2,
+      "requested_count": 4.0,
+      "cold_seconds": 499.3791262626648,
+      "candidate_seconds": 158.87351293563842,
+      "exact": 0.0
+    },
+    "ID local": {
+      "selected_m": 24.0,
+      "excess_width": 0.0,
+      "requested_count": 4.0,
+      "cold_seconds": 497.840376996994,
+      "candidate_seconds": 157.33476366996766,
+      "exact": 1.0
+    },
+    "Midpoint local": {
+      "selected_m": 24.0,
+      "excess_width": 0.0,
+      "requested_count": 5.0,
+      "cold_seconds": 212.80410318374635,
+      "candidate_seconds": 212.80410318374635,
+      "exact": 1.0
+    },
+    "ID certified": {
+      "selected_m": 24.0,
+      "excess_width": 0.0,
+      "requested_count": 4.0,
+      "cold_seconds": 497.840376996994,
+      "candidate_seconds": 157.33476366996766,
+      "exact": 1.0
+    }
+  }
+}

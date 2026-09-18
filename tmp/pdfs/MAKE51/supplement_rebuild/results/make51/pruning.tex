@@ -1,0 +1,19 @@
+\begin{table}[H]
+\caption{Raw retained counts versus transferred ordinary-VAE widths at the primary context. Constraint denotes the GECO training moving average at the final update; $Q$ denotes final ordinary-VAE validation quality. They evaluate different models and quantities. ARD has no GECO constraint.}\label{tab:pruning}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llcccc@{}}
+\toprule
+Dataset & Adaptation & Raw count & Final width & Constraint & $Q$ \\
+\midrule
+MNIST & GECO & $7.2 \pm 0.4$ & $6.4 \pm 0.9$ & 0/5 & 5/5 \\
+MNIST & ARD & $6.0 \pm 0.0$ & $6.0 \pm 0.0$ & --- & 5/5 \\
+Fashion-MNIST & GECO & $4.2 \pm 0.4$ & $4.0 \pm 0.0$ & 1/5 & 5/5 \\
+Fashion-MNIST & ARD & $3.8 \pm 0.4$ & $3.6 \pm 0.9$ & --- & 4/5 \\
+dSprites & GECO & $64.0 \pm 0.0$ & $64.0 \pm 0.0$ & 0/5 & 5/5 \\
+dSprites & ARD & $9.2 \pm 1.5$ & $8.4 \pm 1.7$ & --- & 0/5 \\
+CIFAR-10 & GECO & $20.0 \pm 1.0$ & $19.2 \pm 4.4$ & 5/5 & 2/5 \\
+CIFAR-10 & ARD & $14.2 \pm 0.4$ & $16.0 \pm 0.0$ & --- & 0/5 \\
+\bottomrule
+\end{tabular*}
+\end{table}

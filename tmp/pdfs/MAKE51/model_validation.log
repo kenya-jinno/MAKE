@@ -1,0 +1,51 @@
+MNIST m=64 epoch=50 elapsed=40.1s
+MNIST m=64 epoch=100 elapsed=80.2s
+MNIST m=64 epoch=150 elapsed=120.8s
+MNIST m=64 epoch=200 elapsed=161.2s
+COMPLETE ordinary m=64, ep=247, MC ELBO=-479.0427
+MNIST m=6 epoch=50 elapsed=38.2s
+MNIST m=6 epoch=100 elapsed=74.3s
+MNIST m=6 epoch=150 elapsed=109.9s
+COMPLETE ordinary m=6, ep=199, MC ELBO=-478.1740
+MNIST m=2 epoch=50 elapsed=37.6s
+MNIST m=2 epoch=100 elapsed=74.9s
+COMPLETE ordinary m=2, ep=111, MC ELBO=-484.3859
+MNIST m=4 epoch=50 elapsed=35.8s
+MNIST m=4 epoch=100 elapsed=71.4s
+COMPLETE ordinary m=4, ep=115, MC ELBO=-480.1077
+MNIST m=8 epoch=50 elapsed=36.9s
+MNIST m=8 epoch=100 elapsed=74.0s
+COMPLETE ordinary m=8, ep=103, MC ELBO=-478.2848
+MNIST m=10 epoch=50 elapsed=37.0s
+MNIST m=10 epoch=100 elapsed=72.1s
+COMPLETE ordinary m=10, ep=100, MC ELBO=-478.6268
+MNIST m=12 epoch=50 elapsed=36.5s
+MNIST m=12 epoch=100 elapsed=73.5s
+MNIST m=12 epoch=150 elapsed=109.9s
+MNIST m=12 epoch=200 elapsed=146.6s
+COMPLETE ordinary m=12, ep=226, MC ELBO=-478.0673
+MNIST m=16 epoch=50 elapsed=39.1s
+MNIST m=16 epoch=100 elapsed=77.1s
+COMPLETE ordinary m=16, ep=137, MC ELBO=-478.5915
+MNIST m=20 epoch=50 elapsed=46.2s
+MNIST m=20 epoch=100 elapsed=94.4s
+MNIST m=20 epoch=150 elapsed=142.5s
+COMPLETE ordinary m=20, ep=174, MC ELBO=-478.1342
+MNIST m=24 epoch=50 elapsed=46.1s
+MNIST m=24 epoch=100 elapsed=92.6s
+MNIST m=24 epoch=150 elapsed=139.2s
+COMPLETE ordinary m=24, ep=162, MC ELBO=-478.6638
+MNIST m=32 epoch=50 elapsed=47.6s
+MNIST m=32 epoch=100 elapsed=95.8s
+MNIST m=32 epoch=150 elapsed=144.4s
+COMPLETE ordinary m=32, ep=166, MC ELBO=-478.8685
+MNIST m=48 epoch=50 elapsed=45.4s
+MNIST m=48 epoch=100 elapsed=90.4s
+COMPLETE ordinary m=48, ep=144, MC ELBO=-479.3098
+HC epoch=50 C_ma=0.019 gates=7
+HC epoch=100 C_ma=0.040 gates=7
+HC epoch=150 C_ma=0.094 gates=7
+HC epoch=200 C_ma=0.042 gates=7
+HC epoch=250 C_ma=0.106 gates=7
+HC epoch=300 C_ma=0.045 gates=7
+MODEL VALIDATION COMPLETE

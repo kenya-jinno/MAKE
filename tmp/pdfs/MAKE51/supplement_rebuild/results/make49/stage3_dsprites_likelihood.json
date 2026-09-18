@@ -1,0 +1,51 @@
+{
+ "_provenance": {
+  "python_version": "3.12.3",
+  "torch_version": "2.7.1+cu118",
+  "torch_version_cuda": "11.8",
+  "cudnn_version": 90100,
+  "nvidia_driver_version": "570.211.01",
+  "gpu_name": "NVIDIA GeForce RTX 3070",
+  "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.39",
+  "code_hash": "06cd1641745f3722",
+  "loss_convention_id": "sum_recon_sum_kl_v1"
+ },
+ "_reference": {
+  "zero_prediction_sse": 173.49949645996094,
+  "mean_image_sse": 153.88230895996094
+ },
+ "runs": [
+  {
+   "likelihood": "gaussian",
+   "beta": 1.0,
+   "au": 0,
+   "val_sse_per_sample": 173.5213514404297,
+   "val_kl": 1.8866360028368945e-07,
+   "verdict": "崩壊"
+  },
+  {
+   "likelihood": "gaussian",
+   "beta": 0.25,
+   "au": 0,
+   "val_sse_per_sample": 173.51895581054688,
+   "val_kl": 2.61768695736464e-07,
+   "verdict": "崩壊"
+  },
+  {
+   "likelihood": "bernoulli",
+   "beta": 1.0,
+   "au": 14,
+   "val_sse_per_sample": 7.3006363754272465,
+   "val_kl": 28.029169708251953,
+   "verdict": "学習している"
+  },
+  {
+   "likelihood": "bernoulli",
+   "beta": 0.25,
+   "au": 16,
+   "val_sse_per_sample": 5.906027328491211,
+   "val_kl": 51.653643188476565,
+   "verdict": "学習している"
+  }
+ ]
+}

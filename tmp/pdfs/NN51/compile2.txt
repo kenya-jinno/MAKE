@@ -1,0 +1,44 @@
+This is LuaHBTeX, Version 1.24.0 (TeX Live 2026) 
+ restricted system commands enabled.
+(./main_paper_NN51.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
+
+
+luaotfload | load : FATAL ERROR
+luaotfload | load :   × Failed to load "fontloader" module "basics-gen".
+luaotfload | load :   × Error message:
+luaotfload | load :     × "...026/texmf-dist/tex/luatex/luaotfload/luaotfload-init.lua:301: system : no writeable cache path, quiting".
+
+stack traceback:
+	...ive/2026/texmf-dist/tex/luatex/luaotfload/luaotfload.lua:200: in local 'load_fontloader_module'
+	...026/texmf-dist/tex/luatex/luaotfload/luaotfload-init.lua:303: in upvalue 'init_main'
+	...026/texmf-dist/tex/luatex/luaotfload/luaotfload-init.lua:590: in function 'luaotfload-init.lua'
+	...ive/2026/texmf-dist/tex/luatex/luaotfload/luaotfload.lua:322: in field 'main'
+	[\directlua]:1: in main chunk
+
+...026/texmf-dist/tex/luatex/luaotfload/luaotfload-init.lua:301: system : no wr
+iteable cache path, quiting
+stack traceback:
+	[C]: in function 'error'
+	...026/texmf-dist/tex/luatex/luaotfload/luaotfload-init.lua:301: in function '
+os.exit'
+	...ive/2026/texmf-dist/tex/luatex/luaotfload/luaotfload.lua:203: in local 'loa
+d_fontloader_module'
+	...026/texmf-dist/tex/luatex/luaotfload/luaotfload-init.lua:303: in upvalue 'i
+nit_main'
+	...026/texmf-dist/tex/luatex/luaotfload/luaotfload-init.lua:590: in function '
+luaotfload-init.lua'
+	...ive/2026/texmf-dist/tex/luatex/luaotfload/luaotfload.lua:322: in field 'mai
+n'
+	[\directlua]:1: in main chunk.
+<everyjob> ...string \\encodingdefault{OT1}')end }
+                                                  \let \f@encoding \encoding...
+
+l.1 
+    % !TeX program = lualatex
+ 275 words of node memory still in use:
+   1 hlist, 1 dir, 39 glue_spec nodes
+   avail lists: 2:12,3:3,4:1
+!  ==> Fatal error occurred, no output PDF file produced!
+Transcript written on main_paper_NN51.log.

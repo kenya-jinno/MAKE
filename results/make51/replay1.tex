@@ -1,0 +1,25 @@
+\begin{table}[H]
+\caption{Retrospective search replay at $\beta=1$, five seeds. $Q$: target attainment; exact: agreement with the full-grid smallest qualifying width; $\Delta m$: mean excess width. Calls include the anchor. Cost uses one canonical saved time per key plus the full reference bank for ID policies, in seconds; it is not new wall-clock timing. Gaussian likelihood except Bernoulli dSprites.}\label{tab:replay1}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccccc@{}}
+\toprule
+Policy & Width & $Q$ & Exact & $\Delta m$ & Calls & Cold cost \\
+\midrule
+\multicolumn{7}{l}{\emph{MNIST}} \\
+Full grid Q & $6.0 \pm 0.0$ & 5/5 & 5/5 & 0.0 & 12.0 & 572 \\
+Ascending Q & $6.0 \pm 0.0$ & 5/5 & 5/5 & 0.0 & 4.0 & 177 \\
+Legacy window & $6.0 \pm 0.0$ & 5/5 & 5/5 & 0.0 & 10.0 & 672 \\
+ID local & $6.0 \pm 0.0$ & 5/5 & 5/5 & 0.0 & 9.0 & 636 \\
+Midpoint local & $6.0 \pm 0.0$ & 5/5 & 5/5 & 0.0 & 6.0 & 279 \\
+ID certified & $6.0 \pm 0.0$ & 5/5 & 5/5 & 0.0 & 10.0 & 672 \\
+\midrule
+\multicolumn{7}{l}{\emph{Fashion-MNIST}} \\
+Full grid Q & $4.0 \pm 0.0$ & 5/5 & 5/5 & 0.0 & 12.0 & 645 \\
+Ascending Q & $4.0 \pm 0.0$ & 5/5 & 5/5 & 0.0 & 3.0 & 209 \\
+Legacy window & $6.4 \pm 3.3$ & 5/5 & 3/5 & 2.4 & 4.0 & 457 \\
+ID local & $4.0 \pm 0.0$ & 5/5 & 5/5 & 0.0 & 3.0 & 416 \\
+Midpoint local & $4.0 \pm 0.0$ & 5/5 & 5/5 & 0.0 & 7.0 & 407 \\
+ID certified & $4.0 \pm 0.0$ & 5/5 & 5/5 & 0.0 & 3.0 & 416 \\
+\bottomrule\end{tabular*}
+\end{table}

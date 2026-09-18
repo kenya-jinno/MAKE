@@ -1,0 +1,802 @@
+[
+  {
+    "dataset": "MNIST",
+    "seed": 42,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 123,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 777,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 2024,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 31337,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 42,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 123,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 777,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 2024,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 31337,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 42,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 123,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 777,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 2024,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 31337,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 42,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 123,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 777,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 2024,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 31337,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 42,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 123,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 777,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 2024,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 31337,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 42,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 123,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 777,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 2024,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 31337,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 42,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 123,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 777,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 2024,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 31337,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 42,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 123,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 777,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 2024,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 31337,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 42,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 123,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 777,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 2024,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 31337,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 42,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 123,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 777,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 2024,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "MNIST",
+    "seed": 31337,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 42,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 123,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 777,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 2024,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "dSprites",
+    "seed": 31337,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 42,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 123,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 777,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 2024,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 31337,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 42,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 123,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 777,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 2024,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 31337,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 42,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 123,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 777,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 2024,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 31337,
+    "beta": 1.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 42,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 123,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 777,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 2024,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 31337,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 42,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 123,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 777,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 2024,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "FashionMNIST",
+    "seed": 31337,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 42,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 123,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 777,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 2024,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 31337,
+    "beta": 0.25,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 42,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 123,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 777,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 2024,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 31337,
+    "beta": 0.5,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 42,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 123,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 777,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 2024,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 31337,
+    "beta": 2.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 42,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 123,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 777,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 2024,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "seed": 31337,
+    "beta": 4.0,
+    "path_matches": true,
+    "returned_matches": true,
+    "normal_termination": true
+  }
+]

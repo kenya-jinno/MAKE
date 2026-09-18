@@ -1,0 +1,211 @@
+{
+  "C": 10.0,
+  "n_rows": {
+    "MNIST": 55,
+    "dSprites": 55,
+    "FashionMNIST": 55,
+    "CIFAR10": 45
+  },
+  "environment": {
+    "python": "3.11.11",
+    "numpy": "2.3.2",
+    "sklearn": "1.7.1"
+  },
+  "auc_score": "decision_function; no sigmoid saturation ties",
+  "mean_delta_au": -0.024021164021164033,
+  "mean_delta_noise7": -0.050396825396825405,
+  "delta_au_hierarchical_ci": [
+    -0.10211640211640212,
+    0.02666666666666666
+  ],
+  "paired_difference": 0.02637566137566137,
+  "paired_hierarchical_ci": [
+    -0.03995039682539683,
+    0.13333333333333333
+  ],
+  "paired_stratified_ci": [
+    -0.014950396825396832,
+    0.07931216931216929
+  ],
+  "noise100_difference": -0.007442592592592649,
+  "noise100_hierarchical_ci": [
+    -0.06437374999999988,
+    0.039338333333332975
+  ],
+  "base": [
+    [
+      1.0,
+      0.875,
+      1.0,
+      0.9285714285714286,
+      0.9444444444444444
+    ],
+    [
+      1.0,
+      1.0,
+      0.9,
+      1.0,
+      1.0
+    ],
+    [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  ],
+  "au": [
+    [
+      1.0,
+      0.5416666666666666,
+      0.9642857142857143,
+      0.8928571428571428,
+      0.8888888888888888
+    ],
+    [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  ],
+  "noise7": [
+    [
+      1.0,
+      0.5833333333333333,
+      1.0,
+      0.9642857142857143,
+      0.9444444444444444
+    ],
+    [
+      1.0,
+      0.8,
+      1.0,
+      1.0,
+      0.6
+    ],
+    [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  ],
+  "noise100_mean": [
+    [
+      0.9983333333333333,
+      0.7429166666666666,
+      0.9867857142857142,
+      0.9228571428571438,
+      0.9444444444444432
+    ],
+    [
+      0.9470000000000005,
+      0.9750000000000001,
+      0.9310000000000005,
+      0.9790000000000003,
+      0.9719999999999999
+    ],
+    [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  ],
+  "probability_saturation": [
+    {
+      "dataset": "dSprites",
+      "predictor": "base",
+      "n": 55,
+      "p_exactly_one": 55,
+      "p_exactly_zero": 0,
+      "score_min": 42.99491030543727,
+      "score_max": 136.08781249012773
+    },
+    {
+      "dataset": "FashionMNIST",
+      "predictor": "base",
+      "n": 55,
+      "p_exactly_one": 0,
+      "p_exactly_zero": 0,
+      "score_min": -11.561861093147607,
+      "score_max": 19.642874935240933
+    },
+    {
+      "dataset": "CIFAR10",
+      "predictor": "base",
+      "n": 45,
+      "p_exactly_one": 45,
+      "p_exactly_zero": 0,
+      "score_min": 51.25056173321003,
+      "score_max": 163.92646862624392
+    },
+    {
+      "dataset": "dSprites",
+      "predictor": "au",
+      "n": 55,
+      "p_exactly_one": 44,
+      "p_exactly_zero": 0,
+      "score_min": -201.96672076409848,
+      "score_max": 109.30011682872085
+    },
+    {
+      "dataset": "FashionMNIST",
+      "predictor": "au",
+      "n": 55,
+      "p_exactly_one": 0,
+      "p_exactly_zero": 0,
+      "score_min": -10.105620149299895,
+      "score_max": 10.002459237339199
+    },
+    {
+      "dataset": "CIFAR10",
+      "predictor": "au",
+      "n": 45,
+      "p_exactly_one": 40,
+      "p_exactly_zero": 0,
+      "score_min": 26.51833989961225,
+      "score_max": 347.93984261367495
+    },
+    {
+      "dataset": "dSprites",
+      "predictor": "random7",
+      "n": 55,
+      "p_exactly_one": 49,
+      "p_exactly_zero": 0,
+      "score_min": -193.2049962300459,
+      "score_max": 111.86255666697
+    },
+    {
+      "dataset": "FashionMNIST",
+      "predictor": "random7",
+      "n": 55,
+      "p_exactly_one": 0,
+      "p_exactly_zero": 0,
+      "score_min": -9.592017608032402,
+      "score_max": 22.201358282177843
+    },
+    {
+      "dataset": "CIFAR10",
+      "predictor": "random7",
+      "n": 45,
+      "p_exactly_one": 36,
+      "p_exactly_zero": 0,
+      "score_min": 22.61536377939978,
+      "score_max": 114.36254228582953
+    }
+  ]
+}
+Generated tables, figures and 1600 audited method rows.

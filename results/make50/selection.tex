@@ -1,0 +1,23 @@
+\begin{table}[H]
+\caption{Selection-criterion comparison at $\beta=1$, five seeds; test MSE $\times10^3$ and probe test accuracy (\%). Probes use class labels (shape for dSprites); only Grid (probe) uses them for capacity selection. Recorded probe time is charged to that selector. Other displayed probe accuracies are auxiliary evaluations with uncharged costs. Likelihoods follow Table~\ref{tab:data}.}\label{tab:selection}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llcccc@{}}
+\toprule
+Dataset & Criterion & $m$ & Test MSE & Accuracy & Time (s) \\
+\midrule
+MNIST & Grid (MSE) & $12.8 \pm 6.4$ & $20.50 \pm 0.26$ & $89.4 \pm 0.9$ & $628 \pm 35$ \\
+MNIST & Grid (ELBO proxy) & $10.0 \pm 2.0$ & $20.54 \pm 0.25$ & $89.3 \pm 0.7$ & $628 \pm 35$ \\
+MNIST & Grid (probe) & $51.2 \pm 13.4$ & $23.01 \pm 0.55$ & $92.7 \pm 0.5$ & $696 \pm 36$ \\
+Fashion-MNIST & Grid (MSE) & $22.8 \pm 15.6$ & $18.08 \pm 0.19$ & $75.5 \pm 2.6$ & $645 \pm 42$ \\
+Fashion-MNIST & Grid (ELBO proxy) & $15.6 \pm 8.0$ & $18.12 \pm 0.27$ & $74.4 \pm 2.6$ & $645 \pm 42$ \\
+Fashion-MNIST & Grid (probe) & $57.6 \pm 8.8$ & $18.99 \pm 0.46$ & $78.4 \pm 0.6$ & $750 \pm 40$ \\
+dSprites & Grid (MSE) & $57.6 \pm 14.3$ & $1.15 \pm 0.01$ & $47.7 \pm 2.3$ & $2565 \pm 82$ \\
+dSprites & Grid (ELBO proxy) & $57.6 \pm 14.3$ & $1.15 \pm 0.01$ & $47.7 \pm 2.3$ & $2565 \pm 82$ \\
+dSprites & Grid (probe) & $64.0 \pm 0.0$ & $1.16 \pm 0.03$ & $49.8 \pm 3.0$ & $2589 \pm 84$ \\
+CIFAR-10 & Grid (MSE) & $140.8 \pm 53.5$ & $14.07 \pm 0.04$ & $44.3 \pm 2.6$ & $428 \pm 16$ \\
+CIFAR-10 & Grid (ELBO proxy) & $192.0 \pm 45.3$ & $14.11 \pm 0.08$ & $46.1 \pm 1.1$ & $428 \pm 16$ \\
+CIFAR-10 & Grid (probe) & $256.0 \pm 0.0$ & $14.30 \pm 0.12$ & $47.3 \pm 1.0$ & $574 \pm 15$ \\
+\bottomrule
+\end{tabular*}
+\end{table}

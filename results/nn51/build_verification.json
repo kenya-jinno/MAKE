@@ -1,0 +1,16 @@
+{
+  "pages": 39,
+  "cross_reference_occurrences_identical": true,
+  "identical_label_numbers": 83,
+  "bibliography_entries": 30,
+  "unresolved_references": false,
+  "overfull_boxes": false,
+  "missing_glyphs": false,
+  "pdf_sha256": "16b4c3ca72eb81daeb5dfdb86126335a130bf9c3696fc2e3fd7cf63cfe83f947",
+  "tex_sha256": "fbaec246ee5f58662f48d376d8414325d9c0ce80fdb41025e5561b069253c727",
+  "visual_review_pages": 39,
+  "final_render_warnings": false,
+  "all_fonts_embedded": true,
+  "japanese_figures": 8,
+  "compile_engine": "LuaLaTeX"
+}

@@ -1,0 +1,163 @@
+{
+ "_provenance": {
+  "python_version": "3.12.3",
+  "torch_version": "2.7.1+cu118",
+  "torch_version_cuda": "11.8",
+  "cudnn_version": 90100,
+  "nvidia_driver_version": "570.211.01",
+  "gpu_name": "NVIDIA GeForce RTX 3070",
+  "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.39",
+  "code_hash": "0e90801d94528384",
+  "loss_convention_id": "sum_recon_sum_kl_v1"
+ },
+ "_spec": {
+  "epochs": 60,
+  "ladder": [
+   0.25,
+   0.5,
+   1.0,
+   2.0,
+   4.0
+  ],
+  "extended": [
+   0.05,
+   0.1,
+   0.25,
+   0.5,
+   1.0,
+   2.0,
+   4.0
+  ],
+  "delta": 0.01
+ },
+ "dSprites_Conv": [
+  {
+   "beta": 0.05,
+   "au": 0,
+   "val_rec": 173.5133514404297,
+   "val_kl": 1.8606171579449438e-05,
+   "val_elbo": -173.51336669921875,
+   "collapsed": true,
+   "in_registered_ladder": false
+  },
+  {
+   "beta": 0.1,
+   "au": 0,
+   "val_rec": 173.51513671875,
+   "val_kl": 5.421072728495346e-06,
+   "val_elbo": -173.51513671875,
+   "collapsed": true,
+   "in_registered_ladder": false
+  },
+  {
+   "beta": 0.25,
+   "au": 0,
+   "val_rec": 173.51895141601562,
+   "val_kl": 2.6175379730375425e-07,
+   "val_elbo": -173.51895141601562,
+   "collapsed": true,
+   "in_registered_ladder": true
+  },
+  {
+   "beta": 0.5,
+   "au": 0,
+   "val_rec": 173.52096557617188,
+   "val_kl": 5.557835152103507e-07,
+   "val_elbo": -173.52096557617188,
+   "collapsed": true,
+   "in_registered_ladder": true
+  },
+  {
+   "beta": 1.0,
+   "au": 0,
+   "val_rec": 173.52134704589844,
+   "val_kl": 1.8899143583439582e-07,
+   "val_elbo": -173.52134704589844,
+   "collapsed": true,
+   "in_registered_ladder": true
+  },
+  {
+   "beta": 2.0,
+   "au": 0,
+   "val_rec": 173.5233154296875,
+   "val_kl": 1.40324246444834e-07,
+   "val_elbo": -173.5233154296875,
+   "collapsed": true,
+   "in_registered_ladder": true
+  },
+  {
+   "beta": 4.0,
+   "au": 0,
+   "val_rec": 173.52378845214844,
+   "val_kl": 1.1657179044277655e-07,
+   "val_elbo": -173.52378845214844,
+   "collapsed": true,
+   "in_registered_ladder": true
+  }
+ ],
+ "CIFAR10_Conv": [
+  {
+   "beta": 0.05,
+   "au": 64,
+   "val_rec": 24.666162490844727,
+   "val_kl": 119.5417709350586,
+   "val_elbo": -144.2079315185547,
+   "collapsed": false,
+   "in_registered_ladder": false
+  },
+  {
+   "beta": 0.1,
+   "au": 63,
+   "val_rec": 24.867721557617188,
+   "val_kl": 92.58829498291016,
+   "val_elbo": -117.45601654052734,
+   "collapsed": false,
+   "in_registered_ladder": false
+  },
+  {
+   "beta": 0.25,
+   "au": 64,
+   "val_rec": 27.359031677246094,
+   "val_kl": 59.363807678222656,
+   "val_elbo": -86.72283935546875,
+   "collapsed": false,
+   "in_registered_ladder": true
+  },
+  {
+   "beta": 0.5,
+   "au": 60,
+   "val_rec": 34.131282806396484,
+   "val_kl": 37.07954406738281,
+   "val_elbo": -71.21083068847656,
+   "collapsed": false,
+   "in_registered_ladder": true
+  },
+  {
+   "beta": 1.0,
+   "au": 59,
+   "val_rec": 43.145416259765625,
+   "val_kl": 22.50084114074707,
+   "val_elbo": -65.64625549316406,
+   "collapsed": false,
+   "in_registered_ladder": true
+  },
+  {
+   "beta": 2.0,
+   "au": 40,
+   "val_rec": 54.10056686401367,
+   "val_kl": 13.029877662658691,
+   "val_elbo": -67.13044738769531,
+   "collapsed": false,
+   "in_registered_ladder": true
+  },
+  {
+   "beta": 4.0,
+   "au": 17,
+   "val_rec": 68.07200622558594,
+   "val_kl": 6.9537482261657715,
+   "val_elbo": -75.0257568359375,
+   "collapsed": false,
+   "in_registered_ladder": true
+  }
+ ]
+}

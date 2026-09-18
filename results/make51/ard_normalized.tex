@@ -1,0 +1,14 @@
+\begin{table}[H]
+\caption{Corrected finite-step relevance readout from saved scores and prior variances at the primary context. The same stored perturbations are normalized by their squared step before variance weighting; no new ARD training is involved. This validates an algebraic readout correction, not exact Jacobian relevance or the source training procedure. Test MSE $\times10^3$ is for transferred ordinary VAEs.}\label{tab:ard_normalized}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
+\toprule
+Dataset & Old raw & Corrected raw & Grid width & $Q$ & Test MSE \\
+\midrule
+MNIST & $6.0 \pm 0.0$ & $6.2 \pm 0.4$ & $6.0 \pm 0.0$ & 5/5 & $22.05 \pm 0.17$ \\
+Fashion-MNIST & $3.8 \pm 0.4$ & $4.0 \pm 0.0$ & $4.0 \pm 0.0$ & 5/5 & $19.06 \pm 0.25$ \\
+dSprites & $9.2 \pm 1.5$ & $10.6 \pm 0.5$ & $10.0 \pm 0.0$ & 0/5 & $1.47 \pm 0.05$ \\
+CIFAR-10 & $14.2 \pm 0.4$ & $26.0 \pm 0.0$ & $24.0 \pm 0.0$ & 5/5 & $15.36 \pm 0.13$ \\
+\bottomrule\end{tabular*}
+\end{table}
