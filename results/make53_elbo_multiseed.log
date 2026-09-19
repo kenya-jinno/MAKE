@@ -1,0 +1,77 @@
+真の ELBO による容量選択（MNIST, beta=1, 12 候補 x 5 seeds）
+  環境 NVIDIA GeForce RTX 3070 / 2.7.1+cu118 / 分割ハッシュ cffaecf5bccbb333
+  **seed 42 を含む全 seed を本 run の環境で新規学習する**
+
+  seed 42     m=  2 ep= 76/106 val MSE 0.03740 proxy    -34.61 MC ELBO   -484.39±0.01     32s
+  seed 42     m=  4 ep= 76/106 val MSE 0.02789 proxy    -29.22 MC ELBO   -480.08±0.01     32s
+  seed 42     m=  6 ep= 76/106 val MSE 0.02267 proxy    -26.60 MC ELBO   -478.37±0.01     31s
+  seed 42     m=  8 ep=151/181 val MSE 0.02117 proxy    -26.06 MC ELBO   -478.01±0.01     54s
+  seed 42     m= 10 ep=151/181 val MSE 0.02227 proxy    -26.61 MC ELBO   -478.33±0.01     54s
+  seed 42     m= 12 ep= 91/121 val MSE 0.02287 proxy    -26.72 MC ELBO   -478.51±0.01     37s
+  seed 42     m= 16 ep=173/203 val MSE 0.02252 proxy    -26.72 MC ELBO   -478.37±0.01     61s
+  seed 42     m= 20 ep=109/139 val MSE 0.02292 proxy    -26.87 MC ELBO   -478.64±0.01     42s
+  seed 42     m= 24 ep=125/155 val MSE 0.02311 proxy    -26.93 MC ELBO   -478.68±0.01     47s
+  seed 42     m= 32 ep=182/212 val MSE 0.02337 proxy    -27.15 MC ELBO   -478.86±0.01     60s
+  seed 42     m= 48 ep=147/177 val MSE 0.02401 proxy    -27.46 MC ELBO   -479.25±0.01     54s
+  seed 42     m= 64 ep=177/207 val MSE 0.02385 proxy    -27.36 MC ELBO   -479.22±0.01     63s
+  -> seed 42 の選択: MSE 8, proxy 8, MC ELBO 8
+
+  seed 123    m=  2 ep= 73/103 val MSE 0.03723 proxy    -34.60 MC ELBO   -484.26±0.01     30s
+  seed 123    m=  4 ep= 77/107 val MSE 0.02775 proxy    -29.23 MC ELBO   -480.05±0.01     32s
+  seed 123    m=  6 ep= 84/114 val MSE 0.02241 proxy    -26.48 MC ELBO   -478.31±0.01     33s
+  seed 123    m=  8 ep= 64/ 94 val MSE 0.02128 proxy    -26.00 MC ELBO   -478.04±0.01     28s
+  seed 123    m= 10 ep= 98/128 val MSE 0.02221 proxy    -26.49 MC ELBO   -478.20±0.01     38s
+  seed 123    m= 12 ep=147/177 val MSE 0.02223 proxy    -26.51 MC ELBO   -478.24±0.01     53s
+  seed 123    m= 16 ep=109/139 val MSE 0.02291 proxy    -26.73 MC ELBO   -478.58±0.01     41s
+  seed 123    m= 20 ep=147/177 val MSE 0.02245 proxy    -26.64 MC ELBO   -478.35±0.01     53s
+  seed 123    m= 24 ep=149/179 val MSE 0.02125 proxy    -26.14 MC ELBO   -478.23±0.01     53s
+  seed 123    m= 32 ep=119/149 val MSE 0.02356 proxy    -27.15 MC ELBO   -478.91±0.01     43s
+  seed 123    m= 48 ep=115/145 val MSE 0.02291 proxy    -26.93 MC ELBO   -479.11±0.01     44s
+  seed 123    m= 64 ep=111/141 val MSE 0.02428 proxy    -27.61 MC ELBO   -479.46±0.01     43s
+  -> seed 123 の選択: MSE 24, proxy 8, MC ELBO 8
+
+  seed 777    m=  2 ep= 65/ 95 val MSE 0.03785 proxy    -34.99 MC ELBO   -484.70±0.01     28s
+  seed 777    m=  4 ep= 80/110 val MSE 0.02770 proxy    -29.20 MC ELBO   -479.99±0.01     33s
+  seed 777    m=  6 ep= 85/115 val MSE 0.02244 proxy    -26.50 MC ELBO   -478.22±0.01     34s
+  seed 777    m=  8 ep=177/207 val MSE 0.02177 proxy    -26.35 MC ELBO   -478.01±0.01     61s
+  seed 777    m= 10 ep= 76/106 val MSE 0.02266 proxy    -26.54 MC ELBO   -478.41±0.01     31s
+  seed 777    m= 12 ep=138/168 val MSE 0.02066 proxy    -25.81 MC ELBO   -477.91±0.01     49s
+  seed 777    m= 16 ep=113/143 val MSE 0.02123 proxy    -25.99 MC ELBO   -478.16±0.01     42s
+  seed 777    m= 20 ep=132/162 val MSE 0.02129 proxy    -26.14 MC ELBO   -478.23±0.01     49s
+  seed 777    m= 24 ep=179/209 val MSE 0.02281 proxy    -26.83 MC ELBO   -478.55±0.01     63s
+  seed 777    m= 32 ep=119/149 val MSE 0.02332 proxy    -27.07 MC ELBO   -478.89±0.01     44s
+  seed 777    m= 48 ep=161/191 val MSE 0.02357 proxy    -27.28 MC ELBO   -479.03±0.01     57s
+  seed 777    m= 64 ep=177/207 val MSE 0.02290 proxy    -26.89 MC ELBO   -479.06±0.01     61s
+  -> seed 777 の選択: MSE 12, proxy 12, MC ELBO 12
+
+  seed 2024   m=  2 ep= 80/110 val MSE 0.03768 proxy    -34.85 MC ELBO   -484.59±0.01     33s
+  seed 2024   m=  4 ep= 73/103 val MSE 0.02792 proxy    -29.37 MC ELBO   -480.16±0.01     30s
+  seed 2024   m=  6 ep= 91/121 val MSE 0.02245 proxy    -26.58 MC ELBO   -478.28±0.01     35s
+  seed 2024   m=  8 ep=100/130 val MSE 0.02234 proxy    -26.59 MC ELBO   -478.27±0.01     38s
+  seed 2024   m= 10 ep=115/145 val MSE 0.02084 proxy    -25.91 MC ELBO   -477.98±0.01     43s
+  seed 2024   m= 12 ep=109/139 val MSE 0.02088 proxy    -25.88 MC ELBO   -477.99±0.01     41s
+  seed 2024   m= 16 ep= 69/ 99 val MSE 0.02351 proxy    -27.05 MC ELBO   -478.74±0.01     29s
+  seed 2024   m= 20 ep= 80/110 val MSE 0.02362 proxy    -27.14 MC ELBO   -478.97±0.01     32s
+  seed 2024   m= 24 ep= 98/128 val MSE 0.02148 proxy    -26.16 MC ELBO   -478.32±0.01     37s
+  seed 2024   m= 32 ep=104/134 val MSE 0.02360 proxy    -27.11 MC ELBO   -479.00±0.01     40s
+  seed 2024   m= 48 ep=177/207 val MSE 0.02250 proxy    -26.72 MC ELBO   -478.76±0.01     61s
+  seed 2024   m= 64 ep=167/197 val MSE 0.02352 proxy    -27.12 MC ELBO   -479.29±0.01     59s
+  -> seed 2024 の選択: MSE 10, proxy 12, MC ELBO 10
+
+  seed 31337  m=  2 ep= 81/111 val MSE 0.03735 proxy    -34.58 MC ELBO   -484.33±0.01     32s
+  seed 31337  m=  4 ep= 88/118 val MSE 0.02764 proxy    -29.12 MC ELBO   -479.99±0.01     34s
+  seed 31337  m=  6 ep= 98/128 val MSE 0.02224 proxy    -26.48 MC ELBO   -478.20±0.01     37s
+  seed 31337  m=  8 ep=130/160 val MSE 0.02204 proxy    -26.50 MC ELBO   -478.09±0.01     47s
+  seed 31337  m= 10 ep=106/136 val MSE 0.02100 proxy    -25.86 MC ELBO   -478.06±0.01     40s
+  seed 31337  m= 12 ep= 88/118 val MSE 0.02272 proxy    -26.60 MC ELBO   -478.46±0.01     35s
+  seed 31337  m= 16 ep=159/189 val MSE 0.02252 proxy    -26.67 MC ELBO   -478.35±0.01     55s
+  seed 31337  m= 20 ep=143/173 val MSE 0.02264 proxy    -26.80 MC ELBO   -478.51±0.01     49s
+  seed 31337  m= 24 ep=120/150 val MSE 0.02311 proxy    -27.05 MC ELBO   -478.70±0.01     43s
+  seed 31337  m= 32 ep=133/163 val MSE 0.02330 proxy    -27.09 MC ELBO   -478.89±0.01     48s
+  seed 31337  m= 48 ep=144/174 val MSE 0.02357 proxy    -27.23 MC ELBO   -479.02±0.01     50s
+  seed 31337  m= 64 ep=195/225 val MSE 0.02402 proxy    -27.48 MC ELBO   -479.29±0.01     68s
+  -> seed 31337 の選択: MSE 10, proxy 10, MC ELBO 10
+
+機能確認                                               結果
+  MC ELBO identity (Gaussian, variance 1/2)        OK
+書き出し: /home/kjinno/claude/manifold/manifold/results/make53/elbo_multiseed.json

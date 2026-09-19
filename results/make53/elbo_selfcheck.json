@@ -1,0 +1,12 @@
+{
+ "all_pass": true,
+ "checks": [
+  {
+   "name": "MC ELBO identity (Gaussian, variance 1/2)",
+   "mc_elbo": -484.40969823788913,
+   "from_sampled_mse": -484.4096982378892,
+   "abs_diff": 5.684341886080802e-14,
+   "pass": true
+  }
+ ]
+}

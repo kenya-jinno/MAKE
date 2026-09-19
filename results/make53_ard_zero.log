@@ -1,0 +1,33 @@
+
+=== MNIST  ゼロ中心 ARD  初期容量 64  尤度 gaussian ===
+  seed 42     選択   6/64  Full 0.02381  Mask 0.02382  Adapt 0.02358  転用(6) 0.02267  確認 3/3
+  seed 123    選択   6/64  Full 0.02384  Mask 0.02385  Adapt 0.02368  転用(6) 0.02241  確認 3/3
+  seed 777    選択   6/64  Full 0.02279  Mask 0.02353  Adapt 0.02322  転用(6) 0.02244  確認 3/3
+
+=== dSprites  ゼロ中心 ARD  初期容量 64  尤度 bernoulli ===
+  seed 42     選択   9/64  Full 0.00131  Mask 0.00304  Adapt 0.00189  転用(8) 0.00186  確認 3/3
+  seed 123    選択   9/64  Full 0.00134  Mask 0.00297  Adapt 0.00189  転用(8) 0.00182  確認 3/3
+  seed 777    選択   9/64  Full 0.00135  Mask 0.00313  Adapt 0.00192  転用(8) 0.00198  確認 3/3
+
+機能確認                                               結果
+  selected count equals ones in mask               OK
+  all-ones mask equals full                        OK
+  encoder unchanged by decoder-only adaptation     OK
+  selected count equals ones in mask               OK
+  all-ones mask equals full                        OK
+  encoder unchanged by decoder-only adaptation     OK
+  selected count equals ones in mask               OK
+  all-ones mask equals full                        OK
+  encoder unchanged by decoder-only adaptation     OK
+  selected count equals ones in mask               OK
+  all-ones mask equals full                        OK
+  encoder unchanged by decoder-only adaptation     OK
+  selected count equals ones in mask               OK
+  all-ones mask equals full                        OK
+  encoder unchanged by decoder-only adaptation     OK
+  selected count equals ones in mask               OK
+  all-ones mask equals full                        OK
+  encoder unchanged by decoder-only adaptation     OK
+
+書き出し: /home/kjinno/claude/manifold/manifold/results/make53/ard_zero_centred.json, /home/kjinno/claude/manifold/manifold/results/make53/functional_checks.json
+成果物: results/make53/checkpoints/ 配下（model state・選択軸・relevance・mask・履歴）

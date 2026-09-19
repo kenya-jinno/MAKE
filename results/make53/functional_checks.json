@@ -1,0 +1,143 @@
+{
+ "all_pass": true,
+ "checks": [
+  {
+   "name": "selected count equals ones in mask",
+   "selected_m": 6,
+   "ones_in_mask": 6,
+   "pass": true,
+   "tag": "ard_zero_MNIST_s42"
+  },
+  {
+   "name": "all-ones mask equals full",
+   "full": 0.023807787836814413,
+   "masked": 0.023807787836814413,
+   "abs_diff": 0.0,
+   "pass": true,
+   "tag": "ard_zero_MNIST_s42"
+  },
+  {
+   "name": "encoder unchanged by decoder-only adaptation",
+   "n_encoder_tensors": 8,
+   "max_abs_change": 0.0,
+   "worst_key": null,
+   "pass": true,
+   "tag": "ard_zero_MNIST_s42"
+  },
+  {
+   "name": "selected count equals ones in mask",
+   "selected_m": 6,
+   "ones_in_mask": 6,
+   "pass": true,
+   "tag": "ard_zero_MNIST_s123"
+  },
+  {
+   "name": "all-ones mask equals full",
+   "full": 0.02384131046217315,
+   "masked": 0.02384131046217315,
+   "abs_diff": 0.0,
+   "pass": true,
+   "tag": "ard_zero_MNIST_s123"
+  },
+  {
+   "name": "encoder unchanged by decoder-only adaptation",
+   "n_encoder_tensors": 8,
+   "max_abs_change": 0.0,
+   "worst_key": null,
+   "pass": true,
+   "tag": "ard_zero_MNIST_s123"
+  },
+  {
+   "name": "selected count equals ones in mask",
+   "selected_m": 6,
+   "ones_in_mask": 6,
+   "pass": true,
+   "tag": "ard_zero_MNIST_s777"
+  },
+  {
+   "name": "all-ones mask equals full",
+   "full": 0.022794845892458546,
+   "masked": 0.022794845892458546,
+   "abs_diff": 0.0,
+   "pass": true,
+   "tag": "ard_zero_MNIST_s777"
+  },
+  {
+   "name": "encoder unchanged by decoder-only adaptation",
+   "n_encoder_tensors": 8,
+   "max_abs_change": 0.0,
+   "worst_key": null,
+   "pass": true,
+   "tag": "ard_zero_MNIST_s777"
+  },
+  {
+   "name": "selected count equals ones in mask",
+   "selected_m": 9,
+   "ones_in_mask": 9,
+   "pass": true,
+   "tag": "ard_zero_dSprites_s42"
+  },
+  {
+   "name": "all-ones mask equals full",
+   "full": 0.0013145681023597718,
+   "masked": 0.0013145681023597718,
+   "abs_diff": 0.0,
+   "pass": true,
+   "tag": "ard_zero_dSprites_s42"
+  },
+  {
+   "name": "encoder unchanged by decoder-only adaptation",
+   "n_encoder_tensors": 12,
+   "max_abs_change": 0.0,
+   "worst_key": null,
+   "pass": true,
+   "tag": "ard_zero_dSprites_s42"
+  },
+  {
+   "name": "selected count equals ones in mask",
+   "selected_m": 9,
+   "ones_in_mask": 9,
+   "pass": true,
+   "tag": "ard_zero_dSprites_s123"
+  },
+  {
+   "name": "all-ones mask equals full",
+   "full": 0.0013395570814609527,
+   "masked": 0.0013395570814609527,
+   "abs_diff": 0.0,
+   "pass": true,
+   "tag": "ard_zero_dSprites_s123"
+  },
+  {
+   "name": "encoder unchanged by decoder-only adaptation",
+   "n_encoder_tensors": 12,
+   "max_abs_change": 0.0,
+   "worst_key": null,
+   "pass": true,
+   "tag": "ard_zero_dSprites_s123"
+  },
+  {
+   "name": "selected count equals ones in mask",
+   "selected_m": 9,
+   "ones_in_mask": 9,
+   "pass": true,
+   "tag": "ard_zero_dSprites_s777"
+  },
+  {
+   "name": "all-ones mask equals full",
+   "full": 0.001348414421081543,
+   "masked": 0.001348414421081543,
+   "abs_diff": 0.0,
+   "pass": true,
+   "tag": "ard_zero_dSprites_s777"
+  },
+  {
+   "name": "encoder unchanged by decoder-only adaptation",
+   "n_encoder_tensors": 12,
+   "max_abs_change": 0.0,
+   "worst_key": null,
+   "pass": true,
+   "tag": "ard_zero_dSprites_s777"
+  }
+ ]
+}
