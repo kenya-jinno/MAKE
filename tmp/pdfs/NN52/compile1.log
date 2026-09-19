@@ -1,0 +1,710 @@
+This is LuaHBTeX, Version 1.24.0 (TeX Live 2026) 
+ restricted system commands enabled.
+(./main_paper_NN52.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
+ (/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/ltjsarticle.cls
+Document Class: ltjsarticle 2025-05-26 ltjsclasses 
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/luatexja.sty
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/luatexja-core.sty
+(/usr/local/texlive/2026/texmf-dist/tex/generic/infwarerr/infwarerr.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexbase/luatexbase.sty
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/ctablestack/ctablestack.sty))
+(/usr/local/texlive/2026/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(/usr/local/texlive/2026/texmf-dist/tex/generic/iftex/iftex.sty))
+(/usr/local/texlive/2026/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+(/usr/local/texlive/2026/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/local/texlive/2026/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+(/usr/local/texlive/2026/texmf-dist/tex/generic/xkeyval/keyval.tex))))
+(/usr/local/texlive/2026/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/everyhook/everyhook.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/svn-prov/svn-prov.sty))
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/ltj-base.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/ltj-kinsoku.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/ltj-latex.sty
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/patches/lltjfont.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/base/tuenc.def))
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/patches/lltjdefs.sty
+luaotfload | db : Font names database not found, generating new one.
+luaotfload | db : This can take several minutes; please be patient.
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/jfm-ujisv.lua)
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/jfm-ujis.lua))
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/patches/lltjcore.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/l3kernel/expl3.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/l3backend/l3backend-luatex.def)))
+
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/patches/lltjp-atbegshi.
+sty)
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/patches/lltjp-geometry.
+sty (/usr/local/texlive/2026/texmf-dist/tex/generic/iftex/ifluatex.sty))))
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/luatexja-compat.sty))
+(/usr/local/texlive/2026/texmf-dist/tex/platex/jsclasses/jslogo.sty))
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/addons/luatexja-preset.
+sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty)
+
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/addons/luatexja-fontspe
+c.sty (/usr/local/texlive/2026/texmf-dist/tex/latex/fontspec/fontspec.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/l3packages/xparse/xparse.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/fontspec/fontspec-luatex.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/base/fontenc.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/fontspec/fontspec.cfg)))
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/patches/lltjp-fontspec.
+sty)
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/addons/luatexja-fontspe
+c-29e.sty))
+
+Package luatexja-preset Warning: Japanese fonts will be scaled by 0.924715.
+
+
+Package luatexja-fontspec Warning: \addjfontfeature(s) ignored;
+(luatexja-fontspec)                it cannot be used with a font that wasn't
+(luatexja-fontspec)                selected by luatexja-fontspec.
+
+) (/usr/local/texlive/2026/texmf-dist/tex/latex/base/fix-cm.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/base/ts1enc.def))
+(/usr/local/texlive/2026/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2026/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/local/texlive/2026/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/local/texlive/2026/texmf-dist/tex/latex/amscls/amsthm.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/usr/local/texlive/2026/texmf-dist/tex/latex/mathtools/mathtools.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/tools/calc.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/mathtools/mhsetup.sty))
+(/usr/local/texlive/2026/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/graphics-def/luatex.def)))
+(/usr/local/texlive/2026/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/tools/array.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/multirow/multirow.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/tools/tabularx.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/here/here.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/float/float.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/enumitem/enumitem.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/geometry/geometry.sty
+(/usr/local/texlive/2026/texmf-dist/tex/generic/iftex/ifvtex.sty))
+(/usr/local/texlive/2026/texmf-dist/tex/latex/natbib/natbib.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/xurl/xurl.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/url/url.sty))
+(/usr/local/texlive/2026/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/refcount/refcount.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/gettitlestring/gettitlestring.s
+ty (/usr/local/texlive/2026/texmf-dist/tex/latex/kvoptions/kvoptions.sty)))
+(/usr/local/texlive/2026/texmf-dist/tex/generic/stringenc/stringenc.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/local/texlive/2026/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty)))
+(/usr/local/texlive/2026/texmf-dist/tex/latex/hyperref/hluatex.def
+(/usr/local/texlive/2026/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+
+(/usr/local/texlive/2026/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+))) (/usr/local/texlive/2026/texmf-dist/tex/latex/caption/caption.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/caption/caption3.sty)
+
+Package caption Warning: Unknown document class (or package),
+(caption)                standard defaults will be used.
+See the caption package documentation for explanation.
+
+)
+(/usr/local/texlive/2026/texmf-dist/tex/luatex/luatexja/patches/lltjp-array.sty
+)
+No file main_paper_NN52.aux.
+(/usr/local/texlive/2026/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/local/texlive/2026/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+*geometry* driver: auto-detecting
+*geometry* detected driver: luatex
+(/usr/local/texlive/2026/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/amsfonts/umsb.fd)
+
+Package natbib Warning: Citation `kingma2014vae' on page 1 undefined on input l
+ine 67.
+
+
+Package natbib Warning: Citation `facco2017twonn' on page 1 undefined on input 
+line 69.
+
+
+Package natbib Warning: Citation `levina2005mle' on page 1 undefined on input l
+ine 69.
+
+
+Package natbib Warning: Citation `bonheme2022fondue' on page 1 undefined on inp
+ut line 70.
+
+
+Package natbib Warning: Citation `burda2016iwae' on page 1 undefined on input l
+ine 71.
+
+
+Package natbib Warning: Citation `bonheme2023active' on page 1 undefined on inp
+ut line 71.
+
+
+Package natbib Warning: Citation `deboom2020geco' on page 1 undefined on input 
+line 72.
+
+
+Package natbib Warning: Citation `saha2025ardvae' on page 1 undefined on input 
+line 72.
+
+[1{/usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+
+LaTeX Warning: Reference `sec:framework' on page 2 undefined on input line 91.
+
+
+LaTeX Warning: Reference `sec:setup' on page 2 undefined on input line 91.
+
+
+LaTeX Warning: Reference `sec:results' on page 2 undefined on input line 92.
+
+
+LaTeX Warning: Reference `sec:discussion' on page 2 undefined on input line 92.
+
+
+
+Package natbib Warning: Citation `tippingbishop1999ppca' on page 2 undefined on
+ input line 97.
+
+
+Package natbib Warning: Citation `tenenbaum2000isomap' on page 2 undefined on i
+nput line 97.
+
+
+Package natbib Warning: Citation `roweis2000lle' on page 2 undefined on input l
+ine 98.
+
+
+Package natbib Warning: Citation `ceruti2014danco' on page 2 undefined on input
+ line 101.
+
+
+Package natbib Warning: Citation `johnsson2015ess' on page 2 undefined on input
+ line 101.
+
+
+Package natbib Warning: Citation `costa2004geodesic' on page 2 undefined on inp
+ut line 101.
+
+
+Package natbib Warning: Citation `camastra2016intrinsic' on page 2 undefined on
+ input line 102.
+
+
+Package natbib Warning: Citation `allegra2020data' on page 2 undefined on input
+ line 102.
+
+
+Package natbib Warning: Citation `galka2022isolation' on page 2 undefined on in
+put line 104.
+
+
+Package natbib Warning: Citation `ansuini2019intrinsic' on page 2 undefined on 
+input line 106.
+
+
+Package natbib Warning: Citation `pope2021intrinsic' on page 2 undefined on inp
+ut line 106.
+
+
+Package natbib Warning: Citation `bonheme2022fondue' on page 2 undefined on inp
+ut line 108.
+
+
+Package natbib Warning: Citation `bonheme2023active' on page 2 undefined on inp
+ut line 111.
+
+
+Package natbib Warning: Citation `deboom2020geco' on page 2 undefined on input 
+line 114.
+
+
+Package natbib Warning: Citation `rezende2018geco' on page 2 undefined on input
+ line 114.
+
+
+Package natbib Warning: Citation `louizos2018l0' on page 2 undefined on input l
+ine 115.
+
+
+LaTeX Warning: Reference `sec:gpuvalidation' on page 2 undefined on input line 
+117.
+
+
+Package natbib Warning: Citation `saha2025ardvae' on page 2 undefined on input 
+line 120.
+
+
+LaTeX Warning: Reference `app:adaptations' on page 2 undefined on input line 12
+4.
+
+
+Package natbib Warning: Citation `obata2025manifold' on page 2 undefined on inp
+ut line 130.
+
+
+LaTeX Warning: Reference `tab:history' on page 2 undefined on input line 134.
+
+[2]
+
+Class ltjsarticle Warning: deprecated old font command `\rm' used.
+(ltjsarticle)              You should note, that since 1994 LaTeX2e provides a
+(ltjsarticle)              new font selection scheme called NFSS2 with several
+(ltjsarticle)              new, combinable font commands. This ltjsarticle
+(ltjsarticle)              class has defined the old font commands like
+(ltjsarticle)              `\rm' only for compatibility on input line 163.
+
+
+LaTeX Warning: Reference `app:targets' on page 3 undefined on input line 168.
+
+[3]
+
+LaTeX Warning: Reference `app:timing' on page 4 undefined on input line 187.
+
+
+
+LaTeX Warning: Reference `app:legacy' on page 4 undefined on input line 236.
+
+[4]
+
+LaTeX Warning: Reference `eq:target' on page 5 undefined on input line 250.
+
+
+LaTeX Warning: Reference `eq:checks' on page 5 undefined on input line 252.
+
+
+Package natbib Warning: Citation `whitney1944' on page 5 undefined on input lin
+e 294.
+
+[5]
+
+Package natbib Warning: Citation `tippingbishop1999ppca' on page 6 undefined on
+ input line 300.
+
+
+Package natbib Warning: Citation `lucas2019elbo' on page 6 undefined on input l
+ine 300.
+
+
+Package natbib Warning: Citation `rolinek2019pca' on page 6 undefined on input 
+line 301.
+
+
+LaTeX Warning: Reference `tab:data' on page 6 undefined on input line 309.
+
+
+Package natbib Warning: Citation `lecun1998' on page 6 undefined on input line 
+310.
+
+
+Package natbib Warning: Citation `xiao2017fashion' on page 6 undefined on input
+ line 310.
+
+
+Package natbib Warning: Citation `krizhevsky2009learning' on page 6 undefined o
+n input line 310.
+
+
+Package natbib Warning: Citation `matthey2017dsprites' on page 6 undefined on i
+nput line 314.
+
+[6]
+
+Package natbib Warning: Citation `fu2019cyclical' on page 7 undefined on input 
+line 363.
+
+
+LaTeX Warning: Reference `alg:legacy' on page 7 undefined on input line 385.
+
+
+LaTeX Warning: Reference `app:coverage' on page 7 undefined on input line 394.
+
+
+LaTeX Warning: Reference `app:adaptations' on page 7 undefined on input line 40
+5.
+
+[7]
+
+LaTeX Warning: Reference `app:adaptations' on page 8 undefined on input line 42
+4.
+
+
+LaTeX Warning: Reference `app:inventory' on page 8 undefined on input line 448.
+
+
+[8]
+
+Package natbib Warning: Citation `deboom2020geco' on page 9 undefined on input 
+line 505.
+
+
+Package natbib Warning: Citation `saha2025ardvae' on page 9 undefined on input 
+line 518.
+
+[9]
+
+LaTeX Warning: Reference `sec:newvalidation' on page 10 undefined on input line
+ 554.
+
+
+LaTeX Warning: Reference `app:timing' on page 10 undefined on input line 569.
+
+
+LaTeX Warning: Reference `tab:replay1' on page 10 undefined on input line 572.
+
+
+LaTeX Warning: Reference `tab:replay2' on page 10 undefined on input line 572.
+
+[10] [11]
+
+LaTeX Warning: Reference `tab:gated' on page 12 undefined on input line 642.
+
+[12]
+
+LaTeX Warning: Reference `tab:coefficient' on page 13 undefined on input line 6
+96.
+
+
+LaTeX Warning: Reference `tab:reliability' on page 13 undefined on input line 6
+96.
+
+
+LaTeX Warning: Reference `tab:amortization' on page 13 undefined on input line 
+703.
+
+
+LaTeX Warning: Reference `tab:main1' on page 13 undefined on input line 721.
+
+
+LaTeX Warning: Reference `tab:main2' on page 13 undefined on input line 721.
+
+
+LaTeX Warning: Reference `app:adaptations' on page 13 undefined on input line 7
+25.
+
+
+LaTeX Warning: Reference `app:timing' on page 13 undefined on input line 728.
+
+
+LaTeX Warning: Reference `app:timing' on page 13 undefined on input line 728.
+
+
+LaTeX Warning: Reference `app:timing' on page 13 undefined on input line 752.
+
+
+LaTeX Warning: Reference `app:timing' on page 13 undefined on input line 752.
+
+[13]
+
+LaTeX Warning: Reference `app:outcomes' on page 14 undefined on input line 779.
+
+
+
+LaTeX Warning: Reference `tab:newcounts' on page 14 undefined on input line 785
+.
+
+
+LaTeX Warning: Reference `tab:ard_normalized' on page 14 undefined on input lin
+e 790.
+
+
+LaTeX Warning: Reference `tab:ard_normalized' on page 14 undefined on input lin
+e 790.
+
+[14]
+
+LaTeX Warning: Reference `tab:armnew' on page 15 undefined on input line 804.
+
+
+LaTeX Warning: Reference `app:gpu' on page 15 undefined on input line 809.
+
+
+LaTeX Warning: Reference `tab:ardnew' on page 15 undefined on input line 835.
+
+[15]
+
+LaTeX Warning: Reference `tab:ard_normalized' on page 16 undefined on input lin
+e 862.
+
+
+LaTeX Warning: Reference `app:gpu' on page 16 undefined on input line 866.
+
+
+LaTeX Warning: Reference `tab:id' on page 16 undefined on input line 870.
+
+
+LaTeX Warning: Reference `fig:id' on page 16 undefined on input line 884.
+
+
+LaTeX Warning: Reference `tab:id' on page 16 undefined on input line 895.
+
+
+LaTeX Warning: Reference `tab:id' on page 16 undefined on input line 895.
+
+[16]
+
+LaTeX Warning: Reference `fig:beta' on page 17 undefined on input line 944.
+
+
+LaTeX Warning: Reference `eq:au' on page 17 undefined on input line 952.
+
+
+LaTeX Warning: Reference `sec:au' on page 17 undefined on input line 955.
+
+
+LaTeX Warning: Reference `app:sensitivity' on page 17 undefined on input line 9
+55.
+
+[17<./results/figures/NN52/id.pdf>]
+
+LaTeX Warning: Reference `fig:selectedcurves' on page 18 undefined on input lin
+e 959.
+
+
+LaTeX Warning: Reference `app:newmodels' on page 18 undefined on input line 964
+.
+
+
+LaTeX Warning: Reference `fig:learning' on page 18 undefined on input line 968.
+
+
+
+LaTeX Warning: Reference `fig:learning' on page 18 undefined on input line 968.
+
+
+
+LaTeX Warning: Reference `fig:learning' on page 18 undefined on input line 973.
+
+
+
+LaTeX Warning: Reference `tab:data' on page 18 undefined on input line 987.
+
+
+LaTeX Warning: Reference `tab:data' on page 18 undefined on input line 987.
+
+[18<./results/figures/NN52/beta.pdf>]
+
+LaTeX Warning: Reference `tab:selection' on page 19 undefined on input line 101
+0.
+
+[19<./results/figures/NN52/selected_curves.pdf>]
+
+LaTeX Warning: Reference `tab:mcselection' on page 20 undefined on input line 1
+015.
+
+
+LaTeX Warning: Reference `sec:newvalidation' on page 20 undefined on input line
+ 1016.
+
+
+LaTeX Warning: Reference `app:newmodels' on page 20 undefined on input line 101
+9.
+
+
+LaTeX Warning: Reference `sec:gpuvalidation' on page 20 undefined on input line
+ 1021.
+
+[20<./results/figures/NN52/learning.pdf>]
+
+LaTeX Warning: Reference `fig:readouts' on page 21 undefined on input line 1039
+.
+
+
+LaTeX Warning: Reference `tab:readouts' on page 21 undefined on input line 1039
+.
+
+
+LaTeX Warning: Reference `fig:delta' on page 21 undefined on input line 1070.
+
+
+LaTeX Warning: Reference `fig:beta' on page 21 undefined on input line 1078.
+
+
+LaTeX Warning: Reference `fig:beta' on page 21 undefined on input line 1078.
+
+[21] [22<./results/figures/NN52/readouts.pdf>]
+
+LaTeX Warning: Reference `app:sensitivity' on page 23 undefined on input line 1
+130.
+
+[23<./results/figures/NN52/delta.pdf>]
+
+LaTeX Warning: Reference `tab:armnew' on page 24 undefined on input line 1163.
+
+
+LaTeX Warning: Reference `tab:var' on page 24 undefined on input line 1168.
+
+
+LaTeX Warning: Reference `tab:data' on page 24 undefined on input line 1171.
+
+
+LaTeX Warning: Reference `tab:data' on page 24 undefined on input line 1171.
+
+[24]
+
+LaTeX Warning: Reference `app:synthetic' on page 25 undefined on input line 123
+4.
+
+[25]
+
+LaTeX Warning: Reference `app:inventory' on page 26 undefined on input line 127
+0.
+
+[26] [27]
+
+LaTeX Warning: Reference `alg:replay' on page 28 undefined on input line 1381.
+
+
+LaTeX Warning: Reference `tab:data' on page 28 undefined on input line 1384.
+
+
+LaTeX Warning: Reference `tab:data' on page 28 undefined on input line 1384.
+
+[28] [29]
+
+LaTeX Warning: Reference `tab:cost' on page 30 undefined on input line 1449.
+
+[30] [31] [32]
+
+LaTeX Warning: Reference `tab:data' on page 33 undefined on input line 1590.
+
+
+LaTeX Warning: Reference `eq:target' on page 33 undefined on input line 1592.
+
+[33] [34]
+
+LaTeX Warning: Reference `fig:hc' on page 35 undefined on input line 1656.
+
+[35<./results/figures/NN52/native_hc.pdf>]
+
+LaTeX Warning: Reference `tab:ard_normalized' on page 36 undefined on input lin
+e 1717.
+
+
+LaTeX Warning: Reference `sec:newpruning' on page 36 undefined on input line 17
+37.
+
+
+Package natbib Warning: Citation `bonheme2022fondue' on page 36 undefined on in
+put line 1745.
+
+
+LaTeX Warning: Reference `tab:saturation' on page 36 undefined on input line 17
+56.
+
+[36]
+
+LaTeX Warning: Reference `tab:margin' on page 37 undefined on input line 1795.
+
+[37]
+
+LaTeX Warning: Reference `tab:synthetic' on page 38 undefined on input line 183
+0.
+
+
+LaTeX Warning: Reference `tab:mcgrid' on page 38 undefined on input line 1869.
+
+[38]
+
+LaTeX Warning: Reference `tab:armgates' on page 39 undefined on input line 1905
+.
+
+
+LaTeX Warning: Reference `fig:armconstraints' on page 39 undefined on input lin
+e 1905.
+
+[39<./results/figures/NN52/new_mnist_curves.pdf>]
+
+LaTeX Warning: Reference `fig:armcurves' on page 40 undefined on input line 193
+7.
+
+
+LaTeX Warning: Reference `fig:ardcurves' on page 40 undefined on input line 193
+7.
+
+[40<./results/figures/NN52/arm_constraints.pdf>]
+
+LaTeX Warning: Reference `tab:newtest' on page 41 undefined on input line 1956.
+
+
+[41<./results/figures/NN52/arm_curves.pdf>]
+
+LaTeX Warning: Reference `tab:newcost' on page 42 undefined on input line 1983.
+
+
+[42<./results/figures/NN52/ard_curves.pdf>]
+
+LaTeX Warning: Reference `sec:gpuvalidation' on page 43 undefined on input line
+ 2016.
+
+[43] [44] [45] [46]
+
+Package natbib Warning: There were undefined citations.
+
+[47] (./tmp/pdfs/NN52/build/main_paper_NN52.aux
+
+Package natbib Warning: Citation(s) may have changed.
+(natbib)                Rerun to get citations correct.
+
+)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `main_paper_NN52.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+)
+ 2057 words of node memory still in use:
+   11 hlist, 2 vlist, 5 rule, 2 glue, 4 kern, 1 glyph, 588 attribute, 63 glue_s
+pec, 65 attribute_list, 1 write, 14 user_defined, 18 pdf_action nodes
+   avail lists: 1:27,2:118983,3:1170,4:780,5:417,6:72,7:8746,8:101,9:3567,10:44
+,11:424
+</usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmmono9-regular.ot
+f></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmmono10-regular
+.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmmono12-regu
+lar.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texg
+yrepagella-italic.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public
+/tex-gyre/texgyrepagella-bold.otf></usr/local/texlive/2026/texmf-dist/fonts/ope
+ntype/public/tex-gyre/texgyreheros-regular.otf></usr/local/texlive/2026/texmf-d
+ist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf></usr/local/texl
+ive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyrepagella-regular.otf><
+/usr/local/texlive/2026/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMin
+cho-Regular.otf></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmex10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/
+cmextra/cmex9.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmmi10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmmi6.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmmi8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmmi9.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
+5.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.p
+fb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb>
+</usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></u
+sr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></us
+r/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/
+local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/lo
+cal/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/loca
+l/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/
+texlive/2026/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on main_paper_NN52.pdf (47 pages, 966841 bytes).
+Transcript written on main_paper_NN52.log.

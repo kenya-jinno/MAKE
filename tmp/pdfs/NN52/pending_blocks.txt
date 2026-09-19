@@ -1,0 +1,570 @@
+@@block:003@@
+The contribution is an empirical evaluation of ID-guided bottleneck
+selection and AU diagnostics under explicit quality and cost definitions.
+Four image datasets, five candidate seeds and five regularisation weights
+are covered. A start-width ablation holds reference acquisition,
+reliability checks and fallback fixed, isolating the effect of the
+ID-derived start from the effect of the search rule. A factorial analysis
+examines the ID coefficient and reliability thresholds.
+
+@@block:004@@
+Additional three-seed experiments on each dataset assess an ARM-based
+pruning implementation and exact-Jacobian relevance readouts. Native
+model quality, dimension transfer and training-constraint satisfaction
+are reported separately. Component checks improve the implementation
+audit but do not establish full reproduction of the original pruning
+methods. A separate MNIST experiment evaluates Monte Carlo ELBO capacity
+selection. Sections~\ref{sec:framework}--\ref{sec:setup} define the protocols,
+Section~\ref{sec:results} reports results, and
+Section~\ref{sec:discussion} states the scope of inference.
+
+@@block:008@@
+GECO with $L_0$ regularisation optimises a gated VAE under a reconstruction
+constraint~\cite{deboom2020geco,rezende2018geco}. Its source uses ARM;
+the historical local adaptation used hard-concrete (HC)
+gates~\cite{louizos2018l0}. The additional ARM implementation restores
+this gradient component but retains differences in initialisation,
+constraint scheduling and KL scaling (Section~\ref{sec:gpuvalidation}).
+Our validation anchor supplies an external quality yardstick.
+
+@@block:009@@
+ARD-VAE uses a hierarchical relevance prior~\cite{saha2025ardvae}.
+The source tunes a regularisation weight, uses a Gaussian approximation
+for its closed-form KL, and selects axes explaining 99\% of a
+Jacobian-weighted variance score. The Gaussian approximation is thus
+shared with the source. Historical finite-step scores and their
+normalisation audit appear in Appendix~\ref{app:adaptations}; the new
+validation uses automatic-differentiation Jacobians. We distinguish the
+source's zero-centre variance update from an additional sample-centred
+variance-update variant, and retain local training and sampling settings.
+
+@@block:011@@
+\begin{table}[H]
+\caption{Scope of the conference study, earlier journal submission and present revision.}
+\label{tab:history}\small
+\begin{tabularx}{\textwidth}{lXXX}\toprule
+Item & NOLTA2025 & MAKE47 & Present revision \\\midrule
+Question & Input and latent ID versus capacity & ID-guided choice with AU verification & Selection quality, cost and diagnostic limitations \\
+Models & Four FC and two CNN structures; MNIST classes; four seeds & FC/CNN and synthetic/image extensions & Fixed candidate families on four image datasets; five candidate seeds \\
+Comparators & Architecture and capacity comparisons & Capacity sweeps and diagnostic checks & FONDUE variants, grid criteria and search policies; separate pruning validation \\
+Readouts & ID estimates & AU-based operational checks & Same-checkpoint type/AU trajectories and paired predictive analysis \\
+Evidence & Conference settings & Earlier loss convention & Corrected-loss records; explicit targets, final test metrics and accounting limits \\
+\bottomrule\end{tabularx}
+\end{table}
+
+@@block:023@@
+\medskip\noindent\begin{minipage}{\linewidth}
+\begin{Algorithm}[ID-local replay and start-width controls]
+\label{alg:replay}\normalfont\small\leavevmode\par\noindent
+\textbf{Input:} grid, seed, weight, validation records and canonical prices,
+reference bank, $c$, $R_{\max}$, $A_{\max}$; no test metrics.
+\begin{enumerate}
+\item Request the largest width once; compute its target from
+Equation~\ref{eq:target}. A pass means validation MSE at most that target.
+\item For ID-local and ID-gated midpoint, charge the reference bank and
+compute Equation~\ref{eq:checks}. If either threshold fails, request
+ascending widths and return the first pass. Bank-free midpoint skips this step.
+\item For accepted ID-local, start at the smallest grid width at least
+$c\hat d$, clipped to the largest width. For either midpoint policy,
+start at zero-based index $\lfloor(|\mathcal M|-1)/2\rfloor$.
+
+@@block:024@@
+\item If the start fails, request larger widths in order and return the
+first pass. The anchor guarantees a returned qualifying width.
+\item If the start passes, request adjacent smaller widths in descending
+order until one fails, or the smallest width is reached; return the last pass.
+\item For the optional certified ID variant, test previously unqueried
+widths below the local answer in ascending order, stopping at the first
+pass. This certifies the full-grid minimum without monotonicity.
+\item Charge each distinct candidate once. Return width, requested keys,
+count, reference/candidate costs and the soft-budget flag. Attach test
+metrics only after the selection is fixed.
+\end{enumerate}
+\end{Algorithm}
+\end{minipage}\medskip
+
+@@block:025@@
+Full-grid-$Q$, ascending-$Q$, the legacy path, ID-local, bank-free
+midpoint-local and certified ID-local are replayed on all 100
+dataset--weight--seed conditions. The additional ID-gated midpoint
+control adds 100 replays, for seven policies and 700 rows in total. Paths are completed within the stored grid (at most 12
+distinct candidates); the original time limit is recorded as a flag
+rather than interrupting this counterfactual evaluation. Legacy rows
+retain their executed path and output, including original fallback.
+We report quality, the width gap $m-m^*$, exact agreement, candidate
+requests and canonical cost. The bank-free midpoint also removes the
+reliability gate and its fallback, so its comparison with ID-local does
+not isolate the starting width. ID-gated midpoint holds these components
+and their charges fixed and changes only the accepted starting width.
+Midpoint is a fixed control, not a tuned or universally optimal start.
+
+@@block:040@@
+The historical GECO and ARD adaptations start at the largest grid width and run
+300 epochs. Their raw coordinate counts are mapped to the nearest
+candidate width, with ties going to the smaller width, for the final
+ordinary VAE. Appendix~\ref{app:adaptations} specifies the local
+objectives, updates and readout differences. The evaluated MSE thus
+belongs to the transferred ordinary VAE, not to the original model.
+
+@@block:046@@
+A separate 300-epoch, seed-42 MNIST run instruments the local
+hard-concrete (HC) pruning implementation. Its target comes from the
+new ordinary width-64 anchor. We retain native-model reconstruction,
+constraint, gate and multiplier trajectories and compare native and
+dimension-transferred outputs. This checks the behaviour of that local
+implementation in one condition; it is not an ARM replication or a
+validated cross-dataset pruning baseline. Checkpoints for these separate
+MNIST ordinary-VAE and HC runs are saved.
+
+@@block:047@@
+\subsection{Additional Cross-Dataset Component Validation}\label{sec:gpuvalidation}
+The additional experiments use the same four datasets and fixed splits,
+seeds 42, 123 and 777, the largest candidate width (64, or 256 for
+CIFAR-10), and 300 epochs. There are 12 ARM runs and 24 ARD runs,
+including two prior-centering settings. They are separate from the
+five-seed historical comparison and the one-seed MNIST capacity study.
+The three-seed summaries use sample SDs; the repeated seeds and shared
+splits do not constitute independent dataset replications.
+
+@@block:048@@
+The ARM implementation uses paired Bernoulli gates and per-example
+loss differences before averaging the gate-gradient estimate. A supplied
+linear-loss test checks this estimator against its analytic gradient.
+The reconstruction constraint uses summed squared error for every
+dataset, including dSprites. Its threshold is the ordinary $\beta=1$
+anchor's deterministic validation MSE multiplied by 1.10 and by the
+number of pixels. The network loss includes a gate-masked KL sum and
+a constraint multiplier, and the expected gate-count penalty is applied
+when the moving-average constraint is satisfied. Native evaluation
+uses a binary mask with gate probability greater than 0.5. We report
+posterior-mean validation/test MSE and validation MSE averaged over
+32 posterior draws, both with that mask.
+
+@@block:049@@
+This is component validation, not exact reproduction of the source
+algorithm~\cite{deboom2020geco}. The local gates start at probability
+0.5 and update immediately, rather than remaining open until the first
+constraint hit. The local KL is a masked sum rather than the source's
+active-count-normalised quantity. The anchor-derived threshold and
+local gate-update settings also differ. A failed local run therefore
+does not establish a failure of the published method. Endpoint training
+constraint satisfaction and deterministic validation $Q$ are different
+events and are tabulated separately.
+
+@@block:050@@
+The ARD implementation fixes its training weight at one and reserves
+the first 1800 of 18,000 training-pool examples for prior updates; the
+remaining 16,200 supply parameter-gradient updates. The prior-update
+pool is fixed, with latent samples refreshed at epochs 1, 11, \ldots,
+291 and after training. This differs from the source's resampled pool
+and tuned regularisation weight~\cite{saha2025ardvae}. We evaluate both
+a zero centre in the variance update, as set in the source, and a
+sample-centred variance-update variant; each is trained separately.
+Both retain zero prior mean in the Gaussian closed-form KL.
+
+@@block:051@@
+At the final model, automatic differentiation evaluates the decoder
+Jacobian at posterior means for the first 100 validation examples.
+For prior variance $v_j$ and decoder output coordinates $\ell$, the score is
+\begin{equation}
+ w_j=\frac{1}{100}\sum_{i=1}^{100}\sum_{\ell=1}^{p}
+ \left(\frac{\partial g_\ell}{\partial z_j}(\mu(x_i))\right)^2,
+ \qquad s_j=w_jv_j.
+ \label{eq:exactard}
+\end{equation}
+The readout is the number of descending scores required to explain
+99\% of their total. Exact refers to automatic differentiation instead
+of finite perturbations; it does not remove sample or training uncertainty.
+The recorded native ARD MSE evaluates the unpruned full-width model.
+It is not quality at the relevance-selected count. For both methods,
+dimension transfer maps the count to the nearest candidate width and
+evaluates the cached ordinary $\beta=1$ VAE with the same seed.
+
+@@block:052@@
+All new runs retain evaluation-mode MSE curves every five epochs.
+ARM uses a 2000-example training subset; the ARD training-pool subset
+includes its reserved prior-update examples and is identified as such.
+Recorded training time includes these periodic evaluations. ARM also
+records final native-evaluation time; ARD separately records Jacobian
+time but not final native-evaluation time. These are partial timings.
+The new scripts do not save model checkpoints.
+
+@@block:053@@
+An evaluation-code audit limits use of the additional ELBO fields.
+The 32-sample option changes MSE only: reconstruction likelihood is still
+evaluated at the posterior mean, while KL uses an unmasked standard-normal
+prior, including for ARD. These fields are not Monte Carlo ELBOs for the
+trained native models. We therefore use the additional records for MSE,
+gates, relevance counts and curves; the capacity-selection ELBO evidence
+remains the separate MNIST experiment in Section~\ref{sec:newvalidation}.
+
+@@block:059@@
+\subsection{Start Width with Reliability and Fallback Held Fixed}\label{sec:gated}
+The additional ablation changes only the accepted start to midpoint,
+retaining the ID gate, ascending fallback and reference-bank charge
+(Table~\ref{tab:gated}). Both policies select exactly the same width
+in all 100 conditions. ID is accepted only for the 25 MNIST conditions;
+there, ID-local requests 8.84 candidates versus 5.84 for the gated
+midpoint and costs 705.2 versus 537.7 canonical cold-use seconds.
+Thus the ID-derived start has no observed selection benefit and incurs
+more work in the stratum where it is actually used. In the other 75
+conditions, both policies use the same ascending fallback.
+@@table52:gated_ablation@@
+
+@@block:060@@
+The two bank-free midpoint errors occur for Fashion-MNIST
+(seed 31337, $\beta=0.25$: width 12 versus minimum 6) and dSprites
+(seed 31337, $\beta=4$: width 16 versus minimum 8). Both are rejected-ID
+conditions. Its 98/100 versus ID-local's 100/100 exact agreement therefore
+reflects the fallback difference, not evidence that an ID-derived start
+improves selection. Ascending-$Q$ also matches all 100 minima and costs
+less than ID-local on every condition under cold acquisition. The common
+anchor guarantees attainment within these stored grids by construction;
+exact minimality and cost are the informative comparisons.
+
+@@block:067@@
+\subsection{Additional Native Pruning and Relevance Results}\label{sec:newpruning}
+Table~\ref{tab:newcounts} compares the historical and additional raw
+readouts. They are similar in some datasets but are not identical across
+all four: the ARM dSprites mean is 54.0 rather than the historical HC
+count of 64. Counts alone do not measure successful compression.
+@@table52:pruning_counts@@
+
+@@block:068@@
+Table~\ref{tab:armnew} separates native reconstruction, dimension transfer
+and endpoint constraint satisfaction. For MNIST and Fashion-MNIST,
+all three native posterior-mean reconstructions meet $Q$, while only
+two training constraints do. All three dSprites native runs fail both
+checks, although their transferred ordinary VAEs meet $Q$. Their native
+MSE is approximately 0.04236, and all 64 gate probabilities remain
+between 0.1 and 0.9 (Appendix~\ref{app:gpu}); thresholded counts of 48--62
+therefore do not demonstrate settled sparse solutions. CIFAR-10 meets
+native mean-reconstruction $Q$ in one seed and the training constraint
+in two. These are limitations of the local implementation.
+@@table52:arm_native@@
+
+@@block:069@@
+The sampled native ARM MSE exceeds the deterministic anchor-derived
+target in every run. This comparison demonstrates the consequence of
+changing the reconstruction definition; it is not a selection study
+under a target derived from a sampled anchor. It also explains why
+training-constraint status cannot be inferred from mean-reconstruction $Q$.
+
+@@block:070@@
+The exact-Jacobian ARD zero-centre readouts are 6.0, 4.0, 9.0 and 26.7
+on MNIST, Fashion-MNIST, dSprites and CIFAR-10, respectively
+(Table~\ref{tab:ardnew}). The sample-centred variant gives 6.0, 4.0, 9.7
+and 26.3. Small differences across these three seeds support a bounded
+centering-sensitivity observation, not invariance to prior specification.
+Both settings meet full-model and transfer $Q$ on the three natural-image
+datasets and fail both on dSprites. No reduced native ARD model was evaluated.
+@@table52:ard_native@@
+
+@@block:071@@
+The historical unnormalised CIFAR-10 ARD count was 14.2, but the
+previous normalisation audit had already changed it to 26.0
+(Table~\ref{tab:ard_normalized}). The new counts are close to that
+corrected readout. Because prior updates and training runs also changed,
+the difference from 14.2 cannot be attributed solely to exact Jacobians.
+Appendix~\ref{app:gpu} supplies all-dataset curves, gate distributions,
+held-out test MSE and timing components for these additional runs.
+
+@@block:088@@
+The separate new MNIST comparison in Table~\ref{tab:mcselection}
+evaluates an actual expected log likelihood with the fixed Monte Carlo
+protocol in Section~\ref{sec:newvalidation}. It is not reconstructed
+from cached MSE and KL. @@MC_INTERPRETATION@@
+The complete grid scores, MC errors and selected epochs appear in
+Appendix~\ref{app:newmodels}. One new training seed does not establish
+a dataset-level advantage of any criterion. The additional four-dataset
+pruning records do not extend this capacity-selection ELBO comparison,
+for the evaluation-code reasons in Section~\ref{sec:gpuvalidation}.
+
+@@block:103@@
+A further ARM-specific implementation check concerns averaging order.
+The supplied linear-loss test compares the per-example antithetic
+estimator with its analytic gradient; averaging losses before forming
+their correlation with the gate samples removes the required pairing.
+The additional training code uses per-example losses. This component
+correction does not imply all constraints are satisfied: endpoint
+counts are shown in Table~\ref{tab:armnew}. It is distinct from the
+historical loss-scaling and ARD relevance-normalisation audits.
+
+@@block:106@@
+\section{Discussion}\label{sec:discussion}
+The controlled start-width ablation changes the interpretation of the
+ID-local result. Its 100/100 minimum-width agreement is reproduced by
+an ID-gated midpoint with the same fallback. Within the 25 accepted-ID
+conditions, the ID start requires more candidates without changing the
+answer. The bank-free midpoint's two errors occur where the ID policies
+use ascending fallback. Consequently, this evidence does not establish
+an advantage of the ID-derived start. Reliability-gated search and an
+informative geometric starting width are distinct hypotheses.
+
+@@block:107@@
+The target includes the largest-width anchor, so quality attainment by
+an exhaustive upward path is guaranteed within the stored grid.
+Minimality and cost remain substantive outcomes. The factorial analysis
+finds nonminimal outputs in 155 of 10,000 settings; the default agreement
+is not a universal local-search guarantee. Shared reference banks, one
+split, retrospective policy design and four datasets limit inference.
+An independent reference-bank replication remains open. Acquisition
+and reuse costs also answer different deployment questions.
+
+@@block:108@@
+Regularisation ranges and AU-threshold responses measure different
+interventions. Some dimension ranges reflect fallback, grid scale or a
+changing quality target. A constant output may be fixed by design or by
+an unvaried implementation argument. The paired predictive comparison
+does not establish an AU-specific advantage over matched random-feature
+controls on its near-ceiling task. This limits the role of AU here to
+a diagnostic of coordinate use under a stated threshold.
+
+@@block:109@@
+The additional pruning experiments improve coverage to three seeds on
+all four datasets and provide native MSE, gates, relevance scores,
+curves and partial timing. They do not make dimension transfer equivalent
+to native compression. dSprites illustrates this distinction particularly
+clearly: failed native ARM models transfer counts to successful ordinary
+VAEs. ARD's full-width quality likewise cannot certify quality after
+native pruning. Exact-Jacobian readouts remove finite-step error, while
+training and prior-update choices remain part of the implementation.
+The Gaussian KL approximation is shared with the ARD source; the
+sample-centred variance update is a sensitivity variant, not a necessary
+correction of the source's zero-centre setting.
+
+@@block:110@@
+The additional four-dataset ELBO fields do not compute the expected
+likelihood and native prior KL needed for the claimed quantity. Valid
+MC ELBO capacity-selection evidence remains one MNIST seed and
+proxy-selected checkpoints. Likewise, new pruning curves do not recover
+missing historical ordinary-VAE curves. Full source-algorithm reproduction,
+independent-bank validation, complete end-to-end timing and clean synthetic
+held-out evaluation remain uncompleted. The synthetic diagnostics
+(Appendix~\ref{app:synthetic}) describe scale and coordinate effects;
+they do not show that topology determines active-axis counts.
+
+@@block:111@@
+\section{Conclusions}\label{sec:conclusion}
+We evaluated intrinsic-dimension-guided VAE bottleneck selection and
+active-unit diagnostics under explicit quality and cost definitions.
+Holding reliability checks, fallback and reference costs fixed, an
+ID-derived start and midpoint select identical widths in all 100
+conditions; the ID start requires more candidates where it is used.
+The apparent accuracy difference from an ungated midpoint is explained
+by fallback. Local-search minimality also depends on reliability and
+coefficient settings. Additional ARM and exact-Jacobian ARD experiments
+separate native quality, transferred-width quality and training constraints,
+and reveal remaining implementation and measurement limits. AU does
+not establish additional predictive value on the present near-ceiling
+task. These results support a bounded evaluation of ID guidance and
+latent diagnostics, rather than a general efficiency or pruning guarantee.
+
+@@block:112@@
+\authorcontributions{Conceptualization, C.O., M.D. and K.J.; methodology,
+C.O. and K.J.; software, C.O. and M.D.; validation, C.O., M.D. and K.J.;
+formal analysis, C.O. and K.J.; investigation, C.O., M.D. and K.J.;
+writing---original draft preparation, C.O. and K.J.; writing---review and
+editing, C.O., M.D. and K.J.; supervision and project administration, K.J.}
+\funding{This research was funded by JSPS KAKENHI Grant Numbers
+JP24K15115 and JP26K14984, by the Tokyo City University Priority Research
+[Intelligent Technology Optimization Research Unit: ORBIT], by a
+Cooperative Research Project of the Research Institute of Electrical
+Communication (RIEC), Tohoku University, and by a Research Grant from the
+Telecommunications Advancement Foundation (TAF).}
+\institutionalreview{Not applicable.}
+\informedconsent{Not applicable.}
+\dataavailability{The image datasets are publicly available from their
+cited sources. The accompanying reviewer supplement
+\texttt{MAKE52\_reproducibility.zip} contains configuration, historical
+and additional result records, analysis and training code, split indices,
+figures, separate MNIST validation checkpoints and a SHA-256 manifest.
+Extract the archive and follow its \texttt{README.md};
+Appendix~\ref{app:inventory} maps its contents. Historical MAKE49 and
+additional MAKE52 pruning checkpoints are unavailable. The archive is
+supplied with this revision; it is not a public data deposit and has no DOI.}
+\acknowledgments{Generative-AI assistance was used for experimental-code
+drafting and refactoring and English-language editing in the earlier
+manuscript preparation. OpenAI Codex assisted with the present record
+audit, reaggregation, model-validation analysis, figure preparation
+and manuscript revision.
+Responsibility for the scientific content rests with the authors.}
+\conflictsofinterest{The authors declare no conflicts of interest.}
+
+@@block:118@@
+\section{Coverage and Implementation Details}\label{app:coverage}
+\begin{table}[H]
+\caption{Executed coverage. Each image method row has five training
+seeds at each listed context. Additional diagnostic experiments have
+their own seed units.}
+\label{tab:coverage}\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.34\textwidth}>{\raggedright\arraybackslash}p{0.19\textwidth}>{\raggedright\arraybackslash}X}\toprule
+Experiment & Dataset coverage & Contexts / counts \\\midrule
+Fourteen historical ordinary selectors/controls & All four image datasets & Five $\beta$ values; $14\times4\times5\times5=1400$ method records \\
+Historical HC adaptation & All four & Five anchor-derived constraints; 100 records \\
+Historical ARD adaptation & All four & Fixed selection-stage weight one; five repeated contexts, 100 records \\
+ID-reference bank & All four & Three widths $\times$ three seeds each, shared across contexts \\
+Train/validation and readout trajectories & MNIST: 12, 32, 64; dSprites: 6, 16, 32 & $\beta=1$, five seeds each; 30 runs \\
+AU prediction & Develop: MNIST; evaluate: dSprites, Fashion-MNIST, CIFAR-10 & $\beta=1$; 55 development and 155 evaluation rows \\
+Search replay and start-width ablation & All four & Seven policies, 700 rows; 10,000 coefficient/threshold settings \\
+Separate MC ELBO capacity study & MNIST & One seed, 12 ordinary VAE widths \\
+Additional ARM validation & All four & Three seeds, 12 runs; $\beta=1$ anchor \\
+Additional exact-Jacobian ARD & All four & Three seeds, two variance-update centres; 24 runs \\
+Synthetic diagnostic & Swiss roll and torus & Six capacities, three seeds, two scaling options; 72 runs \\
+\bottomrule\end{tabularx}
+\end{table}
+
+@@block:124@@
+\subsection{Historical Pruning and Relevance Adaptations}\label{app:adaptations}
+The GECO adaptation uses Adam at $10^{-3}$, batches of 128 in stored
+order, 300 epochs and hard-concrete parameters $\gamma=-0.1$,
+$\zeta=1.1$ and temperature $2/3$. Initial gate log-odds are 2. The
+constraint is summed squared reconstruction error minus
+$D_{\rm input}T_{D,s}$, with moving-average coefficient 0.99. A squared
+softplus multiplier is clamped to $[10^{-6},10^6]$ and updated by ascent
+on that moving-average violation. KL is gate-masked; the expected gate
+penalty is enabled only when the moving-average constraint is satisfied.
+The final readout counts deterministic gates above 0.5. Its training
+constraint uses squared error even on dSprites; the transferred ordinary
+VAE there uses Bernoulli reconstruction. Consequently the candidate
+likelihood convention does not imply identical pruning-stage objectives.
+
+@@block:130@@
+The additional exact-Jacobian runs are reported separately in
+Section~\ref{sec:newpruning}; they do not replace these historical records.
+
+@@block:141@@
+\section{Additional GPU Validation Records}\label{app:gpu}
+The new records comprise three seeds per dataset for ARM and for each
+ARD variance-update setting. Gate bins in Table~\ref{tab:armgates} and
+the individual constraint trajectories in Figure~\ref{fig:armconstraints}
+show why a thresholded dimension count is insufficient to diagnose
+successful pruning. In particular, dSprites does not approach a decisive
+binary gate configuration or a satisfied constraint.
+@@table52:arm_gates@@
+
+@@block:142@@
+\begin{figure}[!htbp]
+\includegraphics[width=\textwidth]{results/figures/MAKE52/arm_constraints.pdf}
+\caption{Moving-average stochastic training constraint for each new ARM
+seed, recorded every five epochs. Zero is the constraint boundary;
+negative values satisfy it. A symmetric logarithmic vertical scale
+accommodates large positive violations and negative values. These
+trajectories are distinct from deterministic validation-target attainment.}
+\label{fig:armconstraints}
+\end{figure}
+
+@@block:143@@
+Figures~\ref{fig:armcurves} and~\ref{fig:ardcurves} report evaluation-mode
+reconstruction curves for all four datasets. They describe the supplied
+300-epoch runs; a visually flat curve does not certify an optimum.
+The ARD figure uses zero-centre variance updates. All 24 ARD curve
+records, including the sample-centred variant, are in the supplement.
+
+@@block:144@@
+\begin{figure}[!htbp]
+\includegraphics[width=\textwidth]{results/figures/MAKE52/arm_curves.pdf}
+\caption{Native ARM posterior-mean MSE with the current binary gate mask,
+evaluated every five epochs on a 2000-example training subset and the
+validation split. Lines and shading are mean and sample SD over three
+seeds. Vertical axes are logarithmic; a shaded lower bound is clipped
+above zero for display. These curves do not reconstruct missing historical
+ordinary-VAE training records.}
+\label{fig:armcurves}
+\end{figure}
+
+@@block:145@@
+\begin{figure}[!htbp]
+\includegraphics[width=\textwidth]{results/figures/MAKE52/ard_curves.pdf}
+\caption{Full-width ARD posterior-mean MSE with zero-centre variance
+updates, evaluated every five epochs. Mean and sample SD over three
+seeds; logarithmic vertical axes. The 2000-example training-pool subset
+includes 1800 examples reserved for prior updates and 200 used in
+parameter-gradient training, so its curve is not a pure training-fit
+estimate. No native pruning is applied in these evaluations.}
+\label{fig:ardcurves}
+\end{figure}
+
+@@block:146@@
+Table~\ref{tab:newtest} reports held-out test reconstruction at the
+fixed final native models and transferred ordinary widths. Selection
+uses the constraint or validation-based relevance readout, not these
+test metrics. The full-model ARD column is deliberately distinguished
+from quality at a selected native dimension.
+@@table52:new_test@@
+
+@@block:147@@
+Table~\ref{tab:newcost} reports logged duration components. The source
+records identify an NVIDIA GPU and the software environment. Training
+intervals include periodic evaluation; the ARD initial and final prior
+updates and final native evaluation are not included in the listed
+training/Jacobian intervals. Jacobian timing pertains to 100 validation
+examples and the particular architecture. Missing reference, anchor,
+transfer and evaluation components preclude interpreting these numbers
+as complete selector costs or combining them with historical CPU ID time.
+@@table52:new_cost@@
+
+@@block:148@@
+The recorded \texttt{elbo} and \texttt{val\_elbo} fields remain in the
+unmodified raw files for provenance but are not used as native ELBO
+measurements (Section~\ref{sec:gpuvalidation}). Additional pruning
+checkpoints were not saved, so native post-pruning ARD reconstruction
+or a corrected native likelihood cannot be recovered from these
+summary files alone. The analytic ARM-gradient check validates a
+component; it cannot replace those model-level evaluations.
+
+@@block:149@@
+\section{Reproducibility Inventory and Remaining Records}\label{app:inventory}
+The reaggregation entry point is
+\path{src/make51/rebuild_review.py}; it reads saved JSON and configuration
+files and writes numerical tables, six figures and the paired predictive
+analysis from the historical records. The new search analysis is
+\path{src/make51/replay_search.py}; the bounded model validation is
+\path{src/make51/validate_models.py}. Its outputs are summarized by
+\path{src/make51/summarize_validation.py}. The additional-run reaggregation is
+\path{src/make52/summarize_revision.py}, and manuscript assembly is
+\path{src/make52/build_manuscript.py}. The generated main TeX embeds its
+table contents and references the figure PDFs. Compile from the project
+root with \texttt{pdflatex} repeatedly until references settle.
+The accompanying \texttt{MAKE52\_reproducibility.zip} supplies the files,
+not only this inventory. Its README distinguishes inexpensive
+reaggregation from optional retraining, gives dependency versions and
+lists unavailable historical artifacts. \texttt{MANIFEST.sha256}
+identifies the included payload. The archive contains a fixed source
+snapshot and is usable without access to a private repository.
+
+@@block:150@@
+\begin{table}[H]
+\caption{Source-to-output map for the present revision. Paths below are
+relative to the project root.}
+\label{tab:inventory}\footnotesize
+\begin{tabularx}{\textwidth}{lX}\toprule
+Evidence & File or directory \\\midrule
+Configuration & \path{config/experiment_config_MAKE49.json} \\
+Ordinary method records & \path{results/make49/stage4_methods.json} \\
+Pruning records & \path{results/make49/stage7_b7b8.json} \\
+Candidate metrics and latent variances & \path{results/make49/stage4_cache/} \\
+Train/validation and readout trajectories & \path{results/make49/stage3_e7a_e2.json} \\
+ID representation diagnostics & \path{results/make49/stage5_e3_reference.json} \\
+Original AU prediction result & \path{results/make49/stage5_e4_au_value.json} \\
+Synthetic runs & \path{results/make49/stage6_e6_synthetic.json} \\
+All audited method rows & \path{results/make51/method_results.csv} \\
+Paired AU analysis & \path{results/make51/au_paired.json} \\
+Search replay and sensitivity & \path{results/make51/search_replay.csv}; \path{results/make51/search_sensitivity.csv} \\
+Timing lineage & \path{results/make51/cost_lineage.csv} \\
+Separate MNIST model records & \path{results/make51/model_validation/} \\
+Additional start-width control & \path{results/make52/start_width_ablation.json} \\
+Additional ARM/ARD records & \path{results/make52/geco_arm_all.json}; \path{results/make52/ard_native_all.json} \\
+Additional-run aggregation & \path{results/make52/manuscript_summary.json} \\
+Additional source identities & \path{results/make52/manuscript_source_manifest.json} \\
+Snapshot identities & \path{results/make51/source_manifest.json} \\
+Figures & \path{results/figures/MAKE51/}; \path{results/figures/MAKE52/} \\
+\bottomrule\end{tabularx}
+\end{table}
+
+@@block:153@@
+The additional start-width and pruning records are separate retrospective
+analyses. Reaggregation checks merged versus per-dataset files, three-seed
+coverage, 300-epoch curve endpoints, raw count readouts, anchor targets
+and transferred cache metrics. This verifies consistency of the supplied
+records, not rerun equivalence of unavailable checkpoints.

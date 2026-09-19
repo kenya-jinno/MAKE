@@ -1,0 +1,14 @@
+\begin{table}[H]
+\caption{Raw dimension readouts: historical HC and unnormalized finite-step ARD (five seeds) versus new ARM and exact-Jacobian ARD (three seeds). Mean $\pm$ sample SD. Different training and readout settings prevent attributing every difference to the estimator alone. The corrected historical finite-step ARD results are retained in Table~\ref{tab:ard_normalized}.}\label{tab:newcounts}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
+\toprule
+Dataset & HC ($n=5$) & ARM ($n=3$) & Old ARD ($n=5$) & Exact, zero & Exact, sample \\
+\midrule
+MNIST & $7.2 \pm 0.4$ & $7.7 \pm 0.6$ & $6.0 \pm 0.0$ & $6.0 \pm 0.0$ & $6.0 \pm 0.0$ \\
+Fashion-MNIST & $4.2 \pm 0.4$ & $4.7 \pm 0.6$ & $3.8 \pm 0.4$ & $4.0 \pm 0.0$ & $4.0 \pm 0.0$ \\
+dSprites & $64.0 \pm 0.0$ & $54.0 \pm 7.2$ & $9.2 \pm 1.5$ & $9.0 \pm 0.0$ & $9.7 \pm 0.6$ \\
+CIFAR-10 & $20.0 \pm 1.0$ & $21.0 \pm 2.6$ & $14.2 \pm 0.4$ & $26.7 \pm 0.6$ & $26.3 \pm 0.6$ \\
+\bottomrule\end{tabular*}
+\end{table}

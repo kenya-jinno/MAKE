@@ -1,0 +1,15 @@
+{
+  "MAKE52_\u5b9f\u9a13\u691c\u8a3c\u7d50\u679c.md": "d7842e4d687af79d94b40ac60136965b3cec1a1cac00317b28238632b3d241b7",
+  "src/make52/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "src/make52/ard_native.py": "62083efeb057bea8488573f73b8314bd015392cfb468fd30303f82aa7400eda3",
+  "src/make52/build_manuscript.py": "2ac6447f47f12654c32907e0f5970081f5922a42ce847454be9f86e1ac40a219",
+  "src/make52/geco_arm.py": "d9c562704a8be5e75fe7df6bd6dce3c1787e8959a1bff1b0020ddc0eb23677c5",
+  "src/make52/package_supplement.py": "047b1db19c5873e1c02aa83cf7f7830f5395cfbfc757b5d6b2f1cf62a7db64a7",
+  "src/make52/start_width_ablation.py": "62246811bcce267c88cd7c661f28a5c3946fbd3e7a0e189ce777dee1823e689c",
+  "src/make52/summarize_revision.py": "141cd05023e9ad982c5d280e11302dc6966798a769e83b6c3bf5b70fb59b6bef",
+  "src/make52/test_arm_estimator.py": "b8b08b94e525cc158d5d4ff3699d4763071bfcd31fbbfa735fb4645c73d7c966",
+  "results/make52/geco_arm_all.json": "a4b5b1958fad327c92eaa2ae80b2ae5ac755e0280d9f63c77862800af3cde0c9",
+  "results/make52/ard_native_all.json": "a14542f905e00dc900ff3ee15054281258d3407fc23ccce5d6be9273f634a655",
+  "results/make52/start_width_ablation.json": "06aee0f2dbf1289f2ad90cf49fde8ed2c088af74bf7fc0a18036b24d5f08395e",
+  "results/make52/stratified_replay.json": "5cd8179e362a07df663393452eaac94cc8f05008e1e3bafc6dc3f92fc8089a61"
+}

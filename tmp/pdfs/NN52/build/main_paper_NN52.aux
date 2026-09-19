@@ -1,0 +1,265 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{kingma2014vae}
+\citation{facco2017twonn,levina2005mle}
+\citation{bonheme2022fondue}
+\citation{burda2016iwae,bonheme2023active}
+\citation{deboom2020geco,saha2025ardvae}
+\@writefile{toc}{\contentsline {section}{\numberline {1}はじめに}{1}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{1}{1}{はじめに}{section.1}{}}
+\citation{tippingbishop1999ppca}
+\citation{tenenbaum2000isomap}
+\citation{roweis2000lle}
+\citation{ceruti2014danco,johnsson2015ess,costa2004geodesic}
+\citation{camastra2016intrinsic,allegra2020data}
+\citation{galka2022isolation}
+\citation{ansuini2019intrinsic,pope2021intrinsic}
+\citation{bonheme2022fondue}
+\citation{bonheme2023active}
+\citation{deboom2020geco,rezende2018geco}
+\citation{louizos2018l0}
+\citation{saha2025ardvae}
+\citation{obata2025manifold}
+\@writefile{toc}{\contentsline {section}{\numberline {2}関連研究}{2}{section.2}\protected@file@percent }
+\newlabel{sec:related}{{2}{2}{関連研究}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}次元，再構成，潜在変数の活性}{2}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}先行会議論文および以前の原稿との関係}{2}{subsection.2.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces 会議論文，以前の学術誌投稿稿，本改訂の対象範囲。}}{3}{table.caption.1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tab:history}{{1}{3}{会議論文，以前の学術誌投稿稿，本改訂の対象範囲。}{table.caption.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}評価の枠組み}{3}{section.3}\protected@file@percent }
+\newlabel{sec:framework}{{3}{3}{評価の枠組み}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}モデルと品質目標}{3}{subsection.3.1}\protected@file@percent }
+\newlabel{sec:quality}{{3.1}{3}{モデルと品質目標}{subsection.3.1}{}}
+\newlabel{eq:target}{{1}{3}{モデルと品質目標}{equation.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}再評価用の統一単価と過去の費用記録}{3}{subsection.3.2}\protected@file@percent }
+\newlabel{sec:cost}{{3.2}{3}{再評価用の統一単価と過去の費用記録}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}出力と終了状態}{4}{subsection.3.3}\protected@file@percent }
+\newlabel{sec:outcomes}{{3.3}{4}{出力と終了状態}{subsection.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}参照モデル群と信頼性検査}{4}{subsection.3.4}\protected@file@percent }
+\newlabel{sec:algorithm}{{3.4}{4}{参照モデル群と信頼性検査}{subsection.3.4}{}}
+\newlabel{eq:checks}{{2}{4}{参照モデル群と信頼性検査}{equation.2}{}}
+\citation{whitney1944}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}事後的に定義した探索方策}{5}{subsection.3.5}\protected@file@percent }
+\newlabel{sec:replay}{{3.5}{5}{事後的に定義した探索方策}{subsection.3.5}{}}
+\newlabel{alg:replay}{{1}{5}{ID-localの再評価と開始次元数の対照}{Algorithm.1}{}}
+\citation{tippingbishop1999ppca,lucas2019elbo}
+\citation{rolinek2019pca}
+\citation{lecun1998}
+\citation{xiao2017fashion}
+\citation{krizhevsky2009learning}
+\citation{matthey2017dsprites}
+\@writefile{toc}{\contentsline {section}{\numberline {4}理論的背景}{6}{section.4}\protected@file@percent }
+\newlabel{sec:theory}{{4}{6}{理論的背景}{section.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}実験設定}{6}{section.5}\protected@file@percent }
+\newlabel{sec:setup}{{5}{6}{実験設定}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}データ，構造，最適化}{6}{subsection.5.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces 候補VAEの画像データ設定。すべて18,000学習例，2000検証例，3000 test例を用いる。G：ガウス，B：ベルヌーイ。予算は記録時間の上限であり，候補学習呼出しの共通上限は12回。ID参照AEは別途加わる。}}{6}{table.caption.2}\protected@file@percent }
+\newlabel{tab:data}{{2}{6}{候補VAEの画像データ設定。すべて18,000学習例，2000検証例，3000 test例を用いる。G：ガウス，B：ベルヌーイ。予算は記録時間の上限であり，候補学習呼出しの共通上限は12回。ID参照AEは別途加わる。}{table.caption.2}{}}
+\citation{fu2019cyclical}
+\newlabel{eq:loss}{{3}{7}{データ，構造，最適化}{equation.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}手法と読み取り}{7}{subsection.5.2}\protected@file@percent }
+\newlabel{sec:methods}{{5.2}{7}{手法と読み取り}{subsection.5.2}{}}
+\newlabel{eq:au}{{4}{8}{手法と読み取り}{equation.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}実行環境と事前仕様の範囲}{8}{subsection.5.3}\protected@file@percent }
+\newlabel{sec:provenance}{{5.3}{8}{実行環境と事前仕様の範囲}{subsection.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}範囲を限定した新規モデル検証}{8}{subsection.5.4}\protected@file@percent }
+\newlabel{sec:newvalidation}{{5.4}{8}{範囲を限定した新規モデル検証}{subsection.5.4}{}}
+\citation{deboom2020geco}
+\citation{saha2025ardvae}
+\newlabel{eq:mc}{{5}{9}{範囲を限定した新規モデル検証}{equation.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}データセット横断の追加構成要素検証}{9}{subsection.5.5}\protected@file@percent }
+\newlabel{sec:gpuvalidation}{{5.5}{9}{データセット横断の追加構成要素検証}{subsection.5.5}{}}
+\newlabel{eq:exactard}{{6}{10}{データセット横断の追加構成要素検証}{equation.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}結果}{10}{section.6}\protected@file@percent }
+\newlabel{sec:results}{{6}{10}{結果}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}探索の判断と統一費用}{10}{subsection.6.1}\protected@file@percent }
+\newlabel{sec:replayresults}{{6.1}{10}{探索の判断と統一費用}{subsection.6.1}{}}
+\newlabel{eq:dominance}{{7}{10}{探索の判断と統一費用}{equation.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces $\beta =1$，5シードでの事後的な探索再評価。$Q$：目標達成；一致：全グリッドの最小適格次元との一致；$\Delta m$：平均超過次元数。呼出し数にはアンカーを含む。費用はキーごとの単一の保存単価に，ID方策では参照群全体の費用を加えた秒数であり，新たな実時間測定ではない。dSpritesはベルヌーイ，他はガウス尤度。}}{11}{table.caption.3}\protected@file@percent }
+\newlabel{tab:replay1}{{3}{11}{$\beta =1$，5シードでの事後的な探索再評価。$Q$：目標達成；一致：全グリッドの最小適格次元との一致；$\Delta m$：平均超過次元数。呼出し数にはアンカーを含む。費用はキーごとの単一の保存単価に，ID方策では参照群全体の費用を加えた秒数であり，新たな実時間測定ではない。dSpritesはベルヌーイ，他はガウス尤度。}{table.caption.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces $\beta =1$，5シードでの事後的な探索再評価。$Q$：目標達成；一致：全グリッドの最小適格次元との一致；$\Delta m$：平均超過次元数。呼出し数にはアンカーを含む。費用はキーごとの単一の保存単価に，ID方策では参照群全体の費用を加えた秒数であり，新たな実時間測定ではない。dSpritesはベルヌーイ，他はガウス尤度。}}{11}{table.caption.4}\protected@file@percent }
+\newlabel{tab:replay2}{{4}{11}{$\beta =1$，5シードでの事後的な探索再評価。$Q$：目標達成；一致：全グリッドの最小適格次元との一致；$\Delta m$：平均超過次元数。呼出し数にはアンカーを含む。費用はキーごとの単一の保存単価に，ID方策では参照群全体の費用を加えた秒数であり，新たな実時間測定ではない。dSpritesはベルヌーイ，他はガウス尤度。}{table.caption.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}信頼性判定とfallbackを固定した開始次元数の比較}{12}{subsection.6.2}\protected@file@percent }
+\newlabel{sec:gated}{{6.2}{12}{信頼性判定とfallbackを固定した開始次元数の比較}{subsection.6.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces 各データセットで5重み・5候補シードにわたる開始次元数のアブレーション。ID採用はMNISTの25条件，fallbackは他3データセットの75条件である。ID-localとID-gated midpointは同じ信頼性判定，fallback，参照群の費用計上を用いる。参照群を使わない中点方策は別方策である。一致は全グリッド最小値との一致を表す。費用は初回利用の統一秒数であり，新しい実時間測定ではない。}}{12}{table.caption.5}\protected@file@percent }
+\newlabel{tab:gated}{{5}{12}{各データセットで5重み・5候補シードにわたる開始次元数のアブレーション。ID採用はMNISTの25条件，fallbackは他3データセットの75条件である。ID-localとID-gated midpointは同じ信頼性判定，fallback，参照群の費用計上を用いる。参照群を使わない中点方策は別方策である。一致は全グリッド最小値との一致を表す。費用は初回利用の統一秒数であり，新しい実時間測定ではない。}{table.caption.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}係数，信頼性，再利用に対する感度}{13}{subsection.6.3}\protected@file@percent }
+\newlabel{sec:idsensitivity}{{6.3}{13}{係数，信頼性，再利用に対する感度}{subsection.6.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces 5重みと5候補シード（各データセット25課題）にわたるID-localの費用。初回利用は毎回参照群を計上し，再利用は構築済み参照群を前提とする。一括利用は1回の参照群学習費用を25課題に配分する。いずれも記録のないID・評価の処理時間を除く。非単調は，次元増加に伴い合格から不合格へ変わる合否列の件数。}}{13}{table.caption.6}\protected@file@percent }
+\newlabel{tab:amortization}{{6}{13}{5重みと5候補シード（各データセット25課題）にわたるID-localの費用。初回利用は毎回参照群を計上し，再利用は構築済み参照群を前提とする。一括利用は1回の参照群学習費用を25課題に配分する。いずれも記録のないID・評価の処理時間を除く。非単調は，次元増加に伴い合格から不合格へ変わる合否列の件数。}{table.caption.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}記録された選択器の品質}{13}{subsection.6.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces $\beta =1$での次元選択（ガウス尤度）。値は5候補学習シードの平均$\pm $標本SD。$m_{\rm  final}$は評価した通常VAEの次元数。MSEは$10^3$倍し，$Q$は検証目標の達成数。過去の時間記録は付録\ref {app:timing}に分け，再評価費用には単一の統一スナップショットを用いる。}}{14}{table.caption.7}\protected@file@percent }
+\newlabel{tab:main1}{{7}{14}{$\beta =1$での次元選択（ガウス尤度）。値は5候補学習シードの平均$\pm $標本SD。$m_{\rm final}$は評価した通常VAEの次元数。MSEは$10^3$倍し，$Q$は検証目標の達成数。過去の時間記録は付録\ref {app:timing}に分け，再評価費用には単一の統一スナップショットを用いる。}{table.caption.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces $\beta =1$での次元選択（dSpritesはベルヌーイ，CIFAR-10はガウス尤度）。値は5候補学習シードの平均$\pm $標本SD。$m_{\rm  final}$は評価した通常VAEの次元数。MSEは$10^3$倍し，$Q$は検証目標の達成数。過去の時間記録は付録\ref {app:timing}に分け，再評価費用には単一の統一スナップショットを用いる。}}{14}{table.caption.8}\protected@file@percent }
+\newlabel{tab:main2}{{8}{14}{$\beta =1$での次元選択（dSpritesはベルヌーイ，CIFAR-10はガウス尤度）。値は5候補学習シードの平均$\pm $標本SD。$m_{\rm final}$は評価した通常VAEの次元数。MSEは$10^3$倍し，$Q$は検証目標の達成数。過去の時間記録は付録\ref {app:timing}に分け，再評価費用には単一の統一スナップショットを用いる。}{table.caption.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}追加のnative剪定・関連度結果}{14}{subsection.6.5}\protected@file@percent }
+\newlabel{sec:newpruning}{{6.5}{14}{追加のnative剪定・関連度結果}{subsection.6.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces 未変換の次元読み取り値。過去のHC・未正規化有限刻み幅ARD（5シード）と，新しいARM・厳密ヤコビアンARD（3シード）の比較。平均$\pm $標本SD。学習・読み取り設定が異なるため，すべての差を推定器だけに帰属できない。過去の有限刻み幅ARDの修正後結果は表\ref {tab:ard_normalized}に保持する。}}{15}{table.caption.9}\protected@file@percent }
+\newlabel{tab:newcounts}{{9}{15}{未変換の次元読み取り値。過去のHC・未正規化有限刻み幅ARD（5シード）と，新しいARM・厳密ヤコビアンARD（3シード）の比較。平均$\pm $標本SD。学習・読み取り設定が異なるため，すべての差を推定器だけに帰属できない。過去の有限刻み幅ARDの修正後結果は表\ref {tab:ard_normalized}に保持する。}{table.caption.9}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces 新しいローカルARM実装。3シード（42，123，777），300 epochs。次元数と検証MSE（$10^3$倍）は平均$\pm $標本SD，括弧内は外部目標$Q$の達成数。平均再構成・標本再構成はともに学習済み二値ゲートマスクを用い，標本再構成は事後32標本による。転用は最近傍のグリッド次元における別の通常VAEを指す。制約は最終時点の確率的学習制約の達成であり，$Q$とは異なる。}}{15}{table.caption.10}\protected@file@percent }
+\newlabel{tab:armnew}{{10}{15}{新しいローカルARM実装。3シード（42，123，777），300 epochs。次元数と検証MSE（$10^3$倍）は平均$\pm $標本SD，括弧内は外部目標$Q$の達成数。平均再構成・標本再構成はともに学習済み二値ゲートマスクを用い，標本再構成は事後32標本による。転用は最近傍のグリッド次元における別の通常VAEを指す。制約は最終時点の確率的学習制約の達成であり，$Q$とは異なる。}{table.caption.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces 新しい厳密ヤコビアンARD実装。各設定3シード，300 epochs。事前分布更新の中心はゼロまたは潜在標本平均。個数は関連度の読み取り値であり，全次元は未剪定の初期次元モデルを表す。その個数へ削減したモデルではない。転用は最近傍のグリッド次元の通常VAEである。MSEは$10^3$倍，平均$\pm $標本SD，括弧内は$Q$達成数。}}{16}{table.caption.11}\protected@file@percent }
+\newlabel{tab:ardnew}{{11}{16}{新しい厳密ヤコビアンARD実装。各設定3シード，300 epochs。事前分布更新の中心はゼロまたは潜在標本平均。個数は関連度の読み取り値であり，全次元は未剪定の初期次元モデルを表す。その個数へ削減したモデルではない。転用は最近傍のグリッド次元の通常VAEである。MSEは$10^3$倍，平均$\pm $標本SD，括弧内は$Q$達成数。}{table.caption.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6}IDの表現依存性と標本数依存性}{16}{subsection.6.6}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces ID参照AEの次元数とTwoNN推定値（3参照シードの平均$\pm $SD），安定性$R$，推定量の不一致$A$。上限は$R\le 0.15$，$A\le 0.25$。同じ参照群を候補シードと$\beta $をまたいで再利用する。}}{16}{table.caption.12}\protected@file@percent }
+\newlabel{tab:id}{{12}{16}{ID参照AEの次元数とTwoNN推定値（3参照シードの平均$\pm $SD），安定性$R$，推定量の不一致$A$。上限は$R\le 0.15$，$A\le 0.25$。同じ参照群を候補シードと$\beta $をまたいで再利用する。}{table.caption.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.7}正則化と品質条件への依存}{16}{subsection.6.7}\protected@file@percent }
+\newlabel{sec:beta}{{6.7}{16}{正則化と品質条件への依存}{subsection.6.7}{}}
+\newlabel{eq:span}{{8}{16}{正則化と品質条件への依存}{equation.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces 左：推定標本数を変えた生入力の$|d_{\rm  TwoNN}-d_{\rm  MLE}|/d_{\rm  TwoNN}$。破線は0.25。右：PCA前処理後のTwoNN。PCA次元，標本数，表現は別の介入であり，AE結果は表\ref {tab:id}に示す。}}{17}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:id}{{1}{17}{左：推定標本数を変えた生入力の$|d_{\rm TwoNN}-d_{\rm MLE}|/d_{\rm TwoNN}$。破線は0.25。右：PCA前処理後のTwoNN。PCA次元，標本数，表現は別の介入であり，AE結果は表\ref {tab:id}に示す。}{figure.caption.13}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces $\beta \in \{0.25,0.5,1,2,4\}$にわたる，返却次元数のシード平均の範囲。剪定変更実装は実装監査に限定する。固定32は設計上の定数であり，fallbackの変動幅はIDの頑健性ではない。dSpritesはベルヌーイ，他はガウス尤度。}}{17}{table.caption.14}\protected@file@percent }
+\newlabel{tab:span}{{13}{17}{$\beta \in \{0.25,0.5,1,2,4\}$にわたる，返却次元数のシード平均の範囲。剪定変更実装は実装監査に限定する。固定32は設計上の定数であり，fallbackの変動幅はIDの頑健性ではない。dSpritesはベルヌーイ，他はガウス尤度。}{table.caption.14}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces 5条件で返された未変換次元数。5候補シードの平均$\pm $SD。dSpritesはベルヌーイ，他はガウス尤度。これらの通常VAE選択器では学習時の$\beta $を変える。従来ID探索窓は，重み列全体でFashion-MNIST，dSprites，CIFAR-10にfallbackを用いる。}}{18}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:beta}{{2}{18}{5条件で返された未変換次元数。5候補シードの平均$\pm $SD。dSpritesはベルヌーイ，他はガウス尤度。これらの通常VAE選択器では学習時の$\beta $を変える。従来ID探索窓は，重み列全体でFashion-MNIST，dSprites，CIFAR-10にfallbackを用いる。}{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.8}学習曲線，test評価，選択基準}{18}{subsection.6.8}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces 実際に選ばれた候補の検証MSE。$\beta =1$，5シード，dSpritesはベルヌーイ，他はガウス尤度。次元は昇順$Q$で選び，黒い十字はproxy選択epochを示す。曲線は記録上の停止時点で終わる。図\ref {fig:learning}の固定300 epochsの診断実行とは異なる。}}{19}{figure.caption.16}\protected@file@percent }
+\newlabel{fig:selectedcurves}{{3}{19}{実際に選ばれた候補の検証MSE。$\beta =1$，5シード，dSpritesはベルヌーイ，他はガウス尤度。次元は昇順$Q$で選び，黒い十字はproxy選択epochを示す。曲線は記録上の停止時点で終わる。図\ref {fig:learning}の固定300 epochsの診断実行とは異なる。}{figure.caption.16}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {14}{\ignorespaces $\beta =1$，5シードでの選択基準比較。test MSEは$10^3$倍，プローブtest正解率は\%。プローブはクラスラベル（dSpritesでは形状）を使い，容量選択にも使うのはグリッド（プローブ）だけである。時間はアンカー補完を含む過去の記録であり，再評価の統一単価ではない。記録済みプローブ時間はその選択器に課す。他の表示プローブ正解率は補助評価であり，費用は加算していない。尤度は表\ref {tab:data}による。}}{19}{table.caption.18}\protected@file@percent }
+\newlabel{tab:selection}{{14}{19}{$\beta =1$，5シードでの選択基準比較。test MSEは$10^3$倍，プローブtest正解率は\%。プローブはクラスラベル（dSpritesでは形状）を使い，容量選択にも使うのはグリッド（プローブ）だけである。時間はアンカー補完を含む過去の記録であり，再評価の統一単価ではない。記録済みプローブ時間はその選択器に課す。他の表示プローブ正解率は補助評価であり，費用は加算していない。尤度は表\ref {tab:data}による。}{table.caption.18}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces 学習・検証MSE。5シードの平均と$\pm $1 SD帯を示す。MNISTはガウス，dSpritesはベルヌーイ尤度，$\beta =1$。黒い十字は各実行の検証ELBO proxyで選んだcheckpoint。この診断実行には早期停止を用いない。}}{20}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:learning}{{4}{20}{学習・検証MSE。5シードの平均と$\pm $1 SD帯を示す。MNISTはガウス，dSpritesはベルヌーイ尤度，$\beta =1$。黒い十字は各実行の検証ELBO proxyで選んだcheckpoint。この診断実行には早期停止を用いない。}{figure.caption.17}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {15}{\ignorespaces 新しいMNISTのシード42による容量選択。$\beta =1$，ガウス分散$1/2$。すべての基準が同じ12個のproxy選択checkpointから選ぶ。MSEは$10^3$倍，ELBOは例当たりの平均nats。$\pm $はMonte Carlo SE（$K=32$）であり，学習シード間SDではない。検証データによる選択を固定してからtestを評価する。}}{21}{table.caption.19}\protected@file@percent }
+\newlabel{tab:mcselection}{{15}{21}{新しいMNISTのシード42による容量選択。$\beta =1$，ガウス分散$1/2$。すべての基準が同じ12個のproxy選択checkpointから選ぶ。MSEは$10^3$倍，ELBOは例当たりの平均nats。$\pm $はMonte Carlo SE（$K=32$）であり，学習シード間SDではない。検証データによる選択を固定してからtestを評価する。}{table.caption.19}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.9}活性度の読み取り：推移，閾値，予測}{21}{subsection.6.9}\protected@file@percent }
+\newlabel{sec:au}{{6.9}{21}{活性度の読み取り：推移，閾値，予測}{subsection.6.9}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {16}{\ignorespaces 変数型の個数$V$（活性型と混合型の和）とAU数$A$。5シード，$\beta =1$，MNISTはガウス，dSpritesはベルヌーイ尤度。平均$\pm $SDはシード間変動を表す。最終列は$V/A$についてepoch 50から300までの実行内絶対変化の平均であり，時間方向の分散ではない。}}{21}{table.caption.20}\protected@file@percent }
+\newlabel{tab:readouts}{{16}{21}{変数型の個数$V$（活性型と混合型の和）とAU数$A$。5シード，$\beta =1$，MNISTはガウス，dSpritesはベルヌーイ尤度。平均$\pm $SDはシード間変動を表す。最終列は$V/A$についてepoch 50から300までの実行内絶対変化の平均であり，時間方向の分散ではない。}{table.caption.20}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces epoch 1，2，5，50，300の同一checkpointから得た変数型の個数（活性型と混合型の和）とAU。平均とシードSDを示し，線は観測されたcheckpoint間だけを結ぶ。$\beta =1$，MNISTはガウス，dSpritesはベルヌーイ尤度。全容量に等しい個数が一定でも，診断の安定性の証拠にはならない。}}{22}{figure.caption.21}\protected@file@percent }
+\newlabel{fig:readouts}{{5}{22}{epoch 1，2，5，50，300の同一checkpointから得た変数型の個数（活性型と混合型の和）とAU。平均とシードSDを示し，線は観測されたcheckpoint間だけを結ぶ。$\beta =1$，MNISTはガウス，dSpritesはベルヌーイ尤度。全容量に等しい個数が一定でも，診断の安定性の証拠にはならない。}{figure.caption.21}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces 同じ$\beta =1$候補に対する3閾値でのAU。平均$\pm $シードSD。dSpritesはベルヌーイ，他はガウス尤度。対角線は容量である。これは読み取り閾値への介入であり，図\ref {fig:beta}の学習・条件への介入とは異なる。}}{23}{figure.caption.22}\protected@file@percent }
+\newlabel{fig:delta}{{6}{23}{同じ$\beta =1$候補に対する3閾値でのAU。平均$\pm $シードSD。dSpritesはベルヌーイ，他はガウス尤度。対角線は容量である。これは読み取り閾値への介入であり，図\ref {fig:beta}の学習・条件への介入とは異なる。}{figure.caption.22}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {17}{\ignorespaces $\beta =1$の対応付きAU事後比較。飽和確率の同順位を避けるためロジスティック決定スコアを用いる。各値は，各シードの最小次元を除く全容量で評価したAUROCを5シードで平均したもの。無作為特徴量は生成器シード7の標準正規乱数3列。全手法が同じ行とラベルを用いる。}}{23}{table.caption.23}\protected@file@percent }
+\newlabel{tab:au}{{17}{23}{$\beta =1$の対応付きAU事後比較。飽和確率の同順位を避けるためロジスティック決定スコアを用いる。各値は，各シードの最小次元を除く全容量で評価したAUROCを5シードで平均したもの。無作為特徴量は生成器シード7の標準正規乱数3列。全手法が同じ行とラベルを用いる。}{table.caption.23}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.10}実装監査と退化出力}{24}{subsection.6.10}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {18}{\ignorespaces $\beta =1$のFONDUE-VAR。混合型保持の両設定，有効モデル数，品質達成数，test MSE（$10^3$倍），記録学習時間。未変換のゼロ出力も次元集計に残すが，モデルが存在しない場合にMSEはない。5シード，尤度は表\ref {tab:data}による。}}{24}{table.caption.24}\protected@file@percent }
+\newlabel{tab:var}{{18}{24}{$\beta =1$のFONDUE-VAR。混合型保持の両設定，有効モデル数，品質達成数，test MSE（$10^3$倍），記録学習時間。未変換のゼロ出力も次元集計に残すが，モデルが存在しない場合にMSEはない。5シード，尤度は表\ref {tab:data}による。}{table.caption.24}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}考察}{25}{section.7}\protected@file@percent }
+\newlabel{sec:discussion}{{7}{25}{考察}{section.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}結論}{25}{section.8}\protected@file@percent }
+\newlabel{sec:conclusion}{{8}{25}{結論}{section.8}{}}
+\@writefile{toc}{\contentsline {paragraph}{著者の貢献}{26}{section*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{研究助成}{26}{section*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{倫理審査}{26}{section*.27}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{インフォームド・コンセント}{26}{section*.28}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{データの利用可能性}{26}{section*.29}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{謝辞}{26}{section*.30}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{利益相反}{26}{section*.31}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A}品質目標と結果の計上}{27}{appendix.A}\protected@file@percent }
+\newlabel{app:targets}{{A}{27}{品質目標と結果の計上}{appendix.A}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A1}{\ignorespaces 品質アンカーと目標。MSEの単位は$10^{-3}$，5シードの平均$\pm $SD。各判定は表示平均ではなく，そのシード固有の目標を用いる。相対許容幅は10\%で，絶対下限は有効にならない。dSpritesはベルヌーイ，他はガウス尤度。}}{27}{table.caption.32}\protected@file@percent }
+\newlabel{tab:anchors}{{A1}{27}{品質アンカーと目標。MSEの単位は$10^{-3}$，5シードの平均$\pm $SD。各判定は表示平均ではなく，そのシード固有の目標を用いる。相対許容幅は10\%で，絶対下限は有効にならない。dSpritesはベルヌーイ，他はガウス尤度。}{table.caption.32}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}各状態の独立した集計}{27}{subsection.A.1}\protected@file@percent }
+\newlabel{app:outcomes}{{A.1}{27}{各状態の独立した集計}{subsection.A.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A2}{\ignorespaces $\beta =1$の結果監査。すべて5試行中の件数。S：記録上の成功；I：ID信頼性不足；B：予算超過；D：退化；N：小容量の代替なし。FBはfallbackフラグ。予算，検証品質$Q$，最終VAEの小容量化は，それぞれ独立に再計算するかフラグから読み取る。}}{28}{table.caption.33}\protected@file@percent }
+\newlabel{tab:outcomes0}{{A2}{28}{$\beta =1$の結果監査。すべて5試行中の件数。S：記録上の成功；I：ID信頼性不足；B：予算超過；D：退化；N：小容量の代替なし。FBはfallbackフラグ。予算，検証品質$Q$，最終VAEの小容量化は，それぞれ独立に再計算するかフラグから読み取る。}{table.caption.33}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A3}{\ignorespaces $\beta =1$の結果監査。すべて5試行中の件数。S：記録上の成功；I：ID信頼性不足；B：予算超過；D：退化；N：小容量の代替なし。FBはfallbackフラグ。予算，検証品質$Q$，最終VAEの小容量化は，それぞれ独立に再計算するかフラグから読み取る。}}{28}{table.caption.34}\protected@file@percent }
+\newlabel{tab:outcomes1}{{A3}{28}{$\beta =1$の結果監査。すべて5試行中の件数。S：記録上の成功；I：ID信頼性不足；B：予算超過；D：退化；N：小容量の代替なし。FBはfallbackフラグ。予算，検証品質$Q$，最終VAEの小容量化は，それぞれ独立に再計算するかフラグから読み取る。}{table.caption.34}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}探索感度と時間記録の来歴}{29}{appendix.B}\protected@file@percent }
+\newlabel{app:search}{{B}{29}{探索感度と時間記録の来歴}{appendix.B}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A4}{\ignorespaces $\beta =1$，$R\le 0.15$，$A\le 0.25$でのID-local再評価の係数感度。5係数すべてを示し，棄却されたデータセットは同じ昇順fallbackを使う。5シード，尤度は表\ref {tab:data}による。}}{29}{table.caption.35}\protected@file@percent }
+\newlabel{tab:coefficient}{{A4}{29}{$\beta =1$，$R\le 0.15$，$A\le 0.25$でのID-local再評価の係数感度。5係数すべてを示し，棄却されたデータセットは同じ昇順fallbackを使う。5シード，尤度は表\ref {tab:data}による。}{table.caption.35}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A5}{\ignorespaces $\beta =1$，$c=2$での信頼性閾値感度。ID：IDを開始点とする局所探索；FB：昇順fallback。極端な許容値はストレス条件であり，推奨閾値ではない。各結果は5シードと同じ参照群を用いる。全組合せの解析は補足資料に含める。}}{30}{table.caption.36}\protected@file@percent }
+\newlabel{tab:reliability}{{A5}{30}{$\beta =1$，$c=2$での信頼性閾値感度。ID：IDを開始点とする局所探索；FB：昇順fallback。極端な許容値はストレス条件であり，推奨閾値ではない。各結果は5シードと同じ参照群を用いる。全組合せの解析は補足資料に含める。}{table.caption.36}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}過去の時間計上と統一時間計上}{30}{subsection.B.1}\protected@file@percent }
+\newlabel{app:timing}{{B.1}{30}{過去の時間計上と統一時間計上}{subsection.B.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A6}{\ignorespaces $\beta =1$でのアンカー・最終モデルの時間監査。各項目は手法・役割・シードの記録であり，独立した学習実行ではない。同じ論理キーに異なる単価が付く場合がある。完全なキー，出典，両方の所要時間を\texttt  {cost\_lineage.csv}に示す。保存された集計指標からcheckpointの同一性は確立できない。}}{31}{table.caption.37}\protected@file@percent }
+\newlabel{tab:timing_audit}{{A6}{31}{$\beta =1$でのアンカー・最終モデルの時間監査。各項目は手法・役割・シードの記録であり，独立した学習実行ではない。同じ論理キーに異なる単価が付く場合がある。完全なキー，出典，両方の所要時間を\texttt {cost\_lineage.csv}に示す。保存された集計指標からcheckpointの同一性は確立できない。}{table.caption.37}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A7}{\ignorespaces 過去のMNIST学習時間の内訳。$\beta =1$，5シードの平均秒数。最終モデルは1回計上し，他候補列から除く。ID計算と学習後評価は別に計時されていない。FONDUEのepoch校正ではデータセット・$\beta $設定ごとに4.14秒を1回加えるが，以下には含めない。}}{31}{table.caption.38}\protected@file@percent }
+\newlabel{tab:cost}{{A7}{31}{過去のMNIST学習時間の内訳。$\beta =1$，5シードの平均秒数。最終モデルは1回計上し，他候補列から除く。ID計算と学習後評価は別に計時されていない。FONDUEのepoch校正ではデータセット・$\beta $設定ごとに4.14秒を1回加えるが，以下には含めない。}{table.caption.38}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {C}実施範囲と実装詳細}{32}{appendix.C}\protected@file@percent }
+\newlabel{app:coverage}{{C}{32}{実施範囲と実装詳細}{appendix.C}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A8}{\ignorespaces 実行した範囲。画像手法の各行は，記載した条件ごとに5学習シードを持つ。追加診断ではそれぞれのシード単位を用いる。}}{32}{table.caption.39}\protected@file@percent }
+\newlabel{tab:coverage}{{A8}{32}{実行した範囲。画像手法の各行は，記載した条件ごとに5学習シードを持つ。追加診断ではそれぞれのシード単位を用いる。}{table.caption.39}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A9}{\ignorespaces 保存ローダーと固定シードから再構成した分割の識別子。ローダーの規約に従い，int64の学習・検証・test添字配列を連結したSHA-256の先頭16桁の16進文字を用いる。公式の学習・test集合は別々の添字空間を持つ。}}{32}{table.caption.40}\protected@file@percent }
+\newlabel{tab:splits}{{A9}{32}{保存ローダーと固定シードから再構成した分割の識別子。ローダーの規約に従い，int64の学習・検証・test添字配列を連結したSHA-256の先頭16桁の16進文字を用いる。公式の学習・test集合は別々の添字空間を持つ。}{table.caption.40}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A10}{\ignorespaces FONDUEの短期学習epoch数と校正時間（データセット・条件ごとに1回，選択器時間とは別）。dSpritesは校正せず原著設定を使う。他データの安定欄は，連続した校正予測が一致したことを意味する。}}{33}{table.caption.41}\protected@file@percent }
+\newlabel{tab:epochs}{{A10}{33}{FONDUEの短期学習epoch数と校正時間（データセット・条件ごとに1回，選択器時間とは別）。dSpritesは校正せず原著設定を使う。他データの安定欄は，連続した校正予測が一致したことを意味する。}{table.caption.41}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.1}従来の固定探索窓手順}{33}{subsection.C.1}\protected@file@percent }
+\newlabel{app:legacy}{{C.1}{33}{従来の固定探索窓手順}{subsection.C.1}{}}
+\newlabel{alg:legacy}{{A1}{34}{従来の固定探索窓ID手順（監査）}{Algorithm.A1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.2}過去の剪定・関連度変更実装}{34}{subsection.C.2}\protected@file@percent }
+\newlabel{app:adaptations}{{C.2}{34}{過去の剪定・関連度変更実装}{subsection.C.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A11}{\ignorespaces 主条件での未変換の保持個数と，次元転用先の通常VAEの次元数。制約はGECO学習の最終更新時の移動平均，$Q$は最終通常VAEの検証品質であり，異なるモデル・量を評価する。ARDにはGECO制約はない。}}{34}{table.caption.42}\protected@file@percent }
+\newlabel{tab:pruning}{{A11}{34}{主条件での未変換の保持個数と，次元転用先の通常VAEの次元数。制約はGECO学習の最終更新時の移動平均，$Q$は最終通常VAEの検証品質であり，異なるモデル・量を評価する。ARDにはGECO制約はない。}{table.caption.42}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A12}{\ignorespaces 新しいMNISTのHC診断と次元転用，シード42。MSEは$10^3$倍し，同単位の目標は$25.223$。HC次元はゲート閾値を超える個数であるが，連続値での推論では非二値ゲート値も保持する。標本評価は潜在変数32標本と決定論的連続ゲートを用いる。通常VAEは最近傍のグリッド次元を使う。}}{35}{table.caption.43}\protected@file@percent }
+\newlabel{tab:native_hc}{{A12}{35}{新しいMNISTのHC診断と次元転用，シード42。MSEは$10^3$倍し，同単位の目標は$25.223$。HC次元はゲート閾値を超える個数であるが，連続値での推論では非二値ゲート値も保持する。標本評価は潜在変数32標本と決定論的連続ゲートを用いる。通常VAEは最近傍のグリッド次元を使う。}{table.caption.43}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {A1}{\ignorespaces 新しいMNISTのhard-concrete実装診断。シード42，300 epochs。学習制約は標本化した潜在変数とゲートを用い，検証は事後平均を用いる。制約と再構成の推移に加え，ゲート数と乗数を示す。独自HC実装の1実行であり，原著ARMの再現ではない。}}{35}{figure.caption.44}\protected@file@percent }
+\newlabel{fig:hc}{{A1}{35}{新しいMNISTのhard-concrete実装診断。シード42，300 epochs。学習制約は標本化した潜在変数とゲートを用い，検証は事後平均を用いる。制約と再構成の推移に加え，ゲート数と乗数を示す。独自HC実装の1実行であり，原著ARMの再現ではない。}{figure.caption.44}{}}
+\citation{bonheme2022fondue}
+\newlabel{eq:ardlocal}{{A1}{36}{過去の剪定・関連度変更実装}{equation.A1}{}}
+\newlabel{eq:ardcorrected}{{A2}{36}{過去の剪定・関連度変更実装}{equation.A2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A13}{\ignorespaces 主条件の保存スコアと事前分散から修正した，有限刻み幅の関連度読み取り。同じ保存摂動を刻み幅の二乗で正規化してから分散で重み付けし，新しいARD学習は行わない。検証するのは代数的な読み取り修正であり，厳密なヤコビアン関連度や原著学習手順ではない。test MSE（$10^3$倍）は次元転用先の通常VAEの値。}}{36}{table.caption.45}\protected@file@percent }
+\newlabel{tab:ard_normalized}{{A13}{36}{主条件の保存スコアと事前分散から修正した，有限刻み幅の関連度読み取り。同じ保存摂動を刻み幅の二乗で正規化してから分散で重み付けし，新しいARD学習は行わない。検証するのは代数的な読み取り修正であり，厳密なヤコビアン関連度や原著学習手順ではない。test MSE（$10^3$倍）は次元転用先の通常VAEの値。}{table.caption.45}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.3}閾値のみの解析と品質許容幅の解析}{37}{subsection.C.3}\protected@file@percent }
+\newlabel{app:sensitivity}{{C.3}{37}{閾値のみの解析と品質許容幅の解析}{subsection.C.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A14}{\ignorespaces 今回の予測器再構成における確率の数値飽和。AUROC計算前にちょうど1へ丸められた予測の件数を示す。決定スコアではこれらの行の順位が保持される。}}{37}{table.caption.46}\protected@file@percent }
+\newlabel{tab:saturation}{{A14}{37}{今回の予測器再構成における確率の数値飽和。AUROC計算前にちょうど1へ丸められた予測の件数を示す。決定スコアではこれらの行の順位が保持される。}{table.caption.46}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A15}{\ignorespaces CIFAR-10（ガウス尤度）で，AUが容量に等しい候補の割合（\%）。分母は次元数・シードの50候補であり，各列では同じcheckpointから各閾値の個数を読み直す。}}{37}{table.caption.47}\protected@file@percent }
+\newlabel{tab:delta_rates}{{A15}{37}{CIFAR-10（ガウス尤度）で，AUが容量に等しい候補の割合（\%）。分母は次元数・シードの50候補であり，各列では同じcheckpointから各閾値の個数を読み直す。}{table.caption.47}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A16}{\ignorespaces $\beta =1$で相対許容幅を変えた場合の，品質を満たす最小の保存次元数。5シードの平均$\pm $SD。検証分散の0.001倍という絶対下限は固定する。dSpritesはベルヌーイ，他はガウス尤度。}}{37}{table.caption.48}\protected@file@percent }
+\newlabel{tab:margin}{{A16}{37}{$\beta =1$で相対許容幅を変えた場合の，品質を満たす最小の保存次元数。5シードの平均$\pm $SD。検証分散の0.001倍という絶対下限は固定する。dSpritesはベルヌーイ，他はガウス尤度。}{table.caption.48}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {D}合成データの尺度・除去診断}{38}{appendix.D}\protected@file@percent }
+\newlabel{app:synthetic}{{D}{38}{合成データの尺度・除去診断}{appendix.D}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A17}{\ignorespaces 合成データの尺度・除去診断。ガウス尤度，$\beta =1$，$\delta =0.01$，3学習シード。標準化は分割前に行ったため，記述的な検証結果であり，情報漏洩のない汎化推定ではない。変化は実行ごとのMSE相対変化の平均（\%）。}}{38}{table.caption.49}\protected@file@percent }
+\newlabel{tab:synthetic}{{A17}{38}{合成データの尺度・除去診断。ガウス尤度，$\beta =1$，$\delta =0.01$，3学習シード。標準化は分割前に行ったため，記述的な検証結果であり，情報漏洩のない汎化推定ではない。変化は実行ごとのMSE相対変化の平均（\%）。}{table.caption.49}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {E}新しいMNISTモデルの記録}{38}{appendix.E}\protected@file@percent }
+\newlabel{app:newmodels}{{E}{38}{新しいMNISTモデルの記録}{appendix.E}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A18}{\ignorespaces 新たに学習したMNISTの全グリッド。シード42，$\beta =1$，ガウス尤度。選択epochは決定論的proxyで選び，停止epochは実際の学習最終時点。proxyはガウス正規化定数と事後期待値を省くが，MC ELBOは両方を含む。MSEは$10^3$倍。}}{39}{table.caption.50}\protected@file@percent }
+\newlabel{tab:mcgrid}{{A18}{39}{新たに学習したMNISTの全グリッド。シード42，$\beta =1$，ガウス尤度。選択epochは決定論的proxyで選び，停止epochは実際の学習最終時点。proxyはガウス正規化定数と事後期待値を省くが，MC ELBOは両方を含む。MSEは$10^3$倍。}{table.caption.50}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {A2}{\ignorespaces 新しいMNISTのシード42，6次元と64次元の学習・検証MSE。ガウス尤度，$\beta =1$。学習曲線は固定2000例の部分集合，検証は分離した全2000例を用いる。黒い十字はproxy選択epoch。新たに保存した実行であり，過去のCUDA checkpointの学習曲線を復元したものではない。}}{39}{figure.caption.51}\protected@file@percent }
+\newlabel{fig:newcurves}{{A2}{39}{新しいMNISTのシード42，6次元と64次元の学習・検証MSE。ガウス尤度，$\beta =1$。学習曲線は固定2000例の部分集合，検証は分離した全2000例を用いる。黒い十字はproxy選択epoch。新たに保存した実行であり，過去のCUDA checkpointの学習曲線を復元したものではない。}{figure.caption.51}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {F}追加GPU検証記録}{39}{appendix.F}\protected@file@percent }
+\newlabel{app:gpu}{{F}{39}{追加GPU検証記録}{appendix.F}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A19}{\ignorespaces 300 epochs後のARMゲート確率。中間は$0.1\le p\le 0.9$，他の区分は厳密不等号を用いる。期待値は$\DOTSB \sum@ \slimits@ _j p_j$，個数は$p_j>0.5$で数える。dSpritesのゲートはどちらの極端な区分にも達しないため，閾値個数を安定した二値構造と解釈すべきではない。}}{40}{table.caption.52}\protected@file@percent }
+\newlabel{tab:armgates}{{A19}{40}{300 epochs後のARMゲート確率。中間は$0.1\le p\le 0.9$，他の区分は厳密不等号を用いる。期待値は$\sum _j p_j$，個数は$p_j>0.5$で数える。dSpritesのゲートはどちらの極端な区分にも達しないため，閾値個数を安定した二値構造と解釈すべきではない。}{table.caption.52}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {A3}{\ignorespaces 新しいARM各シードの確率的学習制約の移動平均。5 epochsごとに記録した。ゼロが制約境界で，負値は制約充足を表す。大きな正の違反量と負値を表示するため，縦軸は対称対数尺度とする。これらの推移は，決定論的な検証目標の達成とは異なる。}}{40}{figure.caption.53}\protected@file@percent }
+\newlabel{fig:armconstraints}{{A3}{40}{新しいARM各シードの確率的学習制約の移動平均。5 epochsごとに記録した。ゼロが制約境界で，負値は制約充足を表す。大きな正の違反量と負値を表示するため，縦軸は対称対数尺度とする。これらの推移は，決定論的な検証目標の達成とは異なる。}{figure.caption.53}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {A4}{\ignorespaces その時点の二値ゲートマスクを用いたnative ARMの事後平均MSE。学習2000例の部分集合と検証分割で5 epochsごとに評価した。線と陰影は3シードの平均と標本SD。縦軸は対数尺度で，表示のため陰影の下限を正値に制限する。欠けている過去の通常VAE学習記録を再構成した曲線ではない。}}{41}{figure.caption.54}\protected@file@percent }
+\newlabel{fig:armcurves}{{A4}{41}{その時点の二値ゲートマスクを用いたnative ARMの事後平均MSE。学習2000例の部分集合と検証分割で5 epochsごとに評価した。線と陰影は3シードの平均と標本SD。縦軸は対数尺度で，表示のため陰影の下限を正値に制限する。欠けている過去の通常VAE学習記録を再構成した曲線ではない。}{figure.caption.54}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {A5}{\ignorespaces ゼロ中心の分散更新を用いた，全次元ARDの事後平均MSE。5 epochsごとに評価し，3シードの平均と標本SDを示す。縦軸は対数尺度。学習用プールの2000例の部分集合には，事前分布更新専用の1800例とパラメータ勾配学習に用いた200例が含まれるため，純粋な学習適合度の推定ではない。これらの評価ではnativeモデルを剪定していない。}}{42}{figure.caption.55}\protected@file@percent }
+\newlabel{fig:ardcurves}{{A5}{42}{ゼロ中心の分散更新を用いた，全次元ARDの事後平均MSE。5 epochsごとに評価し，3シードの平均と標本SDを示す。縦軸は対数尺度。学習用プールの2000例の部分集合には，事前分布更新専用の1800例とパラメータ勾配学習に用いた200例が含まれるため，純粋な学習適合度の推定ではない。これらの評価ではnativeモデルを剪定していない。}{figure.caption.55}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A20}{\ignorespaces test MSE（$10^3$倍）。3シードの平均$\pm $標本SD。ARMのnative評価は二値ゲートマスクと事後平均を用いる。ARDのnative評価は未剪定の全次元モデルを用いる。転用先通常VAEは過去の候補キャッシュから再利用したもので，そのtest集計は新しい未変換個数の選択に用いていない。}}{42}{table.caption.56}\protected@file@percent }
+\newlabel{tab:newtest}{{A20}{42}{test MSE（$10^3$倍）。3シードの平均$\pm $標本SD。ARMのnative評価は二値ゲートマスクと事後平均を用いる。ARDのnative評価は未剪定の全次元モデルを用いる。転用先通常VAEは過去の候補キャッシュから再利用したもので，そのtest集計は新しい未変換個数の選択に用いていない。}{table.caption.56}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A21}{\ignorespaces 新しいGPU剪定実験の記録時間内訳。単位は秒，3シードの平均$\pm $標本SD。学習ループには定期的な学習・検証評価を含む。ARMの事後評価は最終native評価を含むが，ARDではその時間を個別に記録していない（未記録）。アンカー，転用候補，その他の欠落費用は含まない。これらは完全なend-to-end選択器費用ではない。}}{43}{table.caption.57}\protected@file@percent }
+\newlabel{tab:newcost}{{A21}{43}{新しいGPU剪定実験の記録時間内訳。単位は秒，3シードの平均$\pm $標本SD。学習ループには定期的な学習・検証評価を含む。ARMの事後評価は最終native評価を含むが，ARDではその時間を個別に記録していない（未記録）。アンカー，転用候補，その他の欠落費用は含まない。これらは完全なend-to-end選択器費用ではない。}{table.caption.57}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {G}再現性資料の一覧と記録上の残課題}{43}{appendix.G}\protected@file@percent }
+\newlabel{app:inventory}{{G}{43}{再現性資料の一覧と記録上の残課題}{appendix.G}{}}
+\bibcite{kingma2014vae}{{1}{}{{}}{{}}}
+\@writefile{lot}{\contentsline {table}{\numberline {A22}{\ignorespaces 本改訂の出典と出力の対応。パスはプロジェクト直下からの相対パスである。}}{44}{table.caption.58}\protected@file@percent }
+\newlabel{tab:inventory}{{A22}{44}{本改訂の出典と出力の対応。パスはプロジェクト直下からの相対パスである。}{table.caption.58}{}}
+\@writefile{toc}{\contentsline {paragraph}{日本語版の生成}{44}{section*.59}\protected@file@percent }
+\bibcite{facco2017twonn}{{2}{}{{}}{{}}}
+\bibcite{levina2005mle}{{3}{}{{}}{{}}}
+\bibcite{bonheme2022fondue}{{4}{}{{}}{{}}}
+\bibcite{burda2016iwae}{{5}{}{{}}{{}}}
+\bibcite{bonheme2023active}{{6}{}{{}}{{}}}
+\bibcite{deboom2020geco}{{7}{}{{}}{{}}}
+\bibcite{saha2025ardvae}{{8}{}{{}}{{}}}
+\bibcite{tippingbishop1999ppca}{{9}{}{{}}{{}}}
+\bibcite{tenenbaum2000isomap}{{10}{}{{}}{{}}}
+\bibcite{roweis2000lle}{{11}{}{{}}{{}}}
+\bibcite{ceruti2014danco}{{12}{}{{}}{{}}}
+\bibcite{johnsson2015ess}{{13}{}{{}}{{}}}
+\bibcite{costa2004geodesic}{{14}{}{{}}{{}}}
+\bibcite{camastra2016intrinsic}{{15}{}{{}}{{}}}
+\bibcite{allegra2020data}{{16}{}{{}}{{}}}
+\bibcite{galka2022isolation}{{17}{}{{}}{{}}}
+\bibcite{ansuini2019intrinsic}{{18}{}{{}}{{}}}
+\bibcite{pope2021intrinsic}{{19}{}{{}}{{}}}
+\bibcite{rezende2018geco}{{20}{}{{}}{{}}}
+\bibcite{louizos2018l0}{{21}{}{{}}{{}}}
+\bibcite{obata2025manifold}{{22}{}{{}}{{}}}
+\bibcite{whitney1944}{{23}{}{{}}{{}}}
+\bibcite{lucas2019elbo}{{24}{}{{}}{{}}}
+\bibcite{rolinek2019pca}{{25}{}{{}}{{}}}
+\bibcite{lecun1998}{{26}{}{{}}{{}}}
+\bibcite{xiao2017fashion}{{27}{}{{}}{{}}}
+\bibcite{krizhevsky2009learning}{{28}{}{{}}{{}}}
+\bibcite{matthey2017dsprites}{{29}{}{{}}{{}}}
+\bibcite{fu2019cyclical}{{30}{}{{}}{{}}}
+\providecommand\NAT@force@numbers{}\NAT@force@numbers
+\gdef \@abspage@last{47}
