@@ -1,0 +1,10 @@
+ARD-VAE（原著対応）  dSprites  尤度 bernoulli  初期容量 64
+
+  seed 42     中心化 True   幅  10/64  転用  10  val MSE 0.00139  Jacobian 12s  学習 299s
+  seed 42     中心化 False  幅   9/64  転用   8  val MSE 0.00131  Jacobian 11s  学習 299s
+  seed 123    中心化 True   幅  10/64  転用  10  val MSE 0.00128  Jacobian 10s  学習 299s
+  seed 123    中心化 False  幅   9/64  転用   8  val MSE 0.00134  Jacobian 11s  学習 299s
+  seed 777    中心化 True   幅   9/64  転用   8  val MSE 0.00133  Jacobian 11s  学習 299s
+  seed 777    中心化 False  幅   9/64  転用   8  val MSE 0.00135  Jacobian 11s  学習 299s
+
+書き出し: /home/kjinno/claude/manifold/manifold/results/make52/ard_native_dSprites.json
