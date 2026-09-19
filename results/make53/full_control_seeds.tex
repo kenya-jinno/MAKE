@@ -1,0 +1,28 @@
+\begin{table}[t]
+\caption{Unmasked 30-epoch control, per seed (Section 5.4). Validation MSE.}
+\label{tab:full-control-seeds}
+\begin{tabularx}{\textwidth}{llcXXXXr}
+\toprule
+Variant & Dataset & Seed & Full & Mask & Full + 30 ep & Mask + 30 ep & Mask-specific (pp) \\
+\midrule
+zero-centred & MNIST & 42 & 0.02381 & 0.02382 & 0.02362 & 0.02355 & -0.34 \\
+zero-centred & MNIST & 123 & 0.02384 & 0.02385 & 0.02368 & 0.02363 & -0.26 \\
+zero-centred & MNIST & 777 & 0.02279 & 0.02353 & 0.02258 & 0.02320 & -0.47 \\
+zero-centred & dSprites & 42 & 0.00131 & 0.00304 & 0.00121 & 0.00186 & -30.96 \\
+zero-centred & dSprites & 123 & 0.00134 & 0.00297 & 0.00120 & 0.00195 & -24.17 \\
+zero-centred & dSprites & 777 & 0.00135 & 0.00313 & 0.00117 & 0.00195 & -24.43 \\
+sample-centred & MNIST & 42 & 0.02376 & 0.02377 & 0.02355 & 0.02344 & -0.49 \\
+sample-centred & MNIST & 123 & 0.02367 & 0.02368 & 0.02356 & 0.02345 & -0.49 \\
+sample-centred & MNIST & 777 & 0.02341 & 0.02342 & 0.02317 & 0.02318 & -0.04 \\
+sample-centred & FashionMNIST & 42 & 0.01934 & 0.01934 & 0.01917 & 0.01916 & -0.08 \\
+sample-centred & FashionMNIST & 123 & 0.01945 & 0.01946 & 0.01931 & 0.01925 & -0.33 \\
+sample-centred & FashionMNIST & 777 & 0.01950 & 0.01950 & 0.01926 & 0.01918 & -0.42 \\
+sample-centred & dSprites & 42 & 0.00139 & 0.00332 & 0.00124 & 0.00189 & -31.63 \\
+sample-centred & dSprites & 123 & 0.00128 & 0.00278 & 0.00116 & 0.00173 & -29.09 \\
+sample-centred & dSprites & 777 & 0.00133 & 0.00294 & 0.00119 & 0.00186 & -26.88 \\
+sample-centred & CIFAR10 & 42 & 0.01467 & 0.01511 & 0.01449 & 0.01482 & -0.71 \\
+sample-centred & CIFAR10 & 123 & 0.01419 & 0.01473 & 0.01416 & 0.01467 & -0.20 \\
+sample-centred & CIFAR10 & 777 & 0.01435 & 0.01483 & 0.01421 & 0.01469 & +0.03 \\
+\bottomrule
+\end{tabularx}
+\end{table}

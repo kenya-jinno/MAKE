@@ -1,0 +1,27 @@
+§5.4 未マスク 30-epoch 対照  追加学習 30 epochs  装置 NVIDIA GeForce RTX 3070
+
+=== 範囲 B: sample-centred（決定的再学習・Full+30ep 腕を追加）
+
+  MNIST         seed 42   選択   6/64  再現一致  Full 0.02376 → +30ep 0.02355 (-0.89%)   Mask → Adapt (-1.37%)   マスク固有 -0.49pp
+  MNIST         seed 123  選択   6/64  再現一致  Full 0.02367 → +30ep 0.02356 (-0.47%)   Mask → Adapt (-0.96%)   マスク固有 -0.49pp
+  MNIST         seed 777  選択   6/64  再現一致  Full 0.02341 → +30ep 0.02317 (-1.01%)   Mask → Adapt (-1.04%)   マスク固有 -0.04pp
+
+  FashionMNIST  seed 42   選択   4/64  再現一致  Full 0.01934 → +30ep 0.01917 (-0.86%)   Mask → Adapt (-0.94%)   マスク固有 -0.08pp
+  FashionMNIST  seed 123  選択   4/64  再現一致  Full 0.01945 → +30ep 0.01931 (-0.74%)   Mask → Adapt (-1.07%)   マスク固有 -0.33pp
+  FashionMNIST  seed 777  選択   4/64  再現一致  Full 0.01950 → +30ep 0.01926 (-1.23%)   Mask → Adapt (-1.65%)   マスク固有 -0.42pp
+
+  dSprites      seed 42   選択  10/64  再現一致  Full 0.00139 → +30ep 0.00124 (-11.30%)   Mask → Adapt (-42.92%)   マスク固有 -31.63pp
+  dSprites      seed 123  選択  10/64  再現一致  Full 0.00128 → +30ep 0.00116 (-8.86%)   Mask → Adapt (-37.95%)   マスク固有 -29.09pp
+  dSprites      seed 777  選択   9/64  再現一致  Full 0.00133 → +30ep 0.00119 (-9.97%)   Mask → Adapt (-36.86%)   マスク固有 -26.88pp
+
+  CIFAR10       seed 42   選択  26/256  再現一致  Full 0.01467 → +30ep 0.01449 (-1.22%)   Mask → Adapt (-1.93%)   マスク固有 -0.71pp
+  CIFAR10       seed 123  選択  26/256  再現一致  Full 0.01419 → +30ep 0.01416 (-0.20%)   Mask → Adapt (-0.39%)   マスク固有 -0.20pp
+  CIFAR10       seed 777  選択  27/256  再現一致  Full 0.01435 → +30ep 0.01421 (-0.99%)   Mask → Adapt (-0.96%)   マスク固有 +0.03pp
+
+=== 微調整 RNG 感度（MNIST・雑音下限の測定）
+
+  seed 42   Full 0.02376  +30ep 変化 -1.055%  -1.250%  -0.895%  SD 0.178pp  幅 0.355pp
+  seed 123  Full 0.02367  +30ep 変化 -0.548%  -0.607%  -0.702%  SD 0.077pp  幅 0.153pp
+  seed 777  Full 0.02341  +30ep 変化 -1.146%  -0.898%  -1.131%  SD 0.139pp  幅 0.248pp
+
+書き出し: /home/kjinno/claude/manifold/manifold/results/make53/full_control.json  総実時間 37.9 分

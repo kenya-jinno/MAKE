@@ -1,0 +1,17 @@
+\begin{table}[t]
+\caption{Unmasked 30-epoch control (Section 5.4). Validation MSE, mean $\pm$ SD over three training seeds. Decoder-only fine-tuning, 18{,}000 examples, identical optimiser and budget in both arms. Mask-specific is the difference between the two relative changes, in percentage points; a value near zero means the improvement is not specific to masking.}
+\label{tab:full-control}
+\begin{tabularx}{\textwidth}{llXXXXrr}
+\toprule
+Variant & Dataset & Full & Mask & Full + 30 ep & Mask + 30 ep & $\Delta$Full (\%) & Mask-specific (pp) \\
+\midrule
+zero-centred & MNIST & 0.02348 $\pm$ 0.00059 & 0.02373 $\pm$ 0.00018 & 0.02329 $\pm$ 0.00062 & 0.02346 $\pm$ 0.00023 & -0.80 & -0.36 $\pm$ 0.11 \\
+ & dSprites & 0.00133 $\pm$ 0.00002 & 0.00305 $\pm$ 0.00008 & 0.00119 $\pm$ 0.00002 & 0.00192 $\pm$ 0.00005 & -10.57 & -26.52 $\pm$ 3.85 \\
+\midrule
+sample-centred & MNIST & 0.02361 $\pm$ 0.00018 & 0.02362 $\pm$ 0.00018 & 0.02343 $\pm$ 0.00022 & 0.02336 $\pm$ 0.00016 & -0.79 & -0.34 $\pm$ 0.26 \\
+ & FashionMNIST & 0.01943 $\pm$ 0.00008 & 0.01943 $\pm$ 0.00008 & 0.01924 $\pm$ 0.00007 & 0.01919 $\pm$ 0.00005 & -0.94 & -0.28 $\pm$ 0.18 \\
+ & dSprites & 0.00133 $\pm$ 0.00006 & 0.00301 $\pm$ 0.00027 & 0.00120 $\pm$ 0.00004 & 0.00183 $\pm$ 0.00009 & -10.04 & -29.20 $\pm$ 2.37 \\
+ & CIFAR10 & 0.01440 $\pm$ 0.00024 & 0.01489 $\pm$ 0.00020 & 0.01429 $\pm$ 0.00018 & 0.01473 $\pm$ 0.00008 & -0.80 & -0.29 $\pm$ 0.38 \\
+\bottomrule
+\end{tabularx}
+\end{table}
