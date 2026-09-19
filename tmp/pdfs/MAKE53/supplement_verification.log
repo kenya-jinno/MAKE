@@ -1,0 +1,11 @@
+Extracted MAKE53_reproducibility.zip to /Users/jinno/Dropbox/Work/claude/manifold/git/MAKE/tmp/pdfs/MAKE53/supplement_9xow9hs3
+Passed: src/make51/rebuild_review.py
+Passed: src/make51/replay_search.py
+Passed: src/make51/summarize_validation.py
+Passed: src/make52/summarize_revision.py
+Passed: src/make53/summarize_native_pruning.py
+Passed: src/make53/build_manuscript.py
+Passed: src/nn53/assemble_blocks.py
+Passed: src/nn53/render_figures.py
+Passed: src/nn53/build_japanese.py
+Verified 47 rebuilt tables/manuscripts/key records, all byte-identical.

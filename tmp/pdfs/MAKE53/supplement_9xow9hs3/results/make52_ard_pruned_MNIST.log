@@ -1,0 +1,7 @@
+ARD-VAE native 枝刈り評価  MNIST  初期容量 64  微調整 30 epochs
+
+  seed 42     選択   6/64  未枝刈り 0.02376  枝刈り 0.02377  微調整後 0.02344  転用(6) 0.02267
+  seed 123    選択   6/64  未枝刈り 0.02367  枝刈り 0.02368  微調整後 0.02345  転用(6) 0.02241
+  seed 777    選択   6/64  未枝刈り 0.02341  枝刈り 0.02342  微調整後 0.02318  転用(6) 0.02244
+
+書き出し: /home/kjinno/claude/manifold/manifold/results/make52/ard_pruned_MNIST.json

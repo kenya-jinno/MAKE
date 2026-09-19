@@ -1,0 +1,22 @@
+{
+  "purpose": "Reviewer 2 No.3 への直接回答。ARD-VAE について、選択軸だけを残した native モデルの品質を、未枝刈り・枝刈り後・次元転用と分けて評価する。",
+  "registered_before_running": "2026-09-19",
+  "rationale": "MAKE52_revision_review.md §4.2 は、手法を増やすより 1 手法について原著との差分を減らし、選択後の native モデル品質を複数 seed で揃えるほうが R2-3 への回答として直接的だと述べている。現在の Table 11 は full-width モデルと転用先の品質を示しており、native な枝刈り後の品質を示していない。",
+  "conditions_defined_in_advance": {
+    "unpruned": "学習済み ARD-VAE の全 L 軸を用い、決定論的再構成 g(mu) で評価する。",
+    "pruned_masked": "同一モデルの非選択軸を事前平均 0 に固定し、決定論的再構成で評価する。復号器は再学習しない。原著が述べる『非関連軸は復号器出力をほとんど変えない』が成り立つなら unpruned との差は小さいはずであり、この条件はその主張の直接の検証になる。",
+    "pruned_finetuned": "pruned_masked の状態から復号器のみを 30 epochs 微調整して評価する。符号化器と事前分散は固定する。予算は事前に固定し、結果を見て延長しない。",
+    "transfer": "選択幅に最も近い候補グリッド点で通常の VAE を新規に学習した結果。既存キャッシュから引く。"
+  },
+  "evaluation": {
+    "metric": "画素平均 MSE（validation と test）および真の ELBO（beta=1）",
+    "reconstruction": "決定論的 g(mu)。事後標本評価は補助として K=32 で併記する",
+    "seeds": [42, 123, 777],
+    "datasets": ["MNIST", "FashionMNIST", "dSprites", "CIFAR10"],
+    "centering": "原著 Eq.9 に合わせ mu^alpha を引く（中心化あり）に固定する"
+  },
+  "what_this_cannot_show": [
+    "原著の学習系・初期化・ハイパーパラメータ全体の再現",
+    "native 枝刈りが転用より優れるという一般的主張（本実験は 4 データ・3 seeds の観測）"
+  ]
+}

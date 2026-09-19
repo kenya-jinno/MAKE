@@ -1,0 +1,65 @@
+{
+ "MNIST": {
+  "calibration_config": {
+   "m": 16,
+   "n_train": 18000,
+   "n_params": 1079600
+  },
+  "measured_seconds_per_epoch": 0.3267021190943976,
+  "measured_elapsed_seconds": 66.32053017616272,
+  "measured_epochs_run": 203,
+  "stopped_early": true,
+  "plateau": false,
+  "one_run_300ep_seconds": 98.01063572831929,
+  "max_runs": 12,
+  "twelve_runs_seconds": 1176.1276287398314,
+  "overhead_factor": 1.25,
+  "max_wallclock_seconds_per_dataset_method_seed": 1470,
+  "max_wallclock_hours": 0.41,
+  "grid_size": 12,
+  "basis": "12 training runs x 300 epochs (no early stop) x 1.25 overhead",
+  "note": "per-epoch time is nearly independent of m, so one calibration m is used per dataset"
+ },
+ "dSprites": {
+  "calibration_config": {
+   "m": 16,
+   "n_train": 18000,
+   "n_params": 1578721
+  },
+  "measured_seconds_per_epoch": 1.1472833704674381,
+  "measured_elapsed_seconds": 299.44095969200134,
+  "measured_epochs_run": 261,
+  "stopped_early": true,
+  "plateau": true,
+  "one_run_300ep_seconds": 344.18501114023144,
+  "max_runs": 12,
+  "twelve_runs_seconds": 4130.2201336827775,
+  "overhead_factor": 1.25,
+  "max_wallclock_seconds_per_dataset_method_seed": 5163,
+  "max_wallclock_hours": 1.43,
+  "grid_size": 12,
+  "basis": "12 training runs x 300 epochs (no early stop) x 1.25 overhead",
+  "note": "per-epoch time is nearly independent of m, so one calibration m is used per dataset"
+ },
+ "CIFAR10": {
+  "calibration_config": {
+   "m": 64,
+   "n_train": 18000,
+   "n_params": 726467
+  },
+  "measured_seconds_per_epoch": 0.64968170438494,
+  "measured_elapsed_seconds": 40.92994737625122,
+  "measured_epochs_run": 63,
+  "stopped_early": true,
+  "plateau": false,
+  "one_run_300ep_seconds": 194.904511315482,
+  "max_runs": 12,
+  "twelve_runs_seconds": 2338.854135785784,
+  "overhead_factor": 1.25,
+  "max_wallclock_seconds_per_dataset_method_seed": 2924,
+  "max_wallclock_hours": 0.81,
+  "grid_size": 10,
+  "basis": "12 training runs x 300 epochs (no early stop) x 1.25 overhead",
+  "note": "per-epoch time is nearly independent of m, so one calibration m is used per dataset"
+ }
+}

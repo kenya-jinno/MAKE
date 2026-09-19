@@ -1,0 +1,8 @@
+GECO + L0-ARM（原著推定量）  dSprites  尤度 bernoulli  初期容量 64
+  L0-ARM (原著 Eq.12) / NVIDIA GeForce RTX 3070 / torch 2.7.1+cu118
+
+  seed 42     幅  52/64  制約充足 False  C_ma  +168.49  val MSE 0.04236  ELBO -2397.000  665s
+  seed 123    幅  62/64  制約充足 False  C_ma  +168.59  val MSE 0.04236  ELBO -2397.013  664s
+  seed 777    幅  48/64  制約充足 False  C_ma  +168.45  val MSE 0.04236  ELBO -2396.989  665s
+
+書き出し: /home/kjinno/claude/manifold/manifold/results/make52/geco_arm_dSprites.json

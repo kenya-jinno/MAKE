@@ -1,0 +1,22 @@
+\begin{table}[H]
+\caption{Per-seed native-pruning validation MSE $\times10^3$. Count is the relevance-selected axis count; Grid is the transferred ordinary-VAE width. Full, Mask and Adapt use posterior means. Sampled mask averages MSE over 32 posterior draws before adaptation; it is neither an ELBO nor a comparison under a sampled-anchor target. Exact masks and model checkpoints were not saved.}\label{tab:ardprunedseeds}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrrr@{}}
+\toprule
+Dataset & Seed & Count & Grid & Full & Mask & Adapt & Sampled mask \\
+\midrule
+MNIST & 42 & 6 & 6 & $23.762$ & $23.772$ & $23.445$ & $27.040$ \\
+MNIST & 123 & 6 & 6 & $23.669$ & $23.681$ & $23.454$ & $27.050$ \\
+MNIST & 777 & 6 & 6 & $23.410$ & $23.420$ & $23.175$ & $26.896$ \\
+Fashion-MNIST & 42 & 4 & 4 & $19.336$ & $19.340$ & $19.158$ & $21.573$ \\
+Fashion-MNIST & 123 & 4 & 4 & $19.452$ & $19.456$ & $19.248$ & $21.732$ \\
+Fashion-MNIST & 777 & 4 & 4 & $19.496$ & $19.496$ & $19.176$ & $21.563$ \\
+dSprites & 42 & 10 & 10 & $1.393$ & $3.317$ & $1.893$ & $3.611$ \\
+dSprites & 123 & 10 & 10 & $1.278$ & $2.783$ & $1.727$ & $3.084$ \\
+dSprites & 777 & 9 & 8 & $1.327$ & $2.945$ & $1.859$ & $3.223$ \\
+CIFAR-10 & 42 & 26 & 24 & $14.668$ & $15.109$ & $14.817$ & $17.584$ \\
+CIFAR-10 & 123 & 26 & 24 & $14.192$ & $14.728$ & $14.671$ & $17.253$ \\
+CIFAR-10 & 777 & 27 & 24 & $14.353$ & $14.835$ & $14.692$ & $17.392$ \\
+\bottomrule\end{tabular*}
+\end{table}

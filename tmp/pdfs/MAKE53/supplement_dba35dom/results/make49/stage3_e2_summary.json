@@ -1,0 +1,62 @@
+[
+ {
+  "dataset": "MNIST",
+  "capacity": "small",
+  "m": 12,
+  "best_epoch_mean": 208,
+  "val_mse_final": 0.02128870145836655,
+  "train_mse_final": 0.018173437313157688,
+  "test_mse_at_best": 0.021030072104525403,
+  "plateau_fraction": 0.0
+ },
+ {
+  "dataset": "MNIST",
+  "capacity": "initial",
+  "m": 32,
+  "best_epoch_mean": 272,
+  "val_mse_final": 0.023052238931461258,
+  "train_mse_final": 0.02038986187370456,
+  "test_mse_at_best": 0.02249618202261373,
+  "plateau_fraction": 0.0
+ },
+ {
+  "dataset": "MNIST",
+  "capacity": "ample",
+  "m": 64,
+  "best_epoch_mean": 230,
+  "val_mse_final": 0.02327513172383211,
+  "train_mse_final": 0.020971651785714286,
+  "test_mse_at_best": 0.022860204745960885,
+  "plateau_fraction": 0.0
+ },
+ {
+  "dataset": "dSprites",
+  "capacity": "small",
+  "m": 6,
+  "best_epoch_mean": 137,
+  "val_mse_final": 0.002894228571653366,
+  "train_mse_final": 0.0013410993278026582,
+  "test_mse_at_best": 0.002836459259192149,
+  "plateau_fraction": 0.0
+ },
+ {
+  "dataset": "dSprites",
+  "capacity": "initial",
+  "m": 16,
+  "best_epoch_mean": 210,
+  "val_mse_final": 0.0013850270569324493,
+  "train_mse_final": 0.00056604533046484,
+  "test_mse_at_best": 0.0013090074022610982,
+  "plateau_fraction": 0.0
+ },
+ {
+  "dataset": "dSprites",
+  "capacity": "ample",
+  "m": 32,
+  "best_epoch_mean": 241,
+  "val_mse_final": 0.0012735804140567779,
+  "train_mse_final": 0.0005902788385748862,
+  "test_mse_at_best": 0.001200144217411677,
+  "plateau_fraction": 0.0
+ }
+]

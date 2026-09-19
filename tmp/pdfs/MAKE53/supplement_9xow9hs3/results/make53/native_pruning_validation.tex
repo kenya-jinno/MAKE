@@ -1,0 +1,14 @@
+\begin{table}[H]
+\caption{Native ARD masking and decoder adaptation using the sample-centred variance-update variant. Three seeds per dataset; validation MSE $\times10^3$, mean $\pm$ sample SD. Count is retained axes; Full uses all starting axes; Mask sets other axes to zero; Adapt adds 30 decoder-only epochs; Transfer uses a separate cached ordinary VAE at the nearest grid width. Parentheses give attainment of the same deterministic validation target $Q$ in each condition. All four conditions fail $Q$ on dSprites, including Full.}\label{tab:ardpruned}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
+\toprule
+Dataset & Count & Full ($Q$) & Mask ($Q$) & Adapt ($Q$) & Transfer ($Q$) \\
+\midrule
+MNIST & $6.0 \pm 0.0$ & $23.61 \pm 0.18$ (3/3) & $23.62 \pm 0.18$ (3/3) & $23.36 \pm 0.16$ (3/3) & $22.51 \pm 0.15$ (3/3) \\
+Fashion-MNIST & $4.0 \pm 0.0$ & $19.43 \pm 0.08$ (3/3) & $19.43 \pm 0.08$ (3/3) & $19.19 \pm 0.05$ (3/3) & $19.28 \pm 0.23$ (3/3) \\
+dSprites & $9.7 \pm 0.6$ & $1.33 \pm 0.06$ (0/3) & $3.01 \pm 0.27$ (0/3) & $1.83 \pm 0.09$ (0/3) & $1.64 \pm 0.30$ (0/3) \\
+CIFAR-10 & $26.3 \pm 0.6$ & $14.40 \pm 0.24$ (3/3) & $14.89 \pm 0.20$ (3/3) & $14.73 \pm 0.08$ (3/3) & $15.19 \pm 0.12$ (3/3) \\
+\bottomrule\end{tabular*}
+\end{table}

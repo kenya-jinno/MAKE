@@ -1,0 +1,16 @@
+{
+  "matching_label_numbers": 103,
+  "matching_bibliography_numbers": 30,
+  "pdfs": {
+    "main_paper_MAKE53.pdf": {
+      "pages": 45,
+      "sha256": "5cb2228451a70ecfaa64aa4ac82f6a79754771ccb5f61260f10f5253196fb13c",
+      "no_overfull_missing_glyphs_or_unresolved_references": true
+    },
+    "main_paper_NN53.pdf": {
+      "pages": 52,
+      "sha256": "51aea21a766c2aee8c3054f546229eceec8c5a8b40b267a13c85caef3524d767",
+      "no_overfull_missing_glyphs_or_unresolved_references": true
+    }
+  }
+}

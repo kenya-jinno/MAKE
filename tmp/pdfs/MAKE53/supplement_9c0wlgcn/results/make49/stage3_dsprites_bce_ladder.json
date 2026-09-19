@@ -1,0 +1,93 @@
+{
+ "_provenance": {
+  "python_version": "3.12.3",
+  "torch_version": "2.7.1+cu118",
+  "torch_version_cuda": "11.8",
+  "cudnn_version": 90100,
+  "nvidia_driver_version": "570.211.01",
+  "gpu_name": "NVIDIA GeForce RTX 3070",
+  "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.39",
+  "code_hash": "e3b67f398b494f1d",
+  "loss_convention_id": "sum_recon_sum_kl_v1"
+ },
+ "_spec": {
+  "epochs": 60,
+  "m": 16,
+  "ladder": [
+   0.25,
+   0.5,
+   1.0,
+   2.0,
+   4.0
+  ],
+  "extended": [
+   0.25,
+   0.5,
+   1.0,
+   2.0,
+   4.0,
+   8.0,
+   16.0
+  ],
+  "delta": 0.01,
+  "likelihood": "bernoulli"
+ },
+ "runs": [
+  {
+   "beta": 0.25,
+   "au": 16,
+   "val_sse_per_sample": 5.90602734375,
+   "val_kl": 51.6536435546875,
+   "in_registered_ladder": true,
+   "pruning": false
+  },
+  {
+   "beta": 0.5,
+   "au": 16,
+   "val_sse_per_sample": 6.319999389648437,
+   "val_kl": 36.838470703125,
+   "in_registered_ladder": true,
+   "pruning": false
+  },
+  {
+   "beta": 1.0,
+   "au": 14,
+   "val_sse_per_sample": 7.300636474609375,
+   "val_kl": 28.029169921875,
+   "in_registered_ladder": true,
+   "pruning": true
+  },
+  {
+   "beta": 2.0,
+   "au": 12,
+   "val_sse_per_sample": 9.04485009765625,
+   "val_kl": 20.98127001953125,
+   "in_registered_ladder": true,
+   "pruning": true
+  },
+  {
+   "beta": 4.0,
+   "au": 16,
+   "val_sse_per_sample": 12.69911328125,
+   "val_kl": 15.2797734375,
+   "in_registered_ladder": true,
+   "pruning": false
+  },
+  {
+   "beta": 8.0,
+   "au": 7,
+   "val_sse_per_sample": 22.86768408203125,
+   "val_kl": 10.0111328125,
+   "in_registered_ladder": false,
+   "pruning": true
+  },
+  {
+   "beta": 16.0,
+   "au": 8,
+   "val_sse_per_sample": 29.3031220703125,
+   "val_kl": 6.367234497070313,
+   "in_registered_ladder": false,
+   "pruning": true
+  }
+ ]
+}

@@ -1,0 +1,22 @@
+\begin{table}[H]
+\caption{Logged duration components for new GPU pruning runs, seconds, mean $\pm$ sample SD over three seeds. Training loop includes periodic train/validation evaluations. ARM post-evaluation covers final native evaluations; ARD did not separately time them (NR). Anchor, transferred-candidate and other missing costs are not included here. These intervals are not complete end-to-end selector costs.}\label{tab:newcost}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llccc@{}}
+\toprule
+Dataset & Implementation & Training loop & Jacobian & Post-evaluation \\
+\midrule
+MNIST & ARM & $197.8 \pm 2.2$ & --- & $0.043 \pm 0.000$ \\
+MNIST & ARD, zero & $87.3 \pm 0.3$ & $0.011 \pm 0.000$ & NR \\
+MNIST & ARD, sample & $87.1 \pm 0.7$ & $0.012 \pm 0.002$ & NR \\
+Fashion-MNIST & ARM & $197.8 \pm 1.5$ & --- & $0.043 \pm 0.000$ \\
+Fashion-MNIST & ARD, zero & $88.2 \pm 0.5$ & $0.011 \pm 0.000$ & NR \\
+Fashion-MNIST & ARD, sample & $88.0 \pm 0.3$ & $0.012 \pm 0.002$ & NR \\
+dSprites & ARM & $664.8 \pm 0.3$ & --- & $1.264 \pm 0.001$ \\
+dSprites & ARD, zero & $299.2 \pm 0.0$ & $10.830 \pm 0.169$ & NR \\
+dSprites & ARD, sample & $299.2 \pm 0.2$ & $11.047 \pm 0.712$ & NR \\
+CIFAR-10 & ARM & $328.4 \pm 0.3$ & --- & $0.570 \pm 0.001$ \\
+CIFAR-10 & ARD, zero & $146.2 \pm 0.1$ & $6.968 \pm 0.452$ & NR \\
+CIFAR-10 & ARD, sample & $146.1 \pm 0.1$ & $7.505 \pm 0.171$ & NR \\
+\bottomrule\end{tabular*}
+\end{table}

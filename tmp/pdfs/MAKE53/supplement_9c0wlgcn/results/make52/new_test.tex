@@ -1,0 +1,22 @@
+\begin{table}[H]
+\caption{Test MSE ($\times10^3$), mean $\pm$ sample SD over three seeds. ARM native evaluation uses a binary gate mask and posterior mean. ARD native evaluation is the unpruned full-width model. Transferred ordinary VAEs are reused from the archived candidate cache; their test summaries did not select the new raw counts.}\label{tab:newtest}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llcc@{}}
+\toprule
+Dataset & Implementation & Native/full & Transferred \\
+\midrule
+MNIST & ARM & $21.35 \pm 0.25$ & $21.22 \pm 0.79$ \\
+MNIST & ARD zero & $22.97 \pm 0.53$ & $22.15 \pm 0.14$ \\
+MNIST & ARD sample & $23.17 \pm 0.17$ & $22.15 \pm 0.14$ \\
+Fashion-MNIST & ARM & $19.01 \pm 0.23$ & $18.94 \pm 0.23$ \\
+Fashion-MNIST & ARD zero & $18.97 \pm 0.17$ & $18.94 \pm 0.23$ \\
+Fashion-MNIST & ARD sample & $19.17 \pm 0.15$ & $18.94 \pm 0.23$ \\
+dSprites & ARM & $42.10 \pm 0.00$ & $1.17 \pm 0.04$ \\
+dSprites & ARD zero & $1.32 \pm 0.01$ & $1.86 \pm 0.09$ \\
+dSprites & ARD sample & $1.32 \pm 0.06$ & $1.61 \pm 0.30$ \\
+CIFAR-10 & ARM & $15.60 \pm 0.59$ & $16.74 \pm 1.21$ \\
+CIFAR-10 & ARD zero & $14.55 \pm 0.13$ & $15.42 \pm 0.13$ \\
+CIFAR-10 & ARD sample & $14.64 \pm 0.24$ & $15.42 \pm 0.13$ \\
+\bottomrule\end{tabular*}
+\end{table}

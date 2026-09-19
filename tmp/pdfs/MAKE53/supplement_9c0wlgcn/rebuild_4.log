@@ -1,0 +1,230 @@
+{
+  "strata": [
+    {
+      "stratum": "ID accepted",
+      "policy": "ID local",
+      "n": 25,
+      "exact": 25,
+      "calls": 8.84,
+      "cold_seconds": 705.1856917190552
+    },
+    {
+      "stratum": "ID accepted",
+      "policy": "ID gated midpoint",
+      "n": 25,
+      "exact": 25,
+      "calls": 5.84,
+      "cold_seconds": 537.6708378219605
+    },
+    {
+      "stratum": "ID accepted",
+      "policy": "Midpoint local",
+      "n": 25,
+      "exact": 25,
+      "calls": 5.84,
+      "cold_seconds": 330.2065731906891
+    },
+    {
+      "stratum": "ID accepted",
+      "policy": "Ascending Q",
+      "n": 25,
+      "exact": 25,
+      "calls": 4.12,
+      "cold_seconds": 195.06125126838685
+    },
+    {
+      "stratum": "Fallback",
+      "policy": "ID local",
+      "n": 75,
+      "exact": 75,
+      "calls": 5.24,
+      "cold_seconds": 995.7892060597737
+    },
+    {
+      "stratum": "Fallback",
+      "policy": "ID gated midpoint",
+      "n": 75,
+      "exact": 75,
+      "calls": 5.24,
+      "cold_seconds": 995.7892060597737
+    },
+    {
+      "stratum": "Fallback",
+      "policy": "Midpoint local",
+      "n": 75,
+      "exact": 73,
+      "calls": 5.1066666666666665,
+      "cold_seconds": 532.9667199420929
+    },
+    {
+      "stratum": "Fallback",
+      "policy": "Ascending Q",
+      "n": 75,
+      "exact": 75,
+      "calls": 5.24,
+      "cold_seconds": 714.652614068985
+    },
+    {
+      "stratum": "All",
+      "policy": "ID local",
+      "n": 100,
+      "exact": 100,
+      "calls": 6.14,
+      "cold_seconds": 923.1383274745941
+    },
+    {
+      "stratum": "All",
+      "policy": "ID gated midpoint",
+      "n": 100,
+      "exact": 100,
+      "calls": 5.39,
+      "cold_seconds": 881.2596140003204
+    },
+    {
+      "stratum": "All",
+      "policy": "Midpoint local",
+      "n": 100,
+      "exact": 98,
+      "calls": 5.29,
+      "cold_seconds": 482.27668325424196
+    },
+    {
+      "stratum": "All",
+      "policy": "Ascending Q",
+      "n": 100,
+      "exact": 100,
+      "calls": 4.96,
+      "cold_seconds": 584.7547733688355
+    }
+  ],
+  "arm": {
+    "MNIST": {
+      "raw": [
+        8,
+        8,
+        7
+      ],
+      "constraint": 2,
+      "native_Q": 3,
+      "sampled_Q": 0,
+      "transfer_Q": 3
+    },
+    "FashionMNIST": {
+      "raw": [
+        5,
+        5,
+        4
+      ],
+      "constraint": 2,
+      "native_Q": 3,
+      "sampled_Q": 0,
+      "transfer_Q": 3
+    },
+    "dSprites": {
+      "raw": [
+        52,
+        62,
+        48
+      ],
+      "constraint": 0,
+      "native_Q": 0,
+      "sampled_Q": 0,
+      "transfer_Q": 3
+    },
+    "CIFAR10": {
+      "raw": [
+        19,
+        24,
+        20
+      ],
+      "constraint": 2,
+      "native_Q": 1,
+      "sampled_Q": 0,
+      "transfer_Q": 1
+    }
+  },
+  "ard": {
+    "MNIST_zero": {
+      "raw": [
+        6,
+        6,
+        6
+      ],
+      "full_Q": 3,
+      "transfer_Q": 3
+    },
+    "MNIST_centered": {
+      "raw": [
+        6,
+        6,
+        6
+      ],
+      "full_Q": 3,
+      "transfer_Q": 3
+    },
+    "FashionMNIST_zero": {
+      "raw": [
+        4,
+        4,
+        4
+      ],
+      "full_Q": 3,
+      "transfer_Q": 3
+    },
+    "FashionMNIST_centered": {
+      "raw": [
+        4,
+        4,
+        4
+      ],
+      "full_Q": 3,
+      "transfer_Q": 3
+    },
+    "dSprites_zero": {
+      "raw": [
+        9,
+        9,
+        9
+      ],
+      "full_Q": 0,
+      "transfer_Q": 0
+    },
+    "dSprites_centered": {
+      "raw": [
+        10,
+        10,
+        9
+      ],
+      "full_Q": 0,
+      "transfer_Q": 0
+    },
+    "CIFAR10_zero": {
+      "raw": [
+        26,
+        27,
+        27
+      ],
+      "full_Q": 3,
+      "transfer_Q": 3
+    },
+    "CIFAR10_centered": {
+      "raw": [
+        26,
+        26,
+        27
+      ],
+      "full_Q": 3,
+      "transfer_Q": 3
+    }
+  },
+  "record_checks": {
+    "gated_rows": 100,
+    "arm_runs": 12,
+    "ard_runs": 24,
+    "per_dataset_seed_files_match": true,
+    "candidate_transfers_match": true,
+    "relevance_count_recomputed": true,
+    "expected_curve_epochs": true,
+    "new_elbo_fields_are_not_mc_elbo": true
+  }
+}

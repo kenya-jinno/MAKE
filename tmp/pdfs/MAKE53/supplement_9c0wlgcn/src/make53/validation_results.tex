@@ -1,0 +1,62 @@
+\subsection{Additional Native Pruning and Relevance Results}\label{sec:newpruning}
+We distinguish the quality of the selected native representation from
+the quality obtained by transferring its dimension to an ordinary VAE.
+Counts alone do not measure successful compression. Historical versus
+additional readouts are collected in Appendix~\ref{app:gpu}.
+
+Table~\ref{tab:armnew} separates native reconstruction, dimension transfer
+and endpoint constraint satisfaction. For MNIST and Fashion-MNIST,
+all three native posterior-mean reconstructions meet $Q$, while only
+two training constraints do. All three dSprites native runs fail both
+checks, although their transferred ordinary VAEs meet $Q$. Their native
+MSE is approximately 0.04236, and all 64 gate probabilities remain
+between 0.1 and 0.9 (Appendix~\ref{app:gpu}); thresholded counts of 48--62
+therefore do not demonstrate settled sparse solutions. CIFAR-10 meets
+native mean-reconstruction $Q$ in one seed and the training constraint
+in two. These are limitations of the local implementation.
+@@table52:arm_native@@
+
+The sampled native ARM MSE exceeds the deterministic anchor-derived
+target in every run. This comparison demonstrates the consequence of
+changing the reconstruction definition; it is not a selection study
+under a target derived from a sampled anchor. It also explains why
+training-constraint status cannot be inferred from mean-reconstruction $Q$.
+
+The exact-Jacobian ARD zero-centre readouts are 6.0, 4.0, 9.0 and 26.7
+on MNIST, Fashion-MNIST, dSprites and CIFAR-10, respectively
+(Table~\ref{tab:ardnew}). The sample-centred variant gives 6.0, 4.0, 9.7
+and 26.3. Small differences across these three seeds support a bounded
+centering-sensitivity observation, not invariance to prior specification.
+Both settings meet full-model and transfer $Q$ on the three datasets
+other than dSprites and fail both on dSprites. These initial evaluations
+do not mask the selected-out axes.
+@@table52:ard_native@@
+
+\paragraph{Quality after retaining the selected ARD axes.}
+Table~\ref{tab:ardpruned} closes that evaluation gap for the
+sample-centred variant. Masking changes mean validation MSE by
+$+0.045\%$, $+0.017\%$, $+126.3\%$ and $+3.4\%$ on MNIST,
+Fashion-MNIST, dSprites and CIFAR-10, respectively. These percentages
+are ratios of three-seed mean MSEs relative to the corresponding full
+model, not seed-averaged percentage changes. The full, masked, adapted
+and transferred models all meet $Q$ in all three seeds on each dataset
+other than dSprites; all four fail $Q$ in every dSprites seed.
+@@table53:native_pruning_validation@@
+
+For dSprites, masking raises MSE from 0.00133 to 0.00301; decoder
+adaptation lowers it to 0.00183, still 37.1\% above the full model.
+Thus the local 99\% relevance cutoff does not ensure reconstruction
+preservation after jointly removing the other axes. This result does
+not identify the contribution of each removed axis and does not
+establish failure of the published ARD method. The transferred
+ordinary-VAE MSE is 0.00164, which also misses $Q$; its better quality
+than the masked model is not evidence that the selected count suffices
+for the specified quality target.
+
+For CIFAR-10, the masked and adapted means (0.01489 and 0.01473)
+are below the transferred mean (0.01519), although above the full-model
+mean (0.01440). MNIST instead favours transfer on this metric.
+These descriptive, three-seed results depend on the trained model,
+inference rule and adaptation budget; they do not establish general
+native-pruning superiority. Appendix~\ref{app:gpu} gives per-seed
+values, held-out test reconstruction and partial timing.

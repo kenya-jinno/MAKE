@@ -1,0 +1,8 @@
+GECO + L0-ARM（原著推定量）  CIFAR10  尤度 gaussian  初期容量 256
+  L0-ARM (原著 Eq.12) / NVIDIA GeForce RTX 3070 / torch 2.7.1+cu118
+
+  seed 42     幅  19/256  制約充足 True  C_ma    -0.04  val MSE 0.01578  ELBO  -114.766  328s
+  seed 123    幅  24/256  制約充足 True  C_ma    -0.06  val MSE 0.01469  ELBO   -98.539  328s
+  seed 777    幅  20/256  制約充足 False  C_ma    +0.25  val MSE 0.01553  ELBO  -112.207  329s
+
+書き出し: /home/kjinno/claude/manifold/manifold/results/make52/geco_arm_CIFAR10.json

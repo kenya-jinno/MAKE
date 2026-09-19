@@ -1,0 +1,14 @@
+\begin{table}[H]
+\caption{New MNIST HC diagnostic and dimension transfer, seed 42. MSE $\times10^3$; target is $25.223$ in the same units. HC width is the count above the gate threshold, although continuous inference retains nonbinary gate values. Sampled evaluation uses 32 latent draws and deterministic continuous gates. The ordinary VAE uses the nearest grid width.}\label{tab:native_hc}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr@{}}
+\toprule
+Output / reconstruction & Width & Val. MSE & Test MSE & $Q$ \\
+\midrule
+HC, continuous/mean & 7 & 22.424 & 21.950 & yes \\
+HC, continuous/sampled & 7 & 27.019 & 26.519 & no \\
+HC, binary/mean & 7 & 22.424 & 21.950 & yes \\
+Transferred ordinary VAE & 6 & 22.343 & 21.933 & yes \\
+\bottomrule\end{tabular*}
+\end{table}

@@ -1,0 +1,14 @@
+\begin{table}[H]
+\caption{Numerical probability saturation in the current predictor reconstruction. Entries count predictions rounded to exactly one, before AUROC calculation. Decision scores preserve ordering among these rows.}\label{tab:saturation}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccc@{}}
+\toprule
+Evaluation condition & Base & Base + AU & Base + random \\
+\midrule
+dSprites & 55/55 & 44/55 & 49/55 \\
+Fashion-MNIST & 0/55 & 0/55 & 0/55 \\
+CIFAR-10 & 45/45 & 40/45 & 36/45 \\
+\bottomrule
+\end{tabular*}
+\end{table}

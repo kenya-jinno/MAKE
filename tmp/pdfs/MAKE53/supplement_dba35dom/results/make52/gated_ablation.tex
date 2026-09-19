@@ -1,0 +1,22 @@
+\begin{table}[H]
+\caption{Start-width ablation across five weights and five candidate seeds per dataset. ID accepted comprises MNIST (25 conditions); fallback comprises the other three datasets (75). ID-local and ID-gated midpoint use identical reliability checks, fallback and reference-bank charges. The bank-free midpoint is a separate policy. Exact denotes the full-grid minimum; costs are canonical cold-use seconds, not new wall-clock measurements.}\label{tab:gated}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrr@{}}
+\toprule
+Stratum & Policy & $n$ & Exact & Calls & Cold (s) \\
+\midrule
+ID accepted & ID local & 25 & 25/25 & 8.84 & 705.2 \\
+ID accepted & ID gated midpoint & 25 & 25/25 & 5.84 & 537.7 \\
+ID accepted & Midpoint local & 25 & 25/25 & 5.84 & 330.2 \\
+ID accepted & Ascending Q & 25 & 25/25 & 4.12 & 195.1 \\
+Fallback & ID local & 75 & 75/75 & 5.24 & 995.8 \\
+Fallback & ID gated midpoint & 75 & 75/75 & 5.24 & 995.8 \\
+Fallback & Midpoint local & 75 & 73/75 & 5.11 & 533.0 \\
+Fallback & Ascending Q & 75 & 75/75 & 5.24 & 714.7 \\
+All & ID local & 100 & 100/100 & 6.14 & 923.1 \\
+All & ID gated midpoint & 100 & 100/100 & 5.39 & 881.3 \\
+All & Midpoint local & 100 & 98/100 & 5.29 & 482.3 \\
+All & Ascending Q & 100 & 100/100 & 4.96 & 584.8 \\
+\bottomrule\end{tabular*}
+\end{table}

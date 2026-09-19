@@ -1,0 +1,17 @@
+\begin{table}[H]
+\caption{Variable-type count $V$ (active plus mixed) and AU count $A$, five seeds, $\beta=1$, Gaussian MNIST and Bernoulli dSprites. Mean $\pm$ SD quantify between-seed variation. The last column gives mean absolute within-run changes from epoch 50 to 300 for $V/A$, not a temporal variance.}\label{tab:readouts}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccccc@{}}
+\toprule
+Dataset & $m$ & $V_5$ & $A_5$ & $V_{300}$ & $A_{300}$ & Change \\
+\midrule
+MNIST & 12 & $7.2 \pm 0.8$ & $8.0 \pm 1.6$ & $6.4 \pm 0.5$ & $6.4 \pm 0.5$ & 0.0/0.0 \\
+MNIST & 32 & $8.2 \pm 1.5$ & $20.8 \pm 4.2$ & $6.0 \pm 0.0$ & $6.0 \pm 0.0$ & 0.0/0.0 \\
+MNIST & 64 & $9.8 \pm 3.8$ & $49.4 \pm 8.1$ & $6.4 \pm 0.5$ & $6.4 \pm 0.5$ & 0.4/2.6 \\
+dSprites & 6 & $6.0 \pm 0.0$ & $6.0 \pm 0.0$ & $6.0 \pm 0.0$ & $6.0 \pm 0.0$ & 0.0/0.0 \\
+dSprites & 16 & $16.0 \pm 0.0$ & $16.0 \pm 0.0$ & $14.2 \pm 0.4$ & $13.4 \pm 0.5$ & 1.8/1.8 \\
+dSprites & 32 & $32.0 \pm 0.0$ & $31.8 \pm 0.4$ & $14.2 \pm 1.1$ & $14.4 \pm 1.1$ & 12.4/4.2 \\
+\bottomrule
+\end{tabular*}
+\end{table}

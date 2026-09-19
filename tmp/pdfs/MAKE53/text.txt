@@ -1,0 +1,7120 @@
+Article
+
+Intrinsic-Dimension-Guided Bottleneck Selection for Variational
+Autoencoders with Active-Unit Diagnostics
+Chika Obata 1 , Mizuki Dai 1 , and Kenya Jin’no 1, *
+1
+
+*
+
+Department of Intelligent Systems, Faculty of Information Engineering, Tokyo City University, 1-28-1
+Tamazutsumi, Setagaya-ku, Tokyo 158-8557, Japan; g2332016@tcu.ac.jp (C.O.); g2591402@tcu.ac.jp (M.D.)
+Correspondence: kjinno@tcu.ac.jp; Tel.: +81-3-5707-0104 (K.J.)
+
+Abstract
+
+1
+
+Intrinsic-dimension estimates and active-unit diagnostics address different aspects of
+variational-autoencoder bottleneck selection. We evaluate search policies on four image
+datasets, five training seeds and five regularisation weights, using a validation quality
+target and common recorded candidate costs. A start-width ablation holds reliability checks,
+fallback and reference-bank charges fixed. ID is accepted only for the 25 MNIST conditions:
+ID-derived and gated midpoint starts select the same widths, requesting 8.84 and 5.84
+candidates on average, respectively. The remaining 75 conditions use the same ascending
+fallback. Across 10,000 replay evaluations from 100 coefficient–threshold combinations and
+100 dataset–weight–seed conditions, 155 local outputs miss the smallest qualifying width.
+Three-seed pruning experiments per dataset distinguish reconstruction by the selected
+native model from dimension transfer to an ordinary variational autoencoder. In a local
+relevance-prior variant, masking nonselected axes increases dSprites validation error by
+126.3%; 30 decoder-adaptation epochs reduce this to 37.1% above the full model. All four
+evaluated conditions, including the full model, miss that dataset’s quality target. Activeunit prediction does not establish additional benefit on its near-ceiling task. The findings
+support a controlled empirical evaluation of selection rules and diagnostics, without a
+general efficiency or pruning guarantee.
+Keywords: variational autoencoder; bottleneck dimension; intrinsic dimension; active
+units; model selection; reconstruction quality; reproducibility
+
+1. Introduction
+
+Received:
+Revised:
+Accepted:
+Published:
+Copyright: © 2026 by the authors.
+Submitted to Mach. Learn. Knowl. Extr.
+for possible open access publication
+under the terms and conditions of the
+Creative Commons Attribution
+(CC BY) license.
+
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+
+19
+20
+
+21
+
+The latent width of a variational autoencoder (VAE) [1] controls the capacity available
+to its representation. Choosing that width by validation over a candidate grid is straightforward, but requires training several models. Alternatives include intrinsic-dimension
+(ID) estimation [2,3], comparisons between sampled and mean latent representations [4],
+activity diagnostics [5,6], and pruning through reconstruction constraints or relevance
+priors [7,8]. These signals answer different questions: geometric dimension, coordinate use,
+reconstruction quality and network width need not coincide.
+This study asks how the use of ID changes the decisions and training requests of a
+latent-width search, whether AU diagnostics add predictive value beyond other recorded
+quantities, and how these measurements depend on quality targets and readout settings.
+We compare policies on common candidate-model families and fixed splits. Search order,
+stopping rules, quality attainment and agreement with the smallest qualifying grid width
+are measured separately.
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+2
+
+https://doi.org/10.3390/make8010000
+
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+2 of 45
+
+The contribution is an empirical evaluation of ID-guided bottleneck selection and AU
+diagnostics under explicit quality and cost definitions. Four image datasets, five candidate
+seeds and five regularisation weights are covered. A start-width ablation holds reference
+acquisition, reliability checks and fallback fixed, isolating the effect of the ID-derived start
+from the effect of the search rule. A factorial analysis examines the ID coefficient and
+reliability thresholds.
+Additional three-seed experiments on each dataset assess stochastic-gate pruning and
+exact-Jacobian relevance readouts. For a local ARD variant, we compare the full model,
+selected-axis masking, fixed-budget decoder adaptation and transfer to an ordinary VAE.
+Component checks do not establish full reproduction of the original pruning methods.
+A separate one-seed MNIST experiment evaluates capacity selection by a Monte Carlo
+estimate of the evidence lower bound (ELBO). Sections 3–5 define the protocols, Section 6
+reports results, and Section 7 states the scope of inference.
+
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+
+2. Related Work
+
+48
+
+2.1. Dimension, Reconstruction and Latent Activity
+
+49
+
+PCA [9], Isomap [10] and locally linear embedding [11] construct low-dimensional
+representations. ID estimators instead quantify local dimension from sample geometry. We
+use TwoNN and an MLE cross-check; other approaches include DANCo, expected simplex
+skewness and geodesic entropic graphs [12–14]. Estimator limitations and dependence
+on the sampled distribution motivate cross-checks [15,16]. Graph-based methods are
+outside this experiment’s scope; we do not infer that they would resolve or reproduce the
+observed disagreements. Minimal-spanning-tree isolation forests also use graph geometry
+for anomaly scoring [17]; that objective is distinct from selecting a VAE width under a
+reconstruction target. Lower ID in learned representations has also been observed in deep
+networks [18,19].
+FONDUE [4] searches for the capacity preceding a separation between ID estimates of
+sampled and posterior-mean representations. Its appendix gives FONDUE-VAR, which
+chooses a count from latent-variable types. AU and variable types share an interest in
+unused coordinates but are different statistics: AU thresholds the across-data variance
+of posterior means, whereas the type classifier uses moments of posterior variances [6].
+Agreement of their final counts is not equivalence of their stability or information content.
+GECO with L0 regularisation optimises a gated VAE under a reconstruction constraint [7,20]. Its source uses ARM; the historical local adaptation used hard-concrete (HC)
+gates [21]. The additional ARM implementation restores this gradient component but
+retains differences in initialisation, constraint scheduling and KL scaling (Section 5.5). Our
+validation anchor supplies an external quality yardstick.
+ARD-VAE uses a hierarchical relevance prior [8]. The source tunes a regularisation
+weight, uses a Gaussian approximation for its closed-form KL, and selects axes explaining
+99% of a Jacobian-weighted variance score. The Gaussian approximation is thus shared
+with the source. Historical finite-step scores and their normalisation audit appear in
+Appendix C.3; the new validation uses automatic-differentiation Jacobians. We distinguish
+the source’s zero-centre variance update from an additional sample-centred varianceupdate variant, and retain local training and sampling settings.
+2.2. Relation to the Conference Paper and Earlier Manuscript
+
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+
+78
+
+Our NOLTA2025 contribution [22] concerned the relation between input ID and
+latent-space capacity. The available conference manuscript describes class-specific MNIST
+experiments with four fully connected and two convolutional architectures and four seeds.
+CNNs and multiple seeds are consequently not new features of this revision. The conference
+
+https://doi.org/10.3390/make8010000
+
+79
+80
+81
+82
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+3 of 45
+
+manuscript available for comparison has a working title different from the published title;
+the reference uses the title and pages listed by the authors’ institutional publication record.
+Table 1 distinguishes this earlier scope from the present comparison. MAKE47 denotes the
+earlier journal submission, not a separate publication.
+The present contribution is a controlled empirical comparison, rather than a claim that
+the original heuristic is generally superior. We withdraw the earlier 60–80% training-call
+reduction as a general efficiency claim. The earlier AU checks V1/V2 no longer decide
+the selected width, and this study does not establish their additional predictive value.
+Theoretical embedding considerations motivate the experiment; they do not guarantee the
+numerical ID-to-width rule.
+
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+
+Table 1. Scope of the conference study, earlier journal submission and present revision.
+Item
+
+NOLTA2025
+
+MAKE47
+
+Present revision
+
+Question
+
+Input and latent ID versus capacity
+
+ID-guided choice with
+AU verification
+
+Models
+
+Four FC and two CNN
+structures;
+MNIST
+classes; four seeds
+
+FC/CNN
+and
+synthetic/image extensions
+
+Comparators
+
+Architecture and capacity comparisons
+
+Capacity sweeps and diagnostic checks
+
+Readouts
+
+ID estimates
+
+AU-based
+checks
+
+Evidence
+
+Conference settings
+
+Earlier loss convention
+
+operational
+
+Selection quality, cost
+and diagnostic limitations
+Fixed candidate families
+on four image datasets;
+five candidate seeds
+FONDUE variants, grid
+criteria and search policies; separate pruning
+validation
+Same-checkpoint
+type/AU
+trajectories
+and paired predictive
+analysis
+Corrected-loss records;
+explicit targets, final test
+metrics and accounting
+limits
+
+3. Evaluation Framework
+
+93
+
+3.1. Models and Quality Target
+
+94
+
+We distinguish the ID-reference AE, which supplies a representation for estimation, the
+quality anchor, an ordinary VAE at the largest candidate width, and the selected model, the
+ordinary VAE evaluated after dimension selection. Write M for the candidate grid, s for a
+training seed, and Ds (m, β) for validation per-pixel MSE of the deterministic reconstruction
+g(µ( x )). The implemented target is
+m a = max M,
+
+TD,s ( β) = Ds (m a , β) + max{0.10Ds (m a , β), 0.001 Var( Xval )}.
+
+(1)
+
+The variance is computed over all validation-array entries. The relative term dominates in
+every recorded image condition, giving TD,s = 1.10Ds (m a , β). The configuration originally
+also specified a three-seed-SD term, but the executed target function was supplied one
+anchor at a time and omitted that term. We report the implemented rule; we do not
+retrospectively describe it as a pooled-seed target. Appendix A lists every dataset–β anchor
+and target.
+For a fixed seed and β, the target is held constant during search. It is recomputed
+from a different anchor when β changes. A β-sweep therefore changes both the learned
+representation and the quality yardstick. It is not a fixed-quality intervention. A method
+that returns a valid width need not meet this external target; quality attainment is evaluated
+separately for every final model.
+
+https://doi.org/10.3390/make8010000
+
+95
+96
+97
+98
+99
+
+100
+
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+4 of 45
+
+3.2. Canonical Replay Prices and Historical Ledgers
+
+112
+
+Replay uses one immutable candidate snapshot. A logical key contains dataset, width,
+training seed, requested epochs, early-stopping option and β; architecture, likelihood
+and split are fixed by the dataset configuration. Each unique requested key, including
+the quality anchor, is charged its duration in this snapshot once. Metrics and prices are
+therefore identical whenever replay policies request the same key. These are paired uses of
+stored records, not independent retraining.
+Earlier method ledgers sometimes attach different durations to the same logical key.
+Even when validation and test summaries agree exactly, missing historical weights and execution identifiers prevent proving checkpoint identity. We therefore do not mix those prices
+in the new policy comparison. Appendix B.1 preserves the historical account and resolves
+every anchor/final role to its key, source and both available durations in a supplementary
+CSV. The quality anchor and its price in each replay come from the same record.
+Let Ccand sum the canonical prices of requested candidates and Cref be the nine-AE
+bank’s recorded training cost. Cold use charges Ccand + Cref for an ID policy; warm use
+charges Ccand when that bank already exists. A 25-task batch (five seeds by five weights
+for one dataset) allocates Cref /25 per task. This does not turn shared-bank outcomes into
+independent ID replications. All accounts exclude missing ID-computation and some
+post-training evaluation times. They estimate attributed training costs, not new end-to-end
+wall-clock measurements. Historical probe and FONDUE calibration costs are reported
+separately from the replay policies.
+3.3. Outputs and Termination
+
+3.4. Reference Bank and Reliability Checks
+
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+
+146
+
+The reference bank uses three widths and three fixed reference seeds, shared across the
+five candidate seeds. Let d¯r be the mean TwoNN estimate at reference width r, dˆ = meanr d¯r ,
+and d¯MLE the mean MLE estimate over that same bank. The checks are
+maxr d¯r − minr d¯r
+≤ 0.15,
+medianr d¯r
+
+114
+
+133
+
+Each trial records a raw returned dimension, the width of the evaluated model, the
+ID reliability decision where applicable, fallback use, the logged termination state, the
+budget flag, quality attainment, and whether the final width is smaller than the anchor.
+These events can overlap. In particular, fallback can produce a compact model that meets
+the target. The label SUCCESS in an older log indicates ordinary termination; it is not itself
+evidence of target attainment.
+A budget-exceeded trial contributes its consumed time and, if it has a returned model,
+that model’s dimension and metrics. A raw dimension below one is reported as degenerate;
+its time and failure count remain, while MSE is missing because no final model exists. The
+original implementation checks budgets after completed calls and can still obtain a final
+model. The reported limits are therefore soft accounting limits, not hard interruptions.
+Outcome tables preserve these distinctions.
+
+R=
+
+113
+
+A=
+
+|dˆ − d¯MLE |
+≤ 0.25.
+dˆ
+
+(2)
+
+The values c = 2, Rmax = 0.15 and Amax = 0.25 were internal heuristics recorded in the 12–
+13 September specification. The factor two was geometrically motivated but not derived for
+this statistical task; neither reliability tolerance was calibrated to a false-rejection rate. Their
+numerical roles are examined retrospectively rather than justified by the quality-margin
+experiment.
+
+https://doi.org/10.3390/make8010000
+
+147
+148
+149
+
+150
+
+151
+152
+153
+154
+155
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+5 of 45
+
+3.5. Retrospective Search Policies
+
+156
+
+We define the following replay on 19 September, after the earlier results and review.
+A full-grid reference returns m∗ = min{m ∈ M : Ds (m, β) ≤ TD,s }. Ascending search
+obtains the anchor and visits increasing widths until the first pass; it identifies m∗ without
+a monotonic-error assumption. The historical ID procedure exhausts a lower window
+when ID is accepted and uses minimum-MSE coarse search otherwise. Its full executed
+pseudocode is retained in Appendix C.1.
+The revised ID-local policy uses ID to choose a starting width rather than an exhaustive
+window. If the start passes, it walks downwards to the first failure; otherwise it walks
+upwards to the first pass. This can omit many candidates, but can miss a smaller qualifying
+width if the pass/fail sequence is not monotone. Rejected ID banks now invoke ascendingQ fallback, not the historical coarse-MSE fallback. This fallback change is part of the
+retrospective policy.
+
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+
+Algorithm 1 (ID-local replay and start-width controls).
+Input: grid, seed, weight, validation records and canonical prices, reference bank, c, Rmax , Amax ; no
+test metrics.
+1.
+2.
+
+3.
+4.
+5.
+6.
+
+7.
+
+Request the largest width once; compute its target from Equation 1. A pass means validation
+MSE at most that target.
+For ID-local and ID-gated midpoint, charge the reference bank and compute Equation 2. If
+either threshold fails, request ascending widths and return the first pass. Bank-free midpoint
+skips this step.
+For accepted ID-local, start at the smallest grid width at least cd,ˆ clipped to the largest width.
+For either midpoint policy, start at zero-based index ⌊(|M| − 1)/2⌋.
+If the start fails, request larger widths in order and return the first pass. The anchor guarantees
+a returned qualifying width.
+If the start passes, request adjacent smaller widths in descending order until one fails, or the
+smallest width is reached; return the last pass.
+For the optional certified ID variant, test previously unqueried widths below the local answer
+in ascending order, stopping at the first pass. This certifies the full-grid minimum without
+monotonicity.
+Charge each distinct candidate once. Return width, requested keys, count, reference/candidate
+costs and the soft-budget flag. Attach test metrics only after the selection is fixed.
+
+Full-grid-Q, ascending-Q, the legacy path, ID-local, bank-free midpoint-local and
+certified ID-local are replayed on all 100 dataset–weight–seed conditions. The additional
+ID-gated midpoint control adds 100 replays, for seven policies and 700 rows in total. Paths
+are completed within the stored grid (at most 12 distinct candidates); the original time limit
+is recorded as a flag rather than interrupting this counterfactual evaluation. Legacy rows
+retain their executed path and output, including original fallback. We report quality, the
+width gap m − m∗ , exact agreement, candidate requests and canonical cost. The bank-free
+midpoint also removes the reliability gate and its fallback, so its comparison with ID-local
+does not isolate the starting width. ID-gated midpoint holds these components and their
+charges fixed and changes only the accepted starting width. Midpoint is a fixed control,
+not a tuned or universally optimal start.
+The coefficient set is {1, 1.5, 2, 3, 4}, inherited from the earlier configuration.
+The retrospective reliability grids are Rmax ∈ {0.10, 0.15, 0.25, 0.50} and Amax ∈
+{0.15, 0.25, 0.40, 0.85, 2.00}. They include stricter settings and settings on either side
+of the observed dataset decisions. The most permissive values are stress tests, not recommended defaults. All 10,000 combinations of these parameters with the 100 recorded
+conditions are retained; no best-performing threshold replaces the original default.
+
+https://doi.org/10.3390/make8010000
+
+169
+
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+6 of 45
+
+4. Theoretical Background
+
+187
+
+For an ideal smooth d-manifold, Whitney’s embedding theorem gives an embedding
+into R2d [23]. Exact continuous reconstruction through an injective encoder entails an
+embedding, but neither a noisy finite-sample ID estimate nor an approximate neural
+reconstruction satisfies these assumptions automatically. The multiplier two is therefore
+a heuristic under evaluation, not a quality guarantee or a lower bound inferred from
+measured ID.
+In linear Gaussian latent-variable models, informative directions depend on the covariance spectrum and noise scale; analyses of linear VAEs and posterior collapse make this
+relation explicit [9,24]. VAE alignment with principal directions has also been studied [25].
+These results motivate measuring how regularisation affects coordinate use. They do not
+equate AU with intrinsic or minimum embedding dimension in a nonlinear VAE. AU also
+depends on the latent coordinates and the threshold used to count them.
+
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+
+5. Experimental Setup
+
+200
+
+5.1. Data, Architecture and Optimisation
+
+201
+
+Table 2 gives the actual image-data settings. MNIST [26], Fashion-MNIST [27] and
+CIFAR-10 [28] use random subsets of the official training and test pools. A permutation
+with seed 20260912 selects 20,000 training-pool examples; another with seed 20260913
+divides them 90:10. The 3000 test examples use seed 20260914. For dSprites [29], which
+has no official train/test split, the first 20,000 and next 3000 entries of one permutation
+of 737,280 images are disjoint pools; the 20,000 are divided 90:10 and each index list is
+sorted before loading. Images are scaled to [0, 1], with no augmentation. Training seeds are
+42, 123, 777, 2024, 31337; the split does not vary with these seeds.
+
+202
+203
+204
+205
+206
+207
+208
+209
+
+Table 2. Image-data settings used for candidate VAEs. All datasets use 18,000 training, 2000 validation
+and 3000 test examples. G: Gaussian; B: Bernoulli. Budgets are recorded-time limits with a common
+limit of 12 candidate-training calls; ID AEs are additional.
+Dataset
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+
+Input
+
+Likelihood
+
+1 × 28 × 28
+1 × 28 × 28
+1 × 64 × 64
+3 × 32 × 32
+
+G
+G
+B
+G
+
+Candidate widths
+2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 48, 64
+Same as MNIST
+Same as MNIST
+8, 16, 24, 32, 48, 64, 96, 128, 192, 256
+
+Budget (s)
+1470
+1470
+5163
+2924
+
+For MNIST and Fashion-MNIST, the encoder has dense widths 512 and 256, ReLU
+activations, and separate linear mean/log-variance heads; the decoder has widths 256 and
+512 with a linear output. The CIFAR-10 encoder has channels 32, 64 and 128; dSprites adds
+256. Convolutions use kernel 4, stride 2, padding 1 and ReLU, leaving 4 × 4 feature maps,
+followed by linear posterior heads. A linear/ReLU projection and reversed transposed
+convolutions form the decoder, ending in a sigmoid. The ID-reference AE flattens the
+input and uses dense widths 512–256–r and the reverse decoder, with a linear output; it is
+separate from the candidate CNNs.
+Ordinary candidates use Adam, learning rate 10−3 , default moments (0.9, 0.999),
+ϵ = 10−8 , no weight decay, batch size 128 and up to 300 epochs. The last batch has 80
+examples (141 updates per epoch). ID AEs use the same optimiser and batch size for
+100 epochs. Early stopping uses patience 30. A recorded plateau flag requires (max h −
+min h)/| mean h| < 0.01 over the last 50 validation-monitor values. It is not an additional
+stopping rule. Representative trajectory runs always complete 300 epochs.
+
+https://doi.org/10.3390/make8010000
+
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+7 of 45
+
+The candidate training loss is
+
+224
+
+"
+#
+m µ2 + exp( vij ) − 1 − vij
+1 B
+ij
+L β = ∑ ℓ( xi , g(zi )) + β ∑
+,
+B i =1
+2
+j =1
+
+z i ∼ q ϕ ( z | x i ),
+
+(3)
+
+where v is log variance. Gaussian reconstruction uses a sum of squared errors, equivalent
+to fixed observation variance 1/2 up to an additive constant; dSprites uses summed binary
+cross-entropy. The primary weight is one; the ladder is {0.25, 0.5, 1, 2, 4}, constant during
+each run. No cyclical annealing schedule [30] is used. Equal numerical β across likelihoods
+does not imply equal regularisation strength.
+The stored validation monitor named “ELBO” is h = −[ℓ( x, g(µ( x ))) + KL], averaged
+over examples. It uses posterior-mean reconstruction, not an expectation over posterior
+samples, and is therefore an ELBO proxy, not an unbiased ELBO estimate or a certified
+bound. It also uses unit KL weight for checkpoint selection even when training uses
+another β. We retain these checkpoints and label the monitor accurately. No test metric
+enters the selection code. However, the candidate cache evaluates test metrics for every
+trained candidate, before method selection; the claim that only one final test evaluation
+was executed would be incorrect. Tables report test metrics only for the validation-selected
+models. This is a code-level separation of selection and evaluation, not a prospectively
+sealed test workflow.
+5.2. Methods and Readouts
+
+m
+
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+
+241
+
+Grid search selects by validation MSE, the ELBO proxy, or linear-probe validation
+accuracy. Probes use posterior means, multinomial logistic regression, up to 2000 iterations,
+and C ∈ {0.01, 0.1, 1, 10} chosen by validation. Labels are digit/apparel/ CIFAR classes
+and the three dSprites shapes. Both capacity and probe regularisation use validation labels
+in the probe selector. No centring, scaling or whitening is applied to the probe latents;
+logistic regression uses its default intercept. Coarse search uses Algorithm A1’s subset; the
+fixed baseline uses width 32.
+FONDUE is a local PyTorch implementation using TwoNN and a fixed ID-gap threshold 0.2d0 . It searches integer widths, which can lie outside the ordinary candidate grid.
+Its selected width is trained exactly. At β = 1, short training uses one epoch for MNIST
+and dSprites and two for Fashion-MNIST and CIFAR-10. dSprites follows the source’s
+epoch choice; elsewhere a seed-42 calibration increases epochs until two consecutive predictions agree, stopping at five. Equality is first tested after runs at one and two epochs;
+if predictions at e − 1 and e agree, the returned epoch count is e − 1, and both calibration
+costs remain charged. Other β-specific choices are in Appendix C. FONDUE+Q maps the
+returned width upwards onto the grid, obtains the anchor, and extends upwards until
+quality is met or its budget flag is set. This adds an external reconstruction rule to FONDUE.
+FONDUE-VAR starts at round(2d0 ) and doubles width until the declared type condition is met. With mixed variables kept it returns active plus mixed once a passive variable
+appears; otherwise it returns the active count once a mixed or passive variable appears.
+We implement the description-based classifier: posterior variance is exponentiated once
+from log variance. A coordinate is passive if its across-data variance is below 0.1 and its
+mean is in [0.9, 1.1], active if that variance is below 0.1 and its mean is at most 0.1, and
+mixed otherwise. The audited public-code version is identified in Appendix C.3; this is not
+claimed to reproduce every path of that code or its published experimental settings.
+AU is independently defined by
+AUδ = ∑ 1{Varx∈Xest µ j ( x ) > δ},
+
+225
+
+δ ∈ {10−3 , 10−2 , 10−1 },
+
+(4)
+
+j =1
+
+https://doi.org/10.3390/make8010000
+
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+
+268
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+8 of 45
+
+with primary δ = 10−2 . The across-example variances for AU, variable types and the
+target floor use denominator n (population variance); reported between-seed SDs use
+denominator n − 1. ID and activity readouts use the same 10,000 training examples sampled
+without replacement using seed 20260915. The MLE cross-check uses k = 10 neighbours.
+AU is diagnostic, not an extra selector in the method comparison.
+The historical GECO and ARD adaptations start at the largest grid width and run
+300 epochs. Their raw coordinate counts are mapped to the nearest candidate width, with
+ties going to the smaller width, for the final ordinary VAE. Appendix C.3 specifies the
+local objectives, updates and readout differences. The evaluated MSE thus belongs to the
+transferred ordinary VAE, not to the original model.
+5.3. Provenance and Scope of Prior Specification
+
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+
+279
+
+The saved image-experiment provenance is Python 3.12.3, PyTorch 2.7.1+cu118, CUDA
+11.8, cuDNN 90100 (9.1.0), NVIDIA driver 570.211.01, and an NVIDIA GeForce RTX 3070,
+on Linux 6.8.0-124-generic, x86-64, glibc 2.39. GPU provenance is recorded for these
+experiments; CPU numerical and probe operations accompany GPU training. The earlier
+MAKE47 manuscript did state PyTorch 2.0, RTX 3070 and a CPU fallback; it did not identify
+the complete CUDA/cuDNN/driver environment.
+The configuration file was created on 12 September 2026, with subsequent changes
+recorded on 12–13 September. These are internal specification records, not a public preregistration. Calibration informed some changes, including the dSprites likelihood. The pruning
+additions and full ladder were run during 14–17 September. The paired random-feature
+comparison and first accounting audit were retrospective revisions dated 18 September.
+The search replay, factorial threshold analysis, normalized ARD readout and bounded
+model validation were added on 19 September. MNIST and other previously examined
+datasets are not described as wholly unseen scientific conditions. “Evaluation condition”
+in the predictive analysis means withheld from fitting that predictor.
+The logged code token 8c2c6c28224b3450 hashes only the common module and configuration, not the entire experimental implementation; the earlier trajectory records use
+99cb5eb7404ff6e7. A new SHA-256 file manifest identifies the inspected snapshot. Appendix G maps numerical results to their source files and describes remaining provenance
+limitations.
+5.4. Bounded New Model Validation
+
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+
+300
+
+The archived MAKE49 models are not available as compatible checkpoints. To evaluate an actual ELBO, we train a separate MNIST grid at β = 1, seed 42, on the same
+18,000/2000/3000 split and the same architecture, optimizer, 300-epoch limit and 30-epoch
+patience. This is a one-seed validation experiment on CPU, not a replacement for the
+five-seed CUDA comparison. Python 3.11.11, PyTorch 2.7.1, NumPy 2.3.2 and four CPU
+threads are used on macOS 26.6.2 (arm64). Its timings are not compared with GPU records.
+Each width retains the checkpoint with the best posterior-mean proxy. We then
+evaluate
+1 n K
+1 n
+(k)
+LbK =
+log pθ ( xi | zi ) − ∑ KL{qϕ (z | xi )∥ p(z)},
+∑
+∑
+nK i=1 k=1
+n i =1
+
+(k)
+
+zi
+
+∼ q ϕ ( z | x i ).
+
+(5)
+
+Here K = 32, the evaluation seed is 20260919, and pθ ( x | z) = N ( gθ (z), 12 I ). The Gaussian
+normalizing constant is included. The same 64-dimensional normal draws are truncated
+for smaller widths. Monte Carlo SE is the sample SD of the 32 draw-wise validation means
+√
+divided by 32; it measures evaluation noise, not training-seed uncertainty. Capacity is
+chosen separately by validation MSE, proxy and estimated ELBO, and choices are written
+
+https://doi.org/10.3390/make8010000
+
+301
+302
+303
+304
+305
+306
+307
+308
+
+309
+
+310
+311
+312
+313
+314
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+9 of 45
+
+before test evaluation. Thus the ELBO comparison selects capacity from proxy-selected
+checkpoints; it does not reselect every epoch using ELBO.
+A separate 300-epoch, seed-42 MNIST run instruments the local hard-concrete (HC)
+pruning implementation. Its target comes from the new ordinary width-64 anchor. We
+retain native-model reconstruction, constraint, gate and multiplier trajectories and compare native and dimension-transferred outputs. This checks the behaviour of that local
+implementation in one condition; it is not an ARM replication or a validated cross-dataset
+pruning baseline. Checkpoints for these separate MNIST ordinary-VAE and HC runs are
+saved.
+5.5. Additional Cross-Dataset Component Validation
+
+p
+
+316
+317
+318
+319
+320
+321
+322
+323
+
+324
+
+The additional experiments use the same four datasets and fixed splits, seeds 42, 123
+and 777, the largest candidate width (64, or 256 for CIFAR-10), and 300 epochs. There
+are 12 ARM runs and 24 ARD runs, including two prior-centering settings, followed by
+12 native-pruning evaluations of the sample-centred ARD variant. All use the same RTX
+3070, Python, PyTorch, CUDA, cuDNN, driver and operating-system environment listed in
+Section 5.3. They are separate from the five-seed historical comparison and the one-seed
+MNIST capacity study. The three-seed summaries use sample SDs; the repeated seeds and
+shared splits do not constitute independent dataset replications.
+The ARM implementation uses paired Bernoulli gates and per-example loss differences
+before averaging the gate-gradient estimate. A supplied linear-loss test checks this estimator
+against its analytic gradient. The reconstruction constraint uses summed squared error for
+every dataset, including dSprites. Its threshold is the ordinary β = 1 anchor’s deterministic
+validation MSE multiplied by 1.10 and by the number of pixels. The network loss includes
+a gate-masked KL sum and a constraint multiplier, and the expected gate-count penalty is
+applied when the moving-average constraint is satisfied. Native evaluation uses a binary
+mask with gate probability greater than 0.5. We report posterior-mean validation/test MSE
+and validation MSE averaged over 32 posterior draws, both with that mask.
+This is component validation, not exact reproduction of the source algorithm [7]. The
+local gates start at probability 0.5 and update immediately, rather than remaining open
+until the first constraint hit. The local KL is a masked sum rather than the source’s activecount-normalised quantity. The anchor-derived threshold and local gate-update settings
+also differ. A failed local run therefore does not establish a failure of the published method.
+Endpoint training constraint satisfaction and deterministic validation Q are different events
+and are tabulated separately.
+The ARD implementation fixes its training weight at one and reserves the first 1800 of
+18,000 training-pool examples for prior updates; the remaining 16,200 supply parametergradient updates. The prior-update pool is fixed, with latent samples refreshed at epochs
+1, 11, . . . , 291 and after training. This differs from the source’s resampled pool and tuned
+regularisation weight [8]. We evaluate both a zero centre in the variance update, as set in
+the source, and a sample-centred variance-update variant; each is trained separately. Both
+retain zero prior mean in the Gaussian closed-form KL.
+At the final model, automatic differentiation evaluates the decoder Jacobian at posterior means for the first 100 validation examples. For prior variance v j and decoder output
+coordinates ℓ, the score is
+1 100
+∂g
+wj =
+∑ ∂zℓj (µ(xi ))
+100 i∑
+=1 ℓ=1
+
+315
+
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+
+!2
+,
+
+sj = wj vj .
+
+(6)
+
+The readout is the number of descending scores required to explain 99% of their total. Exact
+refers to automatic differentiation instead of finite perturbations; it does not remove sample
+
+https://doi.org/10.3390/make8010000
+
+359
+
+360
+361
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+10 of 45
+
+or training uncertainty. The initial ARD comparison evaluates the unpruned full-width
+model. The subsequent masking experiment below evaluates the retained axes. For both
+methods, dimension transfer maps the count to the nearest candidate width and evaluates
+the cached ordinary β = 1 VAE with the same seed.
+The initial 12 ARM and 24 ARD runs retain evaluation-mode MSE curves every five
+epochs. ARM uses a 2000-example training subset; the ARD training-pool subset includes
+its reserved prior-update examples and is identified as such. Recorded training time
+includes these periodic evaluations. ARM also records final native-evaluation time; ARD
+separately records Jacobian time but not final native-evaluation time. These are partial
+timings. The additional scripts do not save model checkpoints.
+Native ARD masking and fixed-budget decoder adaptation.
+The supplied internal specification fixes four conditions before the new masking runs:
+full model, nonselected-axis masking, decoder-only adaptation, and transfer. It is not a
+public preregistration. The training script repeats the sample-centred variance-update
+setting with the same three seeds per dataset. Its full-model validation/test MSE and
+selected counts match the earlier sample-centred records exactly; these are paired extensions
+of those settings, not independent baseline replications. For each run the highest-scoring
+axes accounting for 99% of total relevance are retained and all other coordinates are set to
+the zero prior mean. Masking preserves the network dimensions; it does not establish a
+smaller compiled model or an inference-speed gain. The mask is computed once and is not
+reselected after adaptation.
+The third condition starts from that same masked model and updates only decoder
+parameters for 30 epochs, with Adam, learning rate 10−3 and batch size 128. Encoder
+parameters and the prior remain fixed. The objective is the original reconstruction term on
+masked posterior samples. Adaptation uses all 18,000 training-pool examples, including
+the 1800 reserved for prior updates during initial training; this is additional data exposure
+and computation relative to the masked condition. No validation early stopping is applied.
+All four primary conditions use posterior-mean validation and test MSE; the mask-only
+condition also has a 32-draw validation-MSE diagnostic. The nearest-grid transfer uses
+existing ordinary-VAE cache records, not a further model trained by the masking script.
+Test metrics do not determine the mask or the fixed adaptation budget.
+The Jacobian score is still Equation (6). To bound memory, CIFAR-10 uses batches of
+four examples and dSprites accumulates squared output-coordinate gradients in batches of
+eight instead of materialising the full Jacobian. This changes the computational route, not
+the score definition. The new JSON retains counts and MSE but not axis identities, score
+vectors, training curves or model checkpoints. Timing and record-level limits are detailed
+in Appendix F.
+An evaluation-code audit limits use of the additional ELBO fields. The 32-sample
+option changes MSE only: reconstruction likelihood is still evaluated at the posterior mean,
+while KL uses an unmasked standard-normal prior, including for ARD. These fields are
+not Monte Carlo ELBOs for the trained native models. The native-masking script inherits
+this issue, despite its specification requesting true ELBO. We exclude all such fields and
+use the additional records for MSE, gates, relevance counts and available curves; the
+capacity-selection ELBO evidence remains the separate MNIST experiment in Section 5.4.
+
+https://doi.org/10.3390/make8010000
+
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+11 of 45
+
+6. Results
+
+406
+
+6.1. Search Decisions and Canonical Costs
+
+407
+
+The historical MNIST expense contrast is structurally determined when the smallest
+qualifying width lies inside the initial window, m0 < m a , and no budget interruption
+occurs:
+Cwindow − Cascending = Cref +
+(7)
+∑ Cm ≥ 0.
+
+408
+409
+410
+411
+
+m ∗ < m ≤ m0
+
+Both procedures already evaluate the anchor; its cost cancels. At the primary setting,
+dˆ = 11.68 gives m0 = 24. The window requests widths 2, 4, 6, 8, 10, 12, 16, 20 and
+24; ascending stops at 6. The historical ledger difference is 715.4 − 182.0 = 533.4 =
+205.5 + (400.7 − 72.8) s (Appendix B.1). This is an accounting identity for those paths, not
+an empirical identification of the value of ID information.
+Tables 3 and 4 evaluate policies with different stopping opportunities using uniform
+snapshot prices. ID-local requests nine candidates on MNIST, versus ten for the old window
+and four for ascending. All return the same width six. Canonical cold costs are 636, 672
+and 177 s, respectively; these differ from historical ledger values because the prices are now
+uniform. The midpoint control requests six candidates and costs 279 s. Thus shortening the
+path alone does not establish an ID-specific gain.
+Table 3. Retrospective search replay at β = 1, five seeds. Q: target attainment; exact: agreement with
+the full-grid smallest qualifying width; ∆m: mean excess width. Calls include the anchor. Cost uses
+one canonical saved time per key plus the full reference bank for ID policies, in seconds; it is not new
+wall-clock timing. Gaussian likelihood except Bernoulli dSprites.
+Policy
+
+Width
+
+Q
+
+Exact
+
+∆m
+
+Calls
+
+Cold cost
+
+MNIST
+Full grid Q
+Ascending Q
+Legacy window
+ID local
+Midpoint local
+ID certified
+
+6.0 ± 0.0
+6.0 ± 0.0
+6.0 ± 0.0
+6.0 ± 0.0
+6.0 ± 0.0
+6.0 ± 0.0
+
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+
+12.0
+4.0
+10.0
+9.0
+6.0
+10.0
+
+572
+177
+672
+636
+279
+672
+
+Fashion-MNIST
+Full grid Q
+Ascending Q
+Legacy window
+ID local
+Midpoint local
+ID certified
+
+4.0 ± 0.0
+4.0 ± 0.0
+6.4 ± 3.3
+4.0 ± 0.0
+4.0 ± 0.0
+4.0 ± 0.0
+
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+
+5/5
+5/5
+3/5
+5/5
+5/5
+5/5
+
+0.0
+0.0
+2.4
+0.0
+0.0
+0.0
+
+12.0
+3.0
+4.0
+3.0
+7.0
+3.0
+
+645
+209
+457
+416
+407
+416
+
+https://doi.org/10.3390/make8010000
+
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+12 of 45
+
+Table 4. Retrospective search replay at β = 1, five seeds. Q: target attainment; exact: agreement with
+the full-grid smallest qualifying width; ∆m: mean excess width. Calls include the anchor. Cost uses
+one canonical saved time per key plus the full reference bank for ID policies, in seconds; it is not new
+wall-clock timing. Gaussian likelihood except Bernoulli dSprites.
+Width
+
+Q
+
+Exact
+
+∆m
+
+Calls
+
+Cold cost
+
+dSprites
+Full grid Q
+Ascending Q
+Legacy window
+ID local
+Midpoint local
+ID certified
+
+20.0 ± 4.0
+20.0 ± 4.0
+64.0 ± 0.0
+20.0 ± 4.0
+20.0 ± 4.0
+20.0 ± 4.0
+
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+
+5/5
+5/5
+0/5
+5/5
+5/5
+5/5
+
+0.0
+0.0
+44.0
+0.0
+0.0
+0.0
+
+12.0
+9.0
+4.0
+9.0
+4.0
+9.0
+
+2563
+1797
+999
+2092
+941
+2092
+
+CIFAR-10
+Full grid Q
+Ascending Q
+Legacy window
+ID local
+Midpoint local
+ID certified
+
+24.0 ± 0.0
+24.0 ± 0.0
+131.2 ± 113.9
+24.0 ± 0.0
+24.0 ± 0.0
+24.0 ± 0.0
+
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+
+5/5
+5/5
+0/5
+5/5
+5/5
+5/5
+
+0.0
+0.0
+107.2
+0.0
+0.0
+0.0
+
+10.0
+4.0
+4.0
+4.0
+5.0
+4.0
+
+428
+157
+499
+498
+213
+498
+
+Policy
+
+Local search can reduce requests: on dSprites, midpoint-local takes four rather than
+nine ascending requests, with canonical costs 941 versus 1797 s and the same qualifying
+width in every primary seed. ID is rejected there, so ID-local follows ascending and
+additionally charges the bank. Across all 100 dataset–weight–seed conditions, ID-local and
+its certified variant match the full-grid minimum in all 100; midpoint-local matches in 98,
+with a maximum excess width of eight. All these new-policy outputs meet the validation
+target and none exceeds the original soft cost limit in the replay. These are conditional
+observations on a previously trained grid, not guarantees for new data.
+6.2. Start Width with Reliability and Fallback Held Fixed
+
+423
+424
+425
+426
+427
+428
+429
+430
+
+431
+
+The additional ablation changes only the accepted start to midpoint, retaining the ID
+gate, ascending fallback and reference-bank charge (Table 5). Both policies select exactly the
+same width in all 100 conditions. ID is accepted only for the 25 MNIST conditions; there,
+ID-local requests 8.84 candidates versus 5.84 for the gated midpoint and costs 705.2 versus
+537.7 canonical cold-use seconds. Thus the ID-derived start has no observed selection
+benefit and incurs more work in the stratum where it is actually used. In the other 75
+conditions, both policies use the same ascending fallback.
+
+https://doi.org/10.3390/make8010000
+
+432
+433
+434
+435
+436
+437
+438
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+13 of 45
+
+Table 5. Start-width ablation across five weights and five candidate seeds per dataset. ID accepted
+comprises MNIST (25 conditions); fallback comprises the other three datasets (75). ID-local and
+ID-gated midpoint use identical reliability checks, fallback and reference-bank charges. The bank-free
+midpoint is a separate policy. Exact denotes the full-grid minimum; costs are canonical cold-use
+seconds, not new wall-clock measurements.
+Stratum
+
+Policy
+
+ID accepted
+ID accepted
+ID accepted
+ID accepted
+Fallback
+Fallback
+Fallback
+Fallback
+All
+All
+All
+All
+
+ID local
+ID gated midpoint
+Midpoint local
+Ascending Q
+ID local
+ID gated midpoint
+Midpoint local
+Ascending Q
+ID local
+ID gated midpoint
+Midpoint local
+Ascending Q
+
+n
+
+Exact
+
+Calls
+
+Cold (s)
+
+25
+25
+25
+25
+75
+75
+75
+75
+100
+100
+100
+100
+
+25/25
+25/25
+25/25
+25/25
+75/75
+75/75
+73/75
+75/75
+100/100
+100/100
+98/100
+100/100
+
+8.84
+5.84
+5.84
+4.12
+5.24
+5.24
+5.11
+5.24
+6.14
+5.39
+5.29
+4.96
+
+705.2
+537.7
+330.2
+195.1
+995.8
+995.8
+533.0
+714.7
+923.1
+881.3
+482.3
+584.8
+
+The two bank-free midpoint errors occur for Fashion-MNIST (seed 31337, β = 0.25:
+width 12 versus minimum 6) and dSprites (seed 31337, β = 4: width 16 versus minimum
+8). Both are rejected-ID conditions. Its 98/100 versus ID-local’s 100/100 exact agreement
+therefore reflects the fallback difference, not evidence that an ID-derived start improves
+selection. Ascending-Q also matches all 100 minima and costs less than ID-local on every
+condition under cold acquisition. The common anchor guarantees attainment within these
+stored grids by construction; exact minimality and cost are the informative comparisons.
+6.3. Coefficient, Reliability and Reuse Sensitivity
+
+439
+440
+441
+442
+443
+444
+445
+
+446
+
+At the primary MNIST setting, changing c from one to four leaves the selected width
+at six but changes ID-local requests from six to eleven and cold cost from 487 to 743 s. With
+the original reliability thresholds, the other three datasets use identical ascending fallback
+at every coefficient. Their invariance is therefore not evidence that the ID coefficient is
+robust.
+At c = 2, relaxing Amax to 0.40 admits Fashion-MNIST and raises its primary request
+count from three to ten without improving the width. At 0.85 it also admits CIFAR-10;
+admitting dSprites additionally requires the permissive Rmax = 0.50, Amax = 2.00 stress
+setting. Threshold choice thus changes whether ID actually participates. Tables A4 and A5
+give full primary coefficient results and representative reliability contrasts; the supplement
+contains every factorial row.
+Across all 10,000 sensitivity rows, quality is always met, but 155 outputs miss the fullgrid minimum, with maximum excess width 56. All misses occur away from β = 1. They
+show why local stopping cannot be certified from apparent monotonicity at one setting.
+These rows reuse records and reference banks; 10,000 is a count of replay configurations, not
+independent experimental replicates. Table 6 separates cold use, warm use and one-time
+bank construction shared over 25 tasks.
+
+https://doi.org/10.3390/make8010000
+
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+14 of 45
+
+Table 6. ID-local costs across five weights and five candidate seeds (25 tasks per dataset). Cold
+charges the bank each time; warm assumes an existing bank; batch allocates its training cost once
+across 25 tasks. All exclude unrecorded ID/evaluation overhead. Nonmono counts qualifying masks
+that change from pass to fail as width increases.
+Dataset
+
+Bank (s)
+
+Cold (s)
+
+Warm (s)
+
+Batch (s)
+
+Exact
+
+Nonmono
+
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+
+207.5
+207.1
+295.8
+340.5
+
+705.2
+352.9
+2127.2
+507.2
+
+497.7
+145.8
+1831.4
+166.7
+
+506.0
+154.1
+1843.3
+180.3
+
+25/25
+25/25
+25/25
+25/25
+
+1/25
+2/25
+13/25
+4/25
+
+6.4. Recorded Selector Quality
+
+464
+
+Tables 7 and 8 retain ordinary-selector outcomes at β = 1, with sample SD over five
+training seeds. They report model widths, validation and test error and target attainment.
+Their timing ledgers are separated from the canonical replay prices. The inherited ARD
+and GECO rows have been removed from this main comparison; their raw results and
+subsequent checks are implementation audits in Appendix C.3.
+
+465
+466
+467
+468
+469
+
+Table 7. Dimension selection at β = 1 (Gaussian likelihoods). Values are mean ± sample SD over
+five candidate-training seeds. mfinal is the width of the evaluated ordinary VAE. MSE columns are
+multiplied by 103 ; Q counts validation target attainment. Historical timing ledgers are separated in
+Appendix B.1; replay costs use a single canonical snapshot.
+mfinal
+
+Val. MSE
+
+Test MSE
+
+Q
+
+MNIST
+Grid (MSE)
+FONDUE
+FONDUE + Q
+Ascending + Q
+Legacy ID window
+
+12.8 ± 6.4
+7.0 ± 0.0
+8.0 ± 0.0
+6.0 ± 0.0
+6.0 ± 0.0
+
+20.98 ± 0.24
+21.93 ± 0.77
+21.72 ± 0.50
+22.44 ± 0.15
+22.44 ± 0.15
+
+20.50 ± 0.26
+21.54 ± 0.78
+21.33 ± 0.55
+22.05 ± 0.17
+22.05 ± 0.17
+
+5/5
+5/5
+5/5
+5/5
+5/5
+
+Fashion-MNIST
+Grid (MSE)
+FONDUE
+FONDUE + Q
+Ascending + Q
+Legacy ID window
+
+22.8 ± 15.6
+6.8 ± 0.4
+7.6 ± 0.9
+4.0 ± 0.0
+6.4 ± 3.3
+
+18.33 ± 0.20
+19.29 ± 0.16
+19.00 ± 0.33
+19.38 ± 0.24
+19.03 ± 0.61
+
+18.08 ± 0.19
+19.01 ± 0.16
+18.75 ± 0.34
+19.06 ± 0.25
+18.73 ± 0.57
+
+5/5
+5/5
+5/5
+5/5
+5/5
+
+Method
+
+Table 8. Dimension selection at β = 1 (Bernoulli for dSprites; Gaussian for CIFAR-10). Values are
+mean ± sample SD over five candidate-training seeds. mfinal is the width of the evaluated ordinary
+VAE. MSE columns are multiplied by 103 ; Q counts validation target attainment. Historical timing
+ledgers are separated in Appendix B.1; replay costs use a single canonical snapshot.
+mfinal
+
+Val. MSE
+
+Test MSE
+
+Q
+
+dSprites
+Grid (MSE)
+FONDUE
+FONDUE + Q
+Ascending + Q
+Legacy ID window
+
+57.6 ± 14.3
+4.2 ± 0.4
+20.0 ± 4.0
+20.0 ± 4.0
+64.0 ± 0.0
+
+1.16 ± 0.01
+5.50 ± 1.31
+1.26 ± 0.05
+1.26 ± 0.05
+1.17 ± 0.02
+
+1.15 ± 0.01
+5.42 ± 1.28
+1.24 ± 0.05
+1.24 ± 0.05
+1.16 ± 0.03
+
+5/5
+0/5
+5/5
+5/5
+5/5
+
+CIFAR-10
+Grid (MSE)
+FONDUE
+FONDUE + Q
+Ascending + Q
+Legacy ID window
+
+140.8 ± 53.5
+14.4 ± 0.5
+24.0 ± 0.0
+24.0 ± 0.0
+131.2 ± 113.9
+
+13.83 ± 0.04
+17.79 ± 0.30
+15.12 ± 0.14
+15.12 ± 0.14
+14.01 ± 0.13
+
+14.07 ± 0.04
+18.10 ± 0.30
+15.36 ± 0.13
+15.36 ± 0.13
+14.25 ± 0.14
+
+5/5
+0/5
+5/5
+5/5
+5/5
+
+Method
+
+Ordinary FONDUE returns approximately four dimensions on dSprites but has validation MSE 0.00550, versus 0.00126 for ascending search. Normal termination does not
+imply quality attainment. FONDUE+Q includes one budget-exceeded dSprites trial that
+
+https://doi.org/10.3390/make8010000
+
+470
+471
+472
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+15 of 45
+
+still returned a model; that model remains in the summary. Independent outcome counts
+are in Appendix A.1. The legacy ID rows for Fashion-MNIST, dSprites and CIFAR-10 use
+coarse-MSE fallback; the high CIFAR-10 width variability belongs to that fallback. Only
+CIFAR-10 is a natural colour-image benchmark here.
+6.5. Additional Native Pruning and Relevance Results
+
+473
+474
+475
+476
+
+477
+
+We distinguish the quality of the selected native representation from the quality
+obtained by transferring its dimension to an ordinary VAE. Counts alone do not measure
+successful compression. Historical versus additional readouts are collected in Appendix F.
+Table 9 separates native reconstruction, dimension transfer and endpoint constraint
+satisfaction. For MNIST and Fashion-MNIST, all three native posterior-mean reconstructions meet Q, while only two training constraints do. All three dSprites native runs fail
+both checks, although their transferred ordinary VAEs meet Q. Their native MSE is approximately 0.04236, and all 64 gate probabilities remain between 0.1 and 0.9 (Appendix F);
+thresholded counts of 48–62 therefore do not demonstrate settled sparse solutions. CIFAR10 meets native mean-reconstruction Q in one seed and the training constraint in two.
+These are limitations of the local implementation.
+
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+
+Table 9. New ARM-based local implementation: three seeds (42, 123, 777), 300 epochs. Widths and
+validation MSE (×103 ) are mean ± sample SD; parentheses give external target attainment Q. Mean
+and sampled reconstruction both use the learned binary gate mask; sampled uses 32 posterior draws.
+Transfer denotes a separate ordinary VAE at the nearest grid width. Constraint is endpoint stochastic
+training-constraint attainment, distinct from Q.
+Dataset
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+
+Gates
+
+Native mean (Q)
+
+Native sampled (Q)
+
+Transfer (Q)
+
+Constraint
+
+7.7 ± 0.6
+4.7 ± 0.6
+54.0 ± 7.2
+21.0 ± 2.6
+
+21.88 ± 0.26 (3/3)
+19.31 ± 0.20 (3/3)
+42.36 ± 0.00 (0/3)
+15.33 ± 0.57 (1/3)
+
+27.36 ± 0.70 (0/3)
+22.76 ± 0.22 (0/3)
+42.36 ± 0.00 (0/3)
+17.16 ± 0.34 (0/3)
+
+21.63 ± 0.70 (3/3)
+19.28 ± 0.23 (3/3)
+1.17 ± 0.03 (3/3)
+16.46 ± 1.17 (1/3)
+
+2/3
+2/3
+0/3
+2/3
+
+The sampled native ARM MSE exceeds the deterministic anchor-derived target in
+every run. This comparison demonstrates the consequence of changing the reconstruction
+definition; it is not a selection study under a target derived from a sampled anchor. It also
+explains why training-constraint status cannot be inferred from mean-reconstruction Q.
+The exact-Jacobian ARD zero-centre readouts are 6.0, 4.0, 9.0 and 26.7 on MNIST,
+Fashion-MNIST, dSprites and CIFAR-10, respectively (Table 10). The sample-centred
+variant gives 6.0, 4.0, 9.7 and 26.3. Small differences across these three seeds support
+a bounded centering-sensitivity observation, not invariance to prior specification. Both
+settings meet full-model and transfer Q on the three datasets other than dSprites and fail
+both on dSprites. These initial evaluations do not mask the selected-out axes.
+Table 10. New exact-Jacobian ARD implementations, three seeds per setting, 300 epochs. Priorupdate centre is zero or the sample latent mean. Count is a relevance readout; Full is the unpruned
+starting-width model, not a model reduced to that count. Transfer is an ordinary VAE at the nearest
+grid width. MSE ×103 , mean ± sample SD; parentheses give Q counts.
+Dataset
+
+Centre
+
+Count
+
+Full MSE (Q)
+
+Transfer width
+
+Transfer MSE (Q)
+
+MNIST
+MNIST
+Fashion-MNIST
+Fashion-MNIST
+dSprites
+dSprites
+CIFAR-10
+CIFAR-10
+
+Zero
+Sample
+Zero
+Sample
+Zero
+Sample
+Zero
+Sample
+
+6.0 ± 0.0
+6.0 ± 0.0
+4.0 ± 0.0
+4.0 ± 0.0
+9.0 ± 0.0
+9.7 ± 0.6
+26.7 ± 0.6
+26.3 ± 0.6
+
+23.48 ± 0.59 (3/3)
+23.61 ± 0.18 (3/3)
+19.27 ± 0.19 (3/3)
+19.43 ± 0.08 (3/3)
+1.33 ± 0.02 (0/3)
+1.33 ± 0.06 (0/3)
+14.30 ± 0.13 (3/3)
+14.40 ± 0.24 (3/3)
+
+6.0 ± 0.0
+6.0 ± 0.0
+4.0 ± 0.0
+4.0 ± 0.0
+8.0 ± 0.0
+9.3 ± 1.2
+24.0 ± 0.0
+24.0 ± 0.0
+
+22.51 ± 0.15 (3/3)
+22.51 ± 0.15 (3/3)
+19.28 ± 0.23 (3/3)
+19.28 ± 0.23 (3/3)
+1.88 ± 0.08 (0/3)
+1.64 ± 0.30 (0/3)
+15.19 ± 0.12 (3/3)
+15.19 ± 0.12 (3/3)
+
+https://doi.org/10.3390/make8010000
+
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+16 of 45
+
+Quality after retaining the selected ARD axes.
+
+499
+
+Table 11 closes that evaluation gap for the sample-centred variant. Masking changes
+mean validation MSE by +0.045%, +0.017%, +126.3% and +3.4% on MNIST, FashionMNIST, dSprites and CIFAR-10, respectively. These percentages are ratios of three-seed
+mean MSEs relative to the corresponding full model, not seed-averaged percentage changes.
+The full, masked, adapted and transferred models all meet Q in all three seeds on each
+dataset other than dSprites; all four fail Q in every dSprites seed.
+
+500
+501
+502
+503
+504
+505
+
+Table 11. Native ARD masking and decoder adaptation using the sample-centred variance-update
+variant. Three seeds per dataset; validation MSE ×103 , mean ± sample SD. Count is retained axes;
+Full uses all starting axes; Mask sets other axes to zero; Adapt adds 30 decoder-only epochs; Transfer
+uses a separate cached ordinary VAE at the nearest grid width. Parentheses give attainment of the
+same deterministic validation target Q in each condition. All four conditions fail Q on dSprites,
+including Full.
+Dataset
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+
+Count
+
+Full (Q)
+
+Mask (Q)
+
+Adapt (Q)
+
+Transfer (Q)
+
+6.0 ± 0.0
+4.0 ± 0.0
+9.7 ± 0.6
+26.3 ± 0.6
+
+23.61 ± 0.18 (3/3)
+19.43 ± 0.08 (3/3)
+1.33 ± 0.06 (0/3)
+14.40 ± 0.24 (3/3)
+
+23.62 ± 0.18 (3/3)
+19.43 ± 0.08 (3/3)
+3.01 ± 0.27 (0/3)
+14.89 ± 0.20 (3/3)
+
+23.36 ± 0.16 (3/3)
+19.19 ± 0.05 (3/3)
+1.83 ± 0.09 (0/3)
+14.73 ± 0.08 (3/3)
+
+22.51 ± 0.15 (3/3)
+19.28 ± 0.23 (3/3)
+1.64 ± 0.30 (0/3)
+15.19 ± 0.12 (3/3)
+
+For dSprites, masking raises MSE from 0.00133 to 0.00301; decoder adaptation lowers
+it to 0.00183, still 37.1% above the full model. Thus the local 99% relevance cutoff does not
+ensure reconstruction preservation after jointly removing the other axes. This result does
+not identify the contribution of each removed axis and does not establish failure of the
+published ARD method. The transferred ordinary-VAE MSE is 0.00164, which also misses
+Q; its better quality than the masked model is not evidence that the selected count suffices
+for the specified quality target.
+For CIFAR-10, the masked and adapted means (0.01489 and 0.01473) are below the
+transferred mean (0.01519), although above the full-model mean (0.01440). MNIST instead
+favours transfer on this metric. These descriptive, three-seed results depend on the trained
+model, inference rule and adaptation budget; they do not establish general native-pruning
+superiority. Appendix F gives per-seed values, held-out test reconstruction and partial
+timing.
+6.6. Representation and Sample Dependence of ID
+
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+
+519
+
+Table 12 gives the complete reference-bank summary, including Fashion-MNIST. Only
+MNIST passes both checks. Because the same bank is reused, five identical pass/fail
+decisions do not constitute five independent replications of ID estimation.
+
+520
+521
+522
+
+Table 12. ID-reference AE widths and TwoNN estimates (mean ± SD over three reference seeds);
+stability R and estimator disagreement A. Limits are R ≤ 0.15 and A ≤ 0.25. The same reference
+bank is reused across candidate seeds and β.
+Dataset
+
+Width: estimate
+
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+
+55: 10.93 ± 0.08; 111: 11.78 ± 0.12; 221: 12.32 ± 0.09
+49: 9.91 ± 0.06; 98: 10.45 ± 0.04; 197: 10.83 ± 0.05
+30: 3.96 ± 0.48; 61: 3.91 ± 1.12; 122: 2.10 ± 0.02
+81: 13.60 ± 0.09; 162: 13.44 ± 0.71; 325: 12.34 ± 0.50
+
+R
+
+A
+
+0.118
+0.088
+0.474
+0.094
+
+0.150
+0.361
+1.816
+0.834
+
+Figure 1 separately shows the sample-size and PCA analyses. At 1000 examples the
+two estimators agree within the specified 0.25 relative tolerance on all four raw-input
+datasets; at 10,000, only MNIST does. These are raw-input checks, distinct from the AElatent checks used by the selector. On dSprites, input TwoNN is 7.70 in this diagnostic,
+
+https://doi.org/10.3390/make8010000
+
+523
+524
+525
+526
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+17 of 45
+
+527
+528
+529
+530
+
+17.5
+0.8
+
+15.0
+TwoNN estimate
+
+Relative estimator disagreement
+
+PCA estimates range from 2.68 to 4.32, and individual AE estimates range from 2.08 to 4.56.
+The combined range is about 3.7-fold; the corresponding MNIST range is about 1.7-fold.
+These are representation-dependent estimates, not competing measurements of a known
+ground truth.
+
+0.6
+0.4
+0.2
+
+12.5
+10.0
+7.5
+5.0
+2.5
+
+104
+
+103
+
+25
+
+50
+75
+100
+PCA dimension
+
+dSprites
+
+CIFAR-10
+
+ID sample size
+MNIST
+
+Fashion-MNIST
+
+125
+
+Figure 1. Left: |dTwoNN − dMLE |/dTwoNN on raw inputs as estimation sample size changes; dashed
+line is 0.25. Right: TwoNN after PCA preprocessing. PCA rank, sample size and representation are
+distinct interventions; AE results are in Table 12.
+
+6.7. Dependence on Regularisation and Quality Context
+
+531
+
+Define the reported range for method a and dataset d by
+Sa,d = max m̄ a,d ( β) − min m̄ a,d ( β),
+β∈B
+
+m̄ a,d ( β) =
+
+β∈B
+
+1 5
+m a,d,s ( β),
+5 s∑
+=1
+
+532
+
+B = {0.25, 0.5, 1, 2, 4}.
+
+(8)
+This is the range of seed means of raw returned dimensions, not the mean of within-seed
+ranges. For the FONDUE-VAR row all five outputs are defined at each setting, including
+any raw zero. It is a descriptive range on the tested ladder, not a new parameter-free
+robustness index.
+
+533
+534
+535
+536
+537
+
+Table 13. Range of seed-mean returned dimensions across β ∈ {0.25, 0.5, 1, 2, 4}. Pruning adaptations
+are restricted to the implementation audit. Fixed 32 is a design constant; fallback spans are not ID
+robustness. Gaussian likelihood except Bernoulli dSprites.
+Method
+Grid (MSE)
+Coarse search
+Fixed 32
+FONDUE
+FONDUE-VAR (mixed kept)
+Ascending + Q
+FONDUE + Q
+Legacy ID window
+
+MNIST
+
+Fashion
+
+dSprites
+
+CIFAR-10
+
+14.8
+33.6
+0.0
+3.8
+50.6
+6.0
+3.6
+6.0
+
+20.8
+37.2
+0.0
+0.8
+63.0
+3.6
+1.6
+37.2
+
+40.0
+0.0
+0.0
+0.8
+106.2
+15.2
+28.0
+0.0
+
+91.2
+214.4
+0.0
+8.8
+68.8
+52.8
+44.8
+214.4
+
+Ranges differ by method and dataset, with clear ordering reversals. For example,
+ascending versus FONDUE+Q ranges are 6.0 versus 3.6 on MNIST, but 15.2 versus 28.0
+on dSprites. The legacy ID window’s CIFAR-10 range of 214.4 is inherited from fallback.
+A fixed dimension has zero range by design; dSprites ID fallback has zero range because
+coarse search always returns 64. Neither demonstrates useful selection robustness. We do
+not average ranges across differently scaled grids or assert a transferable ranking.
+
+https://doi.org/10.3390/make8010000
+
+538
+539
+540
+541
+542
+543
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+18 of 45
+
+The ARD call did not vary its selection-stage weight and GECO varied an anchorderived constraint rather than β directly. Both belong to the implementation audit, not
+Figure 2’s ordinary-VAE regularisation comparison.
+
+10.0
+7.5
+5.0
+2.5
+.25
+
+.5
+
+1
+β
+
+2
+
+40
+20
+0
+
+4
+
+.25
+
+.5
+
+Returned dimension
+
+Returned dimension
+
+40
+20
+
+.5
+
+1
+β
+
+1
+β
+
+2
+
+4
+
+2
+
+4
+
+CIFAR-10
+
+60
+
+.25
+
+546
+
+60
+
+dSprites
+
+0
+
+545
+
+Fashion-MNIST
+
+12.5
+
+Returned dimension
+
+Returned dimension
+
+MNIST
+
+544
+
+2
+
+4
+
+Legacy ID window
+Ascending + Q
+
+300
+200
+100
+0
+.25
+
+.5
+
+1
+β
+
+FONDUE
+FONDUE + Q
+
+Figure 2. Raw returned dimension across the five contexts, mean ± SD over five candidate seeds.
+Gaussian likelihood except Bernoulli dSprites. These ordinary VAE selectors change training β. The
+legacy ID window falls back on Fashion-MNIST, dSprites and CIFAR-10 throughout the ladder.
+
+An AU-threshold intervention holds the checkpoint fixed and recomputes Equation (4).
+A quality-margin intervention instead changes which cached models satisfy the target.
+Neither is the same as changing training β. We report these readout/quality analyses
+separately (Section 6.9 and Appendix C.4). No sensitivity claim is made for untested
+FONDUE stopping thresholds or ARD cumulative relevance fractions.
+6.8. Learning Curves, Test Evaluation and Selection Criteria
+
+547
+548
+549
+550
+551
+
+552
+
+Figure 3 uses actual early-stopped cache records selected by ascending-Q at the
+primary setting, including MNIST width six and CIFAR-10. Each run is shown only over
+its recorded epochs and the proxy-selected checkpoint is marked. These cache records
+contain validation curves but no epoch-wise train curve; no missing train measurements
+are imputed. The separate new MNIST run supplies matched train/validation curves for
+width six (Appendix E).
+The saved trajectory experiment supplies train/validation curves for MNIST widths
+12, 32 and 64 and dSprites widths 6, 16 and 32, with five seeds each (Figure 4). Training
+MSE is evaluated in deterministic mode on a fixed 2000-example training subset sampled
+with seed 20260919. Both train and validation improve, but validation error remains higher.
+None of these 30 runs passes the stringent final 50-epoch plateau check; completing 300
+epochs is not proof of convergence. These curves cover representative settings, not all four
+datasets.
+
+https://doi.org/10.3390/make8010000
+
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+19 of 45
+
+MNIST
+
+Fashion-MNIST
+
+s=42, m=6
+s=123, m=6
+s=777, m=6
+s=2024, m=6
+s=31337, m=6
+
+4 × 10−2
+
+Validation MSE
+
+Validation MSE
+
+5 × 10−2
+
+3 × 10−2
+
+s=42, m=4
+s=123, m=4
+s=777, m=4
+s=2024, m=4
+s=31337, m=4
+
+3 × 10−2
+
+2 × 10−2
+0
+
+50
+Epoch
+
+100
+
+0
+
+50
+
+s=42, m=24
+s=123, m=20
+s=777, m=16
+s=2024, m=16
+s=31337, m=24
+
+10−2
+
+0
+
+100
+Epoch
+
+150
+
+200
+
+CIFAR-10
+s=42, m=24
+s=123, m=24
+s=777, m=24
+s=2024, m=24
+s=31337, m=24
+
+3 × 10−2
+Validation MSE
+
+Validation MSE
+
+dSprites
+
+100
+Epoch
+
+2 × 10−2
+
+200
+
+0
+
+25
+
+50
+Epoch
+
+75
+
+Figure 3. Actual selected-candidate validation MSE at β = 1, five seeds, Gaussian likelihood except
+Bernoulli dSprites. Widths are chosen by ascending-Q; black crosses mark proxy-selected epochs.
+Curves end at the recorded stopping time. These are not the fixed-300-epoch diagnostic runs in
+Figure 4.
+Table 14. Selection-criterion comparison at β = 1, five seeds; test MSE ×103 and probe test accuracy
+(%). Probes use class labels (shape for dSprites); only Grid (probe) uses them for capacity selection.
+Time is the historical ledger including anchor completion, not the canonical replay price. Recorded
+probe time is charged to that selector. Other displayed probe accuracies are auxiliary evaluations
+with uncharged costs. Likelihoods follow Table 2.
+Dataset
+
+Criterion
+
+MNIST
+MNIST
+MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+dSprites
+dSprites
+dSprites
+CIFAR-10
+CIFAR-10
+CIFAR-10
+
+Grid (MSE)
+Grid (ELBO proxy)
+Grid (probe)
+Grid (MSE)
+Grid (ELBO proxy)
+Grid (probe)
+Grid (MSE)
+Grid (ELBO proxy)
+Grid (probe)
+Grid (MSE)
+Grid (ELBO proxy)
+Grid (probe)
+
+m
+
+Test MSE
+
+Accuracy
+
+Time (s)
+
+12.8 ± 6.4
+10.0 ± 2.0
+51.2 ± 13.4
+22.8 ± 15.6
+15.6 ± 8.0
+57.6 ± 8.8
+57.6 ± 14.3
+57.6 ± 14.3
+64.0 ± 0.0
+140.8 ± 53.5
+192.0 ± 45.3
+256.0 ± 0.0
+
+20.50 ± 0.26
+20.54 ± 0.25
+23.01 ± 0.55
+18.08 ± 0.19
+18.12 ± 0.27
+18.99 ± 0.46
+1.15 ± 0.01
+1.15 ± 0.01
+1.16 ± 0.03
+14.07 ± 0.04
+14.11 ± 0.08
+14.30 ± 0.12
+
+89.4 ± 0.9
+89.3 ± 0.7
+92.7 ± 0.5
+75.5 ± 2.6
+74.4 ± 2.6
+78.4 ± 0.6
+47.7 ± 2.3
+47.7 ± 2.3
+49.8 ± 3.0
+44.3 ± 2.6
+46.1 ± 1.1
+47.3 ± 1.0
+
+628 ± 35
+628 ± 35
+696 ± 36
+645 ± 42
+645 ± 42
+750 ± 40
+2565 ± 82
+2565 ± 82
+2589 ± 84
+428 ± 16
+428 ± 16
+574 ± 15
+
+Table 14 provides the previously omitted grid choices based on MSE, the ELBO proxy
+and a linear probe. Different objectives can select different widths and reconstruction errors.
+Test probe accuracy is an auxiliary supervised outcome; it does not measure unsupervised
+reconstruction quality. This comparison retains the same splits and cached candidates, with
+labelled validation selection explicitly stated.
+The separate new MNIST comparison in Table 15 evaluates an actual expected log
+likelihood with the fixed Monte Carlo protocol in Section 5.4. It is not reconstructed from
+cached MSE and KL. Validation MSE selects width 12, the proxy selects 12, and Monte
+
+https://doi.org/10.3390/make8010000
+
+566
+567
+568
+569
+570
+571
+572
+573
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+20 of 45
+
+MNIST, m=12
+
+dSprites, m=6
+
+10−2
+
+4 × 10−2
+
+MSE
+
+MSE
+
+6 × 10−2
+
+3 × 10−2
+2 × 10−2
+0
+
+100
+
+200
+
+300
+
+0
+
+200
+Epoch
+
+MNIST, m=32
+
+dSprites, m=16
+
+6 × 10−2
+
+300
+
+10−2
+MSE
+
+MSE
+
+100
+
+Epoch
+
+4 × 10−2
+3 × 10−2
+
+10−3
+2 × 10
+
+−2
+
+0
+
+100
+
+200
+
+300
+
+0
+
+MNIST, m=64
+
+dSprites, m=32
+
+MSE
+
+MSE
+
+−2
+
+3 × 10−2
+2 × 10
+
+200
+Epoch
+
+6 × 10−2
+4 × 10
+
+100
+
+Epoch
+
+300
+
+10−2
+
+10−3
+
+−2
+
+0
+
+100
+
+200
+
+300
+
+0
+
+100
+
+Epoch
+
+200
+
+300
+
+Epoch
+Train subset
+
+Validation
+
+Figure 4. Train and validation MSE, means with ±1 SD bands over five seeds. MNIST uses Gaussian
+and dSprites Bernoulli likelihood; β = 1. Black crosses mark each run’s checkpoint selected by the
+validation ELBO proxy. These diagnostic runs have no early stopping.
+
+https://doi.org/10.3390/make8010000
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+21 of 45
+
+Carlo ELBO selects 12. Agreement in this run does not make the proxy an ELBO estimator.
+The complete grid scores, MC errors and selected epochs appear in Appendix E. One new
+training seed does not establish a dataset-level advantage of any criterion. The additional
+four-dataset pruning records do not extend this capacity-selection ELBO comparison, for
+the evaluation-code reasons in Section 5.5.
+
+574
+575
+576
+577
+578
+
+Table 15. New MNIST seed-42 capacity selection at β = 1, Gaussian variance 1/2. All criteria
+choose among the same twelve proxy-selected checkpoints. MSE is multiplied by 103 ; ELBO is mean
+nats/example and its ± value is Monte Carlo SE (K = 32), not a training-seed SD. Test is evaluated
+after validation choices are frozen.
+Criterion
+MSE
+ELBO proxy
+MC ELBO
+
+Width
+
+Val. MSE
+
+Test MSE
+
+MC ELBO ± MC SE
+
+12
+12
+12
+
+20.98
+20.98
+20.98
+
+20.43
+20.43
+20.43
+
+−478.067 ± 0.012
+−478.067 ± 0.012
+−478.067 ± 0.012
+
+6.9. Activity Readout: Trajectories, Thresholds and Prediction
+
+579
+
+Figure 5 and Table 16 compare the two counts on identical checkpoints. At MNIST
+width 64, epoch-five variable types give 9.8 ± 3.8 and AU gives 49.4 ± 8.1; at epoch 300 both
+give 6.4 ± 0.5. This example distinguishes mean agreement from between-seed variability.
+The table also reports within-run changes from 50 to 300 epochs. Their magnitude depends
+on the condition, so no general stability superiority is inferred from the final agreement.
+
+580
+581
+582
+583
+584
+
+Table 16. Variable-type count V (active plus mixed) and AU count A, five seeds, β = 1, Gaussian
+MNIST and Bernoulli dSprites. Mean ± SD quantify between-seed variation. The last column gives
+mean absolute within-run changes from epoch 50 to 300 for V/A, not a temporal variance.
+Dataset
+
+m
+
+V5
+
+A5
+
+V300
+
+A300
+
+Change
+
+MNIST
+MNIST
+MNIST
+dSprites
+dSprites
+dSprites
+
+12
+32
+64
+6
+16
+32
+
+7.2 ± 0.8
+8.2 ± 1.5
+9.8 ± 3.8
+6.0 ± 0.0
+16.0 ± 0.0
+32.0 ± 0.0
+
+8.0 ± 1.6
+20.8 ± 4.2
+49.4 ± 8.1
+6.0 ± 0.0
+16.0 ± 0.0
+31.8 ± 0.4
+
+6.4 ± 0.5
+6.0 ± 0.0
+6.4 ± 0.5
+6.0 ± 0.0
+14.2 ± 0.4
+14.2 ± 1.1
+
+6.4 ± 0.5
+6.0 ± 0.0
+6.4 ± 0.5
+6.0 ± 0.0
+13.4 ± 0.5
+14.4 ± 1.1
+
+0.0/0.0
+0.0/0.0
+0.4/2.6
+0.0/0.0
+1.8/1.8
+12.4/4.2
+
+The threshold-only comparison in Figure 6 uses fixed β = 1 checkpoints. On CIFAR10, δ = 0.001 counts every coordinate at every tested grid width, whereas δ = 0.1 counts
+far fewer at large widths. The inference “no unused coordinates” therefore depends on
+this threshold. Normalising the threshold changes the diagnostic definition; it does not
+establish a dimension estimate.
+The predictive task asks whether the next smaller grid candidate meets the same
+seed’s quality target. Each row is one validation-selected checkpoint at a nonminimal grid
+width. Baseline features are validation MSE, KL, the ELBO proxy, width, width/inputID ratio, and the slope of validation MSE over the last 20 recorded epochs. The three
+added AU features are AU, AU/width and AU/input-ID. Standardisation is fitted only
+on development rows. An L2 logistic predictor is fitted on MNIST (55 rows), with C = 10
+chosen on a three-seed/two-seed development split. Evaluation uses dSprites (55 rows),
+Fashion-MNIST (55) and CIFAR-10 (45), each with five seeds. The configured MNIST-CNN
+predictive condition was not executed.
+The development split uses seeds 42, 123 and 777 for the inner fit and 2024 and 31337
+for selecting C, then refits on all five. Predictors use up to 5000 iterations. Each evaluation
+dataset–seed block is scored over its complete set of nonminimal grid widths; checkpoint
+rows are not resampled as independent observations.
+
+https://doi.org/10.3390/make8010000
+
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+22 of 45
+
+MNIST, m=12
+
+dSprites, m=6
+
+12
+10
+
+Count
+
+Count
+
+6.2
+
+8
+
+6.0
+5.8
+
+6
+1
+
+5
+
+50
+
+300
+
+1
+
+5
+
+Epoch
+
+MNIST, m=32
+
+300
+
+dSprites, m=16
+20
+
+Count
+
+30
+Count
+
+50
+Epoch
+
+20
+
+15
+10
+
+10
+1
+
+5
+
+50
+
+5
+
+300
+
+1
+
+5
+
+Epoch
+
+40
+
+30
+
+20
+
+5
+
+300
+
+dSprites, m=32
+40
+
+Count
+
+Count
+
+MNIST, m=64
+60
+
+1
+
+50
+Epoch
+
+50
+
+300
+
+20
+
+1
+
+5
+
+Epoch
+
+50
+
+300
+
+Epoch
+Variable types
+
+AU
+
+Figure 5. Variable-type count (active plus mixed) and AU from the same checkpoints at epochs 1,
+2, 5, 50 and 300; means and seed SDs, with lines connecting the observed checkpoints only. β = 1,
+Gaussian MNIST and Bernoulli dSprites. Constant full-capacity counts are not evidence of diagnostic
+stability.
+
+https://doi.org/10.3390/make8010000
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+23 of 45
+
+MNIST
+
+Fashion-MNIST
+60
+AU count
+
+AU count
+
+60
+40
+20
+0
+
+0
+
+20
+
+40
+Capacity
+
+40
+20
+0
+
+60
+
+0
+
+20
+
+dSprites
+
+40
+Capacity
+
+60
+
+CIFAR-10
+250
+
+60
+AU count
+
+AU count
+
+200
+40
+20
+
+150
+100
+50
+
+0
+
+0
+
+20
+
+40
+Capacity
+
+0
+
+60
+
+0
+
+δ = 0.001
+
+AU = capacity
+
+50
+
+100
+150
+Capacity
+
+δ = 0.01
+
+200
+
+250
+
+δ = 0.1
+
+Figure 6. AU under three thresholds on the same β = 1 candidates; mean ± seed SD. Gaussian
+likelihood except Bernoulli dSprites. The diagonal is capacity. This is a readout-threshold intervention,
+unlike the training/context intervention in Figure 2.
+
+The original internally specified analysis reported an AU-minus-baseline AUROC improvement of +0.108, with a 2000-replicate seed-record bootstrap 95% interval
+[+0.059, +0.157]. A subsequently added control used three independent standard-normal
+features and one noise realisation (generator seed 7); its separately reported improvement
+was +0.098 with interval [−0.025, +0.227]. Overlap of these intervals does not test their
+difference or establish equivalence. These archived values are retained as the original
+analysis, not as a validated positive finding: its AUROC calculation used probabilities that
+can saturate numerically under the shift between datasets.
+
+603
+604
+605
+606
+607
+608
+609
+610
+
+Table 17. Retrospective paired AU comparison at β = 1, using logistic decision scores to avoid
+saturated-probability ties. Values are means of five seed-specific AUROCs, each evaluated over
+all nonminimal capacities in that seed. Random features are three standard-normal columns with
+generator seed 7. All methods use the same rows and labels.
+Evaluation condition
+dSprites
+Fashion-MNIST
+CIFAR-10
+
+Rows
+
+Base
+
+Base + AU
+
+Base + random
+
+AU − random
+
+55
+55
+45
+
+0.950
+0.980
+1.000
+
+0.858
+1.000
+1.000
+
+0.898
+0.880
+1.000
+
+-0.041
++0.120
++0.000
+
+Baseline AUROC is already 0.950, 0.980 and 1.000 on dSprites, Fashion-MNIST and
+CIFAR-10, respectively. In particular, CIFAR-10 has no upward AUROC headroom. The
+result concerns additional value on this specific, near-ceiling prediction task, not the
+information content of AU in general.
+For this revision we reconstruct both predictors at explicitly fixed β = 1, restrict rows
+to the declared grid, and compute AUROC from logistic decision scores. The original cachereading routine did not filter β or restrict the grid, so rerunning it after cache expansion
+would also be ambiguous. Decision scores preserve ranks that are lost when sigmoid proba-
+
+https://doi.org/10.3390/make8010000
+
+611
+612
+613
+614
+615
+616
+617
+618
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+24 of 45
+
+bilities round to exactly one. Saturation counts appear in Appendix C.4. This is a corrected
+retrospective analysis, not an exact replay of archived probabilities. The AU-minus-baseline
+difference is now −0.024, with interval [−0.102, +0.027]. We also compare AU and random
+predictors on the same dataset–seed blocks. The paired mean difference is +0.026, with a
+retrospective hierarchical-bootstrap 95% interval [−0.040, +0.133] (2000 replicates). Each
+replicate resamples the three evaluation datasets and then the five seed blocks within each
+selected dataset; all capacities and both predictors remain paired within a block. Models
+are held fixed, so this interval does not cover development-model fitting uncertainty. Only
+three evaluation datasets are available, limiting precision of across-condition inference.
+A secondary analysis averages the comparator over 100 noise realisations (seeds 0–99),
+giving a paired difference −0.007 and interval [−0.064, +0.039] under the same resampling.
+Neither analysis establishes an AU-specific benefit in these evaluation conditions. We do
+not claim that AU has no information, that the predictors are equivalent, or that lack of
+significance proves insufficient power.
+6.10. Implementation Audit and Degenerate Outputs
+
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+
+633
+
+Historical loss-scaling corrections are documented in Appendix C.2. Current image
+comparisons use the corrected sum-over-latents convention.
+A further ARM-specific implementation check concerns averaging order. The supplied
+linear-loss test compares the per-example antithetic estimator with its analytic gradient; averaging losses before forming their correlation with the gate samples removes the required
+pairing. The additional training code uses per-example losses. This component correction
+does not imply all constraints are satisfied: endpoint counts are shown in Table 9. It is
+distinct from the historical loss-scaling and ARD relevance-normalisation audits.
+FONDUE-VAR’s active-only setting returning zero is a separate phenomenon, not a
+third sum/mean defect. At MNIST’s one-epoch setting it returns zero on all five trials; no
+final VAE exists for these outputs. Table 18 shows both settings and their quality/validity
+counts.
+
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+
+Table 18. FONDUE-VAR at β = 1: both keep-mixed settings, valid-model and quality counts,
+test MSE ×103 , and recorded training time. Raw zero outputs remain in the dimension summary;
+nonexistent models have no MSE. Five seeds; likelihoods follow Table 2.
+Dataset
+MNIST
+MNIST
+Fashion-MNIST
+Fashion-MNIST
+dSprites
+dSprites
+CIFAR-10
+CIFAR-10
+
+Mixed kept
+
+Raw m
+
+Valid
+
+Q
+
+Test MSE
+
+Time (s)
+
+yes
+no
+yes
+no
+yes
+no
+yes
+no
+
+9.8 ± 8.5
+0.0 ± 0.0
+14.4 ± 3.8
+2.0 ± 0.0
+26.0 ± 49.5
+1.2 ± 1.6
+34.2 ± 1.3
+3.2 ± 0.8
+
+5/5
+0/5
+5/5
+5/5
+4/5
+2/5
+5/5
+5/5
+
+5/5
+0/5
+5/5
+0/5
+1/5
+0/5
+5/5
+0/5
+
+22.53 ± 0.89
+—
+18.96 ± 0.39
+25.27 ± 0.06
+9.53 ± 9.62
+7.71 ± 0.02
+14.40 ± 0.15
+31.65 ± 2.68
+
+113 ± 22
+63 ± 10
+91 ± 11
+120 ± 18
+412 ± 118
+278 ± 49
+103 ± 13
+96 ± 13
+
+7. Discussion
+
+646
+
+The controlled start-width ablation changes the interpretation of the ID-local result.
+Its 100/100 minimum-width agreement is reproduced by an ID-gated midpoint with the
+same fallback. Within the 25 accepted-ID conditions, the ID start requires more candidates
+without changing the answer. The bank-free midpoint’s two errors occur where the ID
+policies use ascending fallback. Consequently, this evidence does not establish an advantage
+of the ID-derived start. Reliability-gated search and an informative geometric starting
+width are distinct hypotheses.
+The target includes the largest-width anchor, so quality attainment by an exhaustive
+upward path is guaranteed within the stored grid. Minimality and cost remain substantive outcomes. The factorial analysis finds nonminimal outputs in 155 of 10,000 settings;
+
+https://doi.org/10.3390/make8010000
+
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+25 of 45
+
+the default agreement is not a universal local-search guarantee. Shared reference banks,
+one split, retrospective policy design and four datasets limit inference. An independent
+reference-bank replication remains open. Acquisition and reuse costs also answer different
+deployment questions.
+Regularisation ranges and AU-threshold responses measure different interventions.
+Some dimension ranges reflect fallback, grid scale or a changing quality target. A constant
+output may be fixed by design or by an unvaried implementation argument. The paired
+predictive comparison does not establish an AU-specific advantage over matched randomfeature controls on its near-ceiling task. This limits the role of AU here to a diagnostic of
+coordinate use under a stated threshold.
+The native-pruning comparison shows why a selected count and the reconstruction of
+a retained-axis model must be evaluated separately. The local sample-centred ARD variant
+preserves mean MSE closely under masking on MNIST and Fashion-MNIST, whereas
+dSprites deteriorates substantially and only partly recovers with decoder adaptation. Its
+full model already misses Q, which prevents presenting any of the four dSprites conditions
+as successful target-preserving compression. Masking tests an inference rule in the original
+network, not a measured reduction in parameters, memory or latency. The fixed adaptation budget also adds training and uses the previously reserved prior-update pool. No
+unmasked 30-epoch adaptation control was run, so its improvement cannot be assigned
+specifically to compensating for the mask.
+These results extend the native-quality evidence to three seeds on each dataset while
+retaining local training choices. Exact Jacobians remove finite-step approximation, not
+uncertainty in the sampled relevance score or the trained representation. The Gaussian
+KL approximation is shared with the ARD source; the sample-centred variance update
+remains a sensitivity variant, not a necessary correction of the source’s zero-centre setting.
+This variant’s results cannot be generalised to all ARD configurations or treated as an exact
+source-method benchmark.
+The additional four-dataset ELBO fields do not compute the expected likelihood and
+native prior KL needed for the claimed quantity. Valid MC ELBO capacity-selection evidence remains one MNIST seed and proxy-selected checkpoints. Likewise, new pruning
+curves do not recover missing historical ordinary-VAE curves. Full source-algorithm reproduction, independent-bank validation, complete end-to-end timing and clean synthetic
+held-out evaluation remain uncompleted. The synthetic diagnostics (Appendix D) describe
+scale and coordinate effects; they do not show that topology determines active-axis counts.
+
+8. Conclusions
+
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+
+691
+
+We evaluated intrinsic-dimension-guided VAE bottleneck selection and active-unit
+diagnostics under explicit quality and cost definitions. Holding reliability checks, fallback
+and reference costs fixed, ID is accepted only for the 25 MNIST conditions. ID-derived and
+gated midpoint starts then select the same widths with 8.84 and 5.84 requests on average;
+the other 75 conditions use the same ascending fallback. Local-search minimality also
+depends on reliability and coefficient settings. Additional pruning experiments distinguish
+native quality, transferred-width quality and training constraints. In the local samplecentred ARD variant, selected-axis masking changes reconstruction little on two datasets
+but raises dSprites MSE by 126.3%; decoder adaptation only partly recovers this loss, and
+all four dSprites conditions miss Q. AU does not establish additional predictive value on
+the present near-ceiling task. The contribution is a bounded evaluation of ID guidance
+and latent diagnostics; it establishes neither a general efficiency advantage nor guaranteed
+pruning quality.
+
+https://doi.org/10.3390/make8010000
+
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+26 of 45
+
+Author Contributions: Conceptualization, C.O., M.D. and K.J.; methodology, C.O. and K.J.; software,
+C.O. and M.D.; validation, C.O., M.D. and K.J.; formal analysis, C.O. and K.J.; investigation, C.O.,
+M.D. and K.J.; writing—original draft preparation, C.O. and K.J.; writing—review and editing, C.O.,
+M.D. and K.J.; supervision and project administration, K.J.
+Funding: This research was funded by JSPS KAKENHI Grant Numbers JP24K15115 and JP26K14984,
+by the Tokyo City University Priority Research [Intelligent Technology Optimization Research Unit:
+ORBIT], by a Cooperative Research Project of the Research Institute of Electrical Communication
+(RIEC), Tohoku University, and by a Research Grant from the Telecommunications Advancement
+Foundation (TAF).
+
+705
+706
+707
+708
+
+709
+710
+711
+712
+713
+
+Institutional Review Board Statement: Not applicable.
+
+714
+
+Informed Consent Statement: Not applicable.
+
+715
+
+Data Availability Statement: The image datasets are publicly available from their cited sources. The
+accompanying reviewer supplement MAKE53_reproducibility.zip contains configuration, historical and additional result records, analysis and training code, split indices, figures, separate MNIST
+validation checkpoints and a SHA-256 manifest. Extract the archive and follow its README.md; Appendix G maps its contents. Historical MAKE49 and additional MAKE52 pruning checkpoints are
+unavailable. The archive is supplied with this revision; it is not a public data deposit and has no DOI.
+Acknowledgments: Generative-AI assistance was used for experimental-code drafting and refactoring and English-language editing in the earlier manuscript preparation. OpenAI Codex assisted with
+the present record audit, reaggregation, model-validation analysis, figure preparation and manuscript
+revision. Responsibility for the scientific content rests with the authors.
+
+716
+717
+718
+719
+720
+721
+
+722
+723
+724
+725
+
+Conflicts of Interest: The authors declare no conflicts of interest.
+
+726
+
+Appendix A. Quality Targets and Outcome Accounting
+
+727
+
+Table A1. Quality anchors and targets, in units of 10−3 MSE, mean ± SD over five seeds. Each
+decision uses its own seed-specific target, not the displayed mean. The relative margin is 10%; the
+absolute floor is inactive. Gaussian likelihood except Bernoulli dSprites.
+Dataset
+
+β
+
+Anchor MSE
+
+Target TD,s
+
+MNIST
+MNIST
+MNIST
+MNIST
+MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+dSprites
+dSprites
+dSprites
+dSprites
+dSprites
+CIFAR-10
+CIFAR-10
+CIFAR-10
+CIFAR-10
+CIFAR-10
+
+0.25
+0.5
+1
+2
+4
+0.25
+0.5
+1
+2
+4
+0.25
+0.5
+1
+2
+4
+0.25
+0.5
+1
+2
+4
+
+15.843 ± 0.562
+19.202 ± 0.497
+23.712 ± 0.532
+30.061 ± 0.560
+38.977 ± 0.673
+15.591 ± 0.678
+17.408 ± 0.513
+19.679 ± 0.162
+22.416 ± 0.527
+25.967 ± 0.587
+1.015 ± 0.032
+1.040 ± 0.032
+1.170 ± 0.024
+1.453 ± 0.038
+2.144 ± 0.064
+9.407 ± 0.610
+11.151 ± 0.200
+14.064 ± 0.108
+17.806 ± 0.262
+22.399 ± 0.286
+
+17.428 ± 0.618
+21.122 ± 0.546
+26.084 ± 0.585
+33.068 ± 0.617
+42.875 ± 0.740
+17.150 ± 0.746
+19.148 ± 0.564
+21.647 ± 0.179
+24.658 ± 0.580
+28.564 ± 0.645
+1.117 ± 0.036
+1.144 ± 0.035
+1.287 ± 0.026
+1.598 ± 0.041
+2.358 ± 0.070
+10.348 ± 0.671
+12.266 ± 0.220
+15.470 ± 0.119
+19.587 ± 0.288
+24.638 ± 0.314
+
+Appendix A.1. Independent Outcome Counts
+
+728
+
+The following tables separate the original combined state from flags and final-model
+quality. A budget flag can coexist with ID fallback. The pruning wrapper did not enforce
+
+https://doi.org/10.3390/make8010000
+
+729
+730
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+27 of 45
+
+the ordinary selector budget during training, so its zero budget-flag count is not evidence
+of equal budget control. All valid returned models, including those from budget-exceeded
+trials, contribute to the primary means. Degenerate outputs contribute to raw-count and
+cost summaries but not to MSE.
+
+731
+732
+733
+734
+
+Table A2. Outcome audit at β = 1; all counts have denominator five. S: recorded success; I: ID
+unreliable; B: budget exceeded; D: degenerate; N: no compact alternative. FB is the fallback flag;
+budget, validation quality Q, and compression of the final VAE are independently recomputed or
+read from flags.
+Dataset
+
+Method
+
+State
+
+FB
+
+Budget
+
+Q
+
+Compact
+
+MNIST
+MNIST
+MNIST
+MNIST
+MNIST
+MNIST
+MNIST
+MNIST
+MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+
+Grid (MSE)
+FONDUE
+FONDUE + Q
+GECO adaptation
+ARD adaptation
+Ascending + Q
+Legacy ID window
+FONDUE-VAR (mixed kept)
+FONDUE-VAR (active only)
+Grid (MSE)
+FONDUE
+FONDUE + Q
+GECO adaptation
+ARD adaptation
+Ascending + Q
+Legacy ID window
+FONDUE-VAR (mixed kept)
+FONDUE-VAR (active only)
+
+S5
+S5
+S5
+S5
+S5
+S5
+S5
+S5
+D5
+S5
+S5
+S5
+S5
+S5
+S5
+I5
+S5
+S5
+
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+5
+0
+0
+
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+
+5
+5
+5
+5
+5
+5
+5
+5
+0
+5
+5
+5
+5
+4
+5
+5
+5
+0
+
+5
+5
+5
+5
+5
+5
+5
+5
+0
+5
+5
+5
+5
+5
+5
+5
+5
+5
+
+Table A3. Outcome audit at β = 1; all counts have denominator five. S: recorded success; I: ID
+unreliable; B: budget exceeded; D: degenerate; N: no compact alternative. FB is the fallback flag;
+budget, validation quality Q, and compression of the final VAE are independently recomputed or
+read from flags.
+Dataset
+
+Method
+
+State
+
+FB
+
+Budget
+
+Q
+
+Compact
+
+dSprites
+dSprites
+dSprites
+dSprites
+dSprites
+dSprites
+dSprites
+dSprites
+dSprites
+CIFAR-10
+CIFAR-10
+CIFAR-10
+CIFAR-10
+CIFAR-10
+CIFAR-10
+CIFAR-10
+CIFAR-10
+CIFAR-10
+
+Grid (MSE)
+FONDUE
+FONDUE + Q
+GECO adaptation
+ARD adaptation
+Ascending + Q
+Legacy ID window
+FONDUE-VAR (mixed kept)
+FONDUE-VAR (active only)
+Grid (MSE)
+FONDUE
+FONDUE + Q
+GECO adaptation
+ARD adaptation
+Ascending + Q
+Legacy ID window
+FONDUE-VAR (mixed kept)
+FONDUE-VAR (active only)
+
+S5
+S5
+B1, S4
+S5
+S5
+S5
+I5
+D1, S4
+D3, S2
+S5
+S5
+S5
+S5
+S5
+S5
+I5
+S5
+S5
+
+0
+0
+0
+0
+0
+0
+5
+0
+0
+0
+0
+0
+0
+0
+0
+5
+0
+0
+
+0
+0
+1
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+
+5
+0
+5
+5
+0
+5
+5
+1
+0
+5
+0
+5
+2
+0
+5
+5
+5
+0
+
+1
+5
+5
+0
+5
+5
+0
+3
+2
+5
+5
+5
+5
+5
+5
+3
+5
+5
+
+Appendix B. Search Sensitivity and Timing Lineage
+These tables use the retrospective policy in Algorithm 1. They do not redefine the
+original experiments.
+
+https://doi.org/10.3390/make8010000
+
+735
+736
+737
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+28 of 45
+
+Table A4. Coefficient sensitivity for ID-local replay at β = 1, with R ≤ 0.15 and A ≤ 0.25. All five
+coefficients are reported; rejected datasets use the same ascending fallback. Five seeds; likelihoods as
+in Table 2.
+Dataset
+
+c
+
+Width
+
+Q
+
+Exact
+
+Calls
+
+Cold cost (s)
+
+MNIST
+MNIST
+MNIST
+MNIST
+MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+dSprites
+dSprites
+dSprites
+dSprites
+dSprites
+CIFAR-10
+CIFAR-10
+CIFAR-10
+CIFAR-10
+CIFAR-10
+
+1
+1.5
+2
+3
+4
+1
+1.5
+2
+3
+4
+1
+1.5
+2
+3
+4
+1
+1.5
+2
+3
+4
+
+6.0 ± 0.0
+6.0 ± 0.0
+6.0 ± 0.0
+6.0 ± 0.0
+6.0 ± 0.0
+4.0 ± 0.0
+4.0 ± 0.0
+4.0 ± 0.0
+4.0 ± 0.0
+4.0 ± 0.0
+20.0 ± 4.0
+20.0 ± 4.0
+20.0 ± 4.0
+20.0 ± 4.0
+20.0 ± 4.0
+24.0 ± 0.0
+24.0 ± 0.0
+24.0 ± 0.0
+24.0 ± 0.0
+24.0 ± 0.0
+
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+
+6.0
+8.0
+9.0
+11.0
+11.0
+3.0
+3.0
+3.0
+3.0
+3.0
+9.0
+9.0
+9.0
+9.0
+9.0
+4.0
+4.0
+4.0
+4.0
+4.0
+
+487
+584
+636
+743
+743
+416
+416
+416
+416
+416
+2092
+2092
+2092
+2092
+2092
+498
+498
+498
+498
+498
+
+Table A5. Reliability-threshold sensitivity at β = 1, c = 2. ID: local ID start; FB: ascending fallback.
+Extreme tolerances are stress conditions, not recommended thresholds. Each result uses five seeds
+and the same reference bank. The full factorial analysis is supplied in the supplement.
+Rmax /Amax
+
+Dataset
+
+Use
+
+Mean width
+
+Q
+
+Exact
+
+Calls
+
+0.1/0.25
+0.1/0.25
+0.1/0.25
+0.1/0.25
+0.15/0.25
+0.15/0.25
+0.15/0.25
+0.15/0.25
+0.25/0.25
+0.25/0.25
+0.25/0.25
+0.25/0.25
+0.15/0.4
+0.15/0.4
+0.15/0.4
+0.15/0.4
+0.15/0.85
+0.15/0.85
+0.15/0.85
+0.15/0.85
+0.5/2
+0.5/2
+0.5/2
+0.5/2
+
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+
+FB
+FB
+FB
+FB
+ID
+FB
+FB
+FB
+ID
+FB
+FB
+FB
+ID
+ID
+FB
+FB
+ID
+ID
+FB
+ID
+ID
+ID
+ID
+ID
+
+6.0
+4.0
+20.0
+24.0
+6.0
+4.0
+20.0
+24.0
+6.0
+4.0
+20.0
+24.0
+6.0
+4.0
+20.0
+24.0
+6.0
+4.0
+20.0
+24.0
+6.0
+4.0
+20.0
+24.0
+
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+5/5
+
+4.0
+3.0
+9.0
+4.0
+9.0
+3.0
+9.0
+4.0
+9.0
+3.0
+9.0
+4.0
+9.0
+10.0
+9.0
+4.0
+9.0
+10.0
+9.0
+4.0
+9.0
+10.0
+6.0
+4.0
+
+Appendix B.1. Historical and Canonical Time Accounts
+
+738
+
+Table A7 preserves the MAKE50 historical ledger, including anchor completion where
+the original ledger omitted it. It is not the price basis of the new replay. For example,
+
+https://doi.org/10.3390/make8010000
+
+739
+740
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+29 of 45
+
+MNIST’s mean anchor prices are 69.3 s in several early ledgers and 62.6 s in the later
+canonical snapshot; width-six final-model prices are 39.9 and 37.6 s, respectively. The
+logical conditions remain e300|es1|b1 in these matches. Identical metric summaries and
+requested conditions do not reveal why two timing snapshots differ, nor prove bitwise
+model identity. No unsupported cause such as different hardware or stopping settings is
+assigned.
+The supplementary results/make51/cost_lineage.csv gives each dataset–method–
+weight–seed anchor/final role, complete key, original trace key, file/record source, original
+duration, canonical duration and available metric-identity check. Unretained off-grid
+candidates are marked as unavailable. An absent historical anchor charge is distinguished
+from a zero duration. The replay only requests retained grid candidates, so every requested
+anchor and final model uses a single available canonical metric/price record.
+Table A6. Anchor/final timing audit at β = 1. Entries are method-role-seed records, not independent
+training runs. Different prices can be attached to the same logical cache key; full key, source and both
+durations are supplied in cost_lineage.csv. Stored summary metrics do not establish checkpoint
+identity.
+Dataset
+
+Matched entries
+
+Different times
+
+Max. difference (s)
+
+117
+130
+119
+130
+
+107
+0
+109
+0
+
+14.53
+0.00
+0.42
+0.00
+
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+
+Table A7. Historical MNIST training-time decomposition at β = 1 (mean seconds, five seeds). The
+final model is charged once and removed from the other-candidate column. ID computation and
+post-training evaluation were not separately timed. FONDUE epoch calibration adds 4.14 s once per
+dataset–β setting and is not included below.
+Method
+Grid (MSE)
+FONDUE
+FONDUE + Q
+GECO adaptation
+ARD adaptation
+Ascending + Q
+Legacy ID window
+
+Anchor
+
+ID AEs
+
+Other training
+
+Final
+
+Total
+
+69.3
+62.6
+69.3
+62.6
+62.6
+69.3
+69.3
+
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+205.5
+
+502.0
+1.4
+1.4
+175.4
+138.0
+72.8
+400.7
+
+56.2
+39.9
+55.3
+39.6
+37.6
+39.9
+39.9
+
+627.5
+103.9
+125.9
+277.6
+238.2
+182.0
+715.4
+
+https://doi.org/10.3390/make8010000
+
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+30 of 45
+
+Appendix C. Coverage and Implementation Details
+
+753
+
+Table A8. Executed coverage. Each image method row has five training seeds at each listed context.
+Additional diagnostic experiments have their own seed units.
+Experiment
+
+Dataset coverage
+
+Fourteen historical ordinary
+selectors/controls
+
+All four image
+datasets
+
+Historical HC adaptation
+
+All four
+
+Historical ARD adaptation
+
+All four
+
+ID-reference bank
+
+All four
+
+Train/validation and readout
+trajectories
+
+MNIST: 12, 32, 64;
+dSprites: 6, 16, 32
+
+AU prediction
+
+Develop: MNIST;
+evaluate: dSprites,
+Fashion-MNIST,
+CIFAR-10
+
+Search replay and start-width
+ablation
+Separate MC ELBO capacity study
+Additional ARM validation
+
+All four
+MNIST
+All four
+
+Additional exact-Jacobian ARD
+
+All four
+
+Native ARD masking and
+adaptation
+
+All four
+
+Synthetic diagnostic
+
+Swiss roll and
+torus
+
+Contexts / counts
+Five β values; 14 × 4 × 5 × 5 = 1400
+method records
+Five anchor-derived constraints; 100
+records
+Fixed selection-stage weight one; five
+repeated contexts, 100 records
+Three widths × three seeds each,
+shared across contexts
+β = 1, five seeds each; 30 runs
+β = 1; 55 development and 155
+evaluation rows
+
+Seven policies, 700 rows; 10,000
+coefficient/threshold settings
+One seed, 12 ordinary VAE widths
+Three seeds, 12 runs; β = 1 anchor
+Three seeds, two variance-update
+centres; 24 runs
+Three seeds; paired extension of
+sample-centred settings, 12
+evaluations
+Six capacities, three seeds, two scaling
+options; 72 runs
+
+The fourteen ordinary method records comprise MSE/ELBO-proxy/probe grid selection, coarse search, fixed width, FONDUE, two FONDUE-VAR settings, ID guidance with
+and without AU recording, ascending+Q, and coarse, FONDUE and FONDUE-VAR with
+added Q. Removing AU recording does not change the ID selection decisions; its overhead
+was not separately timed. Machine-readable results include all fourteen, even when only
+the principal comparisons are printed.
+
+754
+755
+756
+757
+758
+759
+
+Table A9. Split identities reconstructed from the saved loader and fixed seeds. Tokens are the first
+16 hexadecimal characters of SHA-256 over concatenated int64 train/validation/test index arrays,
+matching the loader convention. Official training/test pools have separate index spaces.
+Dataset
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+
+Reconstructed split token
+cffaecf5bccbb333
+cffaecf5bccbb333
+1ea516804f7f9ac7
+55e0bcf8f4474c19
+
+The split index arrays are reconstructed from the loader specification, not recovered
+as an independently archived execution-time split file. The MNIST and Fashion-MNIST
+tokens agree because their official pool sizes and index rules agree; their images are different.
+A compressed copy is supplied as results/make51/reconstructed_split_indices.npz.
+TwoNN uses Euclidean nearest-neighbour distances, excludes zero first distances and
+the empirical-CDF endpoint, and fits the log survival curve against the log distance ratio
+
+https://doi.org/10.3390/make8010000
+
+760
+761
+762
+763
+764
+765
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+31 of 45
+
+through the origin. The MLE cross-check averages local reciprocal mean-log-distanceratio estimates over valid points at k = 10. Both estimates are floored at one in the local
+implementation.
+
+766
+767
+768
+
+Table A10. FONDUE short-training epochs and calibration time (once per dataset–context, separate
+from selector time). dSprites uses the source choice without calibration. A stable flag for the remaining
+datasets means consecutive calibration predictions agreed.
+Dataset
+
+β
+
+Epochs
+
+Calibration (s)
+
+Stable
+
+MNIST
+MNIST
+MNIST
+MNIST
+MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+dSprites
+dSprites
+dSprites
+dSprites
+dSprites
+CIFAR-10
+CIFAR-10
+CIFAR-10
+CIFAR-10
+CIFAR-10
+
+0.25
+0.5
+1
+2
+4
+0.25
+0.5
+1
+2
+4
+0.25
+0.5
+1
+2
+4
+0.25
+0.5
+1
+2
+4
+
+2
+2
+1
+2
+2
+1
+1
+2
+3
+1
+1
+1
+1
+1
+1
+3
+2
+2
+3
+4
+
+9.64
+9.55
+4.14
+8.12
+9.38
+4.16
+3.64
+9.07
+13.70
+3.80
+0.00
+0.00
+0.00
+0.00
+0.00
+30.34
+15.56
+22.72
+29.69
+42.98
+
+yes
+yes
+yes
+yes
+yes
+yes
+yes
+yes
+yes
+yes
+N/A (source)
+N/A (source)
+N/A (source)
+N/A (source)
+N/A (source)
+yes
+yes
+yes
+yes
+yes
+
+Appendix C.1. Historical Fixed-Window Procedure
+
+769
+
+The earlier procedure evaluated every candidate below its ID-derived upper width.
+Because its evaluated set included the quality anchor, the proposed expansion branch could
+not be entered. We retain this as a fixed-window audit, not an effective expanding search.
+Earlier V1/V2 activity checks are not selection branches; AU recording changes no selected
+width.
+
+https://doi.org/10.3390/make8010000
+
+770
+771
+772
+773
+774
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+32 of 45
+
+Algorithm A1 (Historical fixed-window ID procedure (audit)).
+Input: splits, M, seed s, β, 10% target margin, floor coefficient 0.001, input TwoNN d0 , reference
+seeds {42, 123, 777}, thresholds (0.15, 0.25), and budgets in Table 2.
+1.
+2.
+
+3.
+
+4.
+
+5.
+
+6.
+
+7.
+
+Obtain the quality anchor and fix TD,s from Equation (1). In a fallback run this is an external
+audit step, not a constraint used by the coarse selector; its training is charged.
+For k ∈ {4, 8, 16} set rk = round(kd0 ) (nearest integer; ties to even, no grid snapping). Train
+an FC-AE at each width for each reference seed, and compute TwoNN and MLE on the fixed
+10,000 training examples. Compute R, A and d.ˆ
+If either check fails, flag ID-unreliable and evaluate the coarse subset. Its zero-based indices are
+the unique values of round(geomspace(1, |M|, 4)) − 1. Return its minimum-validation-MSE
+candidate and continue to step 6.
+Otherwise set m0 = min{m ∈ M : m ≥ 2dˆ}, or m a if the set is empty. Initialise the evaluated set
+with the anchor. Evaluate all remaining m ≤ m0 in ascending order, stopping after a completed
+call that exceeds the budget.
+Return the smallest target-satisfying width in the evaluated set. If it is the anchor, record no
+compact alternative. The anchor is always acceptable; the code’s planned expansion conditional
+on no acceptable evaluated candidate is consequently never reached.
+Obtain or reuse the ordinary VAE at the returned width. For m < 1 return a degenerate output
+with no model. Retain budget flags even when a model is returned. Record AU as a diagnostic
+without changing m.
+Return raw and final widths, model metrics, ID diagnostics, fallback and budget flags, quality/compression indicators and the time account.
+
+Appendix C.2. Historical Loss-Scaling Audit
+
+775
+
+776
+
+Two scale inconsistencies were identified in local implementations. First, the earlier
+VAE loss averaged KL over latent dimensions while summing reconstruction over input
+dimensions. Algebraically this gives β effective = β nominal /m. The image results in this paper
+come from the corrected sum-over-latents convention. The algebra does not imply that
+complete optimisation trajectories or AU counts are reproduced simply by relabelling β;
+the earlier “within 1.7 units” claim is not used here.
+Second, an intermediate GECO adaptation combined per-pixel-mean constraint values
+with other terms on incompatible scales. The corrected implementation uses summed
+squared error and multiplies the per-pixel target by the input dimension. Either sum or
+mean conventions can be valid if the objective, target and multiplier scales are consistent.
+The observed behaviour of this hard-concrete adaptation is not attributed to the original
+ARM implementation.
+Appendix C.3. Historical Pruning and Relevance Adaptations
+
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+
+789
+
+The GECO adaptation uses Adam at 10−3 , batches of 128 in stored order, 300 epochs
+and hard-concrete parameters γ = −0.1, ζ = 1.1 and temperature 2/3. Initial gate logodds are 2. The constraint is summed squared reconstruction error minus Dinput TD,s , with
+moving-average coefficient 0.99. A squared softplus multiplier is clamped to [10−6 , 106 ] and
+updated by ascent on that moving-average violation. KL is gate-masked; the expected gate
+penalty is enabled only when the moving-average constraint is satisfied. The final readout
+counts deterministic gates above 0.5. Its training constraint uses squared error even on
+dSprites; the transferred ordinary VAE there uses Bernoulli reconstruction. Consequently
+the candidate likelihood convention does not imply identical pruning-stage objectives.
+
+https://doi.org/10.3390/make8010000
+
+790
+791
+792
+793
+794
+795
+796
+797
+798
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+33 of 45
+
+Table A11. Raw retained counts versus transferred ordinary-VAE widths at the primary context.
+Constraint denotes the GECO training moving average at the final update; Q denotes final ordinaryVAE validation quality. They evaluate different models and quantities. ARD has no GECO constraint.
+Dataset
+
+Adaptation
+
+Raw count
+
+Final width
+
+Constraint
+
+Q
+
+MNIST
+MNIST
+Fashion-MNIST
+Fashion-MNIST
+dSprites
+dSprites
+CIFAR-10
+CIFAR-10
+
+GECO
+ARD
+GECO
+ARD
+GECO
+ARD
+GECO
+ARD
+
+7.2 ± 0.4
+6.0 ± 0.0
+4.2 ± 0.4
+3.8 ± 0.4
+64.0 ± 0.0
+9.2 ± 1.5
+20.0 ± 1.0
+14.2 ± 0.4
+
+6.4 ± 0.9
+6.0 ± 0.0
+4.0 ± 0.0
+3.6 ± 0.9
+64.0 ± 0.0
+8.4 ± 1.7
+19.2 ± 4.4
+16.0 ± 0.0
+
+0/5
+—
+1/5
+—
+0/5
+—
+5/5
+—
+
+5/5
+5/5
+5/5
+4/5
+5/5
+0/5
+2/5
+0/5
+
+For the archived GECO rows, the constraint uses sampled posterior latents and stochastic hard-concrete gates on training minibatches; it is an exponential moving average of
+per-example summed squared error minus the deterministic validation-anchor target multiplied by input dimension. Native validation reconstruction and trajectories were not
+retained. Thus 0/5 MNIST, 1/5 Fashion-MNIST, 0/5 dSprites and 5/5 CIFAR-10 endpoint
+constraint attainment cannot alone identify a bug or validate the implementation.
+The new MNIST diagnostic retains those missing trajectories (Figure A1). Evaluation
+uses the full validation/test splits, posterior means or 32 posterior draws, and either deterministic continuous gate values or an explicitly binary mask. These evaluation quantities
+differ from stochastic training-gate reconstruction. The final training moving-average
+constraint is +0.045 summed-error units, with 7 counted gates and multiplier 0.844. The
+transferred grid width is 6. The endpoint training constraint remains violated. This diagnostic therefore does not promote the HC implementation to a validated pruning baseline.
+
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+
+Table A12. New MNIST HC diagnostic and dimension transfer, seed 42. MSE ×103 ; target is 25.223
+in the same units. HC width is the count above the gate threshold, although continuous inference
+retains nonbinary gate values. Sampled evaluation uses 32 latent draws and deterministic continuous
+gates. The ordinary VAE uses the nearest grid width.
+Output / reconstruction
+HC, continuous/mean
+HC, continuous/sampled
+HC, binary/mean
+Transferred ordinary VAE
+
+Width
+
+Val. MSE
+
+Test MSE
+
+Q
+
+7
+7
+7
+6
+
+22.424
+27.019
+22.424
+22.343
+
+21.950
+26.519
+21.950
+21.933
+
+yes
+no
+yes
+yes
+
+The ARD adaptation reserves the first 10% (1800 examples) of its training array for
+prior estimation and trains on the remainder. It updates p j = mean(µ2j + σj2 ) every ten
+epochs and after training, clipping to [10−6 , 106 ]. This uses analytic posterior second moments in a fixed subset, rather than a periodically resampled encoded-data pool. Selection
+training uses reconstruction plus Gaussian KL at unit weight. On the first 512 training
+examples it computes
+w j = meanx,k [ gk (µ( x ) +
+
+p
+
+p j e j ) − gk (µ( x ))]2 ,
+
+qj = wj pj ,
+
+(A1)
+
+and keeps the smallest number of descending scores reaching 99% of their total. The finite
+difference is not divided by its squared step. Locally it already contains a factor p j , so
+multiplication by p j again differs from a Jacobian-squared times variance score. The stored
+counts are therefore labelled an ARD adaptation; this difference cannot be removed by
+correcting the prose. The Gaussian approximation alone is not an original-source deviation.
+Identical relevance arrays and counts across contexts are checked in the numerical audit;
+they represent repeated fixed settings, not a β sweep.
+
+https://doi.org/10.3390/make8010000
+
+812
+813
+814
+815
+816
+817
+
+818
+
+819
+820
+821
+822
+823
+824
+825
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+34 of 45
+
+Posterior-mean reconstruction
+
+101
+Validation MSE
+
+Training constraint (SSE)
+
+Stochastic training constraint
+
+100
+0
+−100
+0
+
+100
+
+200
+
+6 × 10
+
+Continuous gate
+Binary gate
+Target
+
+−2
+
+4 × 10−2
+3 × 10−2
+
+300
+
+0
+
+100
+
+Epoch
+
+200
+
+300
+
+Epoch
+
+Gates above 0.5
+
+Constraint multiplier
+4 × 10
+
+60
+
+0
+
+Multiplier
+
+Count
+
+3 × 100
+40
+
+2 × 100
+
+100
+
+20
+
+6 × 10−1
+0
+
+100
+
+200
+
+300
+
+0
+
+100
+
+Epoch
+
+200
+
+300
+
+Epoch
+
+Figure A1. New MNIST hard-concrete implementation diagnostic, seed 42, 300 epochs. The training
+constraint uses sampled latent variables and gates; validation uses posterior means. Gate count and
+multiplier are shown alongside constraint and reconstruction trajectories. This is one local HC run,
+not an original ARM reproduction.
+
+The stored q j and p j are sufficient to undo the extra finite-step factor without access to
+√
+the checkpoint. With h j = p j , the correctly normalized finite-step score is
+"
+qej = p j meanx,k
+
+gk ( µ + h j e j ) − gk ( µ )
+hj
+
+#2
+
+=
+
+qj
+.
+pj
+
+(A2)
+
+All saved p j are positive. We recompute the cumulative 99% count and transfer it using the
+same nearest-grid rule. Table A13 shows that CIFAR-10 changes from a mean raw count
+14.2 to 26.0, mapping to width 24 and attaining Q in all five trials. This is an algebraic
+correction of the finite-step readout up to stored numerical precision. Its possibly large steps
+and altered prior updates remain; it is not an exact-Jacobian or original-ARD benchmark.
+
+826
+827
+
+828
+
+829
+830
+831
+832
+833
+
+Table A13. Corrected finite-step relevance readout from saved scores and prior variances at the
+primary context. The same stored perturbations are normalized by their squared step before variance
+weighting; no new ARD training is involved. This validates an algebraic readout correction, not exact
+Jacobian relevance or the source training procedure. Test MSE ×103 is for transferred ordinary VAEs.
+Dataset
+
+Old raw
+
+Corrected raw
+
+Grid width
+
+Q
+
+Test MSE
+
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+
+6.0 ± 0.0
+3.8 ± 0.4
+9.2 ± 1.5
+14.2 ± 0.4
+
+6.2 ± 0.4
+4.0 ± 0.0
+10.6 ± 0.5
+26.0 ± 0.0
+
+6.0 ± 0.0
+4.0 ± 0.0
+10.0 ± 0.0
+24.0 ± 0.0
+
+5/5
+5/5
+0/5
+5/5
+
+22.05 ± 0.17
+19.06 ± 0.25
+1.47 ± 0.05
+15.36 ± 0.13
+
+The additional exact-Jacobian runs are reported separately in Section 6.5; they do not
+replace these historical records.
+
+https://doi.org/10.3390/make8010000
+
+834
+835
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+35 of 45
+
+The FONDUE description-based classifier was checked against the public repository h t t p s : / / g i t h u b . c o m / b o n h e m l / V A E _ l e a r n i n g _ d y n a m i cs at commit
+f6d6e66b536bcbe635392d3438338949d4dc8730. The local implementation uses the
+stated posterior-variance categories with one exponentiation and TwoNN; equivalence to
+the public execution path and the original experiment configuration is not asserted. As a
+historical reference, the source reports dSprites selection 12.2 ± 0.4 at one epoch [4], versus
+4.2 ± 0.4 here at β = 1. This unmatched-setting difference is not proof of an implementation
+error, nor a reproduction of the original benchmark. A separate control-flow check replays
+the source algorithm’s lower/upper-bound updates on the archived ID-gap sequence:
+all 100 FONDUE paths and returned widths agree with that pseudocode and terminate
+normally. This verifies the search update logic on those inputs; it does not validate the
+estimator implementation, training framework parity or the published benchmark. Its
+row-level results are included as results/make51/fondue_control_flow.json.
+Appendix C.4. Threshold-Only and Quality-Margin Analyses
+
+836
+837
+838
+839
+840
+841
+842
+843
+844
+845
+846
+847
+848
+
+849
+
+The retrospective predictive analysis uses Python 3.11.11, NumPy 2.3.2 and scikitlearn 1.7.1. Table A14 documents probability saturation in this reconstruction. The original
+predictor’s complete environment and row-level probabilities were not saved, so its exact
+floating-point results cannot be verified from the summary alone. Row-level decision scores
+and probabilities for the current reconstruction are saved in results/make51/au_predic
+tions.csv.
+
+850
+851
+852
+853
+854
+855
+
+Table A14. Numerical probability saturation in the current predictor reconstruction. Entries count
+predictions rounded to exactly one, before AUROC calculation. Decision scores preserve ordering
+among these rows.
+Evaluation condition
+
+Base
+
+Base + AU
+
+Base + random
+
+dSprites
+Fashion-MNIST
+CIFAR-10
+
+55/55
+0/55
+45/45
+
+44/55
+0/55
+40/45
+
+49/55
+0/55
+36/45
+
+The main AU-threshold figure uses identical checkpoints for all three δ values. Across
+the full ladder, the fractions of CIFAR-10 grid/seed candidates with AU equal to capacity
+are given below. These counts use ten widths and five seeds per β; their rows are not 50
+independent datasets.
+
+856
+857
+858
+859
+
+Table A15. CIFAR-10 (Gaussian): percentage of the 50 width/seed candidates with AU equal to
+capacity. Thresholds are re-read on the same checkpoints within each column.
+δ
+0.001
+0.01
+0.1
+
+β = .25
+
+.5
+
+1
+
+2
+
+4
+
+100
+60
+48
+
+100
+50
+38
+
+100
+36
+32
+
+98
+22
+20
+
+60
+10
+10
+
+For a separate retrospective quality-margin check, the complete cached grid at β = 1 is
+held fixed and the smallest satisfying width is read out for each margin, without retraining
+or changing the anchor. Table A16 reports this full-grid criterion, not the path or cost of any
+restricted-window selector. No FONDUE-threshold or ARD-99% sensitivity training was
+executed, so no response of those rules to their own readout thresholds is claimed.
+
+https://doi.org/10.3390/make8010000
+
+860
+861
+862
+863
+864
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+36 of 45
+
+Table A16. Smallest quality-satisfying cached width at β = 1 as relative margin changes; five seed
+means ± SD. The absolute floor 0.001 times validation variance remains fixed. Gaussian likelihood
+except Bernoulli dSprites.
+Dataset
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+
+1%
+
+5%
+
+10%
+
+25%
+
+50%
+
+6.0 ± 0.0
+4.0 ± 0.0
+51.2 ± 17.5
+41.6 ± 8.8
+
+6.0 ± 0.0
+4.0 ± 0.0
+36.0 ± 16.5
+32.0 ± 0.0
+
+6.0 ± 0.0
+4.0 ± 0.0
+20.0 ± 4.0
+24.0 ± 0.0
+
+4.0 ± 0.0
+4.0 ± 0.0
+12.0 ± 0.0
+16.0 ± 0.0
+
+4.0 ± 0.0
+2.0 ± 0.0
+9.6 ± 0.9
+16.0 ± 0.0
+
+Appendix D. Synthetic Scale and Ablation Diagnostic
+
+865
+
+Swiss-roll points are (t cos t, h, t sin t) with t ∼ U [1.5π, 4.5π ] and h ∼ U [0, 1]. Torus
+points are ((3 + cos ϕ) cos θ, (3 + cos ϕ) sin θ, sin ϕ) with independent angles uniform on
+[0, 2π ]. Each has 5000 examples, generation seed zero, and independent Gaussian coordinate noise with SD 0.01. The first 4500 are used for fitting and the remaining 500 for the
+reported diagnostic. Per-coordinate standardisation in the stored experiment was fitted
+to all 5000 before splitting. This is disclosed as preprocessing leakage; the results are
+descriptive, not clean held-out test estimates.
+The FC VAE uses widths 128 and 64, reversed in its decoder, ReLU hidden activations,
+a linear output, Adam at 10−3 , batch 128, 300 epochs, β = 1 and seeds 42, 123 and 777.
+At the last checkpoint, coordinates with posterior-mean variance at most 0.01 on the 500
+diagnostic examples are zeroed and MSE is recomputed on those same examples. Table A17
+reports the standardized runs. There is no separate test set in this stored experiment.
+
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+
+Table A17. Synthetic scale/ablation diagnostic, Gaussian likelihood, β = 1, δ = 0.01, three training
+seeds. Data were standardized before the split; these are descriptive validation results, not leakagefree generalization estimates. Changes are mean per-run relative MSE changes (%).
+Data
+
+m
+
+AU
+
+MSE before
+
+MSE after
+
+Change
+
+Swiss roll
+Swiss roll
+Swiss roll
+Swiss roll
+Swiss roll
+Swiss roll
+Torus
+Torus
+Torus
+Torus
+Torus
+Torus
+
+1
+2
+3
+4
+6
+8
+1
+2
+3
+4
+6
+8
+
+1.0 ± 0.0
+2.0 ± 0.0
+3.0 ± 0.0
+3.0 ± 0.0
+3.0 ± 0.0
+3.0 ± 0.0
+1.0 ± 0.0
+2.0 ± 0.0
+3.0 ± 0.0
+3.0 ± 0.0
+3.0 ± 0.0
+3.0 ± 0.0
+
+0.3511 ± 0.0267
+0.1997 ± 0.0177
+0.1407 ± 0.0018
+0.1404 ± 0.0136
+0.1365 ± 0.0023
+0.1437 ± 0.0089
+0.3217 ± 0.0163
+0.1654 ± 0.0242
+0.1083 ± 0.0036
+0.1124 ± 0.0050
+0.1095 ± 0.0035
+0.1104 ± 0.0069
+
+0.3511 ± 0.0267
+0.1997 ± 0.0177
+0.1407 ± 0.0018
+0.1406 ± 0.0135
+0.1368 ± 0.0022
+0.1440 ± 0.0089
+0.3217 ± 0.0163
+0.1654 ± 0.0242
+0.1083 ± 0.0036
+0.1124 ± 0.0050
+0.1096 ± 0.0035
+0.1105 ± 0.0069
+
++0.000
++0.000
++0.000
++0.147
++0.183
++0.165
++0.000
++0.000
++0.000
++0.063
++0.107
++0.156
+
+Both noise-free generating surfaces have intrinsic dimension two and are represented
+here in three ambient coordinates. A Swiss-roll patch does not thereby have minimum
+embedding dimension three. Observing three active coordinates under this loss is not
+a topological theorem. The earlier manuscript said its synthetic coordinates were standardized; the implementation audit found a mismatch between that description and the
+executed preprocessing. On the unstandardized Swiss roll the height coordinate has much
+smaller variance than the other coordinates, making its omission inexpensive in squared
+error. This scale observation does not alone prove the complete causal explanation of every
+earlier AU result.
+
+Appendix E. New MNIST Model Records
+
+878
+879
+880
+881
+882
+883
+884
+885
+886
+
+887
+
+The new experiment uses all twelve declared widths, training seed 42, and the original
+split reconstructed from its fixed seeds. The model architecture and objective match the
+ordinary MNIST protocol, while the CPU environment differs from the archived CUDA
+
+https://doi.org/10.3390/make8010000
+
+888
+889
+890
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+37 of 45
+
+runs. Table A18 gives every proxy-selected checkpoint’s validation criteria. MC SE refers
+only to evaluation noise over posterior draws. The frozen capacity-choice file precedes
+final test evaluation. Weights, epoch curves and draw-wise ELBO means are included in
+the reviewer supplement. No between-training-seed confidence interval is inferred from
+this one-seed validation.
+
+891
+892
+893
+894
+895
+
+Table A18. Complete newly trained MNIST grid, seed 42, β = 1, Gaussian likelihood. Epoch selected
+by the deterministic proxy; stop is the actual final training epoch. Proxy omits the Gaussian constant
+and posterior expectation; MC ELBO includes both. MSE ×103 .
+Width
+
+Epoch
+
+Stop
+
+Val. MSE
+
+Proxy
+
+MC ELBO ± SE
+
+2
+4
+6
+8
+10
+12
+16
+20
+24
+32
+48
+64
+
+81
+85
+169
+73
+70
+196
+107
+144
+132
+136
+114
+217
+
+111
+115
+199
+103
+100
+226
+137
+174
+162
+166
+144
+247
+
+37.406
+27.840
+22.343
+22.417
+22.954
+20.983
+23.030
+21.327
+22.977
+23.402
+24.177
+22.930
+
+−34.647
+−29.304
+−26.696
+−26.544
+−26.663
+−26.055
+−26.774
+−26.156
+−26.956
+−27.042
+−27.411
+−26.946
+
+−484.386 ± 0.009
+−480.108 ± 0.009
+−478.174 ± 0.010
+−478.285 ± 0.009
+−478.627 ± 0.009
+−478.067 ± 0.012
+−478.592 ± 0.009
+−478.134 ± 0.010
+−478.664 ± 0.008
+−478.869 ± 0.012
+−479.310 ± 0.013
+−479.043 ± 0.011
+
+MNIST, width 6
+
+MNIST, width 64
+6 × 10−2
+
+MSE
+
+MSE
+
+4 × 10−2
+
+3 × 10−2
+
+4 × 10−2
+3 × 10−2
+
+2 × 10−2
+
+2 × 10−2
+0
+
+50
+
+100
+Epoch
+
+150
+
+200
+
+Train subset
+
+0
+
+100
+Epoch
+
+200
+
+Validation
+
+Figure A2. New MNIST seed-42 train/validation MSE at widths six and 64, Gaussian likelihood and
+β = 1. Training curves use a fixed 2000-example subset; validation uses all 2000 held-out examples.
+Black crosses mark proxy-selected epochs. These are new saved runs, not reconstructed train curves
+for the historical CUDA checkpoints.
+
+Appendix F. Additional GPU Validation Records
+Table A19 compares historical and additional readouts. The ARM dSprites mean is
+54.0 rather than the historical HC count of 64. The historical unnormalised CIFAR-10 ARD
+count was 14.2, but its normalisation audit had already changed it to 26.0 (Table A13).
+New exact-Jacobian counts are close to that corrected result. Changes in training and prior
+updates prevent attributing the full difference from 14.2 solely to the Jacobian calculation.
+
+https://doi.org/10.3390/make8010000
+
+896
+897
+898
+899
+900
+901
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+38 of 45
+
+Table A19. Raw dimension readouts: historical HC and unnormalized finite-step ARD (five seeds)
+versus new ARM and exact-Jacobian ARD (three seeds). Mean ± sample SD. Different training and
+readout settings prevent attributing every difference to the estimator alone. The corrected historical
+finite-step ARD results are retained in Table A13.
+Dataset
+
+HC (n = 5)
+
+ARM (n = 3)
+
+Old ARD (n = 5)
+
+Exact, zero
+
+Exact, sample
+
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+
+7.2 ± 0.4
+4.2 ± 0.4
+64.0 ± 0.0
+20.0 ± 1.0
+
+7.7 ± 0.6
+4.7 ± 0.6
+54.0 ± 7.2
+21.0 ± 2.6
+
+6.0 ± 0.0
+3.8 ± 0.4
+9.2 ± 1.5
+14.2 ± 0.4
+
+6.0 ± 0.0
+4.0 ± 0.0
+9.0 ± 0.0
+26.7 ± 0.6
+
+6.0 ± 0.0
+4.0 ± 0.0
+9.7 ± 0.6
+26.3 ± 0.6
+
+The new records comprise three seeds per dataset for ARM and for each ARD varianceupdate setting. Gate bins in Table A20 and the individual constraint trajectories in Figure A3
+show why a thresholded dimension count is insufficient to diagnose successful pruning. In
+particular, dSprites does not approach a decisive binary gate configuration or a satisfied
+constraint.
+
+902
+903
+904
+905
+906
+
+Table A20. ARM gate probabilities after 300 epochs. Mid denotes 0.1 ≤ p ≤ 0.9; the other bins use
+strict inequalities. Expected is ∑ j p j ; count uses p j > 0.5. No dSprites gate reaches either extreme, so
+its threshold count should not be read as a stable binary architecture.
+Dataset
+
+Seed
+
+p < 0.1
+
+Mid
+
+p > 0.9
+
+Expected
+
+Count
+
+MNIST
+MNIST
+MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+dSprites
+dSprites
+dSprites
+CIFAR-10
+CIFAR-10
+CIFAR-10
+
+42
+123
+777
+42
+123
+777
+42
+123
+777
+42
+123
+777
+
+56
+56
+57
+59
+59
+60
+0
+0
+0
+236
+230
+235
+
+0
+1
+0
+0
+0
+0
+64
+64
+64
+1
+3
+1
+
+8
+7
+7
+5
+5
+4
+0
+0
+0
+19
+23
+20
+
+8.33
+8.11
+7.34
+5.32
+5.30
+4.35
+32.08
+32.20
+32.05
+25.65
+30.27
+26.18
+
+8
+8
+7
+5
+5
+4
+52
+62
+48
+19
+24
+20
+
+Figures A4 and A5 report evaluation-mode reconstruction curves for all four datasets.
+They describe the supplied 300-epoch runs; a visually flat curve does not certify an optimum.
+The ARD figure uses zero-centre variance updates. All 24 ARD curve records, including
+the sample-centred variant, are in the supplement.
+Table A21 reports held-out test reconstruction at the fixed final native models and
+transferred ordinary widths. Selection uses the constraint or validation-based relevance
+readout, not these test metrics. The full-model ARD column is deliberately distinguished
+from quality at a selected native dimension.
+
+https://doi.org/10.3390/make8010000
+
+907
+908
+909
+910
+911
+912
+913
+914
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+39 of 45
+
+Fashion-MNIST
+seed 42
+seed 123
+seed 777
+
+101
+
+Training constraint (SSE)
+
+Training constraint (SSE)
+
+MNIST
+
+100
+0
+−100
+
+0
+
+50
+
+100
+
+150
+200
+Epoch
+
+250
+
+10
+
+1
+
+100
+0
+
+300
+
+0
+
+50
+
+100
+
+10
+
+101
+
+10
+
+0
+
+0
+0
+
+50
+
+100
+
+250
+
+300
+
+250
+
+300
+
+CIFAR-10
+
+2
+
+Training constraint (SSE)
+
+Training constraint (SSE)
+
+dSprites
+
+150
+200
+Epoch
+
+150
+200
+Epoch
+
+250
+
+101
+
+100
+0
+−100
+
+300
+
+0
+
+50
+
+100
+
+150
+200
+Epoch
+
+Figure A3. Moving-average stochastic training constraint for each new ARM seed, recorded every
+five epochs. Zero is the constraint boundary; negative values satisfy it. A symmetric logarithmic
+vertical scale accommodates large positive violations and negative values. These trajectories are
+distinct from deterministic validation-target attainment.
+
+MNIST
+
+Fashion-MNIST
+3 × 10−2
+
+3 × 10−2
+
+MSE
+
+MSE
+
+4 × 10−2
+
+2 × 10−2
+2 × 10−2
+0
+
+50
+
+100
+
+150 200
+Epoch
+
+250
+
+300
+
+0
+
+50
+
+dSprites
+
+100
+
+150 200
+Epoch
+
+250
+
+300
+
+250
+
+300
+
+CIFAR-10
+2.2 × 10−2
+
+4 × 10−2
+
+2 × 10−2
+MSE
+
+MSE
+
+1.8 × 10−2
+1.6 × 10−2
+1.4 × 10−2
+
+3 × 10−2
+
+1.2 × 10−2
+0
+
+50
+
+100
+
+150 200
+Epoch
+
+250
+
+300
+
+Training-pool subset
+
+0
+
+50
+
+100
+
+150 200
+Epoch
+
+Validation
+
+Figure A4. Native ARM posterior-mean MSE with the current binary gate mask, evaluated every five
+epochs on a 2000-example training subset and the validation split. Lines and shading are mean and
+sample SD over three seeds. Vertical axes are logarithmic; a shaded lower bound is clipped above
+zero for display. These curves do not reconstruct missing historical ordinary-VAE training records.
+
+https://doi.org/10.3390/make8010000
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+40 of 45
+
+MNIST
+
+Fashion-MNIST
+3 × 10
+
+MSE
+
+MSE
+
+4 × 10−2
+
+−2
+
+3 × 10−2
+
+2 × 10−2
+
+0
+
+50
+
+100
+
+150 200
+Epoch
+
+250
+
+300
+
+0
+
+50
+
+100
+
+dSprites
+
+250
+
+300
+
+250
+
+300
+
+CIFAR-10
+2.1 × 10−2
+2 × 10−2
+1.9 × 10−2
+
+6 × 10−3
+4 × 10−3
+
+MSE
+
+MSE
+
+150 200
+Epoch
+
+3 × 10−3
+
+1.8 × 10−2
+1.7 × 10−2
+1.6 × 10−2
+
+2 × 10−3
+
+1.5 × 10−2
+1.4 × 10−2
+0
+
+50
+
+100
+
+150 200
+Epoch
+
+250
+
+300
+
+Training-pool subset
+
+0
+
+50
+
+100
+
+150 200
+Epoch
+
+Validation
+
+Figure A5. Full-width ARD posterior-mean MSE with zero-centre variance updates, evaluated every
+five epochs. Mean and sample SD over three seeds; logarithmic vertical axes. The 2000-example
+training-pool subset includes 1800 examples reserved for prior updates and 200 used in parametergradient training, so its curve is not a pure training-fit estimate. No native pruning is applied in these
+evaluations.
+Table A21. Test MSE (×103 ), mean ± sample SD over three seeds. ARM native evaluation uses a
+binary gate mask and posterior mean. ARD native evaluation is the unpruned full-width model.
+Transferred ordinary VAEs are reused from the archived candidate cache; their test summaries did
+not select the new raw counts.
+Dataset
+
+Implementation
+
+Native/full
+
+Transferred
+
+MNIST
+MNIST
+MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+dSprites
+dSprites
+dSprites
+CIFAR-10
+CIFAR-10
+CIFAR-10
+
+ARM
+ARD zero
+ARD sample
+ARM
+ARD zero
+ARD sample
+ARM
+ARD zero
+ARD sample
+ARM
+ARD zero
+ARD sample
+
+21.35 ± 0.25
+22.97 ± 0.53
+23.17 ± 0.17
+19.01 ± 0.23
+18.97 ± 0.17
+19.17 ± 0.15
+42.10 ± 0.00
+1.32 ± 0.01
+1.32 ± 0.06
+15.60 ± 0.59
+14.55 ± 0.13
+14.64 ± 0.24
+
+21.22 ± 0.79
+22.15 ± 0.14
+22.15 ± 0.14
+18.94 ± 0.23
+18.94 ± 0.23
+18.94 ± 0.23
+1.17 ± 0.04
+1.86 ± 0.09
+1.61 ± 0.30
+16.74 ± 1.21
+15.42 ± 0.13
+15.42 ± 0.13
+
+Table A22 reports logged duration components. The source records identify an
+NVIDIA GPU and the software environment. Training intervals include periodic evaluation;
+the ARD initial and final prior updates and final native evaluation are not included in the
+listed training/Jacobian intervals. Jacobian timing pertains to 100 validation examples and
+the particular architecture. Missing reference, anchor, transfer and evaluation components
+preclude interpreting these numbers as complete selector costs or combining them with
+historical CPU ID time.
+
+https://doi.org/10.3390/make8010000
+
+915
+916
+917
+918
+919
+920
+921
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+41 of 45
+
+Table A22. Logged duration components for new GPU pruning runs, seconds, mean ± sample SD
+over three seeds. Training loop includes periodic train/validation evaluations. ARM post-evaluation
+covers final native evaluations; ARD did not separately time them (NR). Anchor, transferredcandidate and other missing costs are not included here. These intervals are not complete end-to-end
+selector costs.
+Dataset
+
+Implementation
+
+Training loop
+
+Jacobian
+
+Post-evaluation
+
+MNIST
+MNIST
+MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+dSprites
+dSprites
+dSprites
+CIFAR-10
+CIFAR-10
+CIFAR-10
+
+ARM
+ARD, zero
+ARD, sample
+ARM
+ARD, zero
+ARD, sample
+ARM
+ARD, zero
+ARD, sample
+ARM
+ARD, zero
+ARD, sample
+
+197.8 ± 2.2
+87.3 ± 0.3
+87.1 ± 0.7
+197.8 ± 1.5
+88.2 ± 0.5
+88.0 ± 0.3
+664.8 ± 0.3
+299.2 ± 0.0
+299.2 ± 0.2
+328.4 ± 0.3
+146.2 ± 0.1
+146.1 ± 0.1
+
+—
+0.011 ± 0.000
+0.012 ± 0.002
+—
+0.011 ± 0.000
+0.012 ± 0.002
+—
+10.830 ± 0.169
+11.047 ± 0.712
+—
+6.968 ± 0.452
+7.505 ± 0.171
+
+0.043 ± 0.000
+NR
+NR
+0.043 ± 0.000
+NR
+NR
+1.264 ± 0.001
+NR
+NR
+0.570 ± 0.001
+NR
+NR
+
+Appendix F.1. Native Masking and Decoder Adaptation
+
+922
+
+Tables A23 and A24 provide the seed-level validation records and held-out test summaries for the four native-pruning conditions. The selected counts match the preceding
+sample-centred runs. Their unpruned validation/test MSEs are also identical, so the repeated baseline is not extra independent evidence. The dSprites test means follow the
+validation pattern: 0.00132 before masking, 0.00294 after masking and 0.00178 after decoder
+adaptation.
+Table A23. Per-seed native-pruning validation MSE ×103 . Count is the relevance-selected axis count;
+Grid is the transferred ordinary-VAE width. Full, Mask and Adapt use posterior means. Sampled
+mask averages MSE over 32 posterior draws before adaptation; it is neither an ELBO nor a comparison
+under a sampled-anchor target. Exact masks and model checkpoints were not saved.
+Dataset
+
+Seed
+
+Count
+
+Grid
+
+Full
+
+Mask
+
+Adapt
+
+Sampled mask
+
+MNIST
+MNIST
+MNIST
+Fashion-MNIST
+Fashion-MNIST
+Fashion-MNIST
+dSprites
+dSprites
+dSprites
+CIFAR-10
+CIFAR-10
+CIFAR-10
+
+42
+123
+777
+42
+123
+777
+42
+123
+777
+42
+123
+777
+
+6
+6
+6
+4
+4
+4
+10
+10
+9
+26
+26
+27
+
+6
+6
+6
+4
+4
+4
+10
+10
+8
+24
+24
+24
+
+23.762
+23.669
+23.410
+19.336
+19.452
+19.496
+1.393
+1.278
+1.327
+14.668
+14.192
+14.353
+
+23.772
+23.681
+23.420
+19.340
+19.456
+19.496
+3.317
+2.783
+2.945
+15.109
+14.728
+14.835
+
+23.445
+23.454
+23.175
+19.158
+19.248
+19.176
+1.893
+1.727
+1.859
+14.817
+14.671
+14.692
+
+27.040
+27.050
+26.896
+21.573
+21.732
+21.563
+3.611
+3.084
+3.223
+17.584
+17.253
+17.392
+
+Table A24. Native-pruning test MSE ×103 , mean ± sample SD across three seeds. All columns use
+posterior-mean reconstruction. Conditions match Table 11; test metrics do not choose the axes or the
+fixed adaptation budget.
+Dataset
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+
+Full
+
+Mask
+
+Adapt
+
+Transfer
+
+23.17 ± 0.17
+19.17 ± 0.15
+1.32 ± 0.06
+14.64 ± 0.24
+
+23.18 ± 0.17
+19.17 ± 0.15
+2.94 ± 0.25
+15.14 ± 0.19
+
+22.90 ± 0.14
+18.93 ± 0.08
+1.78 ± 0.07
+14.97 ± 0.08
+
+22.15 ± 0.14
+18.94 ± 0.23
+1.61 ± 0.30
+15.42 ± 0.13
+
+https://doi.org/10.3390/make8010000
+
+923
+924
+925
+926
+927
+928
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+42 of 45
+
+Table A25 reports the two recorded timing intervals. Unlike the earlier curve runs, the
+initial training interval has no periodic evaluation and includes the final prior update. The
+initial prior update, Jacobian evaluation, mask construction and final model evaluations
+are outside the recorded intervals. Adding training and adaptation times would therefore
+not give end-to-end pruning cost. The supplied script defines the 300-epoch training and
+30-epoch adaptation protocol, but its JSON lacks epoch counters and trajectories. These
+settings are documented from the script and internal specification, not independently
+recovered from a saved training trace.
+
+929
+930
+931
+932
+933
+934
+935
+936
+
+Table A25. Partial durations for native-pruning runs, seconds, mean ± sample SD across three
+seeds. Training includes its final prior update but excludes the initial one. Adaptation times only the
+30-epoch decoder loop. Jacobian/mask construction, final evaluations, anchor and transfer training
+are excluded and are not separately timed in this run.
+Dataset
+MNIST
+Fashion-MNIST
+dSprites
+CIFAR-10
+
+Training interval
+
+Decoder adaptation
+
+86.5 ± 0.7
+86.5 ± 0.4
+289.0 ± 0.3
+142.3 ± 0.1
+
+5.9 ± 0.1
+5.9 ± 0.0
+20.7 ± 0.0
+10.8 ± 0.0
+
+The recorded elbo and val_elbo fields remain in the unmodified raw files for provenance but are not used as native ELBO measurements (Section 5.5), including the new
+masking records. Native post-masking MSE is now recorded, but checkpoints and selectedaxis identities were not saved. The mask, inference outputs and a corrected native likelihood
+therefore cannot be independently re-evaluated from the summaries alone. The analytic
+ARM-gradient check validates a component; it cannot replace those model-level records.
+
+942
+
+Appendix G. Reproducibility Inventory and Remaining Records
+
+943
+
+The reaggregation entry point is src/make51/rebuild_review.py; it reads saved
+JSON and configuration files and writes numerical tables, six figures and the paired predictive analysis from the historical records. The new search analysis is src/make51/rep
+lay_search.py; the bounded model validation is src/make51/validate_models.py. Its
+outputs are summarized by src/make51/summarize_validation.py. The additionalrun reaggregation is src/make52/summarize_revision.py; native-pruning reaggregation is src/make53/summarize_native_pruning.py, and manuscript assembly is
+src/make53/build_manuscript.py. The generated main TeX embeds its table contents
+and references the figure PDFs. Compile from the project root with pdflatex repeatedly
+until references settle. The accompanying MAKE53_reproducibility.zip supplies the
+files, not only this inventory. Its README distinguishes inexpensive reaggregation from
+optional retraining, gives dependency versions and lists unavailable historical artifacts.
+MANIFEST.sha256 identifies the included payload. The archive contains a fixed source
+snapshot and is usable without access to a private repository.
+
+https://doi.org/10.3390/make8010000
+
+937
+938
+939
+940
+941
+
+944
+945
+946
+947
+948
+949
+950
+951
+952
+953
+954
+955
+956
+957
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+43 of 45
+
+Table A26. Source-to-output map for the present revision. Directories are relative to the project root;
+the supplement README gives individual filenames and reaggregation commands.
+Evidence
+
+File or directory
+
+Configuration
+Historical method, trajectory and diagnostic records
+Candidate metrics and latent variances
+Search, AU and historical audit summaries
+Separate MNIST models and MC ELBO records
+Gated-start, ARM, ARD and native-masking raw records
+Native-masking summaries and source hashes
+Historical and additional training code
+Historical and additional reaggregation
+English manuscript templates
+Japanese translation and verification
+
+config/
+results/make49/
+results/make49/stage4_cache/
+results/make51/
+results/make51/model_validation/
+results/make52/
+results/make53/
+src/make49/; src/make52/
+src/make51/; src/make53/
+src/make53/
+src/nn53/; results/nn53/
+results/figures/MAKE51/; results/figures/
+MAKE52/
+results/figures/NN53/
+
+English figures
+Japanese figures
+
+Method-level row identifiers are (dataset, method, candidate seed, β or context).
+Candidate keys also contain width, requested epochs and stopping option. Every
+configuration/dataset–method–context cell in the main method archive has five seeds;
+this is checked during reaggregation. The ARD repetition does not create five distinct
+selection-weight conditions. Individual early off-grid cache entries are not all retained,
+although their final metrics and training traces remain in the method records. The original
+test predictions, historical full model checkpoints and independent ID/evaluation timings
+are not reconstructed from missing files.
+The local change record documents the initial specification on 12 September; the
+switch to Bernoulli dSprites after collapse diagnostics; the move of ID estimation from
+an impossible 10,000-example validation sample to training data; trajectory runs without
+early stopping; and the 13 September reference-width, run-accounting and degenerateoutput clarifications. The random-feature control was added after the primary predictive
+analysis. In this revision, anchor-cost completion, paired AU inference, quality-margin
+rereading and explicit implementation auditing are retrospective. None is relabelled as a
+publicly preregistered test. The 19 September local policies, threshold factorial, normalized
+ARD readout and new one-seed validation were specified after those earlier results. The
+supplement preserves their distinct specifications and output locations.
+The additional start-width and pruning records are separate retrospective analyses.
+Reaggregation checks merged versus per-dataset files, three-seed coverage, 300-epoch curve
+endpoints, raw count readouts, anchor targets and transferred cache metrics. This verifies
+consistency of the supplied records, not rerun equivalence of unavailable checkpoints.
+The new native-masking audit additionally checks all 12 records against their per-dataset
+files, the prior sample-centred full-model MSE/counts and the transferred candidate cache;
+it recomputes Q and paired summaries. It cannot reconstruct the unsaved masks or
+checkpoint tensors.
+
+References
+1.
+
+2.
+
+3.
+
+958
+959
+960
+961
+962
+963
+964
+965
+966
+967
+968
+969
+970
+971
+972
+973
+974
+975
+976
+977
+978
+979
+980
+981
+982
+983
+
+984
+
+Kingma, D.P.; Welling, M. Auto-encoding variational Bayes. In Proceedings of the 2nd International Conference on Learning Representations (ICLR), Banff, AB, Canada, 14–16 April 2014.
+arXiv:1312.6114. https://doi.org/10.48550/arXiv.1312.6114.
+Facco, E.; d’Errico, M.; Rodriguez, A.; Laio, A. Estimating the intrinsic dimension of datasets by
+a minimal neighborhood information. Sci. Rep. 2017, 7, 12140. https://doi.org/10.1038/s41598
+-017-11873-y.
+Levina, E.; Bickel, P.J. Maximum likelihood estimation of intrinsic dimension. In Advances in
+Neural Information Processing Systems, 2004, 17. https://proceedings.neurips.cc/paper/2004/ha
+sh/74934548253bcab8490ebd74afed7031-Abstract.html.
+
+https://doi.org/10.3390/make8010000
+
+985
+986
+987
+988
+989
+990
+991
+992
+993
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+4.
+
+5.
+
+6.
+
+7.
+
+8.
+
+9.
+10.
+
+11.
+12.
+
+13.
+
+14.
+
+15.
+16.
+17.
+18.
+
+19.
+
+20.
+21.
+
+22.
+
+44 of 45
+
+Bonheme, L.; Grzes, M. FONDUE: An algorithm to find the optimal dimensionality of the latent
+representations of variational autoencoders. arXiv 2022, arXiv:2209.12806. https://doi.org/10.4
+8550/arXiv.2209.12806.
+Burda, Y.; Grosse, R.; Salakhutdinov, R. Importance weighted autoencoders. In Proceedings of the
+4th International Conference on Learning Representations (ICLR), San Juan, Puerto Rico, 2–4 May
+2016. arXiv:1509.00519. https://doi.org/10.48550/arXiv.1509.00519.
+Bonheme, L.; Grzes, M. Be more active! Understanding the differences between mean and
+sampled representations of variational autoencoders. J. Mach. Learn. Res. 2023, 24(324), 1–30.
+https://jmlr.org/papers/v24/21-1145.html.
+De Boom, C.; Wauthier, S.; Verbelen, T.; Dhoedt, B. Dynamic narrowing of VAE bottlenecks
+using GECO and L0 regularization. arXiv 2020, arXiv:2003.10901. https://doi.org/10.48550/a
+rXiv.2003.10901.
+Saha, S.; Joshi, S.; Whitaker, R. ARD-VAE: A statistical formulation to find the relevant latent
+dimensions of variational autoencoders. arXiv 2025, arXiv:2501.10901. https://doi.org/10.485
+50/arXiv.2501.10901.
+Tipping, M.E.; Bishop, C.M. Probabilistic principal component analysis. J. R. Stat. Soc. Ser. B
+1999, 61, 611–622. https://doi.org/10.1111/1467-9868.00196.
+Tenenbaum, J.B.; de Silva, V.; Langford, J.C. A global geometric framework for nonlinear
+dimensionality reduction. Science 2000, 290, 2319–2323. https://doi.org/10.1126/science.290.55
+00.2319.
+Roweis, S.T.; Saul, L.K. Nonlinear dimensionality reduction by locally linear embedding. Science
+2000, 290, 2323–2326. https://doi.org/10.1126/science.290.5500.2323.
+Ceruti, C.; Bassis, S.; Rozza, A.; Lombardi, G.; Casiraghi, E.; Campadelli, P. DANCo: An intrinsic
+dimensionality estimator exploiting angle and norm concentration. Pattern Recognit. 2014, 47,
+2569–2581. https://doi.org/10.1016/j.patcog.2014.02.013.
+Johnsson, K.; Soneson, C.; Fontes, M. Low bias local intrinsic dimension estimation from
+expected simplex skewness. IEEE Trans. Pattern Anal. Mach. Intell. 2015, 37, 196–202. https:
+//doi.org/10.1109/TPAMI.2014.2343220.
+Costa, J.A.; Hero, A.O. Geodesic entropic graphs for dimension and entropy estimation in
+manifold learning. IEEE Trans. Signal Process. 2004, 52, 2210–2221. https://doi.org/10.1109/TSP.
+2004.831130.
+Camastra, F.; Staiano, A. Intrinsic dimension estimation: Advances and open problems. Inf. Sci.
+2016, 328, 26–41. https://doi.org/10.1016/j.ins.2015.08.029.
+Allegra, M.; Facco, E.; Denti, F.; Laio, A.; Mira, A. Data segmentation based on the local intrinsic
+dimension. Sci. Rep. 2020, 10, 16449. https://doi.org/10.1038/s41598-020-72222-0.
+Gałka, Ł.; Karczmarek, P.; Tokovarov, M. Isolation Forest Based on Minimal Spanning Tree.
+IEEE Access 2022, 10, 74175–74186. https://doi.org/10.1109/ACCESS.2022.3190505.
+Ansuini, A.; Laio, A.; Macke, J.H.; Zoccolan, D. Intrinsic dimension of data representations in
+deep neural networks. In NeurIPS 2019, Vol. 32, 2019. https://proceedings.neurips.cc/paper_fil
+es/paper/2019/file/cfcce0621b49c983991ead4c3d4d3b6b-Paper.pdf.
+Pope, P.; Zhu, C.; Abdelkader, A.; Goldblum, M.; Goldstein, T. The intrinsic dimension of images
+and its impact on learning. In ICLR 2021, 2021. arXiv:2104.08894. https://doi.org/10.48550/arX
+iv.2104.08894.
+Rezende, D.J.; Viola, F. Taming VAEs. arXiv 2018, arXiv:1810.00597. https://doi.org/10.48550/a
+rXiv.1810.00597.
+Louizos, C.; Welling, M.; Kingma, D.P. Learning sparse neural networks through L0 regularization. In Proceedings of the 6th International Conference on Learning Representations (ICLR),
+Vancouver, BC, Canada, 30 April–3 May 2018. arXiv:1712.01312. https://doi.org/10.48550/arX
+iv.1712.01312.
+Obata, C.; Jin’no, K. Analysis of the relationship between manifold structure and latent space
+capacity of input data using VAE. In Proceedings of the 2025 International Symposium on Nonlinear
+Theory and Its Applications (NOLTA2025), Okinawa, Japan, 27–31 October 2025; pp. 32–35.
+Publication record: https://www.comm.tcu.ac.jp/nel/list_j_2025.html (accessed on 18
+September 2026).
+
+https://doi.org/10.3390/make8010000
+
+994
+995
+996
+997
+998
+999
+1000
+1001
+1002
+1003
+1004
+1005
+1006
+1007
+1008
+1009
+1010
+1011
+1012
+1013
+1014
+1015
+1016
+1017
+1018
+1019
+1020
+1021
+1022
+1023
+1024
+1025
+1026
+1027
+1028
+1029
+1030
+1031
+1032
+1033
+1034
+1035
+1036
+1037
+1038
+1039
+1040
+1041
+1042
+1043
+1044
+1045
+1046
+1047
+
+Version September 19, 2026 submitted to Mach. Learn. Knowl. Extr.
+
+23.
+24.
+
+25.
+
+26.
+27.
+
+28.
+29.
+
+30.
+
+45 of 45
+
+Whitney, H. The self-intersections of a smooth n-manifold in 2n-space. Ann. Math. 1944, 45,
+220–246. https://doi.org/10.2307/1969265.
+Lucas, J.; Tucker, G.; Grosse, R.B.; Norouzi, M. Don’t blame the ELBO! A linear VAE perspective
+on posterior collapse. In NeurIPS 2019, Vol. 32, 2019. https://proceedings.neurips.cc/paper/2
+019/file/7e3315fe390974fcf25e44a9445bd821-Paper.pdf.
+Rolinek, M.; Zietlow, D.; Martius, G. Variational autoencoders pursue PCA directions (by
+accident). In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition
+(CVPR), Long Beach, CA, USA, 15–20 June 2019; pp. 12406–12415. https://doi.org/10.1109/CV
+PR.2019.01269.
+LeCun, Y.; Bottou, L.; Bengio, Y.; Haffner, P. Gradient-based learning applied to document
+recognition. Proc. IEEE 1998, 86, 2278–2324. https://doi.org/10.1109/5.726791.
+Xiao, H.; Rasul, K.; Vollgraf, R. Fashion-MNIST: A Novel Image Dataset for Benchmarking
+Machine Learning Algorithms. arXiv 2017, 1708.07747. https://doi.org/10.48550/arXiv.1708.07
+747.
+Krizhevsky, A. Learning multiple layers of features from tiny images. Technical Report; University
+of Toronto: Toronto, ON, Canada, 2009.
+Matthey, L.; Higgins, I.; Hassabis, D.; Lerchner, A. dSprites: Disentanglement testing sprites
+dataset. 2017. Available online: https://github.com/google-deepmind/dsprites-dataset
+(accessed on 12 September 2026).
+Fu, H.; Li, C.; Liu, X.; Gao, J.; Celikyilmaz, A.; Carin, L. Cyclical annealing schedule: A simple
+approach to mitigating KL vanishing. In Proceedings of NAACL-HLT 2019, Minneapolis, MN,
+USA, 2019; pp. 240–250. https://doi.org/10.18653/v1/N19-1021.
+
+https://doi.org/10.3390/make8010000
+
+1048
+1049
+1050
+1051
+1052
+1053
+1054
+1055
+1056
+1057
+1058
+1059
+1060
+1061
+1062
+1063
+1064
+1065
+1066
+1067
+1068
+1069
+
+

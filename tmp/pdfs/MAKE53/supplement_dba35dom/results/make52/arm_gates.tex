@@ -1,0 +1,22 @@
+\begin{table}[H]
+\caption{ARM gate probabilities after 300 epochs. Mid denotes $0.1\le p\le0.9$; the other bins use strict inequalities. Expected is $\sum_j p_j$; count uses $p_j>0.5$. No dSprites gate reaches either extreme, so its threshold count should not be read as a stable binary architecture.}\label{tab:armgates}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr@{}}
+\toprule
+Dataset & Seed & $p<0.1$ & Mid & $p>0.9$ & Expected & Count \\
+\midrule
+MNIST & 42 & 56 & 0 & 8 & 8.33 & 8 \\
+MNIST & 123 & 56 & 1 & 7 & 8.11 & 8 \\
+MNIST & 777 & 57 & 0 & 7 & 7.34 & 7 \\
+Fashion-MNIST & 42 & 59 & 0 & 5 & 5.32 & 5 \\
+Fashion-MNIST & 123 & 59 & 0 & 5 & 5.30 & 5 \\
+Fashion-MNIST & 777 & 60 & 0 & 4 & 4.35 & 4 \\
+dSprites & 42 & 0 & 64 & 0 & 32.08 & 52 \\
+dSprites & 123 & 0 & 64 & 0 & 32.20 & 62 \\
+dSprites & 777 & 0 & 64 & 0 & 32.05 & 48 \\
+CIFAR-10 & 42 & 236 & 1 & 19 & 25.65 & 19 \\
+CIFAR-10 & 123 & 230 & 3 & 23 & 30.27 & 24 \\
+CIFAR-10 & 777 & 235 & 1 & 20 & 26.18 & 20 \\
+\bottomrule\end{tabular*}
+\end{table}

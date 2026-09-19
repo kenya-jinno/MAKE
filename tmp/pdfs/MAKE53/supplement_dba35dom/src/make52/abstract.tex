@@ -1,0 +1,24 @@
+\abstract{%
+Intrinsic-dimension estimates and active-unit diagnostics address different
+aspects of variational-autoencoder bottleneck selection. We evaluate
+search policies on four image datasets, five training seeds and five
+regularisation weights, using a validation quality target and common
+recorded candidate costs. A start-width ablation holds the reliability
+checks, fallback and reference-bank charges fixed. The ID-derived and
+midpoint starts return identical widths in all 100 conditions; where ID
+is accepted, the former requires 8.84 rather than 5.84 candidates on average.
+Two errors of an ungated midpoint policy occur in conditions where the
+ID policy instead uses ascending fallback. Across 10,000 retrospective
+coefficient and threshold settings, 155 local outputs miss the smallest
+qualifying width. Additional three-seed experiments on each dataset
+evaluate ARM-based pruning and exact-Jacobian relevance readouts.
+Native reconstruction, dimension transfer and constraint satisfaction
+give distinct outcomes; dSprites remains problematic for the local
+ARM implementation. A separate one-seed MNIST experiment compares
+Monte Carlo ELBO capacity selection. Active-unit prediction does not
+establish additional benefit on its near-ceiling task. These results
+identify how search rules, implementation choices and evaluation
+definitions affect measured quality and cost, without establishing
+universal dimension-selection guarantees.}
+\keyword{variational autoencoder; bottleneck dimension; intrinsic dimension;
+active units; model selection; reconstruction quality; reproducibility}

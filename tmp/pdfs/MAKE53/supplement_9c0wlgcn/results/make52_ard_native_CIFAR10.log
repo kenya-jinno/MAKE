@@ -1,0 +1,10 @@
+ARD-VAE（原著対応）  CIFAR10  尤度 gaussian  初期容量 256
+
+  seed 42     中心化 True   幅  26/256  転用  24  val MSE 0.01467  Jacobian 8s  学習 146s
+  seed 42     中心化 False  幅  26/256  転用  24  val MSE 0.01431  Jacobian 7s  学習 146s
+  seed 123    中心化 True   幅  26/256  転用  24  val MSE 0.01419  Jacobian 8s  学習 146s
+  seed 123    中心化 False  幅  27/256  転用  24  val MSE 0.01416  Jacobian 7s  学習 146s
+  seed 777    中心化 True   幅  27/256  転用  24  val MSE 0.01435  Jacobian 7s  学習 146s
+  seed 777    中心化 False  幅  27/256  転用  24  val MSE 0.01443  Jacobian 7s  学習 146s
+
+書き出し: /home/kjinno/claude/manifold/manifold/results/make52/ard_native_CIFAR10.json

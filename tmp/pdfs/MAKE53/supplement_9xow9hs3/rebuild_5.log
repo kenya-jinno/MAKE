@@ -1,0 +1,10 @@
+{
+  "runs": 12,
+  "per_dataset_files_match": true,
+  "seed_coverage": true,
+  "nearest_grid_and_cache_transfers_match": true,
+  "full_mse_and_counts_match_prior_sample_centred_records": true,
+  "anchor_Q_recomputed": true,
+  "native_masks_and_checkpoints_unavailable": true,
+  "new_elbo_fields_are_not_mc_elbo": true
+}

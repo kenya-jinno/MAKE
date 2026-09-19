@@ -1,0 +1,23 @@
+{
+  "MAKE52_revision_review.md": "b162f39b0e66a25b2171a7fad20b4aebf2111725a764c1c28e22987a8acae3f0",
+  "MAKE52_\u5b9f\u9a13\u691c\u8a3c\u7d50\u679c.md": "9054e2fdf24aa9c3e2d21d15d8c11b62fba2225b6d5a2b2c22ac1f0cb3b670ab",
+  "config/experiment_config_MAKE49.json": "0c45da0e3f63e53f1ccc8f5945b4f63e7f165cfee91719a51003c0bae7fb5685",
+  "results/make49/stage4_cache/CIFAR10.json": "3bd3d1c31edd5ffb48120e9ed13ba033ab792bd1ffdaa0c655979a71144af6e1",
+  "results/make49/stage4_cache/FashionMNIST.json": "151bbf099ddc053d3658442ccc1c1f744ee1a1854ece22bf9e99d74efa2427bc",
+  "results/make49/stage4_cache/MNIST.json": "38e82100f586ac5f4f3ed7d6f2d336add29a0c7773617ad3aefa2f45b8e90834",
+  "results/make49/stage4_cache/dSprites.json": "39a3daeb3482ddd54d0d0058a7451b0d2027c085977fb7e5ab1e0648b3ca45c0",
+  "results/make52/ard_native_CIFAR10.json": "4c8071e17d8d58a747d0a4f7997f135f0379351bd99164cca23eb23fb52dbf42",
+  "results/make52/ard_native_FashionMNIST.json": "8708b19996c95def9218755a19e0d1e4ab68e3bf1d3de4ab9eadb65d29cad1e0",
+  "results/make52/ard_native_MNIST.json": "b5d9cd4b6fa549d30563fba0271655d489a31a61b3848c8b8d7969a071e6e519",
+  "results/make52/ard_native_dSprites.json": "4897b42bacac8b0e2d5a4f94844615e20b09777ed4c6b80db387526eca771a67",
+  "results/make52/ard_pruned_CIFAR10.json": "ebb59876da2dd9520e4b110c3d29fdba62e6dcb58c0a0c2693275dd93a2ac3ce",
+  "results/make52/ard_pruned_FashionMNIST.json": "f05d262776a03931d647c3d9ff487133b3b91c0ec87f34977af378150bb2a835",
+  "results/make52/ard_pruned_MNIST.json": "b816436c6c5a133536c9677859ca79bb6ad62db5ec4fb5094afb3aa650bc4750",
+  "results/make52/ard_pruned_all.json": "b81ebf486a7353efe92aefcd8ae5aaf0ca09682798b8091766473e616759e5c4",
+  "results/make52/ard_pruned_dSprites.json": "6ccefb0d2112ac73cd1e086b4d664da5ab124c510833f3d3a91da752cc52aef0",
+  "results/make52/native_pruned_spec.json": "fee3d9dd420286b75503744fd38f9a38b1538c9a760184e3a215f16105d07699",
+  "src/make52/ard_native.py": "62083efeb057bea8488573f73b8314bd015392cfb468fd30303f82aa7400eda3",
+  "src/make52/ard_native_pruned.py": "5b033a81abaf5b724af5c4fae951cd4ec2fc869d33b24753ee9410f38ef87e80",
+  "src/make52/geco_arm.py": "d9c562704a8be5e75fe7df6bd6dce3c1787e8959a1bff1b0020ddc0eb23677c5",
+  "src/make53/summarize_native_pruning.py": "d613b00121f27c1a4d77fc8ba2275577ded6f6519c390591fdba38487cb1c3ee"
+}

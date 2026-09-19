@@ -1,0 +1,14 @@
+\begin{table}[H]
+\caption{Native-pruning test MSE $\times10^3$, mean $\pm$ sample SD across three seeds. All columns use posterior-mean reconstruction. Conditions match Table~\ref{tab:ardpruned}; test metrics do not choose the axes or the fixed adaptation budget.}\label{tab:ardprunedtest}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccc@{}}
+\toprule
+Dataset & Full & Mask & Adapt & Transfer \\
+\midrule
+MNIST & $23.17 \pm 0.17$ & $23.18 \pm 0.17$ & $22.90 \pm 0.14$ & $22.15 \pm 0.14$ \\
+Fashion-MNIST & $19.17 \pm 0.15$ & $19.17 \pm 0.15$ & $18.93 \pm 0.08$ & $18.94 \pm 0.23$ \\
+dSprites & $1.32 \pm 0.06$ & $2.94 \pm 0.25$ & $1.78 \pm 0.07$ & $1.61 \pm 0.30$ \\
+CIFAR-10 & $14.64 \pm 0.24$ & $15.14 \pm 0.19$ & $14.97 \pm 0.08$ & $15.42 \pm 0.13$ \\
+\bottomrule\end{tabular*}
+\end{table}

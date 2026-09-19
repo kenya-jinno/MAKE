@@ -1,0 +1,29 @@
+\begin{table}[H]
+\caption{Outcome audit at $\beta=1$; all counts have denominator five. S: recorded success; I: ID unreliable; B: budget exceeded; D: degenerate; N: no compact alternative. FB is the fallback flag; budget, validation quality $Q$, and compression of the final VAE are independently recomputed or read from flags.}\label{tab:outcomes0}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llccccc@{}}
+\toprule
+Dataset & Method & State & FB & Budget & $Q$ & Compact \\
+\midrule
+MNIST & Grid (MSE) & S5 & 0 & 0 & 5 & 5 \\
+MNIST & FONDUE & S5 & 0 & 0 & 5 & 5 \\
+MNIST & FONDUE + Q & S5 & 0 & 0 & 5 & 5 \\
+MNIST & GECO adaptation & S5 & 0 & 0 & 5 & 5 \\
+MNIST & ARD adaptation & S5 & 0 & 0 & 5 & 5 \\
+MNIST & Ascending + Q & S5 & 0 & 0 & 5 & 5 \\
+MNIST & Legacy ID window & S5 & 0 & 0 & 5 & 5 \\
+MNIST & FONDUE-VAR (mixed kept) & S5 & 0 & 0 & 5 & 5 \\
+MNIST & FONDUE-VAR (active only) & D5 & 0 & 0 & 0 & 0 \\
+Fashion-MNIST & Grid (MSE) & S5 & 0 & 0 & 5 & 5 \\
+Fashion-MNIST & FONDUE & S5 & 0 & 0 & 5 & 5 \\
+Fashion-MNIST & FONDUE + Q & S5 & 0 & 0 & 5 & 5 \\
+Fashion-MNIST & GECO adaptation & S5 & 0 & 0 & 5 & 5 \\
+Fashion-MNIST & ARD adaptation & S5 & 0 & 0 & 4 & 5 \\
+Fashion-MNIST & Ascending + Q & S5 & 0 & 0 & 5 & 5 \\
+Fashion-MNIST & Legacy ID window & I5 & 5 & 0 & 5 & 5 \\
+Fashion-MNIST & FONDUE-VAR (mixed kept) & S5 & 0 & 0 & 5 & 5 \\
+Fashion-MNIST & FONDUE-VAR (active only) & S5 & 0 & 0 & 0 & 5 \\
+\bottomrule
+\end{tabular*}
+\end{table}

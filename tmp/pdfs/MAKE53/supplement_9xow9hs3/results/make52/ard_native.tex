@@ -1,0 +1,18 @@
+\begin{table}[H]
+\caption{New exact-Jacobian ARD implementations, three seeds per setting, 300 epochs. Prior-update centre is zero or the sample latent mean. Count is a relevance readout; Full is the unpruned starting-width model, not a model reduced to that count. Transfer is an ordinary VAE at the nearest grid width. MSE $\times10^3$, mean $\pm$ sample SD; parentheses give $Q$ counts.}\label{tab:ardnew}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llcccc@{}}
+\toprule
+Dataset & Centre & Count & Full MSE ($Q$) & Transfer width & Transfer MSE ($Q$) \\
+\midrule
+MNIST & Zero & $6.0 \pm 0.0$ & $23.48 \pm 0.59$ (3/3) & $6.0 \pm 0.0$ & $22.51 \pm 0.15$ (3/3) \\
+MNIST & Sample & $6.0 \pm 0.0$ & $23.61 \pm 0.18$ (3/3) & $6.0 \pm 0.0$ & $22.51 \pm 0.15$ (3/3) \\
+Fashion-MNIST & Zero & $4.0 \pm 0.0$ & $19.27 \pm 0.19$ (3/3) & $4.0 \pm 0.0$ & $19.28 \pm 0.23$ (3/3) \\
+Fashion-MNIST & Sample & $4.0 \pm 0.0$ & $19.43 \pm 0.08$ (3/3) & $4.0 \pm 0.0$ & $19.28 \pm 0.23$ (3/3) \\
+dSprites & Zero & $9.0 \pm 0.0$ & $1.33 \pm 0.02$ (0/3) & $8.0 \pm 0.0$ & $1.88 \pm 0.08$ (0/3) \\
+dSprites & Sample & $9.7 \pm 0.6$ & $1.33 \pm 0.06$ (0/3) & $9.3 \pm 1.2$ & $1.64 \pm 0.30$ (0/3) \\
+CIFAR-10 & Zero & $26.7 \pm 0.6$ & $14.30 \pm 0.13$ (3/3) & $24.0 \pm 0.0$ & $15.19 \pm 0.12$ (3/3) \\
+CIFAR-10 & Sample & $26.3 \pm 0.6$ & $14.40 \pm 0.24$ (3/3) & $24.0 \pm 0.0$ & $15.19 \pm 0.12$ (3/3) \\
+\bottomrule\end{tabular*}
+\end{table}

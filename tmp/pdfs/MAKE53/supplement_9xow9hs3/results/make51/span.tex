@@ -1,0 +1,19 @@
+\begin{table}[H]
+\caption{Range of seed-mean returned dimensions across $\beta\in\{0.25,0.5,1,2,4\}$. Pruning adaptations are restricted to the implementation audit. Fixed 32 is a design constant; fallback spans are not ID robustness. Gaussian likelihood except Bernoulli dSprites.}\label{tab:span}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccc@{}}
+\toprule
+Method & MNIST & Fashion & dSprites & CIFAR-10 \\
+\midrule
+Grid (MSE) & 14.8 & 20.8 & 40.0 & 91.2 \\
+Coarse search & 33.6 & 37.2 & 0.0 & 214.4 \\
+Fixed 32 & 0.0 & 0.0 & 0.0 & 0.0 \\
+FONDUE & 3.8 & 0.8 & 0.8 & 8.8 \\
+FONDUE-VAR (mixed kept) & 50.6 & 63.0 & 106.2 & 68.8 \\
+Ascending + Q & 6.0 & 3.6 & 15.2 & 52.8 \\
+FONDUE + Q & 3.6 & 1.6 & 28.0 & 44.8 \\
+Legacy ID window & 6.0 & 37.2 & 0.0 & 214.4 \\
+\bottomrule
+\end{tabular*}
+\end{table}

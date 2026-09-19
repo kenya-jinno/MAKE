@@ -1,0 +1,10 @@
+ARD-VAE（原著対応）  FashionMNIST  尤度 gaussian  初期容量 64
+
+  seed 42     中心化 True   幅   4/64  転用   4  val MSE 0.01934  Jacobian 0s  学習 88s
+  seed 42     中心化 False  幅   4/64  転用   4  val MSE 0.01922  Jacobian 0s  学習 88s
+  seed 123    中心化 True   幅   4/64  転用   4  val MSE 0.01945  Jacobian 0s  学習 88s
+  seed 123    中心化 False  幅   4/64  転用   4  val MSE 0.01948  Jacobian 0s  学習 88s
+  seed 777    中心化 True   幅   4/64  転用   4  val MSE 0.01950  Jacobian 0s  学習 88s
+  seed 777    中心化 False  幅   4/64  転用   4  val MSE 0.01911  Jacobian 0s  学習 89s
+
+書き出し: /home/kjinno/claude/manifold/manifold/results/make52/ard_native_FashionMNIST.json

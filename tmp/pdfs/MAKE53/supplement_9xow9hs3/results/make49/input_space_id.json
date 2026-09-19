@@ -1,0 +1,152 @@
+{
+ "_provenance": {
+  "python_version": "3.12.3",
+  "torch_version": "2.7.1+cu118",
+  "torch_version_cuda": "11.8",
+  "cudnn_version": 90100,
+  "nvidia_driver_version": "570.211.01",
+  "gpu_name": "NVIDIA GeForce RTX 3070",
+  "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.39",
+  "code_hash": "8c2c6c28224b3450",
+  "loss_convention_id": "sum_recon_sum_kl_v1"
+ },
+ "_spec": {
+  "source": "train",
+  "n": 10000,
+  "agreement_criterion": 0.25,
+  "c_primary": 2
+ },
+ "MNIST": {
+  "n_used": 10000,
+  "twonn": 13.841357409108564,
+  "mle": 15.46785830304544,
+  "rel_diff": 0.1175102156430501,
+  "estimator_agreement_pass": true,
+  "ae_initial_window": [
+   16,
+   20,
+   24
+  ],
+  "vae_initial_diagnostic_point": 32,
+  "d0_grid": 16,
+  "m_ref_candidates": [
+   64,
+   64,
+   64
+  ],
+  "grid": [
+   2,
+   4,
+   6,
+   8,
+   10,
+   12,
+   16,
+   20,
+   24,
+   32,
+   48,
+   64
+  ],
+  "seconds": 3.5989043712615967
+ },
+ "FashionMNIST": {
+  "n_used": 10000,
+  "twonn": 12.288274171605465,
+  "mle": 17.623705207131373,
+  "rel_diff": 0.4341888015368746,
+  "estimator_agreement_pass": false,
+  "ae_initial_window": [
+   16,
+   20,
+   24
+  ],
+  "vae_initial_diagnostic_point": 32,
+  "d0_grid": 16,
+  "m_ref_candidates": [
+   64,
+   64,
+   64
+  ],
+  "grid": [
+   2,
+   4,
+   6,
+   8,
+   10,
+   12,
+   16,
+   20,
+   24,
+   32,
+   48,
+   64
+  ],
+  "seconds": 3.239593029022217
+ },
+ "dSprites": {
+  "n_used": 10000,
+  "twonn": 7.60993805337408,
+  "mle": 14.595030198738888,
+  "rel_diff": 0.9178908023131372,
+  "estimator_agreement_pass": false,
+  "ae_initial_window": [
+   8,
+   10,
+   12
+  ],
+  "vae_initial_diagnostic_point": 16,
+  "d0_grid": 8,
+  "m_ref_candidates": [
+   32,
+   64,
+   64
+  ],
+  "grid": [
+   2,
+   4,
+   6,
+   8,
+   10,
+   12,
+   16,
+   20,
+   24,
+   32,
+   48,
+   64
+  ],
+  "seconds": 16.29397201538086
+ },
+ "CIFAR10": {
+  "n_used": 10000,
+  "twonn": 20.2877830403887,
+  "mle": 32.790397444308674,
+  "rel_diff": 0.6162632151097981,
+  "estimator_agreement_pass": false,
+  "ae_initial_window": [
+   24,
+   32
+  ],
+  "vae_initial_diagnostic_point": 48,
+  "d0_grid": 24,
+  "m_ref_candidates": [
+   96,
+   192,
+   256
+  ],
+  "grid": [
+   8,
+   16,
+   24,
+   32,
+   48,
+   64,
+   96,
+   128,
+   192,
+   256
+  ],
+  "seconds": 11.472995281219482
+ }
+}

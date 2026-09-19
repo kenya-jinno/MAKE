@@ -1,0 +1,14 @@
+\begin{table}[H]
+\caption{New ARM-based local implementation: three seeds (42, 123, 777), 300 epochs. Widths and validation MSE ($\times10^3$) are mean $\pm$ sample SD; parentheses give external target attainment $Q$. Mean and sampled reconstruction both use the learned binary gate mask; sampled uses 32 posterior draws. Transfer denotes a separate ordinary VAE at the nearest grid width. Constraint is endpoint stochastic training-constraint attainment, distinct from $Q$.}\label{tab:armnew}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
+\toprule
+Dataset & Gates & Native mean ($Q$) & Native sampled ($Q$) & Transfer ($Q$) & Constraint \\
+\midrule
+MNIST & $7.7 \pm 0.6$ & $21.88 \pm 0.26$ (3/3) & $27.36 \pm 0.70$ (0/3) & $21.63 \pm 0.70$ (3/3) & 2/3 \\
+Fashion-MNIST & $4.7 \pm 0.6$ & $19.31 \pm 0.20$ (3/3) & $22.76 \pm 0.22$ (0/3) & $19.28 \pm 0.23$ (3/3) & 2/3 \\
+dSprites & $54.0 \pm 7.2$ & $42.36 \pm 0.00$ (0/3) & $42.36 \pm 0.00$ (0/3) & $1.17 \pm 0.03$ (3/3) & 0/3 \\
+CIFAR-10 & $21.0 \pm 2.6$ & $15.33 \pm 0.57$ (1/3) & $17.16 \pm 0.34$ (0/3) & $16.46 \pm 1.17$ (1/3) & 2/3 \\
+\bottomrule\end{tabular*}
+\end{table}

@@ -1,0 +1,74 @@
+\subsection{Additional Cross-Dataset Component Validation}\label{sec:gpuvalidation}
+The additional experiments use the same four datasets and fixed splits,
+seeds 42, 123 and 777, the largest candidate width (64, or 256 for
+CIFAR-10), and 300 epochs. There are 12 ARM runs and 24 ARD runs,
+including two prior-centering settings. They are separate from the
+five-seed historical comparison and the one-seed MNIST capacity study.
+The three-seed summaries use sample SDs; the repeated seeds and shared
+splits do not constitute independent dataset replications.
+
+The ARM implementation uses paired Bernoulli gates and per-example
+loss differences before averaging the gate-gradient estimate. A supplied
+linear-loss test checks this estimator against its analytic gradient.
+The reconstruction constraint uses summed squared error for every
+dataset, including dSprites. Its threshold is the ordinary $\beta=1$
+anchor's deterministic validation MSE multiplied by 1.10 and by the
+number of pixels. The network loss includes a gate-masked KL sum and
+a constraint multiplier, and the expected gate-count penalty is applied
+when the moving-average constraint is satisfied. Native evaluation
+uses a binary mask with gate probability greater than 0.5. We report
+posterior-mean validation/test MSE and validation MSE averaged over
+32 posterior draws, both with that mask.
+
+This is component validation, not exact reproduction of the source
+algorithm~\cite{deboom2020geco}. The local gates start at probability
+0.5 and update immediately, rather than remaining open until the first
+constraint hit. The local KL is a masked sum rather than the source's
+active-count-normalised quantity. The anchor-derived threshold and
+local gate-update settings also differ. A failed local run therefore
+does not establish a failure of the published method. Endpoint training
+constraint satisfaction and deterministic validation $Q$ are different
+events and are tabulated separately.
+
+The ARD implementation fixes its training weight at one and reserves
+the first 1800 of 18,000 training-pool examples for prior updates; the
+remaining 16,200 supply parameter-gradient updates. The prior-update
+pool is fixed, with latent samples refreshed at epochs 1, 11, \ldots,
+291 and after training. This differs from the source's resampled pool
+and tuned regularisation weight~\cite{saha2025ardvae}. We evaluate both
+a zero centre in the variance update, as set in the source, and a
+sample-centred variance-update variant; each is trained separately.
+Both retain zero prior mean in the Gaussian closed-form KL.
+
+At the final model, automatic differentiation evaluates the decoder
+Jacobian at posterior means for the first 100 validation examples.
+For prior variance $v_j$ and decoder output coordinates $\ell$, the score is
+\begin{equation}
+ w_j=\frac{1}{100}\sum_{i=1}^{100}\sum_{\ell=1}^{p}
+ \left(\frac{\partial g_\ell}{\partial z_j}(\mu(x_i))\right)^2,
+ \qquad s_j=w_jv_j.
+ \label{eq:exactard}
+\end{equation}
+The readout is the number of descending scores required to explain
+99\% of their total. Exact refers to automatic differentiation instead
+of finite perturbations; it does not remove sample or training uncertainty.
+The recorded native ARD MSE evaluates the unpruned full-width model.
+It is not quality at the relevance-selected count. For both methods,
+dimension transfer maps the count to the nearest candidate width and
+evaluates the cached ordinary $\beta=1$ VAE with the same seed.
+
+All new runs retain evaluation-mode MSE curves every five epochs.
+ARM uses a 2000-example training subset; the ARD training-pool subset
+includes its reserved prior-update examples and is identified as such.
+Recorded training time includes these periodic evaluations. ARM also
+records final native-evaluation time; ARD separately records Jacobian
+time but not final native-evaluation time. These are partial timings.
+The new scripts do not save model checkpoints.
+
+An evaluation-code audit limits use of the additional ELBO fields.
+The 32-sample option changes MSE only: reconstruction likelihood is still
+evaluated at the posterior mean, while KL uses an unmasked standard-normal
+prior, including for ARD. These fields are not Monte Carlo ELBOs for the
+trained native models. We therefore use the additional records for MSE,
+gates, relevance counts and curves; the capacity-selection ELBO evidence
+remains the separate MNIST experiment in Section~\ref{sec:newvalidation}.

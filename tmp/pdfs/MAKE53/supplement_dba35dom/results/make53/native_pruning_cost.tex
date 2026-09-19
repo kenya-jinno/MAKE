@@ -1,0 +1,14 @@
+\begin{table}[H]
+\caption{Partial durations for native-pruning runs, seconds, mean $\pm$ sample SD across three seeds. Training includes its final prior update but excludes the initial one. Adaptation times only the 30-epoch decoder loop. Jacobian/mask construction, final evaluations, anchor and transfer training are excluded and are not separately timed in this run.}\label{tab:ardprunedcost}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcc@{}}
+\toprule
+Dataset & Training interval & Decoder adaptation \\
+\midrule
+MNIST & $86.5 \pm 0.7$ & $5.9 \pm 0.1$ \\
+Fashion-MNIST & $86.5 \pm 0.4$ & $5.9 \pm 0.0$ \\
+dSprites & $289.0 \pm 0.3$ & $20.7 \pm 0.0$ \\
+CIFAR-10 & $142.3 \pm 0.1$ & $10.8 \pm 0.0$ \\
+\bottomrule\end{tabular*}
+\end{table}

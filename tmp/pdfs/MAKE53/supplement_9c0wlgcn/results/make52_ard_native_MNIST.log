@@ -1,0 +1,10 @@
+ARD-VAE（原著対応）  MNIST  尤度 gaussian  初期容量 64
+
+  seed 42     中心化 True   幅   6/64  転用   6  val MSE 0.02376  Jacobian 0s  学習 88s
+  seed 42     中心化 False  幅   6/64  転用   6  val MSE 0.02381  Jacobian 0s  学習 88s
+  seed 123    中心化 True   幅   6/64  転用   6  val MSE 0.02367  Jacobian 0s  学習 87s
+  seed 123    中心化 False  幅   6/64  転用   6  val MSE 0.02384  Jacobian 0s  学習 87s
+  seed 777    中心化 True   幅   6/64  転用   6  val MSE 0.02341  Jacobian 0s  学習 87s
+  seed 777    中心化 False  幅   6/64  転用   6  val MSE 0.02279  Jacobian 0s  学習 87s
+
+書き出し: /home/kjinno/claude/manifold/manifold/results/make52/ard_native_MNIST.json

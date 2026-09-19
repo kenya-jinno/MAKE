@@ -1,0 +1,8 @@
+GECO + L0-ARM（原著推定量）  MNIST  尤度 gaussian  初期容量 64
+  L0-ARM (原著 Eq.12) / NVIDIA GeForce RTX 3070 / torch 2.7.1+cu118
+
+  seed 42     幅   8/64  制約充足 False  C_ma    +0.14  val MSE 0.02167  ELBO   -25.826  196s
+  seed 123    幅   8/64  制約充足 True  C_ma    -0.04  val MSE 0.02216  ELBO   -26.070  197s
+  seed 777    幅   7/64  制約充足 True  C_ma    -0.01  val MSE 0.02182  ELBO   -26.622  200s
+
+書き出し: /home/kjinno/claude/manifold/manifold/results/make52/geco_arm_MNIST.json

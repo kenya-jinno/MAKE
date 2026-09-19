@@ -1,0 +1,22 @@
+\begin{table}[H]
+\caption{Complete newly trained MNIST grid, seed 42, $\beta=1$, Gaussian likelihood. Epoch selected by the deterministic proxy; stop is the actual final training epoch. Proxy omits the Gaussian constant and posterior expectation; MC ELBO includes both. MSE $\times10^3$.}\label{tab:mcgrid}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rrrrrc@{}}
+\toprule
+Width & Epoch & Stop & Val. MSE & Proxy & MC ELBO $\pm$ SE \\
+\midrule
+2 & 81 & 111 & 37.406 & -34.647 & $-484.386 \pm 0.009$ \\
+4 & 85 & 115 & 27.840 & -29.304 & $-480.108 \pm 0.009$ \\
+6 & 169 & 199 & 22.343 & -26.696 & $-478.174 \pm 0.010$ \\
+8 & 73 & 103 & 22.417 & -26.544 & $-478.285 \pm 0.009$ \\
+10 & 70 & 100 & 22.954 & -26.663 & $-478.627 \pm 0.009$ \\
+12 & 196 & 226 & 20.983 & -26.055 & $-478.067 \pm 0.012$ \\
+16 & 107 & 137 & 23.030 & -26.774 & $-478.592 \pm 0.009$ \\
+20 & 144 & 174 & 21.327 & -26.156 & $-478.134 \pm 0.010$ \\
+24 & 132 & 162 & 22.977 & -26.956 & $-478.664 \pm 0.008$ \\
+32 & 136 & 166 & 23.402 & -27.042 & $-478.869 \pm 0.012$ \\
+48 & 114 & 144 & 24.177 & -27.411 & $-479.310 \pm 0.013$ \\
+64 & 217 & 247 & 22.930 & -26.946 & $-479.043 \pm 0.011$ \\
+\bottomrule\end{tabular*}
+\end{table}

@@ -1,0 +1,16 @@
+{
+ "MNIST": {
+  "d_hat": 13.841357409108564,
+  "small": 12,
+  "initial": 32,
+  "ample": 64,
+  "likelihood": "gaussian"
+ },
+ "dSprites": {
+  "d_hat": 7.60993805337408,
+  "small": 6,
+  "initial": 16,
+  "ample": 32,
+  "likelihood": "bernoulli"
+ }
+}

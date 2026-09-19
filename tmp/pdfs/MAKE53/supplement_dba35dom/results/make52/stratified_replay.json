@@ -1,0 +1,98 @@
+{
+ "strata": [
+  {
+   "stratum": "ID 採用（MNIST のみ）",
+   "n": 25,
+   "ID local": "25/25",
+   "Midpoint local": "25/25",
+   "Ascending Q": "25/25"
+  },
+  {
+   "stratum": "ID 不採用（他 3 データ）",
+   "n": 75,
+   "ID local": "75/75",
+   "Midpoint local": "73/75",
+   "Ascending Q": "75/75"
+  },
+  {
+   "stratum": "全体",
+   "n": 100,
+   "ID local": "100/100",
+   "Midpoint local": "98/100",
+   "Ascending Q": "100/100"
+  }
+ ],
+ "mismatches": [
+  {
+   "dataset": "FashionMNIST",
+   "seed": 31337,
+   "beta": 0.25,
+   "full_grid_min": 6,
+   "id_local_m": 6,
+   "midpoint_m": 12,
+   "id_local_branch": "昇順 fallback"
+  },
+  {
+   "dataset": "dSprites",
+   "seed": 31337,
+   "beta": 4.0,
+   "full_grid_min": 8,
+   "id_local_m": 8,
+   "midpoint_m": 16,
+   "id_local_branch": "昇順 fallback"
+  }
+ ],
+ "cost": {
+  "ID 採用（MNIST のみ）": [
+   {
+    "policy": "ID local",
+    "candidates": 8.84,
+    "cold_seconds": 705.1856917190552
+   },
+   {
+    "policy": "Ascending Q",
+    "candidates": 4.12,
+    "cold_seconds": 195.06125126838685
+   },
+   {
+    "policy": "Midpoint local",
+    "candidates": 5.84,
+    "cold_seconds": 330.2065731906891
+   }
+  ],
+  "ID 不採用（他 3 データ）": [
+   {
+    "policy": "ID local",
+    "candidates": 5.24,
+    "cold_seconds": 995.7892060597737
+   },
+   {
+    "policy": "Ascending Q",
+    "candidates": 5.24,
+    "cold_seconds": 714.652614068985
+   },
+   {
+    "policy": "Midpoint local",
+    "candidates": 5.1066666666666665,
+    "cold_seconds": 532.9667199420929
+   }
+  ],
+  "全体": [
+   {
+    "policy": "ID local",
+    "candidates": 6.14,
+    "cold_seconds": 923.1383274745941
+   },
+   {
+    "policy": "Ascending Q",
+    "candidates": 4.96,
+    "cold_seconds": 584.7547733688355
+   },
+   {
+    "policy": "Midpoint local",
+    "candidates": 5.29,
+    "cold_seconds": 482.27668325424196
+   }
+  ]
+ }
+}

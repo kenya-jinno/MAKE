@@ -1,0 +1,41 @@
+\subsection{Additional Native Pruning and Relevance Results}\label{sec:newpruning}
+Table~\ref{tab:newcounts} compares the historical and additional raw
+readouts. They are similar in some datasets but are not identical across
+all four: the ARM dSprites mean is 54.0 rather than the historical HC
+count of 64. Counts alone do not measure successful compression.
+@@table52:pruning_counts@@
+
+Table~\ref{tab:armnew} separates native reconstruction, dimension transfer
+and endpoint constraint satisfaction. For MNIST and Fashion-MNIST,
+all three native posterior-mean reconstructions meet $Q$, while only
+two training constraints do. All three dSprites native runs fail both
+checks, although their transferred ordinary VAEs meet $Q$. Their native
+MSE is approximately 0.04236, and all 64 gate probabilities remain
+between 0.1 and 0.9 (Appendix~\ref{app:gpu}); thresholded counts of 48--62
+therefore do not demonstrate settled sparse solutions. CIFAR-10 meets
+native mean-reconstruction $Q$ in one seed and the training constraint
+in two. These are limitations of the local implementation.
+@@table52:arm_native@@
+
+The sampled native ARM MSE exceeds the deterministic anchor-derived
+target in every run. This comparison demonstrates the consequence of
+changing the reconstruction definition; it is not a selection study
+under a target derived from a sampled anchor. It also explains why
+training-constraint status cannot be inferred from mean-reconstruction $Q$.
+
+The exact-Jacobian ARD zero-centre readouts are 6.0, 4.0, 9.0 and 26.7
+on MNIST, Fashion-MNIST, dSprites and CIFAR-10, respectively
+(Table~\ref{tab:ardnew}). The sample-centred variant gives 6.0, 4.0, 9.7
+and 26.3. Small differences across these three seeds support a bounded
+centering-sensitivity observation, not invariance to prior specification.
+Both settings meet full-model and transfer $Q$ on the three natural-image
+datasets and fail both on dSprites. No reduced native ARD model was evaluated.
+@@table52:ard_native@@
+
+The historical unnormalised CIFAR-10 ARD count was 14.2, but the
+previous normalisation audit had already changed it to 26.0
+(Table~\ref{tab:ard_normalized}). The new counts are close to that
+corrected readout. Because prior updates and training runs also changed,
+the difference from 14.2 cannot be attributed solely to exact Jacobians.
+Appendix~\ref{app:gpu} supplies all-dataset curves, gate distributions,
+held-out test MSE and timing components for these additional runs.

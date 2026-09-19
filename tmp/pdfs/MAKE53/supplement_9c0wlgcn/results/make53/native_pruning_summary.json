@@ -1,0 +1,258 @@
+{
+  "datasets": {
+    "MNIST": {
+      "count": [
+        6,
+        6,
+        6
+      ],
+      "grid_width": [
+        6,
+        6,
+        6
+      ],
+      "threshold_by_seed": {
+        "42": 0.026236856452786193,
+        "123": 0.026704953438895094,
+        "777": 0.02518899237185109
+      },
+      "conditions": {
+        "unpruned": {
+          "validation_mean": 0.023613445878839817,
+          "validation_sd": 0.00018241287294601256,
+          "Q": 3,
+          "test_mean": 0.0231683279716509,
+          "test_sd": 0.00017337941179551008,
+          "relative_change_ratio_of_means_percent": 0.0,
+          "paired_relative_change_mean_percent": 0.0,
+          "paired_relative_change_sd_percent": 0.0
+        },
+        "pruned_masked": {
+          "validation_mean": 0.023624171250531463,
+          "validation_sd": 0.00018280463837151635,
+          "Q": 3,
+          "test_mean": 0.02317941374140802,
+          "test_sd": 0.00017447257765027647,
+          "relative_change_ratio_of_means_percent": 0.0454206122506573,
+          "paired_relative_change_mean_percent": 0.045413869163605604,
+          "paired_relative_change_sd_percent": 0.005778741531105653
+        },
+        "pruned_finetuned": {
+          "validation_mean": 0.02335827854701451,
+          "validation_sd": 0.0001584126804448105,
+          "Q": 3,
+          "test_mean": 0.022901926607231435,
+          "test_sd": 0.00014414900887847683,
+          "relative_change_ratio_of_means_percent": -1.0806018449597166,
+          "paired_relative_change_mean_percent": -1.079981848834503,
+          "paired_relative_change_sd_percent": 0.2235995128382842
+        },
+        "transfer": {
+          "validation_mean": 0.02250721377418155,
+          "validation_sd": 0.00014536436448576957,
+          "Q": 3,
+          "test_mean": 0.022149097053372133,
+          "test_sd": 0.00014062582796964607,
+          "relative_change_ratio_of_means_percent": -4.6847550769774315,
+          "paired_relative_change_mean_percent": -4.682988260673434,
+          "paired_relative_change_sd_percent": 0.5827335072157913
+        }
+      }
+    },
+    "FashionMNIST": {
+      "count": [
+        4,
+        4,
+        4
+      ],
+      "grid_width": [
+        4,
+        4,
+        4
+      ],
+      "threshold_by_seed": {
+        "42": 0.021810600436463653,
+        "123": 0.021802826052295915,
+        "777": 0.021373924691336494
+      },
+      "conditions": {
+        "unpruned": {
+          "validation_mean": 0.01942773603582058,
+          "validation_sd": 8.257910541707665e-05,
+          "Q": 3,
+          "test_mean": 0.019168774247980445,
+          "test_sd": 0.0001471557789269991,
+          "relative_change_ratio_of_means_percent": 0.0,
+          "paired_relative_change_mean_percent": 0.0,
+          "paired_relative_change_sd_percent": 0.0
+        },
+        "pruned_masked": {
+          "validation_mean": 0.01943094795901759,
+          "validation_sd": 8.0959005606991e-05,
+          "Q": 3,
+          "test_mean": 0.019172008972859977,
+          "test_sd": 0.0001458267293572137,
+          "relative_change_ratio_of_means_percent": 0.016532668505941928,
+          "paired_relative_change_mean_percent": 0.016556673806282046,
+          "paired_relative_change_sd_percent": 0.011011068261275337
+        },
+        "pruned_finetuned": {
+          "validation_mean": 0.01919382315914647,
+          "validation_sd": 4.7411865664169115e-05,
+          "Q": 3,
+          "test_mean": 0.018926462947646504,
+          "test_sd": 7.863676565414395e-05,
+          "relative_change_ratio_of_means_percent": -1.204015106252354,
+          "paired_relative_change_mean_percent": -1.2031183190270522,
+          "paired_relative_change_sd_percent": 0.38543505960096974
+        },
+        "transfer": {
+          "validation_mean": 0.019279187883649553,
+          "validation_sd": 0.00023120960032853717,
+          "Q": 3,
+          "test_mean": 0.018937796664075787,
+          "test_sd": 0.00023334231794156296,
+          "relative_change_ratio_of_means_percent": -0.7646189545561954,
+          "paired_relative_change_mean_percent": -0.7641897100992908,
+          "paired_relative_change_sd_percent": 1.1670404795379854
+        }
+      }
+    },
+    "dSprites": {
+      "count": [
+        10,
+        10,
+        9
+      ],
+      "grid_width": [
+        10,
+        10,
+        8
+      ],
+      "threshold_by_seed": {
+        "42": 0.0012827958852052689,
+        "123": 0.00125185474306345,
+        "777": 0.0013249854266643526
+      },
+      "conditions": {
+        "unpruned": {
+          "validation_mean": 0.0013323452671368918,
+          "validation_sd": 5.767018796244102e-05,
+          "Q": 0,
+          "test_mean": 0.00131828064388699,
+          "test_sd": 5.784392410117452e-05,
+          "relative_change_ratio_of_means_percent": 0.0,
+          "paired_relative_change_mean_percent": 0.0,
+          "paired_relative_change_sd_percent": 0.0
+        },
+        "pruned_masked": {
+          "validation_mean": 0.0030148879686991373,
+          "validation_sd": 0.00027341954909021823,
+          "Q": 0,
+          "test_mean": 0.002935132725371255,
+          "test_sd": 0.0002529161773792995,
+          "relative_change_ratio_of_means_percent": 126.2842855424331,
+          "paired_relative_change_mean_percent": 125.9840771479697,
+          "paired_relative_change_sd_percent": 10.744098502594989
+        },
+        "pruned_finetuned": {
+          "validation_mean": 0.0018264706631501517,
+          "validation_sd": 8.770038925579915e-05,
+          "Q": 0,
+          "test_mean": 0.0017760418719715543,
+          "test_sd": 7.416778113350689e-05,
+          "relative_change_ratio_of_means_percent": 37.08688792621282,
+          "paired_relative_change_mean_percent": 37.08226542520344,
+          "paired_relative_change_sd_percent": 2.6637283732633597
+        },
+        "transfer": {
+          "validation_mean": 0.0016371872226397196,
+          "validation_sd": 0.0002966847580216795,
+          "Q": 0,
+          "test_mean": 0.0016119280755519866,
+          "test_sd": 0.00030295258001465533,
+          "relative_change_ratio_of_means_percent": 22.880101954196142,
+          "paired_relative_change_mean_percent": 23.009622794918265,
+          "paired_relative_change_sd_percent": 22.738939247148135
+        }
+      }
+    },
+    "CIFAR10": {
+      "count": [
+        26,
+        26,
+        27
+      ],
+      "grid_width": [
+        24,
+        24,
+        24
+      ],
+      "threshold_by_seed": {
+        "42": 0.015541307322184247,
+        "123": 0.015621129957834878,
+        "777": 0.015487051582336427
+      },
+      "conditions": {
+        "unpruned": {
+          "validation_mean": 0.01440433300866021,
+          "validation_sd": 0.00024246639045739048,
+          "Q": 3,
+          "test_mean": 0.01464425856978805,
+          "test_sd": 0.00023559393210597813,
+          "relative_change_ratio_of_means_percent": 0.0,
+          "paired_relative_change_mean_percent": 0.0,
+          "paired_relative_change_sd_percent": 0.0
+        },
+        "pruned_masked": {
+          "validation_mean": 0.014890556547376844,
+          "validation_sd": 0.0001960862592077558,
+          "Q": 3,
+          "test_mean": 0.015139484617445203,
+          "test_sd": 0.00019017000156707533,
+          "relative_change_ratio_of_means_percent": 3.3755366418167787,
+          "paired_relative_change_mean_percent": 3.3798081544982685,
+          "paired_relative_change_sd_percent": 0.39180613351297516
+        },
+        "pruned_finetuned": {
+          "validation_mean": 0.014726533359951442,
+          "validation_sd": 7.914884198936809e-05,
+          "Q": 3,
+          "test_mean": 0.01497331061186614,
+          "test_sd": 8.332729241396312e-05,
+          "relative_change_ratio_of_means_percent": 2.2368293700063546,
+          "paired_relative_change_mean_percent": 2.250050942215117,
+          "paired_relative_change_sd_percent": 1.184508553551609
+        },
+        "transfer": {
+          "validation_mean": 0.015192633522881402,
+          "validation_sd": 0.00011964188884337775,
+          "Q": 3,
+          "test_mean": 0.01542440485071253,
+          "test_sd": 0.00013267892400228477,
+          "relative_change_ratio_of_means_percent": 5.4726623839316035,
+          "paired_relative_change_mean_percent": 5.492663142042775,
+          "paired_relative_change_sd_percent": 1.9617575169047683
+        }
+      }
+    }
+  },
+  "used_fields": [
+    "mse",
+    "selected_m",
+    "m_on_grid",
+    "train_seconds",
+    "finetune_seconds"
+  ],
+  "elbo_fields_used": false,
+  "record_checks": {
+    "runs": 12,
+    "per_dataset_files_match": true,
+    "seed_coverage": true,
+    "nearest_grid_and_cache_transfers_match": true,
+    "full_mse_and_counts_match_prior_sample_centred_records": true,
+    "anchor_Q_recomputed": true,
+    "native_masks_and_checkpoints_unavailable": true,
+    "new_elbo_fields_are_not_mc_elbo": true
+  }
+}

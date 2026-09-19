@@ -1,0 +1,8 @@
+GECO + L0-ARM（原著推定量）  FashionMNIST  尤度 gaussian  初期容量 64
+  L0-ARM (原著 Eq.12) / NVIDIA GeForce RTX 3070 / torch 2.7.1+cu118
+
+  seed 42     幅   5/64  制約充足 True  C_ma    -0.05  val MSE 0.01915  ELBO   -22.036  198s
+  seed 123    幅   5/64  制約充足 False  C_ma    +0.06  val MSE 0.01926  ELBO   -22.020  199s
+  seed 777    幅   4/64  制約充足 True  C_ma    -0.03  val MSE 0.01953  ELBO   -22.304  196s
+
+書き出し: /home/kjinno/claude/manifold/manifold/results/make52/geco_arm_FashionMNIST.json

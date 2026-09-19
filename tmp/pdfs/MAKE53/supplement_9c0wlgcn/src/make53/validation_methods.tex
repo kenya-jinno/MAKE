@@ -1,0 +1,117 @@
+\subsection{Additional Cross-Dataset Component Validation}\label{sec:gpuvalidation}
+The additional experiments use the same four datasets and fixed splits,
+seeds 42, 123 and 777, the largest candidate width (64, or 256 for
+CIFAR-10), and 300 epochs. There are 12 ARM runs and 24 ARD runs,
+including two prior-centering settings, followed by 12 native-pruning
+evaluations of the sample-centred ARD variant. All use the same RTX 3070,
+Python, PyTorch, CUDA, cuDNN, driver and operating-system environment
+listed in Section~\ref{sec:provenance}. They are separate from the
+five-seed historical comparison and the one-seed MNIST capacity study.
+The three-seed summaries use sample SDs; the repeated seeds and shared
+splits do not constitute independent dataset replications.
+
+The ARM implementation uses paired Bernoulli gates and per-example
+loss differences before averaging the gate-gradient estimate. A supplied
+linear-loss test checks this estimator against its analytic gradient.
+The reconstruction constraint uses summed squared error for every
+dataset, including dSprites. Its threshold is the ordinary $\beta=1$
+anchor's deterministic validation MSE multiplied by 1.10 and by the
+number of pixels. The network loss includes a gate-masked KL sum and
+a constraint multiplier, and the expected gate-count penalty is applied
+when the moving-average constraint is satisfied. Native evaluation
+uses a binary mask with gate probability greater than 0.5. We report
+posterior-mean validation/test MSE and validation MSE averaged over
+32 posterior draws, both with that mask.
+
+This is component validation, not exact reproduction of the source
+algorithm~\cite{deboom2020geco}. The local gates start at probability
+0.5 and update immediately, rather than remaining open until the first
+constraint hit. The local KL is a masked sum rather than the source's
+active-count-normalised quantity. The anchor-derived threshold and
+local gate-update settings also differ. A failed local run therefore
+does not establish a failure of the published method. Endpoint training
+constraint satisfaction and deterministic validation $Q$ are different
+events and are tabulated separately.
+
+The ARD implementation fixes its training weight at one and reserves
+the first 1800 of 18,000 training-pool examples for prior updates; the
+remaining 16,200 supply parameter-gradient updates. The prior-update
+pool is fixed, with latent samples refreshed at epochs 1, 11, \ldots,
+291 and after training. This differs from the source's resampled pool
+and tuned regularisation weight~\cite{saha2025ardvae}. We evaluate both
+a zero centre in the variance update, as set in the source, and a
+sample-centred variance-update variant; each is trained separately.
+Both retain zero prior mean in the Gaussian closed-form KL.
+
+At the final model, automatic differentiation evaluates the decoder
+Jacobian at posterior means for the first 100 validation examples.
+For prior variance $v_j$ and decoder output coordinates $\ell$, the score is
+\begin{equation}
+ w_j=\frac{1}{100}\sum_{i=1}^{100}\sum_{\ell=1}^{p}
+ \left(\frac{\partial g_\ell}{\partial z_j}(\mu(x_i))\right)^2,
+ \qquad s_j=w_jv_j.
+ \label{eq:exactard}
+\end{equation}
+The readout is the number of descending scores required to explain
+99\% of their total. Exact refers to automatic differentiation instead
+of finite perturbations; it does not remove sample or training uncertainty.
+The initial ARD comparison evaluates the unpruned full-width model.
+The subsequent masking experiment below evaluates the retained axes.
+For both methods,
+dimension transfer maps the count to the nearest candidate width and
+evaluates the cached ordinary $\beta=1$ VAE with the same seed.
+
+The initial 12 ARM and 24 ARD runs retain evaluation-mode MSE curves every five epochs.
+ARM uses a 2000-example training subset; the ARD training-pool subset
+includes its reserved prior-update examples and is identified as such.
+Recorded training time includes these periodic evaluations. ARM also
+records final native-evaluation time; ARD separately records Jacobian
+time but not final native-evaluation time. These are partial timings.
+The additional scripts do not save model checkpoints.
+
+\paragraph{Native ARD masking and fixed-budget decoder adaptation.}
+The supplied internal specification fixes four conditions before the
+new masking runs: full model, nonselected-axis masking, decoder-only
+adaptation, and transfer. It is not a public preregistration.
+The training script repeats the sample-centred variance-update setting
+with the same three seeds per dataset. Its full-model validation/test
+MSE and selected counts match the earlier sample-centred records exactly;
+these are paired extensions of those settings, not independent baseline
+replications. For each run the highest-scoring axes accounting for
+99\% of total relevance are retained and
+all other coordinates are set to the zero prior mean. Masking preserves
+the network dimensions; it does not establish a smaller compiled model
+or an inference-speed gain. The mask is computed once and is not
+reselected after adaptation.
+
+The third condition starts from that same masked model and updates only
+decoder parameters for 30 epochs, with Adam, learning rate $10^{-3}$ and
+batch size 128. Encoder parameters and the prior remain fixed.
+The objective is the original reconstruction term on masked posterior
+samples. Adaptation uses all 18,000 training-pool examples, including
+the 1800 reserved for prior updates during initial training; this is
+additional data exposure and computation relative to the masked
+condition. No validation early stopping is applied. All four primary
+conditions use posterior-mean validation and test MSE; the mask-only
+condition also has a 32-draw validation-MSE diagnostic. The nearest-grid
+transfer uses existing ordinary-VAE cache records, not a further model
+trained by the masking script. Test metrics do not determine the mask
+or the fixed adaptation budget.
+
+The Jacobian score is still Equation~\eqref{eq:exactard}. To bound memory,
+CIFAR-10 uses batches of four examples and dSprites accumulates squared
+output-coordinate gradients in batches of eight instead of materialising
+the full Jacobian. This changes the computational route, not the score
+definition. The new JSON retains counts and MSE but not axis identities,
+score vectors, training curves or model checkpoints. Timing and
+record-level limits are detailed in Appendix~\ref{app:gpu}.
+
+An evaluation-code audit limits use of the additional ELBO fields.
+The 32-sample option changes MSE only: reconstruction likelihood is still
+evaluated at the posterior mean, while KL uses an unmasked standard-normal
+prior, including for ARD. These fields are not Monte Carlo ELBOs for the
+trained native models. The native-masking script inherits this issue,
+despite its specification requesting true ELBO. We exclude all such
+fields and use the additional records for MSE, gates, relevance counts
+and available curves; the capacity-selection ELBO evidence
+remains the separate MNIST experiment in Section~\ref{sec:newvalidation}.

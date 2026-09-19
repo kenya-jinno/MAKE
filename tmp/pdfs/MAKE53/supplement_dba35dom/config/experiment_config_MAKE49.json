@@ -1,0 +1,550 @@
+{
+  "_meta": {
+    "name": "MAKE49 pre-registered experiment configuration",
+    "source_of_truth": "MAKE49_実験設定表.md",
+    "stage1_audit": "MAKE49_段階1_監査結果.md",
+    "created": "2026-09-12",
+    "status": "pre-registered; do not edit after results are seen (log changes in 変更履歴 §9)",
+    "version": 1
+  },
+  "loss_convention": {
+    "id": "sum_recon_sum_kl_v1",
+    "reconstruction": "mse_loss(reduction='sum') / batch_size",
+    "kl": "-0.5 * sum(1 + logvar - mu^2 - exp(logvar)) / batch_size",
+    "note": "KL sums over latent dims. Fixes audit finding A1 where KL used torch.mean, giving beta_eff = beta/m.",
+    "regression_test": "KL must scale linearly with m for fixed per-coordinate statistics"
+  },
+  "beta": {
+    "primary": 1.0,
+    "ladder": [
+      0.25,
+      0.5,
+      1.0,
+      2.0,
+      4.0
+    ],
+    "selection_rule": "pre-declared; NOT chosen by observing AU behaviour",
+    "legacy_mapping": "old beta=4 corresponds to beta_eff=4/m, i.e. 0.0625..1.0 over m in [4,64]",
+    "feasibility_check_2026_09_12": {
+      "script": "src/make49/stage3_beta_feasibility.py",
+      "result_file": "results/make49/stage3_beta_feasibility.json",
+      "protocol": "60 epochs, seed 42, no early stopping; betas 0.05,0.1 added below the registered ladder purely to bound the range",
+      "MNIST": "usable at beta=1 (calibration run: AU=6/16)",
+      "CIFAR10": "usable across the whole registered ladder; AU falls monotonically 64->17 as beta rises 0.25->4",
+      "dSprites": "COLLAPSES AT EVERY BETA TESTED (0.05..4.0): AU=0, KL=0.000, val SSE ~173.52 vs 173.74 for an all-zero prediction",
+      "conclusion": "beta is not the cause of the dSprites failure; see likelihood diagnostic",
+      "note": "this was a feasibility check of the registered ladder, NOT a re-selection of beta"
+    }
+  },
+  "quality_criterion_Q": {
+    "anchor_rule": "largest grid point in M",
+    "anchor_training": "same model family, likelihood, beta and training settings as candidates; cost is charged",
+    "epsilon_D": {
+      "formula": "max(rel * D_anchor, 3 * SD_seed(D_anchor), abs_floor * Var(X_val))",
+      "rel_primary": 0.1,
+      "rel_sensitivity": [
+        0.01,
+        0.05,
+        0.25,
+        0.5
+      ],
+      "abs_floor": 0.001
+    },
+    "T_D": "D_anchor + epsilon_D; fixed before any intervention; never recomputed after beta tuning or capacity expansion",
+    "decision": "smallest EVALUATED m with D_val(m) <= T_D",
+    "dev_condition_precomputation_pre_A1_fix": {
+      "dataset": "MNIST FC-VAE, 3 seeds, 300 epochs, anchor m=64",
+      "D_anchor": 0.008938,
+      "SD_seed": 0.000135,
+      "three_SD_as_fraction_of_anchor": 0.045,
+      "binding_term": "relative 10%",
+      "T_D": 0.009831,
+      "selected_m": 64,
+      "termination": "NO_COMPACT_ALTERNATIVE_FOUND",
+      "note": "Pre-registered prediction on pre-fix data. Do NOT loosen epsilon_D if this occurs. Recompute after the A1 fix."
+    }
+  },
+  "au": {
+    "definition": "count of latent coords j with Var_x(mu_j) > delta",
+    "delta_primary": 0.01,
+    "delta_sensitivity": [
+      0.001,
+      0.01,
+      0.1
+    ],
+    "synthetic_data": "standardize data before training; delta defined on standardized latent variance (audit finding A4)",
+    "evaluation_mode": "primary_method_2_predictive",
+    "method_2_predictive": {
+      "unit": "one checkpoint = (dataset, architecture, m, seed, best_epoch)",
+      "target_Y": "does the model trained at the next smaller grid point m_minus satisfy Q (binary)",
+      "features_base": [
+        "D_val",
+        "KL_val",
+        "ELBO_val",
+        "m",
+        "m_over_d_ID",
+        "slope_D_val_last20ep"
+      ],
+      "features_au_added": [
+        "AU",
+        "AU_over_m",
+        "AU_over_d_ID"
+      ],
+      "predictor": "logistic regression (L2); regularisation strength selected on development-condition validation only, then frozen",
+      "development_conditions": [
+        "MNIST_FC_VAE"
+      ],
+      "held_out_conditions": [
+        "dSprites",
+        "FashionMNIST",
+        "CIFAR10",
+        "MNIST_Conv_VAE"
+      ],
+      "metrics": [
+        "balanced_accuracy",
+        "auroc"
+      ],
+      "primary_quantity": "delta_auroc = auroc(features_au_added) - auroc(features_base)",
+      "decision_rule": "seed-level bootstrap (2000 reps) 95% CI of mean delta_auroc over held-out conditions; AU has incremental value ONLY if the lower bound exceeds 0; otherwise move AU to auxiliary analysis",
+      "requires_retraining": false
+    },
+    "method_1_intervention": {
+      "used": false,
+      "reason": "requires extra training budget; beta intervention confounded by the A1 fix"
+    },
+    "known_issue_nonmonotone_in_beta": {
+      "observation": "dSprites + Bernoulli, m=16: AU goes 16,16,14,12,16 as beta goes 0.25,0.5,1,2,4 while KL falls monotonically and SSE rises monotonically",
+      "suspected_cause": "AU uses an ABSOLUTE threshold Var_x(mu_j) > delta; larger beta shrinks the scale of mu, so the verdict tracks scale rather than informativeness",
+      "related": "stage-1 audit finding A4 (delta is scale dependent)",
+      "action": "must be addressed in E4 (delta sensitivity); prepare a scale-normalised AU definition as a control",
+      "evidence": "results/make49/stage3_dsprites_bce_ladder.json"
+    }
+  },
+  "E7a": {
+    "primary_comparison_epochs": [
+      5,
+      300
+    ],
+    "recorded_epochs": [
+      1,
+      2,
+      5,
+      50,
+      300
+    ],
+    "rationale_for_5": "longest of the 1/2/5 settings FONDUE Appendix G used for FONDUE-VAR; most favourable early point for the original method",
+    "primary_statistic": "between-seed SD at matched m and matched readout",
+    "decision_rule": "seed-level bootstrap (2000 reps) 95% CI of SD(300)/SD(5); H1 supported only if the upper bound is below 1",
+    "degenerate_handling": "AU==0 or AU==m conditions have small SD by construction; report raw values and exclude such conditions from H1 support",
+    "forbidden": [
+      "calling 300 epochs convergence",
+      "ranking raw SD of readouts A/B/C in a single column"
+    ],
+    "readouts": {
+      "A_variable_type": {
+        "source": "FONDUE variable-type classification (U12)",
+        "passive": "between-data variance < 0.1 and mean in [0.9, 1.1]",
+        "active": "between-data variance < 0.1 and mean <= 0.1",
+        "mixed": "everything else",
+        "primary_count_for_H2": "active_plus_mixed",
+        "primary_count_definition": "m - passive",
+        "auxiliary_count": "active_only",
+        "rationale": "AU counts non-collapsed units; passive is the collapsed class, so m - passive matches AU's estimand",
+        "check": "active + mixed + passive == m must hold in every condition"
+      },
+      "B_au": {
+        "source": "posterior-mean variance",
+        "delta": 0.01
+      },
+      "C_fondue_ide": {
+        "source": "IDE_z - IDE_mu",
+        "note": "continuous; separate panel from A and B"
+      }
+    },
+    "representative_trial_2026_09_12": {
+      "script": "src/make49/stage3_e7a_e2.py",
+      "analysis": "src/make49/stage3_e7a_analysis.py",
+      "results": [
+        "results/make49/stage3_e7a_e2.json",
+        "results/make49/stage3_e7a_analysis.json"
+      ],
+      "design": "2 datasets x 3 capacities x 5 seeds, 300 epochs, no early stopping, beta=1",
+      "H1": "supported for readouts A and B on MNIST at the larger capacities; readout C reverses at MNIST m=64 (CI [2.17,7.45]); dSprites undetermined (SD=0 at 5 epochs)",
+      "H2": "NOT SUPPORTED in any condition. A and B converge to nearly identical values by 300 epochs; at 5 epochs on MNIST m=64 readout A is the more stable one (SD 3.83 vs 8.08), the opposite of H2",
+      "plateau": "0 of 30 runs reached the pre-registered plateau criterion; 300 epochs must not be called convergence",
+      "au_vs_m": "MNIST AU = 6.4, 6.0, 6.4 for m = 12, 32, 64 (flat); confirms stage-1 finding A2 under the corrected loss with 5 seeds",
+      "v2_coefficients": "AU/d_ID is 0.43-0.46 on MNIST and 1.76-1.89 on dSprites; the manuscript's V2 lower-bound invariant range (0.70, 1.0] fails on both sides",
+      "consequence": "the AU claim must rest solely on the method-2 predictive evaluation (settings table 1.1); 'AU is more stable' is not available as an argument"
+    }
+  },
+  "fondue_reimplementation": {
+    "audited_commit": "f6d6e66b536bcbe635392d3438338949d4dc8730",
+    "implementation_basis": "paper text specification, PyTorch; NOT called a faithful reproduction of the original code",
+    "B6a_algorithm1": {
+      "threshold_primary": "20% rule: 0.2 * initial data ID estimate, used as an ABSOLUTE threshold, fixed across the search",
+      "threshold_sensitivity": "absolute difference of 1 (code default)",
+      "epochs": "per-dataset settings reported in the FONDUE paper; NOT unified to the code default of 1 epoch",
+      "pseudocode_confirmed": {
+        "source": "arXiv:2209.12806v1 Algorithm 1, read 2026-09-13",
+        "body": "l<-0; u<-inf; p<-IDE_data; threshold<-t*p/100 computed ONCE; while p!=l: if IDE_z-IDE_mu<=threshold: l<-p; p<-min(2p,u) else: u<-p; p<-floor((l+u)/2); return p",
+        "threshold_note": "the paper's text says t=0.2 meaning 20% of the data IDE; the pseudocode writes t*p/100 which needs t=20 for the same value. We use 0.2*IDE_data, matching the text (U13).",
+        "threshold_fixed": "computed once from the initial data IDE and NOT updated as p changes",
+        "epochs_table1": {
+          "Symsol": 2,
+          "dSprites": 1,
+          "Celeba": 1
+        },
+        "epochs_rule_for_new_datasets": "the paper increases epochs until the prediction stops changing; apply the same procedure for MNIST",
+        "models_trained_table1": {
+          "Symsol": 6,
+          "dSprites": 5,
+          "Celeba": 9
+        }
+      }
+    },
+    "B6b_algorithm3_fondue_var": {
+      "variance_handling_primary": "single exponentiation (generate sigma^2 once, classify per definition)",
+      "variance_handling_auxiliary": "fixed-commit code path with double exponentiation; representative conditions only",
+      "keep_mixed": true,
+      "keep_mixed_implementation": "independent boolean argument; do NOT use the original cfg.threshold is True/False branch",
+      "keep_mixed_sensitivity": false,
+      "keep_mixed_sensitivity_conditions": [
+        "dSprites",
+        "MNIST"
+      ],
+      "claim_limit": "this is a pre-registered reimplementation choice, NOT a claim about which branch Table 7 used; record as 未確認",
+      "pseudocode_confirmed": {
+        "source": "arXiv:2209.12806v1 Algorithm 3 (Appendix G), read 2026-09-13",
+        "body": "l<-2*data_ide; n<--1; while n<0: train VAE(dim=l, epochs); av,mv,pv<-variable_types; if pv>0 and keep_mixed: n<-av+mv; elif (mv>0 or pv>0) and not keep_mixed: n<-av; else: l<-2l; return n",
+        "confirms": "keep_mixed=True returns av+mv, consistent with the pre-registered H2 estimand"
+      }
+    },
+    "reporting_partition": {
+      "a": "spec-based reimplementation -> main comparison",
+      "b": "fixed-commit code path -> reproducibility audit only",
+      "c": "published Table 7 values -> historical reference column only"
+    },
+    "forbidden": [
+      "judging validity solely by matching dSprites 12.2 +/- 0.4",
+      "tuning to match published values",
+      "claiming Table 7 or the original early-training conclusions are wrong based on the double-exponentiation finding"
+    ]
+  },
+  "budget_and_termination": {
+    "max_epochs": 300,
+    "early_stopping_patience_epochs": 30,
+    "early_stopping_monitor": {
+      "vae": "validation ELBO (beta=1)",
+      "ae": "validation MSE"
+    },
+    "checkpoint_selection": "best validation monitor value; test never used",
+    "plateau_criterion": "relative change of the validation monitor over the last 50 epochs < 1%; otherwise record 未 plateau",
+    "max_training_runs_per_dataset_method_seed": 12,
+    "max_wallclock_seconds_per_dataset_method_seed": {
+      "MNIST": 1470,
+      "dSprites": 5163,
+      "CIFAR10": 2924,
+      "FashionMNIST": 1470,
+      "SVHN": 2924
+    },
+    "termination_states": [
+      "SUCCESS",
+      "NO_COMPACT_ALTERNATIVE_FOUND",
+      "ID_UNRELIABLE",
+      "BUDGET_EXHAUSTED",
+      "DEGENERATE_SELECTION"
+    ],
+    "aggregation_rule": "BUDGET_EXHAUSTED trials must NOT be silently dropped from success rates or mean selected m; always report the breakdown of termination states",
+    "early_stopping_scope": {
+      "applies_to": [
+        "E1",
+        "E7b",
+        "plus_Q_controls"
+      ],
+      "does_not_apply_to": [
+        "E7a_trajectory_runs"
+      ],
+      "reason": "E7a compares readouts along a fixed trajectory; early stopping would remove the 300-epoch checkpoint required by the 5-vs-300 primary comparison",
+      "e7a_rule": "always run the full 300 epochs; record the plateau verdict but do not stop on it",
+      "logged_in": "実験設定表 §9 (2026-09-12)"
+    },
+    "max_wallclock_basis": "12 training runs x 300 epochs (no early stop) x 1.25 overhead; measured 2026-09-12, see results/make49/stage3_budget.json",
+    "max_training_runs_counting_rule": {
+      "counts": "candidate VAE trainings only (the model family being selected over), including the anchor and re-search",
+      "does_not_count": "reference AE trainings and linear probes; these are charged to wall-clock only",
+      "reason": "9 reference AEs (3 m_ref x 3 seeds) would occupy 9 of the 12 runs, leaving 3 for candidates; the wall-clock limit in section 8.2 was derived from 12 CANDIDATE trainings at 300 epochs",
+      "logged_in": "実験設定表 §9 (2026-09-13)"
+    },
+    "degenerate_selection": {
+      "meaning": "the method returned a latent dimension that cannot be trained (m < 1)",
+      "observed": "FONDUE-VAR Algorithm 3 with keep_mixed=False returns n=av, and av=0 on MNIST at 1 epoch (no variable meets the strict active criterion: between-data variance < 0.1 AND mean <= 0.1)",
+      "faithful": "this is the original algorithm's behaviour, not an implementation error; Appendix G itself notes that mixed and passive variables are not discriminated correctly in early epochs",
+      "handling": "record the state, skip final training, do NOT drop the trial from the termination-state breakdown",
+      "added": "2026-09-13 during stage 4"
+    }
+  },
+  "data_splits": {
+    "train_val_split": [
+      0.9,
+      0.1
+    ],
+    "split_seed": 20260912,
+    "save_indices": true,
+    "subset_sampling": "fixed random draw with saved indices; NOT data[:n] head order",
+    "test_usage": "final evaluation only; never used for selection, thresholds or checkpoint choice",
+    "training_seeds": [
+      42,
+      123,
+      777,
+      2024,
+      31337
+    ],
+    "split_robustness": {
+      "conditions": "representative only",
+      "design": "3 splits x 3 training seeds"
+    },
+    "transform_fit": "train only",
+    "statistical_units": "training seed / data split / ID subsampling repeats are NOT pooled to inflate n",
+    "seed_counting": "re-evaluating one checkpoint 5 times does NOT count as 5 seeds; the full pipeline from reference model to selection is repeated",
+    "subset_sizes": {
+      "_note": "added 2026-09-12 during stage-3 calibration; logged in 実験設定表 §9",
+      "MNIST": {
+        "N_from_official_train": 20000,
+        "train": 18000,
+        "val": 2000,
+        "test": 3000
+      },
+      "FashionMNIST": {
+        "N_from_official_train": 20000,
+        "train": 18000,
+        "val": 2000,
+        "test": 3000
+      },
+      "dSprites": {
+        "N": 20000,
+        "train": 18000,
+        "val": 2000,
+        "test": 3000,
+        "note": "no official split; two disjoint ranges of one fixed permutation of 737280"
+      },
+      "CIFAR10": {
+        "N_from_official_train": 20000,
+        "train": 18000,
+        "val": 2000,
+        "test": 3000
+      },
+      "SVHN": {
+        "N_from_official_train": 20000,
+        "train": 18000,
+        "val": 2000,
+        "test": 3000
+      },
+      "synthetic": {
+        "N": 5000,
+        "train": 4500,
+        "val": 500,
+        "test": 1000
+      }
+    }
+  },
+  "metrics_convention": {
+    "reconstruction_mse": "per-pixel mean (reduction='mean') everywhere; recompute legacy sum-form tables (audit finding A6)",
+    "vae_reconstruction": "deterministic g(mu(x))",
+    "elbo": "plain ELBO (beta=1) always reported alongside the beta-weighted objective",
+    "train_mse": "computed in eval mode with the same reconstruction path as validation",
+    "downstream": "fixed linear probe test accuracy; probe regularisation chosen on validation"
+  },
+  "candidate_grids": {
+    "MNIST": [
+      2,
+      4,
+      6,
+      8,
+      10,
+      12,
+      16,
+      20,
+      24,
+      32,
+      48,
+      64
+    ],
+    "FashionMNIST": [
+      2,
+      4,
+      6,
+      8,
+      10,
+      12,
+      16,
+      20,
+      24,
+      32,
+      48,
+      64
+    ],
+    "dSprites": [
+      2,
+      4,
+      6,
+      8,
+      10,
+      12,
+      16,
+      20,
+      24,
+      32,
+      48,
+      64
+    ],
+    "CIFAR10": [
+      8,
+      16,
+      24,
+      32,
+      48,
+      64,
+      96,
+      128,
+      192,
+      256
+    ],
+    "SVHN": [
+      8,
+      16,
+      24,
+      32,
+      48,
+      64,
+      96,
+      128,
+      192,
+      256
+    ],
+    "synthetic": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      8,
+      12,
+      16
+    ],
+    "note": "all methods use the same grid so the comparison denominator matches"
+  },
+  "initial_window": {
+    "c_primary": 2,
+    "c_sensitivity": [
+      1,
+      1.5,
+      2,
+      3,
+      4
+    ],
+    "rounding": "smallest grid point >= c * d_ID",
+    "ae_window": "grid points within [d_ID, 2*d_ID]",
+    "vae_initial_diagnostic_point": "first grid point >= 2*d_ID; NOT treated as an optimum",
+    "justification_limit": "c=2 is a default under test, motivated by the known embedding upper bound; NOT derived from a theorem"
+  },
+  "reference_and_id": {
+    "reference_family": "FC-AE",
+    "seeds_per_reference": 3,
+    "primary_estimator": "TwoNN",
+    "auxiliary_estimator": {
+      "name": "MLE",
+      "k": 10
+    },
+    "estimation_sample": {
+      "source": "train",
+      "n": 10000,
+      "fixed_across_methods_and_timepoints": true,
+      "changed": "2026-09-12: was 'validation'; validation holds only 2000 points so n=10000 was unsatisfiable. ID estimation is a fitting step, consistent with 'fit transforms on train only'. Logged in 実験設定表 §9."
+    },
+    "id_stability_criterion": {
+      "metric": "(max - min) / median of d_ID across the three m_ref",
+      "max_relative_range": 0.15
+    },
+    "estimator_agreement_criterion": {
+      "metric": "|d_TwoNN - d_MLE| / d_TwoNN",
+      "max_relative_diff": 0.25
+    },
+    "on_failure": "return ID_UNRELIABLE and switch to the pre-declared conventional validation search (B4); charge all fallback cost and label the result a fallback",
+    "costa_hero_mst": {
+      "implement": false,
+      "reason": "E7, direct comparison and reference-dependence come first (方針 §5.5 E3)"
+    },
+    "criterion_applies_to": {
+      "representation": "reference AE latent representation",
+      "input_space_estimate_used_for": "sizing m_ref only; NOT for the ID_UNRELIABLE decision",
+      "reason": "stage-3 calibration found TwoNN and MLE disagree strongly on raw dSprites and CIFAR-10 pixels; the spec did not say which representation the criterion applies to",
+      "logged_in": "実験設定表 §9 (2026-09-12)"
+    },
+    "m_ref_rule": {
+      "multipliers": [
+        4,
+        8,
+        16
+      ],
+      "base": "TwoNN estimate on input space (d0)",
+      "rounding": "round(k*d0); NOT snapped to the candidate grid",
+      "changed": "2026-09-13: was snapped to the candidate grid, which collapsed all three m_ref to the grid max on MNIST and made the ID-stability check vacuous. Logged in 実験設定表 §9."
+    }
+  },
+  "provenance_recording": {
+    "required_fields": [
+      "python_version",
+      "torch_version",
+      "torch_version_cuda",
+      "cudnn_version",
+      "nvidia_driver_version",
+      "gpu_name",
+      "platform",
+      "code_hash",
+      "seed",
+      "split_index_hash",
+      "loss_convention_id",
+      "elapsed_seconds",
+      "update_steps",
+      "termination_state",
+      "plateau_result"
+    ],
+    "requirements_freeze": "pip freeze > requirements_freeze.txt, shipped in supplementary",
+    "reason": "audit finding A5: CUDA/cuDNN/driver were never recorded and the ENVIRONMENT.md TODO is unprocessed"
+  },
+  "cost_accounting": {
+    "included": [
+      "reference AE training",
+      "ID estimation",
+      "candidate training",
+      "anchor training",
+      "re-search",
+      "probe training",
+      "evaluation"
+    ],
+    "fairness_rule": "every method is charged up to the point where a selected model is ready for final evaluation"
+  },
+  "likelihood": {
+    "_note": "added 2026-09-12 after stage-3 calibration found dSprites collapses under Gaussian at every beta; logged in 実験設定表 §9",
+    "by_dataset": {
+      "dSprites": "bernoulli",
+      "MNIST": "gaussian",
+      "FashionMNIST": "gaussian",
+      "CIFAR10": "gaussian",
+      "SVHN": "gaussian",
+      "synthetic": "gaussian"
+    },
+    "reconstruction_terms": {
+      "gaussian": "F.mse_loss(x_hat, x, reduction='sum') / batch_size",
+      "bernoulli": "F.binary_cross_entropy(x_hat.clamp(1e-6,1-1e-6), x, reduction='sum') / batch_size"
+    },
+    "evidence": "results/make49/stage3_dsprites_likelihood.json",
+    "rules": [
+      "state the likelihood in every table and figure",
+      "never rank loss values across datasets with different likelihoods",
+      "beta means different things under different likelihoods; do not call the same beta the same strength across likelihoods",
+      "the per-pixel mean MSE evaluation metric is common to all likelihoods; Q is judged on it",
+      "within one dataset every comparison method uses the same likelihood"
+    ]
+  }
+}

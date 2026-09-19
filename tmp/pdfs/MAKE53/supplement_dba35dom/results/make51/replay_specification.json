@@ -1,0 +1,36 @@
+{
+  "date": "2026-09-19",
+  "status": "retrospective, not preregistered",
+  "primary": {
+    "coefficient": 2,
+    "R": 0.15,
+    "A": 0.25
+  },
+  "coefficient_grid": [
+    1,
+    1.5,
+    2,
+    3,
+    4
+  ],
+  "R_grid": [
+    0.1,
+    0.15,
+    0.25,
+    0.5
+  ],
+  "A_grid": [
+    0.15,
+    0.25,
+    0.4,
+    0.85,
+    2
+  ],
+  "local_rule": "start at ceil-grid c*ID; if feasible descend until first failure; otherwise ascend until first feasible",
+  "fallback": "ascending Q",
+  "control": "same local rule from lower middle grid index, without ID bank",
+  "certification": "evaluate all unqueried widths below local output; choose smallest feasible",
+  "budget": "finish cached path (at most entire grid); flag original soft time limit after accounting",
+  "times": "canonical candidate snapshot, not newly measured wall-clock",
+  "score_use": "validation MSE only; test metrics attached after decisions"
+}
