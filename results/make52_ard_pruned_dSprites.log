@@ -1,0 +1,7 @@
+ARD-VAE native 枝刈り評価  dSprites  初期容量 64  微調整 30 epochs
+
+  seed 42     選択  10/64  未枝刈り 0.00139  枝刈り 0.00332  微調整後 0.00189  転用(10) 0.00149
+  seed 123    選択  10/64  未枝刈り 0.00128  枝刈り 0.00278  微調整後 0.00173  転用(10) 0.00144
+  seed 777    選択   9/64  未枝刈り 0.00133  枝刈り 0.00294  微調整後 0.00186  転用(8) 0.00198
+
+書き出し: /home/kjinno/claude/manifold/manifold/results/make52/ard_pruned_dSprites.json
