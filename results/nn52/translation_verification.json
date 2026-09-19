@@ -54,5 +54,12 @@
     "小端 千佳",
     "代 美月",
     "神野 健哉"
-  ]
+  ],
+  "pdf_pages": 47,
+  "pdf_sha256": "30ecae46ac4547efd0aaf3c1ffa4d2e1cc8a47784ff3840b2c99d2cbe83f6a3a",
+  "all_pages_visually_reviewed": true,
+  "no_overfull_boxes": true,
+  "no_undefined_references": true,
+  "no_missing_characters": true,
+  "japanese_figures": 11
 }
